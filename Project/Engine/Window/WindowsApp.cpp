@@ -23,6 +23,14 @@ LRESULT WindowsApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam
 	return DefWindowProc(hwnd,msg,wparam,lparam);
 }
 
+WindowsApp *WindowsApp::GetInstance()
+{
+	if(!instance_){
+		instance_ = new WindowsApp();
+	}
+	return instance_;
+}
+
 WindowsApp *WindowsApp::Create(wchar_t* titleName, int32_t width, int32_t height)
 {
 	kWindowWidth_ = width;
