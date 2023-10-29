@@ -28,6 +28,7 @@ private:
 	};
 
 public:
+	static DirectXCommon* GetInstance();
 	static DirectXCommon* Create(Vector4 clearColor = {0.1f, 0.2f, 0.5f, 1.0f});
 
 public:
@@ -36,7 +37,12 @@ public:
 		CloseHandle(fenceEvent_);
 	}
 
-	void Draw();
+	void PreDraw();
+	void PostDraw();
+
+	//Getter
+	ID3D12Device* GetDevice()	{return device_.Get();}
+	ID3D12GraphicsCommandList* GetCommandList()	{return commandList_.Get();}
 
 private:
 	void Initialize();

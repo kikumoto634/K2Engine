@@ -9,6 +9,14 @@
 DirectXCommon* DirectXCommon::instance_ = nullptr;
 float DirectXCommon::clearColor_[4] = {0.1f, 0.25f, 0.5f, 1.0f};
 
+DirectXCommon *DirectXCommon::GetInstance()
+{
+	if(!instance_){
+		instance_ = new DirectXCommon();
+	}
+	return instance_;
+}
+
 DirectXCommon *DirectXCommon::Create(Vector4 clearColor)
 {
 	if(!instance_){
@@ -55,9 +63,9 @@ void DirectXCommon::Initialize()
 	assert(SUCCEEDED(CreateFence()));
 }
 
-void DirectXCommon::Draw()
+void DirectXCommon::PreDraw()
 {
-	//書き込むバックばっふのインデックス取得
+	//書き込むバックバッファのインデックス取得
 	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
 
 	//リソースバリア書き込み可能
@@ -70,6 +78,12 @@ void DirectXCommon::Draw()
 	
 	//指定した色で画面をクリア
 	commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor_, 0, nullptr);
+}
+
+void DirectXCommon::PostDraw()
+{
+	//書き込むバックバッファのインデックス取得
+	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
 
 	//リソースバリア
 	commandList_->ResourceBarrier(1,&CD3DX12_RESOURCE_BARRIER::Transition(swapChainResources_[backBufferIndex].Get(),

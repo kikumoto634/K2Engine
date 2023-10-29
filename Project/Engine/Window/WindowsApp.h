@@ -14,18 +14,11 @@ public:
 	static WindowsApp* GetInstance();
 	static WindowsApp* Create(wchar_t* titleName = L"TitleName", int32_t width = 1280, int32_t height = 720);
 
-public:
-	~WindowsApp(){
-		CloseWindow(hwnd_);
-	}
-	bool ProcessMessage();
-
 	//出力ウィンドウログ
-	void Log(const std::string& message){
+	static void Log(const std::string& message){
 		OutputDebugStringA(message.c_str());
 	}
-
-	void Log_f(const char* message, ...){
+	static void Log_f(const char* message, ...){
 		
 		va_list args;
 		va_start(args, message);
@@ -34,6 +27,15 @@ public:
 		va_end(args);
 	}
 
+	static std::wstring ConvertString(const std::string& str);
+	static std::string ConvertString(const std::wstring& str);
+
+public:
+	~WindowsApp(){
+		CloseWindow(hwnd_);
+	}
+	bool ProcessMessage();
+
 	//Getter
 	inline const HWND GetHWND()	{return hwnd_;}
 
@@ -41,17 +43,19 @@ private:
 	void Initialize();
 
 
+private:
+	//インスタンス
+	static WindowsApp* instance_;
+	static wchar_t* titleName_;
+	static const int kBufferSize = 256;		//書式つき文字列展開用バッファサイズ
 
 public:
 	//クライアント領域
 	static int32_t kWindowWidth_;
 	static int32_t kWindowHeight_;
 
-private:
-	//インスタンス
-	static WindowsApp* instance_;
-	static wchar_t* titleName_;
-	static const int kBufferSize = 256;		//書式つき文字列展開用バッファサイズ
+	// 書式付き文字列展開用バッファ
+	static char buffer[kBufferSize];
 
 private:
 	WNDCLASS wc_{};
@@ -59,8 +63,5 @@ private:
 	HWND hwnd_ = nullptr;
 
 	MSG msg;
-
-	// 書式付き文字列展開用バッファ
-	char buffer[kBufferSize] = {};
 };
 
