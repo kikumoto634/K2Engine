@@ -49,6 +49,9 @@ void DirectXCommon::Initialize()
 	assert(SUCCEEDED(CreateRTVDescriptorHeap()));
 	assert(SUCCEEDED(BringResourceFromSwapChain()));
 	assert(SUCCEEDED(CreateRTV()));
+
+	//フェンス
+	assert(SUCCEEDED(CreateFence()));
 }
 
 void DirectXCommon::Draw()
@@ -56,11 +59,21 @@ void DirectXCommon::Draw()
 	//書き込むバックばっふのインデックス取得
 	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
 
+	//リソースバリア書き込み可能
+	commandList_->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(swapChainResources_[backBufferIndex].Get(),
+		D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
+
+
 	//描画先のRTVを設定
 	commandList_->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex], false, nullptr);
 	
 	//指定した色で画面をクリア
 	commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor_, 0, nullptr);
+
+	//リソースバリア
+	commandList_->ResourceBarrier(1,&CD3DX12_RESOURCE_BARRIER::Transition(swapChainResources_[backBufferIndex].Get(),
+		D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
+
 
 	//コマンドリストの内容を確定。
 	result = commandList_->Close();
@@ -69,6 +82,22 @@ void DirectXCommon::Draw()
 	//GPUにコマンドリストの実行を行わせる
 	ID3D12CommandList* commandList[] = {commandList_.Get()};
 	commandQueue_->ExecuteCommandLists(1, commandList);
+
+
+	//フェンス値を更新
+	fenceValue_++;
+	//GPUが完了時に、Fence値を指定した値に代入するようにSignalを送る
+	commandQueue_->Signal(fence_.Get(), fenceValue_);
+
+	//Fence値が指定したSignal値に達しているのか
+	//GetCompletedValueの初期値はFence作成時に渡した初期値
+	if(fence_->GetCompletedValue() < fenceValue_){
+		//指定したSignalにたどり着いていない、待つようにイベントを指定
+		fence_->SetEventOnCompletion(fenceValue_, fenceEvent_);
+		//イベント待機
+		WaitForSingleObject(fenceEvent_, INFINITE);
+	}
+
 
 	//GPUとOSに画面の交換
 	swapChain_->Present(1,0);
@@ -292,6 +321,21 @@ bool DirectXCommon::CreateRTV()
 		//生成
 		device_->CreateRenderTargetView(swapChainResources_[i].Get(), &rtvDesc, rtvHandles_[i]);
 	}
+
+	return true;
+}
+#pragma endregion
+
+
+#pragma region フェンス
+bool DirectXCommon::CreateFence()
+{
+	result = device_->CreateFence(fenceValue_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
+	assert(SUCCEEDED(result));
+
+	//フェンスのSignalを待つイベント作成
+	fenceEvent_ = CreateEvent(NULL, FALSE, FALSE, NULL);
+	assert(fenceEvent_ != nullptr);
 
 	return true;
 }

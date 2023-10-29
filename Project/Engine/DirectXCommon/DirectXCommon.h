@@ -55,6 +55,9 @@ private:
 	bool CreateRTV();
 #pragma endregion
 
+#pragma region フェンス
+	bool CreateFence();
+#pragma endregion
 
 
 private:
@@ -97,5 +100,10 @@ private:
 	ComPtr<ID3D12Resource> swapChainResources_[SwapChainNum];
 	//RTVは二つ生成するのでディスクリプタを2つ用意
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[SwapChainNum];
+
+	//フェンス
+	ComPtr<ID3D12Fence> fence_;
+	uint64_t fenceValue_ = 0;
+	HANDLE fenceEvent_;
 };
 
