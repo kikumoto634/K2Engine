@@ -1,6 +1,7 @@
 #pragma once
 #include <d3d12.h>
 #include <dxgi1_6.h>
+#include <dxgidebug.h>
 #include <cassert>
 
 #include <wrl.h>
@@ -13,11 +14,28 @@ class DirectXCommon
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
+private:
+	struct D3DResourceLeakChacker{
+		~D3DResourceLeakChacker(){
+			//リソースチェック
+			ComPtr<IDXGIDebug1> debugChuck;
+			if(SUCCEEDED(DXGIGetDebugInterface1(0,IID_PPV_ARGS(&debugChuck)))){
+				debugChuck->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
+				debugChuck->ReportLiveObjects(DXGI_DEBUG_APP, DXGI_DEBUG_RLO_ALL);
+				debugChuck->ReportLiveObjects(DXGI_DEBUG_D3D12, DXGI_DEBUG_RLO_ALL);
+			}
+		}
+	};
+
 public:
 	static DirectXCommon* Create(Vector4 clearColor = {0.1f, 0.2f, 0.5f, 1.0f});
 
-
 public:
+	DirectXCommon() = default;
+	~DirectXCommon(){
+		CloseHandle(fenceEvent_);
+	}
+
 	void Draw();
 
 private:
@@ -62,15 +80,23 @@ private:
 
 private:
 	static DirectXCommon* instance_;
-
 	static float clearColor_[4];
 
 private:
+	//ダブルバッファ
 	static const int SwapChainNum = 2;
 
 private:
 	HRESULT result = {};
 	WindowsApp* windows = nullptr;
+
+	//リソースチェック用
+	D3DResourceLeakChacker leakCheck;
+
+#ifdef _DEBUG
+	//デバックレイヤー
+	ComPtr<ID3D12Debug1> debugController_;
+#endif
 
 	//DXGIファクトリー
 	ComPtr<IDXGIFactory7> dxgiFactory_;

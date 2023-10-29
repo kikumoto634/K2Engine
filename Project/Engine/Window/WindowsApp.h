@@ -15,6 +15,9 @@ public:
 	static WindowsApp* Create(wchar_t* titleName = L"TitleName", int32_t width = 1280, int32_t height = 720);
 
 public:
+	~WindowsApp(){
+		CloseWindow(hwnd_);
+	}
 	bool ProcessMessage();
 
 	//出力ウィンドウログ

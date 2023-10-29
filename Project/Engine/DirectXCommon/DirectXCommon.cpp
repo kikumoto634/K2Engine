@@ -4,6 +4,7 @@
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "dxguid.lib")
 
 DirectXCommon* DirectXCommon::instance_ = nullptr;
 float DirectXCommon::clearColor_[4] = {0.1f, 0.25f, 0.5f, 1.0f};
@@ -114,9 +115,6 @@ void DirectXCommon::Draw()
 bool DirectXCommon::CreateDebugLayer()
 {
 #ifdef _DEBUG
-	//デバックレイヤー
-	ID3D12Debug1* debugController_ = nullptr;
-
 	if(SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController_)))){
 		//デバックレイヤー有効化
 		debugController_->EnableDebugLayer();
