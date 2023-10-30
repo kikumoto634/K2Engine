@@ -27,9 +27,9 @@ void Object3D::Initialize()
 	assert(SUCCEEDED(LoadShader()));
 	assert(SUCCEEDED(CreatePipelineStateObject()));
 
-	assert(SUCCEEDED(CreateVertexResource()));
-	assert(SUCCEEDED(CreateVertexBufferView()));
-	assert(SUCCEEDED(VertexResourceUpload()));
+	assert(SUCCEEDED(CreateVertex()));
+
+	assert(SUCCEEDED(CreateConstant()));
 
 	assert(SUCCEEDED(CreateViewport()));
 	assert(SUCCEEDED(CreateScissor()));
@@ -47,6 +47,9 @@ void Object3D::Draw()
 
 	//形状設定、PSOに設定しているのとは別
 	dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	//マテリアルのconstBufferの場所を設定
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constResource_->GetGPUVirtualAddress());
 
 	//描画
 	dxCommon_->GetCommandList()->DrawInstanced(3,1,0,0);
@@ -117,6 +120,7 @@ IDxcBlob *Object3D::CompileShader(const std::wstring &filePath, const wchar_t *p
 
 
 
+#pragma region レンダリングパイプラインステート関連
 bool Object3D::CreateDXCCompiler()
 {
 	result = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils_));
@@ -131,8 +135,6 @@ bool Object3D::CreateDXCCompiler()
 	return true;
 }
 
-
-
 bool Object3D::CreateRootSignature()
 {
 	//ShaderとResourceをどのように関連付けるかを示したオブジェクト
@@ -140,6 +142,21 @@ bool Object3D::CreateRootSignature()
 	//作成
 	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature{};
 	descriptionRootSignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+
+
+	//RootParameter作成 複数設定できるので配列
+	// データそれぞれのBind情報、ConstantBufferのようにシェーダに情報を送る際に使用
+	rootParameters_.resize(1);
+	rootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
+	rootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShader使用
+	rootParameters_[0].Descriptor.ShaderRegister = 0;	//レジスタ番号 b0	
+	//※RegisterとはShader上でのResource配置場所の情報　bというのは(ConstantBuffer)を意味
+
+
+	//ルートパラメータ配列へのポインタ渡し
+	descriptionRootSignature.pParameters = rootParameters_.data();		//ポインタ渡し
+	descriptionRootSignature.NumParameters = (UINT)rootParameters_.size();	//長さ渡し
+
 
 	//シリアライズとしてバイナリにする
 	ID3D10Blob* signatureBlob = nullptr;
@@ -244,50 +261,58 @@ bool Object3D::CreatePipelineStateObject()
 
 	return true;
 }
+#pragma endregion
 
 
 
-bool Object3D::CreateVertexResource()
+//リソース作成
+ID3D12Resource *Object3D::CreateBufferResource(size_t sizeInByte)
 {
-	//頂点リソース用のヒープ設定
+	ID3D12Resource* resource = nullptr;
+
+	//リソース用のヒープ設定
 	D3D12_HEAP_PROPERTIES uploadHeapProperties{};
 	uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;	//UploadHeapを使用
 	
-	//頂点リソース設定
-	D3D12_RESOURCE_DESC vertexResourceDesc{};
+	//リソース設定
+	D3D12_RESOURCE_DESC ResourceDesc{};
 	//バッファリソース。テクスチャの場合別の設定
-	vertexResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	vertexResourceDesc.Width = sizeof(Vector4) * 3;		//リソースサイズ。今回はVector4を3頂点文
+	ResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	ResourceDesc.Width = sizeInByte;		//リソースサイズ。今回はVector4を3頂点文
 	//バッファの場合これらは1にする
-	vertexResourceDesc.Height = 1;
-	vertexResourceDesc.DepthOrArraySize = 1;
-	vertexResourceDesc.MipLevels = 1;
-	vertexResourceDesc.SampleDesc.Count = 1;
+	ResourceDesc.Height = 1;
+	ResourceDesc.DepthOrArraySize = 1;
+	ResourceDesc.MipLevels = 1;
+	ResourceDesc.SampleDesc.Count = 1;
 	//バッファの場合はこれにする決まり
-	vertexResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	ResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	//頂点リソースを作成
-	result = dxCommon_->GetDevice()->CreateCommittedResource(&uploadHeapProperties, D3D12_HEAP_FLAG_NONE, &vertexResourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&vertexResource_));
+	//リソースを作成
+	result = dxCommon_->GetDevice()->CreateCommittedResource(&uploadHeapProperties, D3D12_HEAP_FLAG_NONE, &ResourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&resource));
 	assert(SUCCEEDED(result));
 
-	return true;
+	return resource;
 }
 
-bool Object3D::CreateVertexBufferView()
+//ビュー作成
+void Object3D::CreateBufferView(D3D12_VERTEX_BUFFER_VIEW& view, ID3D12Resource* resource, UINT sizeInByte, UINT strideInBytes)
 {
-	//頂点バッファビュー作成
 	//リソースの先頭アドレスから使用
-	vertexBufferView_.BufferLocation = vertexResource_->GetGPUVirtualAddress();
+	view.BufferLocation = resource->GetGPUVirtualAddress();
 	//使用するリソースのサイズは頂点3つ分のサイズ
-	vertexBufferView_.SizeInBytes = sizeof(Vector4)*3;
+	view.SizeInBytes = sizeInByte;
 	//1頂点当たりのサイズ
-	vertexBufferView_.StrideInBytes = sizeof(Vector4);
-
-	return true;
+	view.StrideInBytes = strideInBytes;
 }
 
-bool Object3D::VertexResourceUpload()
+#pragma region 頂点リソース
+bool Object3D::CreateVertex()
 {
+	//リソース
+	vertexResource_ = CreateBufferResource(sizeof(Vector4)*3);
+	//ビュー
+	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(Vector4)*3, sizeof(Vector4));
+
 	//頂点リソースにデータを書き込む
 	Vector4* vertexData = nullptr; 
 	//書き込むためのアドレス取得
@@ -302,9 +327,24 @@ bool Object3D::VertexResourceUpload()
 
 	return true;
 }
+#pragma endregion
+
+#pragma region 定数リソース
+bool Object3D::CreateConstant()
+{
+	constResource_ = CreateBufferResource(sizeof(Vector4));
+
+	Vector4* materialData = nullptr;
+	constResource_->Map(0,nullptr,reinterpret_cast<void**>(&materialData));
+	*materialData = Vector4(1.0f, 0.0f,0.0f,1.0f);
+
+	return true;
+}
+#pragma endregion
 
 
 
+#pragma region ViewportとScissor
 bool Object3D::CreateViewport()
 {
 	//クライアント領域のサイズと一緒に画面全体に表示
@@ -328,4 +368,4 @@ bool Object3D::CreateScissor()
 
 	return true;
 }
-
+#pragma endregion
