@@ -17,6 +17,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 		dxCommon->PostDraw();
 	}
 
+	delete obj;
 	delete dxCommon;
 	delete win;
 

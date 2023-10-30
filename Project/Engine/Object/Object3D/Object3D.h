@@ -1,13 +1,16 @@
 #pragma once
 #include <wrl.h>
 #include <dxcapi.h>
+#include <vector>
 
+#include "WindowsApp.h"
 #include "DirectXCommon.h"
 
 class Object3D
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T> using vector = std::vector<T>;
 
 public:
 	static Object3D* Create();
@@ -20,11 +23,15 @@ private:
 	void Initialize();
 
 	//コンパイルシェーダー
-	IDxcBlob* CompileShader(
+	static IDxcBlob* CompileShader(
 		//ComplierするShaderファイルパス
 		const std::wstring& filePath,
 		//Compilerに使用するProfile
-		const wchar_t* profile
+		const wchar_t* profile,
+		//DXC
+		IDxcUtils* dxcUtils,
+		IDxcCompiler3* dxcCompiler,
+		IDxcIncludeHandler* includeHandler
 	);
 
 	//DXCCompiler
@@ -86,6 +93,7 @@ private:
 	//ルートシグネチャ		: ShaderとResourceをどのように関連付けるかを示したオブジェクト
 	ComPtr<ID3D12RootSignature> rootSignature_;
 	//インプットレイアウト	: VertexShaderへ渡す頂点データがどのようなものかを指定するオブジェクト
+	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDescs_;
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_{};
 	//各シェーダ情報
 	ComPtr<IDxcBlob> vertexShaderBlob_;

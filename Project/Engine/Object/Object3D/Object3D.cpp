@@ -1,9 +1,5 @@
 #include "Object3D.h"
-
 #include <d3d12.h>
-#include <cassert>
-
-#include "WindowsApp.h"
 
 #pragma comment(lib, "dxcompiler.lib")
 
@@ -13,8 +9,8 @@ Object3D *Object3D::Create()
 {
 	if(instance_==nullptr){
 		instance_ = new Object3D();
-		instance_->Initialize();
 	}
+	instance_->Initialize();
 	return instance_;
 }
 
@@ -58,13 +54,15 @@ void Object3D::Draw()
 
 
 
-IDxcBlob *Object3D::CompileShader(const std::wstring &filePath, const wchar_t *profile)
+IDxcBlob *Object3D::CompileShader(const std::wstring &filePath, const wchar_t *profile,IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHandler)
 {
+	HRESULT result{};
+
 	//シェーダーコンパイルログ
 	WindowsApp::Log(WindowsApp::ConvertString(std::format(L"Begin CompileShader, path:{}, profile:{}\n", filePath, profile)));
 	//hlsl読み込み
 	IDxcBlobEncoding* shaderSource = nullptr;
-	result = dxcUtils_->LoadFile(filePath.c_str(), nullptr, &shaderSource);
+	result = dxcUtils->LoadFile(filePath.c_str(), nullptr, &shaderSource);
 	assert(SUCCEEDED(result));
 
 	//読み込んだファイルの内容を設定
@@ -85,11 +83,11 @@ IDxcBlob *Object3D::CompileShader(const std::wstring &filePath, const wchar_t *p
 
 	//Shaderをコンパイル
 	IDxcResult* shaderResult = nullptr;
-	result = dxcCompiler_->Compile(
+	result = dxcCompiler->Compile(
 		&shaderSourceBuffer,			//読み込んだファイル
 		arguments,						//コンパイルオプション
 		_countof(arguments),			//コンパイルオプション数
-		includeHandler_.Get(),			//include含まれた諸々
+		includeHandler,			//include含まれた諸々
 		IID_PPV_ARGS(&shaderResult)		//コンパイル結果
 	);
 	assert(SUCCEEDED(result));
@@ -164,14 +162,19 @@ bool Object3D::CreateInputLayout()
 {
 	//VertexShaderへ渡す頂点データがどのようなものかを指定するオブジェクト
 
-	D3D12_INPUT_ELEMENT_DESC inputElementDescs[1] = {};
-	inputElementDescs[0].SemanticName = "POSITION";							//頂点シェーダーのセマンティック名
-	inputElementDescs[0].SemanticIndex = 0;									//セマンティック番号
-	inputElementDescs[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;			//float4 型
-	inputElementDescs[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+	inputElementDescs_.resize(1);
 	
-	inputLayoutDesc_.pInputElementDescs = inputElementDescs;
-	inputLayoutDesc_.NumElements = _countof(inputElementDescs);
+	inputElementDescs_[0].SemanticName = "POSITION";							//頂点シェーダーのセマンティック名
+	inputElementDescs_[0].SemanticIndex = 0;									//セマンティック番号
+	inputElementDescs_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;			//float4 型
+	inputElementDescs_[0].InputSlot = 0;
+	inputElementDescs_[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+	inputElementDescs_[0].InputSlotClass = D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA;
+	inputElementDescs_[0].InstanceDataStepRate = 0;
+
+	//Elementsのアドレスを取得しているため保存しておく必要あり
+	inputLayoutDesc_.pInputElementDescs = inputElementDescs_.data();
+	inputLayoutDesc_.NumElements = (UINT)inputElementDescs_.size();
 
 	return true;
 }
@@ -201,9 +204,9 @@ bool Object3D::CreateRasterizerState()
 bool Object3D::LoadShader()
 {
 	//シェーダの読み込み
-	vertexShaderBlob_ = CompileShader(L"Resources/Shaders/Object3D/Object3D.VS.hlsl", L"vs_6_0");
+	vertexShaderBlob_ = CompileShader(L"Resources/Shaders/Object3D/Object3D.VS.hlsl", L"vs_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
 	assert(SUCCEEDED(result));
-	pixelShaderBlob_ = CompileShader(L"Resources/Shaders/Object3D/Object3D.PS.hlsl", L"ps_6_0");
+	pixelShaderBlob_ = CompileShader(L"Resources/Shaders/Object3D/Object3D.PS.hlsl", L"ps_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
 	assert(SUCCEEDED(result));
 
 	return true;
@@ -211,6 +214,7 @@ bool Object3D::LoadShader()
 
 bool Object3D::CreatePipelineStateObject()
 {
+
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
 	graphicsPipelineStateDesc.pRootSignature = rootSignature_.Get();
 	
@@ -294,7 +298,7 @@ bool Object3D::VertexResourceUpload()
 	//上
 	vertexData[1] = {+0.0f, +0.5f, +0.0f, +1.0f};
 	//右下
-	vertexData[2] = {+0.5f, -0.5f, +0.0f, +0.0f};
+	vertexData[2] = {+0.5f, -0.5f, +0.0f, +1.0f};
 
 	return true;
 }
