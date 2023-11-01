@@ -194,7 +194,7 @@ bool Object3D::CreateInputLayout()
 	
 	inputElementDescs_[0].SemanticName = "POSITION";							//頂点シェーダーのセマンティック名
 	inputElementDescs_[0].SemanticIndex = 0;									//セマンティック番号
-	inputElementDescs_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;			//float4 型
+	inputElementDescs_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;				//float4 型
 	inputElementDescs_[0].InputSlot = 0;
 	inputElementDescs_[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 	inputElementDescs_[0].InputSlotClass = D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA;
