@@ -1,5 +1,4 @@
 #include "Object3D.h"
-#include <d3d12.h>
 
 #pragma comment(lib, "dxcompiler.lib")
 
@@ -18,8 +17,10 @@ void Object3D::Initialize()
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 
+	//DXC
 	assert(SUCCEEDED(CreateDXCCompiler()));
 
+	//パイプラインステート
 	assert(SUCCEEDED(CreateRootSignature()));
 	assert(SUCCEEDED(CreateInputLayout()));
 	assert(SUCCEEDED(CreateBlendState()));
@@ -27,18 +28,21 @@ void Object3D::Initialize()
 	assert(SUCCEEDED(LoadShader()));
 	assert(SUCCEEDED(CreatePipelineStateObject()));
 
+	//頂点バッファ作成
 	assert(SUCCEEDED(CreateVertex()));
-
+	//定数バッファ作成
 	assert(SUCCEEDED(CreateConstant()));
-
-	assert(SUCCEEDED(CreateViewport()));
-	assert(SUCCEEDED(CreateScissor()));
+	assert(SUCCEEDED(CreateWVP()));
 }
 
-void Object3D::Draw()
+void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 {
-	dxCommon_->GetCommandList()->RSSetViewports(1,&viewport_);			//ビューポート
-	dxCommon_->GetCommandList()->RSSetScissorRects(1,&scissorRect_);	//シザー矩形
+
+	transform_.rotation.y += 0.03f;
+
+	//更新情報
+	Matrix4x4 worldViewProjectionMatrix = transform_.GetWorldMatrix() * viewProjectionMatrix;
+	*wvpData = worldViewProjectionMatrix;
 
 	//ルートシグネチャ設定 PSOに設定しいているが別途設定が必要
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(rootSignature_.Get());
@@ -50,6 +54,8 @@ void Object3D::Draw()
 
 	//マテリアルのconstBufferの場所を設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constResource_->GetGPUVirtualAddress());
+	//行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
 
 	//描画
 	dxCommon_->GetCommandList()->DrawInstanced(3,1,0,0);
@@ -146,11 +152,16 @@ bool Object3D::CreateRootSignature()
 
 	//RootParameter作成 複数設定できるので配列
 	// データそれぞれのBind情報、ConstantBufferのようにシェーダに情報を送る際に使用
-	rootParameters_.resize(1);
+	rootParameters_.resize(2);
+	//PS
 	rootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
 	rootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShader使用
 	rootParameters_[0].Descriptor.ShaderRegister = 0;	//レジスタ番号 b0	
 	//※RegisterとはShader上でのResource配置場所の情報　bというのは(ConstantBuffer)を意味
+	//VS
+	rootParameters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
+	rootParameters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;	//VertexShaderで使用
+	rootParameters_[1].Descriptor.ShaderRegister = 0;	//レジスタ番号 b0
 
 
 	//ルートパラメータ配列へのポインタ渡し
@@ -314,7 +325,6 @@ bool Object3D::CreateVertex()
 	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(Vector4)*3, sizeof(Vector4));
 
 	//頂点リソースにデータを書き込む
-	Vector4* vertexData = nullptr; 
 	//書き込むためのアドレス取得
 	vertexResource_->Map(0,nullptr,reinterpret_cast<void**>(&vertexData));
 	
@@ -334,37 +344,22 @@ bool Object3D::CreateConstant()
 {
 	constResource_ = CreateBufferResource(sizeof(Vector4));
 
-	Vector4* materialData = nullptr;
 	constResource_->Map(0,nullptr,reinterpret_cast<void**>(&materialData));
-	*materialData = Vector4(1.0f, 0.0f,0.0f,1.0f);
+	*materialData = color_;
 
 	return true;
 }
 #pragma endregion
 
-
-
-#pragma region ViewportとScissor
-bool Object3D::CreateViewport()
+#pragma region 行列リソース
+bool Object3D::CreateWVP()
 {
-	//クライアント領域のサイズと一緒に画面全体に表示
-	viewport_.Width = (FLOAT)WindowsApp::kWindowWidth_;
-	viewport_.Height = (FLOAT)WindowsApp::kWindowHeight_;
-	viewport_.TopLeftX = 0;
-	viewport_.TopLeftY = 0;
-	viewport_.MinDepth = 0.0f;
-	viewport_.MaxDepth = 1.0f;
+	wvpResource_ = CreateBufferResource(sizeof(Matrix4x4));
 
-	return true;
-}
-
-bool Object3D::CreateScissor()
-{
-	//基本的にビューポートと同じ矩形を構成する
-	scissorRect_.left = 0;
-	scissorRect_.right = WindowsApp::kWindowWidth_;
-	scissorRect_.top = 0;
-	scissorRect_.bottom = WindowsApp::kWindowHeight_;
+	wvpResource_->Map(0, nullptr, reinterpret_cast<void**>(&wvpData));
+	
+	Matrix4x4 worldMatrix = worldMatrix.MakeIdentityMatrix();
+	*wvpData = worldMatrix;
 
 	return true;
 }

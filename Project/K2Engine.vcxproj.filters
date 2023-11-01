@@ -61,6 +61,30 @@
     <Filter Include="リソース ファイル\Shader\Object3D">
       <UniqueIdentifier>{b8b79309-267a-4bc0-ac5f-139d31698071}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Math\Matrix">
+      <UniqueIdentifier>{eb7c61fb-83cf-4274-b6f3-53c3113f8ff3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Math\Matrix">
+      <UniqueIdentifier>{13149cab-3cef-43aa-b925-04249a6fc92d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Component">
+      <UniqueIdentifier>{84d3aa69-fc56-4c88-84fc-4e3825354f2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component">
+      <UniqueIdentifier>{ed570dc2-b9fe-491f-912f-bcb13ecac642}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Transform">
+      <UniqueIdentifier>{48fbe4c8-f07a-4994-b068-4a8515e75ab3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Transform">
+      <UniqueIdentifier>{dc6b2409-8e7d-435a-b799-a66dde892638}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Object\Camera">
+      <UniqueIdentifier>{f7790523-ceea-4240-bdd6-c0e300752189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Camera">
+      <UniqueIdentifier>{ce68bcd4-68f6-4db4-a70b-f5ee590d9ca6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -78,6 +102,21 @@
     <ClCompile Include="Engine\Object\Object3D\Object3D.cpp">
       <Filter>ソース ファイル\Engine\Object\Object3D</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Math\Vector\Vector2.cpp">
+      <Filter>ソース ファイル\Engine\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Vector\Vector3.cpp">
+      <Filter>ソース ファイル\Engine\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Matrix\Matrix4x4.cpp">
+      <Filter>ソース ファイル\Engine\Math\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Transform\Transform.cpp">
+      <Filter>ソース ファイル\Engine\Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Camera\Camera.cpp">
+      <Filter>ソース ファイル\Engine\Object\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -91,6 +130,21 @@
     </ClInclude>
     <ClInclude Include="Engine\Object\Object3D\Object3D.h">
       <Filter>ヘッダー ファイル\Engine\Object\Object3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Vector\Vector3.h">
+      <Filter>ヘッダー ファイル\Engine\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Vector\Vector2.h">
+      <Filter>ヘッダー ファイル\Engine\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Matrix\Matrix4x4.h">
+      <Filter>ヘッダー ファイル\Engine\Math\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Transform\Transform.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Camera\Camera.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

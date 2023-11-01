@@ -61,6 +61,10 @@ void DirectXCommon::Initialize()
 
 	//フェンス
 	assert(SUCCEEDED(CreateFence()));
+
+	//ビューポート、シザー矩形
+	assert(SUCCEEDED(CreateViewport()));
+	assert(SUCCEEDED(CreateScissor()));
 }
 
 void DirectXCommon::PreDraw()
@@ -78,6 +82,10 @@ void DirectXCommon::PreDraw()
 	
 	//指定した色で画面をクリア
 	commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor_, 0, nullptr);
+
+	//Screen設定
+	commandList_->RSSetViewports(1,&viewport_);			//ビューポート
+	commandList_->RSSetScissorRects(1,&scissorRect_);	//シザー矩形
 }
 
 void DirectXCommon::PostDraw()
@@ -348,6 +356,34 @@ bool DirectXCommon::CreateFence()
 	//フェンスのSignalを待つイベント作成
 	fenceEvent_ = CreateEvent(NULL, FALSE, FALSE, NULL);
 	assert(fenceEvent_ != nullptr);
+
+	return true;
+}
+#pragma endregion
+
+
+
+#pragma region ViewportとScissor
+bool DirectXCommon::CreateViewport()
+{
+	//クライアント領域のサイズと一緒に画面全体に表示
+	viewport_.Width = (FLOAT)WindowsApp::kWindowWidth_;
+	viewport_.Height = (FLOAT)WindowsApp::kWindowHeight_;
+	viewport_.TopLeftX = 0;
+	viewport_.TopLeftY = 0;
+	viewport_.MinDepth = 0.0f;
+	viewport_.MaxDepth = 1.0f;
+
+	return true;
+}
+
+bool DirectXCommon::CreateScissor()
+{
+	//基本的にビューポートと同じ矩形を構成する
+	scissorRect_.left = 0;
+	scissorRect_.right = WindowsApp::kWindowWidth_;
+	scissorRect_.top = 0;
+	scissorRect_.bottom = WindowsApp::kWindowHeight_;
 
 	return true;
 }

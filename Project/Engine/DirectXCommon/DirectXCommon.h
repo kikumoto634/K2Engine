@@ -83,6 +83,10 @@ private:
 	bool CreateFence();
 #pragma endregion
 
+#pragma region ViewportとScissor
+	bool CreateViewport();
+	bool CreateScissor();
+#pragma endregion
 
 private:
 	static DirectXCommon* instance_;
@@ -111,12 +115,14 @@ private:
 	//デバイス
 	ComPtr<ID3D12Device> device_;
 
+
 	//コマンドキュー
 	ComPtr<ID3D12CommandQueue> commandQueue_;			//命令をGPUに送り込む
 	//コマンドアロケータ
 	ComPtr<ID3D12CommandAllocator> commandAllocator_;	//命令保存用のメモリ管理機構(Listに必須)
 	//コマンドリスト
 	ComPtr<ID3D12GraphicsCommandList> commandList_;		//命令群をまとめる
+
 
 	//スワップチェーン
 	ComPtr<IDXGISwapChain4> swapChain_;
@@ -133,9 +139,16 @@ private:
 	//RTVは二つ生成するのでディスクリプタを2つ用意
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[SwapChainNum];
 
+
 	//フェンス
 	ComPtr<ID3D12Fence> fence_;
 	uint64_t fenceValue_ = 0;
 	HANDLE fenceEvent_;
+
+
+	//ビューポート
+	D3D12_VIEWPORT viewport_{};
+	//シザー矩形
+	D3D12_RECT scissorRect_{};
 };
 

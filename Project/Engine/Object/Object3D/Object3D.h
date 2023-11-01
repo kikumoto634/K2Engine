@@ -3,8 +3,9 @@
 #include <dxcapi.h>
 #include <vector>
 
-#include "WindowsApp.h"
 #include "DirectXCommon.h"
+
+#include "Transform.h"
 
 class Object3D
 {
@@ -17,7 +18,7 @@ public:
 
 public:
 	//描画
-	void Draw();
+	void Draw(Matrix4x4 viewProjectionMatrix);
 
 private:
 	void Initialize();
@@ -55,6 +56,7 @@ private:
 #pragma endregion
 
 
+#pragma region Resource / View / Heap
 	//ResourceとHeap
 	// Resourceはメモリ上で配置されるが、「どこ」のメモリに配置するのかは重要
 	// ・GPUでよく使用するものはGPUに近いほど良い
@@ -85,17 +87,18 @@ private:
 	bool CreateVertex();
 #pragma endregion
 
-#pragma region 定数リソース/ビュー/更新
+#pragma region 定数リソース/更新
 	// 定数データ用のResource : ConstBuffer/ConstResource	
-	// 定数データ用のView	  : ConstBufferView(CBV)		
 	bool CreateConstant();
 #pragma endregion
 
-
-#pragma region ViewportとScissor
-	bool CreateViewport();
-	bool CreateScissor();
+#pragma region 行列リソース
+	//移動の行列用データのResource
+	bool CreateWVP();
 #pragma endregion
+
+#pragma endregion
+
 
 private:
 	static Object3D* instance_;
@@ -134,17 +137,22 @@ private:
 
 	//頂点リソース
 	ComPtr<ID3D12Resource> vertexResource_;
+	Vector4* vertexData = nullptr; 
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};
 
 	//定数リソース
 	ComPtr<ID3D12Resource> constResource_;
+	Vector4* materialData = nullptr;
+
+	//行列リソース
+	ComPtr<ID3D12Resource> wvpResource_;
+	Matrix4x4* wvpData = nullptr;
 
 
-
-	//ビューポート
-	D3D12_VIEWPORT viewport_{};
-	//シザー矩形
-	D3D12_RECT scissorRect_{};
+	//色
+	Vector4 color_ = {1,0,0,1};
+	//トランスフォーム情報
+	Transform transform_ =  {{0,0,0}, {0,0,0}, {1,1,1}};
 };
 
