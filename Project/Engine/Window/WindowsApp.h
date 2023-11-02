@@ -5,6 +5,7 @@
 #include <string>
 #include <format>
 
+
 class WindowsApp
 {
 public:

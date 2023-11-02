@@ -44,6 +44,10 @@ public:
 	ID3D12Device* GetDevice()	{return device_.Get();}
 	ID3D12GraphicsCommandList* GetCommandList()	{return commandList_.Get();}
 
+	ID3D12DescriptorHeap* GetSRVDescriptorHeap()	{return srvDescriptorHeap.Get();}
+
+	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()	{return swapChainDesc;}
+	D3D12_RENDER_TARGET_VIEW_DESC GetRTVDesc()	{return rtvDesc;}
 private:
 	void Initialize();
 
@@ -73,9 +77,16 @@ private:
 	bool CreateSwapChain();
 #pragma endregion
 
-#pragma region RTV : Resource, View系
+#pragma region RTV/SRV : Resource, View系
+	//RTV用のデスクリプタヒープ作成
 	bool CreateRTVDescriptorHeap();
+	//SRV用のデスクリプタヒープ作成
+	bool CreateSRVDescriptorHeap();
+
+	//SwapChainからResourceを引っ張る
 	bool BringResourceFromSwapChain();
+
+	//引っ張ってきたResourceに対してDescriptor上にRTVを作成
 	bool CreateRTV();
 #pragma endregion
 
@@ -125,6 +136,7 @@ private:
 
 
 	//スワップチェーン
+	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 	ComPtr<IDXGISwapChain4> swapChain_;
 
 
@@ -132,8 +144,11 @@ private:
 	//SRV : Resourceに対して見る作業をするもの
 	//ディスクリプタヒープとは、作業方法(View)の情報を格納する配列
 
+	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 	//RTVのディスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap_;
+	//SRV : Resourceに対して見る作業をするもの
+	ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap;
 	//SwapChainのResource
 	ComPtr<ID3D12Resource> swapChainResources_[SwapChainNum];
 	//RTVは二つ生成するのでディスクリプタを2つ用意

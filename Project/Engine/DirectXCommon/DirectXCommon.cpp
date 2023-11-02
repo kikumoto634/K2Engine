@@ -1,6 +1,7 @@
 #include "DirectXCommon.h"
 
 #include <d3dx12.h>
+#include "DescriptorHeap.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -54,8 +55,9 @@ void DirectXCommon::Initialize()
 	//スワップチェーン
 	assert(SUCCEEDED(CreateSwapChain()));
 
-	//RTV
+	//RTV/SRV
 	assert(SUCCEEDED(CreateRTVDescriptorHeap()));
+	assert(SUCCEEDED(CreateSRVDescriptorHeap()));
 	assert(SUCCEEDED(BringResourceFromSwapChain()));
 	assert(SUCCEEDED(CreateRTV()));
 
@@ -82,6 +84,10 @@ void DirectXCommon::PreDraw()
 	
 	//指定した色で画面をクリア
 	commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor_, 0, nullptr);
+
+	//描画用のDescriptorHeapの設定
+	ID3D12DescriptorHeap* descriptorHeaps[] = {srvDescriptorHeap.Get()};
+	commandList_->SetDescriptorHeaps(1, descriptorHeaps);
 
 	//Screen設定
 	commandList_->RSSetViewports(1,&viewport_);			//ビューポート
@@ -277,7 +283,6 @@ bool DirectXCommon::CreateCommandList()
 #pragma region スワップチェーン系
 bool DirectXCommon::CreateSwapChain()
 {
-	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 	swapChainDesc.Width = WindowsApp::kWindowWidth_;	//画面幅
 	swapChainDesc.Height = WindowsApp::kWindowHeight_;	//画面高さ
 	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;	//色系形式
@@ -298,13 +303,16 @@ bool DirectXCommon::CreateSwapChain()
 #pragma region RTV : Resource, View系
 bool DirectXCommon::CreateRTVDescriptorHeap()
 {
-	D3D12_DESCRIPTOR_HEAP_DESC rtvDescriptorHeapDesc{};
-	rtvDescriptorHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;	//レンダリングターゲットビュー用
-	rtvDescriptorHeapDesc.NumDescriptors = SwapChainNum;	//ダブルバッファ用(ディスクリプタの数)
+	//RTV用のヒープでデスクリプタの数は2	RTVはShaderないで触らないので ShaderVisible = false
+	rtvDescriptorHeap_ = CreateDescriptorHeap(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_RTV,SwapChainNum,false);
 
-	//ディスクリプタヒープ作成
-	result = device_->CreateDescriptorHeap(&rtvDescriptorHeapDesc, IID_PPV_ARGS(&rtvDescriptorHeap_));
-	assert(SUCCEEDED(result));
+	return true;
+}
+
+bool DirectXCommon::CreateSRVDescriptorHeap()
+{
+	//SRV用のヒープでディスクリプタの数は128	SRVはShaderないで触れるものなので Shadervisibl = true
+	srvDescriptorHeap = CreateDescriptorHeap(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 128, true);
 
 	return true;
 }
@@ -323,7 +331,6 @@ bool DirectXCommon::BringResourceFromSwapChain()
 bool DirectXCommon::CreateRTV()
 {
 	//RTV設定
-	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;	//出力結果をSRGBに変換、書き込み
 	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;	//2Dテクスチャとして書き込む
 	

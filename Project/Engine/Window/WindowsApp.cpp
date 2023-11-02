@@ -1,13 +1,20 @@
 #include "WindowsApp.h"
 
+#include "../../External/imgui/imgui.h"
+
 int32_t WindowsApp::kWindowWidth_ = 1280;
 int32_t WindowsApp::kWindowHeight_ = 720;
 wchar_t* WindowsApp::titleName_ = L"Title";
 WindowsApp* WindowsApp::instance_ = nullptr;
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT WindowsApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+	if(ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam)){
+		return true;
+	}
+
 	//メッセージに応じてゲーム固有の処理
 	switch (msg)
 	{

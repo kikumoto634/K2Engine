@@ -73,12 +73,6 @@
     <Filter Include="ヘッダー ファイル\Engine\Component">
       <UniqueIdentifier>{ed570dc2-b9fe-491f-912f-bcb13ecac642}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Component\Transform">
-      <UniqueIdentifier>{48fbe4c8-f07a-4994-b068-4a8515e75ab3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Engine\Component\Transform">
-      <UniqueIdentifier>{dc6b2409-8e7d-435a-b799-a66dde892638}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Engine\Object\Camera">
       <UniqueIdentifier>{f7790523-ceea-4240-bdd6-c0e300752189}</UniqueIdentifier>
     </Filter>
@@ -90,6 +84,39 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Engine\Component\Pipeline">
       <UniqueIdentifier>{aa8614f5-410e-4f9f-9943-48a24f1047e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\DescriptorHeap">
+      <UniqueIdentifier>{f5c23fb5-5848-4eba-b3db-a455963ee58c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\DescriptorHeap">
+      <UniqueIdentifier>{db5b5ce7-2c08-4e2b-b407-cee002238850}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Application">
+      <UniqueIdentifier>{00b37676-c12e-4c67-aa32-497a126e23ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Application">
+      <UniqueIdentifier>{7973265b-43f5-4363-93ff-97148378617a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Application\Transform">
+      <UniqueIdentifier>{dc6b2409-8e7d-435a-b799-a66dde892638}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Application\Transform">
+      <UniqueIdentifier>{48fbe4c8-f07a-4994-b068-4a8515e75ab3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Tool">
+      <UniqueIdentifier>{7d59e917-d83d-4354-903e-4c469eb654c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Tool">
+      <UniqueIdentifier>{78221e29-e8c6-45af-9b43-f9920debd510}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Tool\ImGui">
+      <UniqueIdentifier>{0feb1df3-1167-4d4c-addd-e004957c1b06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Tool\ImGui">
+      <UniqueIdentifier>{91dd68d0-2ea9-4a91-bfbb-615bf43b708d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui">
+      <UniqueIdentifier>{877d8d17-0354-466a-ac3f-aa0f52f0a911}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -117,14 +144,41 @@
     <ClCompile Include="Engine\Math\Matrix\Matrix4x4.cpp">
       <Filter>ソース ファイル\Engine\Math\Matrix</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Component\Transform\Transform.cpp">
-      <Filter>ソース ファイル\Engine\Component\Transform</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Object\Camera\Camera.cpp">
       <Filter>ソース ファイル\Engine\Object\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Component\Pipeline\Pipeline.cpp">
       <Filter>ソース ファイル\Engine\Component\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Transform\Transform.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\DescriptorHeap\DescriptorHeap.cpp">
+      <Filter>ソース ファイル\Engine\Component\DescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Tool\ImGui\ImGuiManager.cpp">
+      <Filter>ソース ファイル\Engine\Tool\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\imgui\imgui.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\imgui\imgui_demo.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\imgui\imgui_draw.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\imgui\imgui_impl_dx12.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\imgui\imgui_impl_win32.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\imgui\imgui_tables.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\imgui\imgui_widgets.cpp">
+      <Filter>imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,14 +203,44 @@
     <ClInclude Include="Engine\Math\Matrix\Matrix4x4.h">
       <Filter>ヘッダー ファイル\Engine\Math\Matrix</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Transform\Transform.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Transform</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Object\Camera\Camera.h">
       <Filter>ヘッダー ファイル\Engine\Object\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Component\Pipeline\Pipeline.h">
       <Filter>ヘッダー ファイル\Engine\Component\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Transform\Transform.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\DescriptorHeap\DescriptorHeap.h">
+      <Filter>ヘッダー ファイル\Engine\Component\DescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Tool\ImGui\ImGuiManager.h">
+      <Filter>ヘッダー ファイル\Engine\Tool\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\imgui\imconfig.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\imgui\imgui.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\imgui\imgui_impl_dx12.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\imgui\imgui_impl_win32.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\imgui\imgui_internal.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\imgui\imstb_rectpack.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\imgui\imstb_textedit.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\imgui\imstb_truetype.h">
+      <Filter>imgui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -166,5 +250,10 @@
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.VS.hlsl">
       <Filter>リソース ファイル\Shader\Object3D</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="External\imgui\LICENSE.txt">
+      <Filter>imgui</Filter>
+    </Text>
   </ItemGroup>
 </Project>
