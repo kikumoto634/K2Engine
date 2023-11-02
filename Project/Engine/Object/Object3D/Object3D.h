@@ -1,11 +1,6 @@
 #pragma once
-#include <wrl.h>
-#include <dxcapi.h>
-#include <vector>
-
-#include "DirectXCommon.h"
-
 #include "Transform.h"
+#include "Pipeline.h"
 
 class Object3D
 {
@@ -22,39 +17,7 @@ public:
 
 private:
 	void Initialize();
-
-
-
-	//コンパイルシェーダー
-	static IDxcBlob* CompileShader(
-		//ComplierするShaderファイルパス
-		const std::wstring& filePath,
-		//Compilerに使用するProfile
-		const wchar_t* profile,
-		//DXC
-		IDxcUtils* dxcUtils,
-		IDxcCompiler3* dxcCompiler,
-		IDxcIncludeHandler* includeHandler
-	);
-
-
-#pragma region レンダリングパイプラインステート関連
-	//DXCCompiler
-	bool CreateDXCCompiler();
-	//ルートシグネチャ
-	bool CreateRootSignature();
-	//インプットレイアウト
-	bool CreateInputLayout();
-	//ブレンドステート
-	bool CreateBlendState();
-	//ラスタライザステート
-	bool CreateRasterizerState();
-	//シェーダー読み込み
-	bool LoadShader();
-	//パイプラインステートオブジェクト
-	bool CreatePipelineStateObject();
-#pragma endregion
-
+	void PipelineInitialize();
 
 #pragma region Resource / View / Heap
 	//ResourceとHeap
@@ -107,32 +70,10 @@ private:
 	HRESULT result{};
 	DirectXCommon* dxCommon_ = nullptr;
 
-
-	/// <summary>
-	/// シェーダコンパイル用のDXC変数
-	/// </summary>
-	ComPtr<IDxcUtils> dxcUtils_;
-	ComPtr<IDxcCompiler3> dxcCompiler_;
-	ComPtr<IDxcIncludeHandler> includeHandler_;
-
-
-	//ルートシグネチャ/パラメータ		: ShaderとResourceをどのように関連付けるかを示したオブジェクト
-	vector<D3D12_ROOT_PARAMETER> rootParameters_;
-	ComPtr<ID3D12RootSignature> rootSignature_;
-	//インプットレイアウト	: VertexShaderへ渡す頂点データがどのようなものかを指定するオブジェクト
-	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDescs_;
-	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_{};
-	//各シェーダ情報
-	ComPtr<IDxcBlob> vertexShaderBlob_;
-	ComPtr<IDxcBlob> pixelShaderBlob_;
-	//ブレンドディスク		: PixelShaderからの出力を画面にどのように書き込むか設定する項目
-	D3D12_BLEND_DESC blendDesc_{};
-	//ラスタライザ			: ラスタライザに対する処理
-	D3D12_RASTERIZER_DESC rasterizerDesc_{};
-
-	//パイプラインステート
-	ComPtr<ID3D12PipelineState> graphicsPipelineState_;
-
+	//パイプライン
+	Pipeline* pipeline_= nullptr;
+	vector<D3D12_ROOT_PARAMETER> rootParameters_;			//ルートパラメータ
+	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDescs_;	//インプットレイアウト
 
 
 	//頂点リソース
