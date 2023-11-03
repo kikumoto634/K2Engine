@@ -11,6 +11,8 @@
 //Windowsアプロでのエントリーポイント
 int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	
+	CoInitializeEx(0, COINIT_MULTITHREADED);
+
 	WindowsApp* win = WindowsApp::Create(L"K2Engine", 1280, 720);
 	DirectXCommon* dxCommon = DirectXCommon::Create();
 
@@ -44,6 +46,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	delete obj;
 	delete dxCommon;
 	delete win;
+	CoUninitialize();
 
 	return 0;
 }
