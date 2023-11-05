@@ -161,6 +161,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClCompile Include="Engine\Component\Application\Transform\Transform.cpp" />
     <ClCompile Include="Engine\Component\DescriptorHeap\DescriptorHeap.cpp" />
+    <ClCompile Include="Engine\Component\Loader\Sprite\SpriteLoader.cpp" />
     <ClCompile Include="Engine\Component\Pipeline\Pipeline.cpp" />
     <ClCompile Include="Engine\DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="Engine\Math\Matrix\Matrix4x4.cpp" />
@@ -183,6 +184,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClInclude Include="Engine\Component\Application\Transform\Transform.h" />
     <ClInclude Include="Engine\Component\DescriptorHeap\DescriptorHeap.h" />
+    <ClInclude Include="Engine\Component\Loader\Sprite\SpriteLoader.h" />
     <ClInclude Include="Engine\Component\Pipeline\Pipeline.h" />
     <ClInclude Include="Engine\DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="Engine\Math\Matrix\Matrix4x4.h" />

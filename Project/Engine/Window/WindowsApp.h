@@ -34,6 +34,7 @@ public:
 public:
 	~WindowsApp(){
 		CloseWindow(hwnd_);
+		CoUninitialize();
 	}
 	bool ProcessMessage();
 

@@ -40,6 +40,8 @@ WindowsApp *WindowsApp::GetInstance()
 
 WindowsApp *WindowsApp::Create(wchar_t* titleName, int32_t width, int32_t height)
 {
+	CoInitializeEx(0, COINIT_MULTITHREADED);
+
 	kWindowWidth_ = width;
 	kWindowHeight_ = height;
 	titleName_ = titleName;
