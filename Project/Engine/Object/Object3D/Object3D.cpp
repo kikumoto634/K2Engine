@@ -1,5 +1,5 @@
 #include "Object3D.h"
-
+#include "SpriteLoader.h"
 
 Object3D* Object3D::instance_ = nullptr;
 
@@ -15,6 +15,13 @@ Object3D *Object3D::Create()
 void Object3D::Initialize()
 {
 	dxCommon_ = DirectXCommon::GetInstance();
+
+	////画像読み込み
+	//DirectX::ScratchImage mipImages = SpriteLoader::LoadTexture("uvChecker.png");
+	//const DirectX::TexMetadata& metaData = mipImages.GetMetadata();
+	//ID3D12Resource*textureResource = SpriteLoader::CreatetextureResource(dxCommon_->GetDevice(), metaData);
+	//SpriteLoader::UploadTextureData(textureResource, mipImages);
+		
 
 	pipeline_ = new Pipeline();
 	PipelineInitialize();

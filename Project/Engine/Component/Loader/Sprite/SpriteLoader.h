@@ -11,5 +11,11 @@ public:
 
 	//テクスチャリソース作成
 	static ID3D12Resource* CreatetextureResource(ID3D12Device* device, const DirectX::TexMetadata& metaData);
+
+	//テクスチャリソースにデータを転送
+	static void UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
+
+private:
+	static std::string basePath;
 };
 

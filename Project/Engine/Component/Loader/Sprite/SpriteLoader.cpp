@@ -1,16 +1,19 @@
 #include "SpriteLoader.h"
 #include <cassert>
-
-#include "WindowsApp.cpp"
+#include <WindowsApp.h>
 
 using namespace DirectX;
 using namespace std;
 
+string SpriteLoader::basePath = "Resources/";
+
 ScratchImage SpriteLoader::LoadTexture(const std::string &filePath)
 {
+	const string fullPath = basePath + filePath;
+
 	//テクスチャファイルを読み込んでプログラムで扱えるようにする
 	ScratchImage image{};
-	wstring lFilePath = WindowsApp::ConvertString(filePath);
+	wstring lFilePath = WindowsApp::ConvertString(fullPath);
 
 	HRESULT result = LoadFromWICFile(lFilePath.c_str(), WIC_FLAGS_FORCE_SRGB, nullptr, image);
 	assert(SUCCEEDED(result));
@@ -57,4 +60,24 @@ ID3D12Resource *SpriteLoader::CreatetextureResource(ID3D12Device *device, const 
 	assert(SUCCEEDED(result));
 
 	return resource;
+}
+
+void SpriteLoader::UploadTextureData(ID3D12Resource *texture, const DirectX::ScratchImage &mipImages)
+{
+	//Meta情報を取得
+	const DirectX::TexMetadata& metadata = mipImages.GetMetadata();
+	//全MipMapについて
+	for(size_t mipLevel = 0; mipLevel < metadata.mipLevels; ++mipLevel){
+		//MipMapLevelを指定してImage取得
+		const DirectX::Image* img = mipImages.GetImage(mipLevel, 0, 0);
+		//転送(アドレス経由)
+		HRESULT result = texture->WriteToSubresource(
+			UINT(mipLevel),
+			nullptr,				//全領域へコピー
+			img->pixels,			//元のデータアドレス
+			UINT(img->rowPitch),	//1ラインサイズ
+			UINT(img->slicePitch)	//1毎サイズ
+		);
+		assert(SUCCEEDED(result));
+	}
 }

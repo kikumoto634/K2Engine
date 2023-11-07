@@ -61,9 +61,9 @@ public:
 
 private:
 	WNDCLASS wc_{};
-	RECT wrc_;
+	RECT wrc_{};
 	HWND hwnd_ = nullptr;
 
-	MSG msg;
+	MSG msg{};
 };
 

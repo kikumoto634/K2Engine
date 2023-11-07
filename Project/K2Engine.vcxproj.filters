@@ -130,6 +130,18 @@
     <Filter Include="ヘッダー ファイル\Engine\Component\Loader\Sprite">
       <UniqueIdentifier>{e2a41a27-d9b0-4873-b68c-4f3a1159881d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Manager">
+      <UniqueIdentifier>{30d679fd-d283-413e-bf36-5473f33ede8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Manager">
+      <UniqueIdentifier>{7bd44a68-f3bb-4a9e-ad80-789547973e75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Manager\Texture">
+      <UniqueIdentifier>{bb2fdc26-eda1-4f35-9af2-e62d6c691373}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Manager\Texture">
+      <UniqueIdentifier>{dbe640ca-6bbf-4777-b858-22911cbec9ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -195,6 +207,9 @@
     <ClCompile Include="Engine\Component\Loader\Sprite\SpriteLoader.cpp">
       <Filter>ソース ファイル\Engine\Component\Loader\Sprite</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Component\Manager\Texture\TextureManager.cpp">
+      <Filter>ソース ファイル\Engine\Component\Manager\Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -259,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Component\Loader\Sprite\SpriteLoader.h">
       <Filter>ヘッダー ファイル\Engine\Component\Loader\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Manager\Texture\TextureManager.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Manager\Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

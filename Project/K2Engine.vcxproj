@@ -116,7 +116,7 @@
       <ConformanceMode>false</ConformanceMode>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\DirectXCommon;$(ProjectDir)Engine\Math\Vector;$(ProjectDir)Engine\Math\Matrix;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\Component\DescriptorHeap;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\DirectXCommon;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\DescriptorHeap;$(ProjectDir)Engine\Component\Loader\Sprite;$(ProjectDir)Engine\Component\Manager;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\Math\Matrix;$(ProjectDir)Engine\Math\Vector;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -142,7 +142,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\DirectXCommon;$(ProjectDir)Engine\Math\Vector;$(ProjectDir)Engine\Math\Matrix;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\Component\DescriptorHeap;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\DirectXCommon;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\DescriptorHeap;$(ProjectDir)Engine\Component\Loader\Sprite;$(ProjectDir)Engine\Component\Manager;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\Math\Matrix;$(ProjectDir)Engine\Math\Vector;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -162,6 +162,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Component\Application\Transform\Transform.cpp" />
     <ClCompile Include="Engine\Component\DescriptorHeap\DescriptorHeap.cpp" />
     <ClCompile Include="Engine\Component\Loader\Sprite\SpriteLoader.cpp" />
+    <ClCompile Include="Engine\Component\Manager\Texture\TextureManager.cpp" />
     <ClCompile Include="Engine\Component\Pipeline\Pipeline.cpp" />
     <ClCompile Include="Engine\DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="Engine\Math\Matrix\Matrix4x4.cpp" />
@@ -185,6 +186,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Component\Application\Transform\Transform.h" />
     <ClInclude Include="Engine\Component\DescriptorHeap\DescriptorHeap.h" />
     <ClInclude Include="Engine\Component\Loader\Sprite\SpriteLoader.h" />
+    <ClInclude Include="Engine\Component\Manager\Texture\TextureManager.h" />
     <ClInclude Include="Engine\Component\Pipeline\Pipeline.h" />
     <ClInclude Include="Engine\DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="Engine\Math\Matrix\Matrix4x4.h" />

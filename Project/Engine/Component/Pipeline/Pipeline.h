@@ -67,7 +67,7 @@ private:
 	HRESULT result{};
 	DirectXCommon* dxCommon_ = nullptr;
 
-	D3D12_FILL_MODE fillMode_;
+	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_SOLID;
 
 #pragma region シェーダ関連
 	std::wstring VSpath_;
