@@ -236,6 +236,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <Text Include="External\imgui\LICENSE.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\Object3D\Object3D.hlsli" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

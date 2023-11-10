@@ -16,6 +16,7 @@ public:
 		std::wstring vsPath, std::wstring psPath,			//シェーダパス
 		vector<D3D12_ROOT_PARAMETER> rootParameter,			//ルートパラメータ
 		vector<D3D12_INPUT_ELEMENT_DESC> inputLayoutDesc,	//インプットレイアウト
+		vector<D3D12_STATIC_SAMPLER_DESC> staticSampler,	//サンプラー
 		D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID	//描画種類
 	);
 
@@ -92,6 +93,8 @@ private:
 	//インプットレイアウト	: VertexShaderへ渡す頂点データがどのようなものかを指定するオブジェクト
 	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDescs_;
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_{};
+	//サンプラー
+	vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers;
 	//各シェーダ情報
 	ComPtr<IDxcBlob> vertexShaderBlob_;
 	ComPtr<IDxcBlob> pixelShaderBlob_;

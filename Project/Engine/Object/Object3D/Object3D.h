@@ -8,6 +8,11 @@ private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	template <class T> using vector = std::vector<T>;
 
+	struct VertexData{
+		Vector4 position;
+		Vector2 texcoord;
+	};
+
 public:
 	static Object3D* Create();
 
@@ -74,11 +79,11 @@ private:
 	Pipeline* pipeline_= nullptr;
 	vector<D3D12_ROOT_PARAMETER> rootParameters_;			//ルートパラメータ
 	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDescs_;	//インプットレイアウト
-
+	vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers;			//サンプラー
 
 	//頂点リソース
 	ComPtr<ID3D12Resource> vertexResource_;
-	Vector4* vertexData = nullptr; 
+	VertexData* vertexData = nullptr; 
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};
 
@@ -95,5 +100,8 @@ private:
 	Vector4 color_ = {1,0,0,1};
 	//トランスフォーム情報
 	Transform transform_ =  {{0,0,0}, {0,0,0}, {1,1,1}};
+
+	//SRVのDescriptorTableの先頭(テクスチャ)
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU = {};
 };
 

@@ -145,9 +145,9 @@ private:
 	//ディスクリプタヒープとは、作業方法(View)の情報を格納する配列
 
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
-	//RTVのディスクリプタヒープ
+	//RTVのディスクリプタヒープ(RTVのヒープは全体で一つだけ)
 	ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap_;
-	//SRV : Resourceに対して見る作業をするもの
+	//SRV : Resourceに対して見る作業をするもの(SRVのヒープは全体で一つだけ)
 	ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap;
 	//SwapChainのResource
 	ComPtr<ID3D12Resource> swapChainResources_[SwapChainNum];

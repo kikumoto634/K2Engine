@@ -292,4 +292,9 @@
       <Filter>imgui</Filter>
     </Text>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\Object3D\Object3D.hlsli">
+      <Filter>リソース ファイル\Shader\Object3D</Filter>
+    </None>
+  </ItemGroup>
 </Project>

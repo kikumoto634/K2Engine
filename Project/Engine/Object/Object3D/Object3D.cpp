@@ -16,11 +16,29 @@ void Object3D::Initialize()
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 
-	////画像読み込み
-	//DirectX::ScratchImage mipImages = SpriteLoader::LoadTexture("uvChecker.png");
-	//const DirectX::TexMetadata& metaData = mipImages.GetMetadata();
-	//ID3D12Resource*textureResource = SpriteLoader::CreatetextureResource(dxCommon_->GetDevice(), metaData);
-	//SpriteLoader::UploadTextureData(textureResource, mipImages);
+	//画像読み込み
+	DirectX::ScratchImage mipImages = SpriteLoader::LoadTexture("uvChecker.png");
+	const DirectX::TexMetadata& metaData = mipImages.GetMetadata();
+	ID3D12Resource*textureResource = SpriteLoader::CreatetextureResource(dxCommon_->GetDevice(), metaData);
+	SpriteLoader::UploadTextureData(textureResource, mipImages);
+
+	{
+		//MetaDataを基にSRV設定
+		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+		srvDesc.Format = metaData.format;
+		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		srvDesc.Texture2D.MipLevels = UINT(metaData.mipLevels);
+
+		//SRVを使用するHeapの場所決め
+		D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU = dxCommon_->GetSRVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
+		textureSrvHandleGPU = dxCommon_->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart();
+		//先頭はImGuiなのでずらす
+		textureSrvHandleCPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+		textureSrvHandleGPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+		//SRVの生成
+		dxCommon_->GetDevice()->CreateShaderResourceView(textureResource, &srvDesc, textureSrvHandleCPU);
+	}
 		
 
 	pipeline_ = new Pipeline();
@@ -35,8 +53,21 @@ void Object3D::Initialize()
 
 void Object3D::PipelineInitialize()
 {
+	//デスクリプタレンジ(SRV, CBVなどの情報をこれにまとめる)
+	//例 :														Shaderでは
+	//range[0]					range[1]						ConstBuffer<..>gMaterial0 : register(b0)
+	//BaseRegister = 3;			BaseRegister = 0;				ConstBuffer<..>gMaterial1 : register(b1)
+	//numDescriptor = 2;		NumDescritor = 3;				ConstBuffer<..>gMaterial2 : register(b2)
+	//Type = SRV;				Type = CBV;						Texture2D<..> gTexture0 : register(t3)
+	//															Texture2D<..> gTexture1 : register(t4)
+	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};			  
+	descriptorRange[0].BaseShaderRegister = 0;	//0から開始
+	descriptorRange[0].NumDescriptors = 1;	//数は1
+	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;	//SRVを使用
+	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;		//Offsetを自動計算
+
 	//ルートパラメータ設定
-	rootParameters_.resize(2);
+	rootParameters_.resize(3);
 	//PS
 	rootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
 	rootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShader使用
@@ -46,9 +77,27 @@ void Object3D::PipelineInitialize()
 	rootParameters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
 	rootParameters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;	//VertexShaderで使用
 	rootParameters_[1].Descriptor.ShaderRegister = 0;	//レジスタ番号 b0
+	//SRV(テクスチャ		シェーダでは各ピクセルのことをいう)
+	rootParameters_[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//DescriptorTableに使用
+	rootParameters_[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShaderで使用
+	rootParameters_[2].DescriptorTable.pDescriptorRanges = descriptorRange;	//tableの中身の配列を指定
+	rootParameters_[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);	//Tableで利用する数
+
+
+	//Sampler設定(シェーダーのPS SamplerState　シェーダでは画像のことをいう)
+	staticSamplers.resize(1);
+	staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;	//バイリニアフィルタ・
+	staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;	//0 ~ 1の範囲外をリピート
+	staticSamplers[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;	
+	staticSamplers[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	staticSamplers[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	staticSamplers[0].MaxLOD = D3D12_FLOAT32_MAX;	//ありったけのMipMapを使用
+	staticSamplers[0].ShaderRegister = 0;	//レジスタ番号0
+	staticSamplers[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShaderで使用
+
 	
 	//インプットレイアウト設
-	inputElementDescs_.resize(1);
+	inputElementDescs_.resize(2);
 	inputElementDescs_[0].SemanticName = "POSITION";							//頂点シェーダーのセマンティック名
 	inputElementDescs_[0].SemanticIndex = 0;									//セマンティック番号
 	inputElementDescs_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;				//float4 型
@@ -57,12 +106,18 @@ void Object3D::PipelineInitialize()
 	inputElementDescs_[0].InputSlotClass = D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA;
 	inputElementDescs_[0].InstanceDataStepRate = 0;
 
+	inputElementDescs_[1].SemanticName = "TEXCOORD";							//頂点シェーダーのセマンティック名
+	inputElementDescs_[1].SemanticIndex = 0;									//セマンティック番号
+	inputElementDescs_[1].Format = DXGI_FORMAT_R32G32_FLOAT;				//float4 型
+	inputElementDescs_[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
 	//生成
 	pipeline_->Create(
 		L"Object3D/Object3D.VS.hlsl",
 		L"Object3D/Object3D.PS.hlsl",
 		rootParameters_,
 		inputElementDescs_,
+		staticSamplers,
 		D3D12_FILL_MODE_SOLID
 	);
 }
@@ -87,6 +142,8 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constResource_->GetGPUVirtualAddress());
 	//行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
+	//SRV(テクスチャ)のDescriptorTableの先頭を設定 2はRootParamterのインデックスRootParamter[2]
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);
 
 	//描画
 	dxCommon_->GetCommandList()->DrawInstanced(3,1,0,0);
@@ -137,20 +194,23 @@ void Object3D::CreateBufferView(D3D12_VERTEX_BUFFER_VIEW& view, ID3D12Resource* 
 bool Object3D::CreateVertex()
 {
 	//リソース
-	vertexResource_ = CreateBufferResource(sizeof(Vector4)*3);
+	vertexResource_ = CreateBufferResource(sizeof(VertexData)*3);
 	//ビュー
-	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(Vector4)*3, sizeof(Vector4));
+	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*3, sizeof(VertexData));
 
 	//頂点リソースにデータを書き込む
 	//書き込むためのアドレス取得
 	vertexResource_->Map(0,nullptr,reinterpret_cast<void**>(&vertexData));
 	
 	//左上
-	vertexData[0] = {-0.5f, -0.5f, +0.0f, +1.0f};
+	vertexData[0].position = {-0.5f, -0.5f, +0.0f, +1.0f};
+	vertexData[0].texcoord = {+0.0f, +1.0f};
 	//上
-	vertexData[1] = {+0.0f, +0.5f, +0.0f, +1.0f};
+	vertexData[1].position = {+0.0f, +0.5f, +0.0f, +1.0f};
+	vertexData[1].texcoord = {+0.5f, +0.0f};
 	//右下
-	vertexData[2] = {+0.5f, -0.5f, +0.0f, +1.0f};
+	vertexData[2].position = {+0.5f, -0.5f, +0.0f, +1.0f};
+	vertexData[2].texcoord = {+1.0f, +1.0f};
 
 	return true;
 }

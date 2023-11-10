@@ -14,6 +14,7 @@ void Pipeline::Create(
 	std::wstring vsPath, std::wstring psPath,
 	vector<D3D12_ROOT_PARAMETER> rootParameter,
 	vector<D3D12_INPUT_ELEMENT_DESC> inputLayoutDesc,
+	vector<D3D12_STATIC_SAMPLER_DESC> staticSampler,
 	D3D12_FILL_MODE fillMode
 )
 {
@@ -29,6 +30,9 @@ void Pipeline::Create(
 
 	//インプットレイアウト設定
 	inputElementDescs_ = inputLayoutDesc;
+
+	//サンプラー
+	staticSamplers = staticSampler;
 
 	//FillMode
 	fillMode_ = fillMode;
@@ -133,6 +137,9 @@ bool Pipeline::CreateRootSignature()
 	//ルートパラメータ配列へのポインタ渡し
 	descriptionRootSignature.pParameters = rootParameters_.data();		//ポインタ渡し
 	descriptionRootSignature.NumParameters = (UINT)rootParameters_.size();	//長さ渡し
+
+	descriptionRootSignature.pStaticSamplers = staticSamplers.data();
+	descriptionRootSignature.NumStaticSamplers = (UINT)staticSamplers.size();
 
 
 	//シリアライズとしてバイナリにする
