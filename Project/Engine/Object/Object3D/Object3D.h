@@ -97,7 +97,7 @@ private:
 
 
 	//色
-	Vector4 color_ = {1,0,0,1};
+	Vector4 color_ = {1,1,1,1};
 	//トランスフォーム情報
 	Transform transform_ =  {{0,0,0}, {0,0,0}, {1,1,1}};
 
