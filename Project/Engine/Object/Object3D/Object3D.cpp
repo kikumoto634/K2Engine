@@ -19,9 +19,13 @@ void Object3D::Initialize()
 	//画像読み込み
 	DirectX::ScratchImage mipImages = SpriteLoader::LoadTexture("uvChecker.png");
 	const DirectX::TexMetadata& metaData = mipImages.GetMetadata();
-	ID3D12Resource*textureResource = SpriteLoader::CreatetextureResource(dxCommon_->GetDevice(), metaData);
+	ID3D12Resource*textureResource = SpriteLoader::CreateTextureResource(dxCommon_->GetDevice(), metaData);
 	SpriteLoader::UploadTextureData(textureResource, mipImages);
 
+	//DepthStencilTextureをウィンドウサイズで作成
+	ID3D12Resource* depthStencilResource = SpriteLoader::CreateDepthStencilTextureResource(dxCommon_->GetDevice(), WindowsApp::kWindowWidth_, WindowsApp::kWindowHeight_);
+	
+	//SRV作成
 	{
 		//MetaDataを基にSRV設定
 		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
@@ -32,14 +36,25 @@ void Object3D::Initialize()
 
 		//SRVを使用するHeapの場所決め
 		D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU = dxCommon_->GetSRVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
-		textureSrvHandleGPU = dxCommon_->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart();
+		textureSrvHandleGPU_ = dxCommon_->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart();
 		//先頭はImGuiなのでずらす
 		textureSrvHandleCPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-		textureSrvHandleGPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+		textureSrvHandleGPU_.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 		//SRVの生成
 		dxCommon_->GetDevice()->CreateShaderResourceView(textureResource, &srvDesc, textureSrvHandleCPU);
 	}
-		
+
+	//DSV作成
+	{
+		//DSV設定
+		D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
+		dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;	//Format　Resourceに合わせる
+		dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;	//2dTexture
+
+		//DSVHeapの先頭にDSVを作成
+		D3D12_CPU_DESCRIPTOR_HANDLE dsvHandleCPU = dxCommon_->GetDSVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
+		dxCommon_->GetDevice()->CreateDepthStencilView(depthStencilResource, &dsvDesc, dsvHandleCPU);
+	}
 
 	pipeline_ = new Pipeline();
 	PipelineInitialize();
@@ -85,18 +100,18 @@ void Object3D::PipelineInitialize()
 
 
 	//Sampler設定(シェーダーのPS SamplerState　シェーダでは画像のことをいう)
-	staticSamplers.resize(1);
-	staticSamplers[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;	//バイリニアフィルタ・
-	staticSamplers[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;	//0 ~ 1の範囲外をリピート
-	staticSamplers[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;	
-	staticSamplers[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	staticSamplers[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-	staticSamplers[0].MaxLOD = D3D12_FLOAT32_MAX;	//ありったけのMipMapを使用
-	staticSamplers[0].ShaderRegister = 0;	//レジスタ番号0
-	staticSamplers[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShaderで使用
+	staticSamplers_.resize(1);
+	staticSamplers_[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;	//バイリニアフィルタ・
+	staticSamplers_[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;	//0 ~ 1の範囲外をリピート
+	staticSamplers_[0].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;	
+	staticSamplers_[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	staticSamplers_[0].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	staticSamplers_[0].MaxLOD = D3D12_FLOAT32_MAX;	//ありったけのMipMapを使用
+	staticSamplers_[0].ShaderRegister = 0;	//レジスタ番号0
+	staticSamplers_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShaderで使用
 
 	
-	//インプットレイアウト設
+	//インプットレイアウト設定(頂点データでシェーダ内に送るデータたちのセマンティック名)
 	inputElementDescs_.resize(2);
 	inputElementDescs_[0].SemanticName = "POSITION";							//頂点シェーダーのセマンティック名
 	inputElementDescs_[0].SemanticIndex = 0;									//セマンティック番号
@@ -108,23 +123,31 @@ void Object3D::PipelineInitialize()
 
 	inputElementDescs_[1].SemanticName = "TEXCOORD";							//頂点シェーダーのセマンティック名
 	inputElementDescs_[1].SemanticIndex = 0;									//セマンティック番号
-	inputElementDescs_[1].Format = DXGI_FORMAT_R32G32_FLOAT;				//float4 型
+	inputElementDescs_[1].Format = DXGI_FORMAT_R32G32_FLOAT;					//float4 型
 	inputElementDescs_[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+
+	//DepthStencilState設定
+	depthStencilDesc.DepthEnable = true;	//Depthの機能を有効化
+	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;	//書き込みする
+	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;	//比較関数はLessEqual  つまり近ければ描画される
+
 
 	//生成
 	pipeline_->Create(
 		L"Object3D/Object3D.VS.hlsl",
 		L"Object3D/Object3D.PS.hlsl",
 		rootParameters_,
+		staticSamplers_,
 		inputElementDescs_,
-		staticSamplers,
+		depthStencilDesc,
 		D3D12_FILL_MODE_SOLID
 	);
 }
 
 void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 {
-	transform_.rotation.y += 0.03f;
+	transform_.rotation.y += 0.01f;
 
 	//更新情報
 	Matrix4x4 worldViewProjectionMatrix = transform_.GetWorldMatrix() * viewProjectionMatrix;
@@ -143,10 +166,10 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	//行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
 	//SRV(テクスチャ)のDescriptorTableの先頭を設定 2はRootParamterのインデックスRootParamter[2]
-	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU);
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU_);
 
 	//描画
-	dxCommon_->GetCommandList()->DrawInstanced(3,1,0,0);
+	dxCommon_->GetCommandList()->DrawInstanced(6,1,0,0);
 }
 
 
@@ -194,9 +217,9 @@ void Object3D::CreateBufferView(D3D12_VERTEX_BUFFER_VIEW& view, ID3D12Resource* 
 bool Object3D::CreateVertex()
 {
 	//リソース
-	vertexResource_ = CreateBufferResource(sizeof(VertexData)*3);
+	vertexResource_ = CreateBufferResource(sizeof(VertexData)*6);
 	//ビュー
-	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*3, sizeof(VertexData));
+	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*6, sizeof(VertexData));
 
 	//頂点リソースにデータを書き込む
 	//書き込むためのアドレス取得
@@ -211,6 +234,16 @@ bool Object3D::CreateVertex()
 	//右下
 	vertexData[2].position = {+0.5f, -0.5f, +0.0f, +1.0f};
 	vertexData[2].texcoord = {+1.0f, +1.0f};
+
+	//左下2
+	vertexData[3].position = {-0.5f, -0.5f, +0.5f, +1.0f};
+	vertexData[3].texcoord = {+0.0f, +1.0f};
+	//上2
+	vertexData[4].position = {+0.0f, +0.0f, +0.0f, +1.0f};
+	vertexData[4].texcoord = {+0.5f, +0.0f};
+	//右下2
+	vertexData[5].position = {+0.5f, -0.5f, -0.5f, +1.0f};
+	vertexData[5].texcoord = {+1.0f, +1.0f};
 
 	return true;
 }

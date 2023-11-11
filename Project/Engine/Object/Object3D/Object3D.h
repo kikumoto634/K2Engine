@@ -65,8 +65,6 @@ private:
 	bool CreateWVP();
 #pragma endregion
 
-#pragma endregion
-
 
 private:
 	static Object3D* instance_;
@@ -79,7 +77,8 @@ private:
 	Pipeline* pipeline_= nullptr;
 	vector<D3D12_ROOT_PARAMETER> rootParameters_;			//ルートパラメータ
 	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDescs_;	//インプットレイアウト
-	vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers;			//サンプラー
+	vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers_;		//サンプラー
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc;		//DepthStencil
 
 	//頂点リソース
 	ComPtr<ID3D12Resource> vertexResource_;
@@ -102,6 +101,6 @@ private:
 	Transform transform_ =  {{0,0,0}, {0,0,0}, {1,1,1}};
 
 	//SRVのDescriptorTableの先頭(テクスチャ)
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU = {};
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_ = {};
 };
 

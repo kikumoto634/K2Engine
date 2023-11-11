@@ -44,7 +44,8 @@ public:
 	ID3D12Device* GetDevice()	{return device_.Get();}
 	ID3D12GraphicsCommandList* GetCommandList()	{return commandList_.Get();}
 
-	ID3D12DescriptorHeap* GetSRVDescriptorHeap()	{return srvDescriptorHeap.Get();}
+	ID3D12DescriptorHeap* GetSRVDescriptorHeap()	{return srvDescriptorHeap_.Get();}
+	ID3D12DescriptorHeap* GetDSVDescriptorHeap()	{return dsvDescriptorHeap_.Get();}
 
 	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()	{return swapChainDesc;}
 	D3D12_RENDER_TARGET_VIEW_DESC GetRTVDesc()	{return rtvDesc;}
@@ -82,11 +83,12 @@ private:
 	bool CreateRTVDescriptorHeap();
 	//SRV用のデスクリプタヒープ作成
 	bool CreateSRVDescriptorHeap();
+	//DSV用のデスクリプタヒープ作成
+	bool CreateDSVDescriptorHeap();
 
 	//SwapChainからResourceを引っ張る
 	bool BringResourceFromSwapChain();
-
-	//引っ張ってきたResourceに対してDescriptor上にRTVを作成
+	//引っ張ってきたResourceに対してDescriptor上にRTVを作成(スワップチェーン)
 	bool CreateRTV();
 #pragma endregion
 
@@ -142,16 +144,19 @@ private:
 
 	//RTV : Resourceに対して描く作業をするもの (ダブルバッファリングなので今回は2つ)
 	//SRV : Resourceに対して見る作業をするもの
+	//DSV : Resourceの深度に関する情報を格納するもの
 	//ディスクリプタヒープとは、作業方法(View)の情報を格納する配列
-
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 	//RTVのディスクリプタヒープ(RTVのヒープは全体で一つだけ)
 	ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap_;
 	//SRV : Resourceに対して見る作業をするもの(SRVのヒープは全体で一つだけ)
-	ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap;
+	ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap_;
+	//DSV用のディスクリプタヒープ	(DVSのヒープは全体に一つだけ)　
+	ComPtr<ID3D12DescriptorHeap> dsvDescriptorHeap_;
+
 	//SwapChainのResource
 	ComPtr<ID3D12Resource> swapChainResources_[SwapChainNum];
-	//RTVは二つ生成するのでディスクリプタを2つ用意
+	//RTVは二つ生成するのでディスクリプタを2つ用意(スワップチェーン用)
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[SwapChainNum];
 
 

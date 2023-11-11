@@ -13,8 +13,9 @@ const std::wstring Pipeline::basePath_ = L"Resources/Shaders/";
 void Pipeline::Create(
 	std::wstring vsPath, std::wstring psPath,
 	vector<D3D12_ROOT_PARAMETER> rootParameter,
+	vector<D3D12_STATIC_SAMPLER_DESC> staticSampler,	
 	vector<D3D12_INPUT_ELEMENT_DESC> inputLayoutDesc,
-	vector<D3D12_STATIC_SAMPLER_DESC> staticSampler,
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc,
 	D3D12_FILL_MODE fillMode
 )
 {
@@ -28,11 +29,14 @@ void Pipeline::Create(
 	// データそれぞれのBind情報、ConstantBufferのようにシェーダに情報を送る際に使用
 	rootParameters_ = rootParameter;
 
-	//インプットレイアウト設定
-	inputElementDescs_ = inputLayoutDesc;
-
 	//サンプラー
-	staticSamplers = staticSampler;
+	staticSamplers_ = staticSampler;
+
+	//DepthStencil
+	depthStencilDesc_ = depthStencilDesc;
+
+	//インプットレイアウト設定
+	inputElementDesc_ = inputLayoutDesc;
 
 	//FillMode
 	fillMode_ = fillMode;
@@ -137,9 +141,9 @@ bool Pipeline::CreateRootSignature()
 	//ルートパラメータ配列へのポインタ渡し
 	descriptionRootSignature.pParameters = rootParameters_.data();		//ポインタ渡し
 	descriptionRootSignature.NumParameters = (UINT)rootParameters_.size();	//長さ渡し
-
-	descriptionRootSignature.pStaticSamplers = staticSamplers.data();
-	descriptionRootSignature.NumStaticSamplers = (UINT)staticSamplers.size();
+	//サンプラー配列へのポインタ渡し
+	descriptionRootSignature.pStaticSamplers = staticSamplers_.data();
+	descriptionRootSignature.NumStaticSamplers = (UINT)staticSamplers_.size();
 
 
 	//シリアライズとしてバイナリにする
@@ -164,8 +168,8 @@ bool Pipeline::CreateInputLayout()
 	//VertexShaderへ渡す頂点データがどのようなものかを指定するオブジェクト
 	
 	//Elementsのアドレスを取得しているため保存しておく必要あり
-	inputLayoutDesc_.pInputElementDescs = inputElementDescs_.data();
-	inputLayoutDesc_.NumElements = (UINT)inputElementDescs_.size();
+	inputLayoutDesc_.pInputElementDescs = inputElementDesc_.data();
+	inputLayoutDesc_.NumElements = (UINT)inputElementDesc_.size();
 
 	return true;
 }
@@ -206,15 +210,24 @@ bool Pipeline::LoadShader()
 bool Pipeline::CreatePipelineStateObject()
 {
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
+	//RootSignature
 	graphicsPipelineStateDesc.pRootSignature = rootSignature_.Get();
 	
+	//InputLayout
 	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc_;
 
+	//DepthStencil
+	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
+	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+	//VS, PS Blob
 	graphicsPipelineStateDesc.VS = {vertexShaderBlob_.Get()->GetBufferPointer(), vertexShaderBlob_.Get()->GetBufferSize()};
 	graphicsPipelineStateDesc.PS = {pixelShaderBlob_.Get()->GetBufferPointer(), pixelShaderBlob_.Get()->GetBufferSize()};
 
+	//Blend
 	graphicsPipelineStateDesc.BlendState = blendDesc_;
 
+	//Rasterrize
 	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc_;
 
 	//書き込むRTVの情報

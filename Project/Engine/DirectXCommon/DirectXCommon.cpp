@@ -39,30 +39,39 @@ void DirectXCommon::Initialize()
 	//デバック
 	assert(SUCCEEDED(CreateDebugLayer()));
 
+
 	//ファクトリー・アダプタ・デバイス
 	assert(SUCCEEDED(CreateFactory()));
 	assert(SUCCEEDED(CreateAdapter()));
 	assert(SUCCEEDED(CreateDevice()));
 
+
 	//エラー
 	assert(SUCCEEDED(CreateErrorInfoQueue()));
+
 
 	//コマンド系
 	assert(SUCCEEDED(CreateCommandQueue()));
 	assert(SUCCEEDED(CreateCommandAllocator()));
 	assert(SUCCEEDED(CreateCommandList()));
 
+
 	//スワップチェーン
 	assert(SUCCEEDED(CreateSwapChain()));
+
 
 	//RTV/SRV
 	assert(SUCCEEDED(CreateRTVDescriptorHeap()));
 	assert(SUCCEEDED(CreateSRVDescriptorHeap()));
+	assert(SUCCEEDED(CreateDSVDescriptorHeap()));
+
 	assert(SUCCEEDED(BringResourceFromSwapChain()));
 	assert(SUCCEEDED(CreateRTV()));
 
+
 	//フェンス
 	assert(SUCCEEDED(CreateFence()));
+
 
 	//ビューポート、シザー矩形
 	assert(SUCCEEDED(CreateViewport()));
@@ -79,14 +88,17 @@ void DirectXCommon::PreDraw()
 		D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
 
 
-	//描画先のRTVを設定
-	commandList_->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex], false, nullptr);
-	
+	//描画先のRTV, DSVを設定
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
+	commandList_->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex], false, &dsvHandle);
+
 	//指定した色で画面をクリア
 	commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex], clearColor_, 0, nullptr);
+	//指定した深度で画面全体をクリア
+	commandList_->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0,0, nullptr);
 
 	//描画用のDescriptorHeapの設定
-	ID3D12DescriptorHeap* descriptorHeaps[] = {srvDescriptorHeap.Get()};
+	ID3D12DescriptorHeap* descriptorHeaps[] = {srvDescriptorHeap_.Get()};
 	commandList_->SetDescriptorHeaps(1, descriptorHeaps);
 
 	//Screen設定
@@ -311,11 +323,20 @@ bool DirectXCommon::CreateRTVDescriptorHeap()
 
 bool DirectXCommon::CreateSRVDescriptorHeap()
 {
-	//SRV用のヒープでディスクリプタの数は128	SRVはShaderないで触れるものなので Shadervisibl = true
-	srvDescriptorHeap = CreateDescriptorHeap(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 128, true);
+	//SRV用のヒープでディスクリプタの数は128	SRVはShaderないで触れるものなので ShaderVisible = true
+	srvDescriptorHeap_ = CreateDescriptorHeap(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 128, true);
 
 	return true;
 }
+
+bool DirectXCommon::CreateDSVDescriptorHeap()
+{
+	//DSB用のヒープでディスクリプタの数は1		DSVはShaderないで降れるものではないので、ShaderVisible = false
+	dsvDescriptorHeap_ = CreateDescriptorHeap(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 1, false);
+
+	return true;
+}
+
 
 bool DirectXCommon::BringResourceFromSwapChain()
 {
