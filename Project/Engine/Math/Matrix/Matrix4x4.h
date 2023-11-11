@@ -33,7 +33,10 @@ public:
 	float Det(Matrix4x4 m);
 	Matrix4x4 Inverse(Matrix4x4 m);
 
+	//透視投影行列
 	Matrix4x4 MakePerspectiveFovMatrix(float fovY,float aspectRatio,float nearClip,float farClip);
+	//平行投影行列
+	Matrix4x4 MakeOrthographicMatrix(float left, float top, float right, float down, float nearClip, float farClip);
 
 	//代入演算子オーバーロード
 	Matrix4x4& operator*=(Matrix4x4& m1);

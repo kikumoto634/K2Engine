@@ -101,5 +101,17 @@ private:
 
 	//SRVのDescriptorTableの先頭(テクスチャ)
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_ = {};
+
+
+
+	//Sprite用
+	ComPtr<ID3D12Resource> vertexResourceSprite_;
+	VertexData* vertexDataSprite_ = nullptr;
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferViewSprite_{};
+
+	ComPtr<ID3D12Resource> transformationMatrixResourceSprite_;
+	Matrix4x4* transformationMatrixDataSprite_ = nullptr;
+
+	Transform transformSprite_ = {{0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f}, {1.0f,1.0f,1.0f}};
 };
 

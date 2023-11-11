@@ -130,6 +130,15 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	Matrix4x4 worldViewProjectionMatrix = transform_.GetWorldMatrix() * viewProjectionMatrix;
 	*wvpData = worldViewProjectionMatrix;
 
+
+	//Sprite用
+	Matrix4x4 worldMatrixSprite = worldMatrixSprite.MakeAffineMatrix(transformSprite_.scale, transformSprite_.rotation, transformSprite_.translate);
+	Matrix4x4 viewMatrixSprite = viewMatrixSprite.MakeIdentityMatrix();
+	Matrix4x4 projectionMatrixSprite = projectionMatrixSprite.MakeOrthographicMatrix(0.0f,0.0f, (float)WindowsApp::kWindowWidth_,(float)WindowsApp::kWindowHeight_, 0.0f,100.0f);
+	Matrix4x4 worldViewProjectionMatrixSprite = worldMatrixSprite * (viewMatrixSprite*projectionMatrixSprite);
+	*transformationMatrixDataSprite_ = worldViewProjectionMatrixSprite;
+
+
 	//ルートシグネチャ設定 PSOに設定しいているが別途設定が必要
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(pipeline_->GetRootSignature());
 	dxCommon_->GetCommandList()->SetPipelineState(pipeline_->GetGraphicsPipelineState());	//PSO設定
@@ -146,6 +155,12 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU_);
 
 	//描画
+	dxCommon_->GetCommandList()->DrawInstanced(6,1,0,0);
+
+
+	//Sprite用
+	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferViewSprite_);
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationMatrixResourceSprite_->GetGPUVirtualAddress());
 	dxCommon_->GetCommandList()->DrawInstanced(6,1,0,0);
 }
 
@@ -222,6 +237,26 @@ bool Object3D::CreateVertex()
 	vertexData[5].position = {+0.5f, -0.5f, -0.5f, +1.0f};
 	vertexData[5].texcoord = {+1.0f, +1.0f};
 
+
+	//Sprite用
+	vertexResourceSprite_ = CreateBufferResource(sizeof(VertexData)*6);
+	CreateBufferView(vertexBufferViewSprite_, vertexResourceSprite_.Get(), sizeof(VertexData)*6, sizeof(VertexData));
+	vertexResourceSprite_->Map(0,nullptr,reinterpret_cast<void**>(&vertexDataSprite_));
+	//一枚目
+	vertexDataSprite_[0].position = {0.0f, 360.0f, 0.0f, 1.0f};		//左下
+	vertexDataSprite_[0].texcoord = {0.0f, 1.0f};
+	vertexDataSprite_[1].position = {0.0f, 0.0f, 0.0f, 1.0f};		//左上
+	vertexDataSprite_[1].texcoord = {0.0f, 0.0f};
+	vertexDataSprite_[2].position = {640.0f, 360.0f, 0.0f, 1.0f};	//右下
+	vertexDataSprite_[2].texcoord = {1.0f, 1.0f};
+	//二枚目
+	vertexDataSprite_[3].position = {0.0f, 0.0f, 0.0f, 1.0f};		//左上
+	vertexDataSprite_[3].texcoord = {0.0f, 0.0f};
+	vertexDataSprite_[4].position = {640.0f, 0.0f, 0.0f, 1.0f};		//右上
+	vertexDataSprite_[4].texcoord = {1.0f, 0.0f};
+	vertexDataSprite_[5].position = {640.0f, 360.0f, 0.0f, 1.0f};	//右下
+	vertexDataSprite_[5].texcoord = {1.0f, 1.0f};
+
 	return true;
 }
 #pragma endregion
@@ -247,6 +282,13 @@ bool Object3D::CreateWVP()
 	
 	Matrix4x4 worldMatrix = worldMatrix.MakeIdentityMatrix();
 	*wvpData = worldMatrix;
+
+
+	//Sprite用
+	transformationMatrixResourceSprite_ = CreateBufferResource(sizeof(Matrix4x4));
+	transformationMatrixResourceSprite_->Map(0,nullptr,reinterpret_cast<void**>(&transformationMatrixDataSprite_));
+	Matrix4x4 worldMatrixSprite = worldMatrixSprite.MakeIdentityMatrix();
+	*transformationMatrixDataSprite_ = worldMatrixSprite;
 
 	return true;
 }
