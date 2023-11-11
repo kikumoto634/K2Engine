@@ -46,6 +46,13 @@ ImGuiManager* ImGuiManager::Create(){
 	return instance;
 }
 
+ImGuiManager::~ImGuiManager()
+{
+	ImGui_ImplDX12_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
+}
+
 void ImGuiManager::ShowDemo(){
 	ImGui::ShowDemoWindow();
 }

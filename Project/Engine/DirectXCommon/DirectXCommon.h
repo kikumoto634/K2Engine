@@ -30,6 +30,7 @@ private:
 public:
 	static DirectXCommon* GetInstance();
 	static DirectXCommon* Create(Vector4 clearColor = {0.1f, 0.2f, 0.5f, 1.0f});
+	static void Finalize()	{delete instance_;}
 
 public:
 	DirectXCommon() = default;
@@ -45,10 +46,10 @@ public:
 	ID3D12GraphicsCommandList* GetCommandList()	{return commandList_.Get();}
 
 	ID3D12DescriptorHeap* GetSRVDescriptorHeap()	{return srvDescriptorHeap_.Get();}
-	ID3D12DescriptorHeap* GetDSVDescriptorHeap()	{return dsvDescriptorHeap_.Get();}
 
 	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()	{return swapChainDesc;}
 	D3D12_RENDER_TARGET_VIEW_DESC GetRTVDesc()	{return rtvDesc;}
+	D3D12_DEPTH_STENCIL_DESC GetDSVDesc()		{return depthStencilDesc_;}
 private:
 	void Initialize();
 
@@ -78,7 +79,7 @@ private:
 	bool CreateSwapChain();
 #pragma endregion
 
-#pragma region RTV/SRV : Resource, View系
+#pragma region RTV/SRV/DSV : Resource, View系
 	//RTV用のデスクリプタヒープ作成
 	bool CreateRTVDescriptorHeap();
 	//SRV用のデスクリプタヒープ作成
@@ -90,6 +91,8 @@ private:
 	bool BringResourceFromSwapChain();
 	//引っ張ってきたResourceに対してDescriptor上にRTVを作成(スワップチェーン)
 	bool CreateRTV();
+	//指定したサイズにて深度関連を乗せたResourceを作成
+	bool CreateDSV();
 #pragma endregion
 
 #pragma region フェンス
@@ -102,6 +105,8 @@ private:
 #pragma endregion
 
 private:
+	//リソースチェック用
+	static D3DResourceLeakChacker leakCheck;
 	static DirectXCommon* instance_;
 	static float clearColor_[4];
 
@@ -112,9 +117,6 @@ private:
 private:
 	HRESULT result = {};
 	WindowsApp* windows = nullptr;
-
-	//リソースチェック用
-	D3DResourceLeakChacker leakCheck;
 
 #ifdef _DEBUG
 	//デバックレイヤー
@@ -158,6 +160,8 @@ private:
 	ComPtr<ID3D12Resource> swapChainResources_[SwapChainNum];
 	//RTVは二つ生成するのでディスクリプタを2つ用意(スワップチェーン用)
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[SwapChainNum];
+	//DepthStencilの設定
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc_;
 
 
 	//フェンス

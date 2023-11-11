@@ -142,6 +142,12 @@
     <Filter Include="ヘッダー ファイル\Engine\Component\Manager\Texture">
       <UniqueIdentifier>{dbe640ca-6bbf-4777-b858-22911cbec9ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\DepthStencil">
+      <UniqueIdentifier>{f6ca520f-441c-4115-a331-45f4caa9f05b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\DepthStencil">
+      <UniqueIdentifier>{2ecbd76a-b65d-45aa-8aa5-f5e3d2dab0c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -210,6 +216,9 @@
     <ClCompile Include="Engine\Component\Manager\Texture\TextureManager.cpp">
       <Filter>ソース ファイル\Engine\Component\Manager\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Component\DepthStencil\DepthStencil.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -277,6 +286,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Component\Manager\Texture\TextureManager.h">
       <Filter>ヘッダー ファイル\Engine\Component\Manager\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\DepthStencil\DepthStencil.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

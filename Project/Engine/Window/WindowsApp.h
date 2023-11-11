@@ -14,6 +14,7 @@ public:
 
 	static WindowsApp* GetInstance();
 	static WindowsApp* Create(wchar_t* titleName = L"TitleName", int32_t width = 1280, int32_t height = 720);
+	static void Finalize()	{delete instance_;}
 
 	//出力ウィンドウログ
 	static void Log(const std::string& message){
@@ -36,13 +37,11 @@ public:
 		CloseWindow(hwnd_);
 		CoUninitialize();
 	}
+	void Initialize();
 	bool ProcessMessage();
 
 	//Getter
 	inline const HWND GetHWND()	{return hwnd_;}
-
-private:
-	void Initialize();
 
 
 private:

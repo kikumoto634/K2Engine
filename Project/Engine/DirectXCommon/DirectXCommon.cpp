@@ -2,6 +2,7 @@
 
 #include <d3dx12.h>
 #include "DescriptorHeap.h"
+#include "DepthStencil.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -12,9 +13,6 @@ float DirectXCommon::clearColor_[4] = {0.1f, 0.25f, 0.5f, 1.0f};
 
 DirectXCommon *DirectXCommon::GetInstance()
 {
-	if(!instance_){
-		instance_ = new DirectXCommon();
-	}
 	return instance_;
 }
 
@@ -60,13 +58,14 @@ void DirectXCommon::Initialize()
 	assert(SUCCEEDED(CreateSwapChain()));
 
 
-	//RTV/SRV
+	//RTV/SRV/DSV
 	assert(SUCCEEDED(CreateRTVDescriptorHeap()));
 	assert(SUCCEEDED(CreateSRVDescriptorHeap()));
 	assert(SUCCEEDED(CreateDSVDescriptorHeap()));
 
 	assert(SUCCEEDED(BringResourceFromSwapChain()));
 	assert(SUCCEEDED(CreateRTV()));
+	assert(SUCCEEDED(CreateDSV()));
 
 
 	//フェンス
@@ -369,6 +368,31 @@ bool DirectXCommon::CreateRTV()
 		//生成
 		device_->CreateRenderTargetView(swapChainResources_[i].Get(), &rtvDesc, rtvHandles_[i]);
 	}
+
+	return true;
+}
+
+bool DirectXCommon::CreateDSV()
+{
+	//DepthStencilTextureをウィンドウサイズで作成
+	ID3D12Resource* depthStencilResource = CreateDepthStencilTextureResource(device_.Get(), WindowsApp::kWindowWidth_, WindowsApp::kWindowHeight_);
+
+	//DSV作成
+	{
+		//DSV設定
+		D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
+		dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;	//Format　Resourceに合わせる
+		dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;	//2dTexture
+
+		//DSVHeapの先頭にDSVを作成
+		D3D12_CPU_DESCRIPTOR_HANDLE dsvHandleCPU = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
+		device_->CreateDepthStencilView(depthStencilResource, &dsvDesc, dsvHandleCPU);
+	}
+
+	//DepthStencilState設定
+	depthStencilDesc_.DepthEnable = true;	//Depthの機能を有効化
+	depthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;	//書き込みする
+	depthStencilDesc_.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;	//比較関数はLessEqual  つまり近ければ描画される
 
 	return true;
 }

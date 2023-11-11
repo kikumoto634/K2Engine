@@ -17,7 +17,6 @@ public:
 		vector<D3D12_ROOT_PARAMETER> rootParameter,			//ルートパラメータ
 		vector<D3D12_STATIC_SAMPLER_DESC> staticSampler,	//サンプラー
 		vector<D3D12_INPUT_ELEMENT_DESC> inputLayoutDesc,	//インプットレイアウト
-		D3D12_DEPTH_STENCIL_DESC depthStencilDesc,		//DepthStencil
 		D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID	//描画種類
 	);
 
@@ -96,8 +95,6 @@ private:
 	//インプットレイアウト	: VertexShaderへ渡す頂点データがどのようなものかを指定するオブジェクト
 	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDesc_;
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc_{};
-	//DepthStencil
-	D3D12_DEPTH_STENCIL_DESC depthStencilDesc_;
 
 	//各シェーダ情報
 	ComPtr<IDxcBlob> vertexShaderBlob_;

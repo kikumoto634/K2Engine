@@ -20,6 +20,9 @@ public:
 	static ImGuiManager* Create();
 
 public:
+	~ImGuiManager()	;
+
+public:
 	void ShowDemo();
 };
 

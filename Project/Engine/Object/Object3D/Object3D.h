@@ -17,6 +17,9 @@ public:
 	static Object3D* Create();
 
 public:
+	~Object3D()	{
+		delete pipeline_;
+	}
 	//描画
 	void Draw(Matrix4x4 viewProjectionMatrix);
 
@@ -67,9 +70,6 @@ private:
 
 
 private:
-	static Object3D* instance_;
-
-private:
 	HRESULT result{};
 	DirectXCommon* dxCommon_ = nullptr;
 
@@ -78,7 +78,6 @@ private:
 	vector<D3D12_ROOT_PARAMETER> rootParameters_;			//ルートパラメータ
 	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDescs_;	//インプットレイアウト
 	vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers_;		//サンプラー
-	D3D12_DEPTH_STENCIL_DESC depthStencilDesc;		//DepthStencil
 
 	//頂点リソース
 	ComPtr<ID3D12Resource> vertexResource_;

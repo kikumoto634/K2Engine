@@ -42,8 +42,9 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 
 	delete camera;
 	delete obj;
-	delete dxCommon;
-	delete win;
+	delete imgui;
+	DirectXCommon::Finalize();
+	WindowsApp::Finalize();
 
 	return 0;
 }

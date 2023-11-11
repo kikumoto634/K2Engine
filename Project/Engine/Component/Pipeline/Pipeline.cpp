@@ -15,7 +15,6 @@ void Pipeline::Create(
 	vector<D3D12_ROOT_PARAMETER> rootParameter,
 	vector<D3D12_STATIC_SAMPLER_DESC> staticSampler,	
 	vector<D3D12_INPUT_ELEMENT_DESC> inputLayoutDesc,
-	D3D12_DEPTH_STENCIL_DESC depthStencilDesc,
 	D3D12_FILL_MODE fillMode
 )
 {
@@ -31,9 +30,6 @@ void Pipeline::Create(
 
 	//サンプラー
 	staticSamplers_ = staticSampler;
-
-	//DepthStencil
-	depthStencilDesc_ = depthStencilDesc;
 
 	//インプットレイアウト設定
 	inputElementDesc_ = inputLayoutDesc;
@@ -217,7 +213,7 @@ bool Pipeline::CreatePipelineStateObject()
 	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc_;
 
 	//DepthStencil
-	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
+	graphicsPipelineStateDesc.DepthStencilState = dxCommon_->GetDSVDesc();
 	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
 	//VS, PS Blob

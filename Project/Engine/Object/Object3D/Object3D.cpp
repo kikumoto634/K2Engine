@@ -1,10 +1,9 @@
 #include "Object3D.h"
 #include "SpriteLoader.h"
 
-Object3D* Object3D::instance_ = nullptr;
-
 Object3D *Object3D::Create()
 {
+	Object3D* instance_ = nullptr;
 	if(instance_==nullptr){
 		instance_ = new Object3D();
 	}
@@ -21,9 +20,6 @@ void Object3D::Initialize()
 	const DirectX::TexMetadata& metaData = mipImages.GetMetadata();
 	ID3D12Resource*textureResource = SpriteLoader::CreateTextureResource(dxCommon_->GetDevice(), metaData);
 	SpriteLoader::UploadTextureData(textureResource, mipImages);
-
-	//DepthStencilTextureをウィンドウサイズで作成
-	ID3D12Resource* depthStencilResource = SpriteLoader::CreateDepthStencilTextureResource(dxCommon_->GetDevice(), WindowsApp::kWindowWidth_, WindowsApp::kWindowHeight_);
 	
 	//SRV作成
 	{
@@ -42,18 +38,6 @@ void Object3D::Initialize()
 		textureSrvHandleGPU_.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 		//SRVの生成
 		dxCommon_->GetDevice()->CreateShaderResourceView(textureResource, &srvDesc, textureSrvHandleCPU);
-	}
-
-	//DSV作成
-	{
-		//DSV設定
-		D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
-		dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;	//Format　Resourceに合わせる
-		dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;	//2dTexture
-
-		//DSVHeapの先頭にDSVを作成
-		D3D12_CPU_DESCRIPTOR_HANDLE dsvHandleCPU = dxCommon_->GetDSVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
-		dxCommon_->GetDevice()->CreateDepthStencilView(depthStencilResource, &dsvDesc, dsvHandleCPU);
 	}
 
 	pipeline_ = new Pipeline();
@@ -127,12 +111,6 @@ void Object3D::PipelineInitialize()
 	inputElementDescs_[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
 
-	//DepthStencilState設定
-	depthStencilDesc.DepthEnable = true;	//Depthの機能を有効化
-	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;	//書き込みする
-	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;	//比較関数はLessEqual  つまり近ければ描画される
-
-
 	//生成
 	pipeline_->Create(
 		L"Object3D/Object3D.VS.hlsl",
@@ -140,7 +118,6 @@ void Object3D::PipelineInitialize()
 		rootParameters_,
 		staticSamplers_,
 		inputElementDescs_,
-		depthStencilDesc,
 		D3D12_FILL_MODE_SOLID
 	);
 }

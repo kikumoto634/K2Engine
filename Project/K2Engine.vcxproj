@@ -116,7 +116,7 @@
       <ConformanceMode>false</ConformanceMode>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\DirectXCommon;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\DescriptorHeap;$(ProjectDir)Engine\Component\Loader\Sprite;$(ProjectDir)Engine\Component\Manager;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\Math\Matrix;$(ProjectDir)Engine\Math\Vector;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\DirectXCommon;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\DescriptorHeap;$(ProjectDir)Engine\Component\DepthStencil;$(ProjectDir)Engine\Component\Loader\Sprite;$(ProjectDir)Engine\Component\Manager;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\Math\Matrix;$(ProjectDir)Engine\Math\Vector;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -160,6 +160,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Component\Application\Transform\Transform.cpp" />
+    <ClCompile Include="Engine\Component\DepthStencil\DepthStencil.cpp" />
     <ClCompile Include="Engine\Component\DescriptorHeap\DescriptorHeap.cpp" />
     <ClCompile Include="Engine\Component\Loader\Sprite\SpriteLoader.cpp" />
     <ClCompile Include="Engine\Component\Manager\Texture\TextureManager.cpp" />
@@ -184,6 +185,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Component\Application\Transform\Transform.h" />
+    <ClInclude Include="Engine\Component\DepthStencil\DepthStencil.h" />
     <ClInclude Include="Engine\Component\DescriptorHeap\DescriptorHeap.h" />
     <ClInclude Include="Engine\Component\Loader\Sprite\SpriteLoader.h" />
     <ClInclude Include="Engine\Component\Manager\Texture\TextureManager.h" />
