@@ -94,6 +94,8 @@ private:
 	Matrix4x4* wvpData = nullptr;
 
 
+	//球体分割数
+	const uint32_t kSubdivision = 16;
 	//色
 	Vector4 color_ = {1,1,1,1};
 	//トランスフォーム情報

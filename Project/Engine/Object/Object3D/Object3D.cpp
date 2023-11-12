@@ -154,7 +154,7 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU_);
 
 	//描画
-	dxCommon_->GetCommandList()->DrawInstanced(16*16*6,1,0,0);
+	dxCommon_->GetCommandList()->DrawInstanced(kSubdivision*kSubdivision*6,1,0,0);
 
 
 	//Sprite用
@@ -208,9 +208,9 @@ void Object3D::CreateBufferView(D3D12_VERTEX_BUFFER_VIEW& view, ID3D12Resource* 
 bool Object3D::CreateVertex()
 {
 	//リソース
-	vertexResource_ = CreateBufferResource(sizeof(VertexData)*(16*16*6));
+	vertexResource_ = CreateBufferResource(sizeof(VertexData)*(kSubdivision*kSubdivision*6));
 	//ビュー
-	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*(16*16*6), sizeof(VertexData));
+	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*(kSubdivision*kSubdivision*6), sizeof(VertexData));
 
 	//頂点リソースにデータを書き込む
 	//書き込むためのアドレス取得
@@ -219,8 +219,6 @@ bool Object3D::CreateVertex()
 	//球体
 	//PI円周率
 	const float pi = 3.14159265f;
-	//分割数
-	const uint32_t kSubdivision = 16;
 	//経度分割1つ分の角度 φ
 	const float kLonEvery = pi * 2.0f / (float)kSubdivision;
 	//緯度分割1つ分の角度 Θ
