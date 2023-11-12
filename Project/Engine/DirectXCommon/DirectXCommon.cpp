@@ -314,14 +314,18 @@ bool DirectXCommon::CreateSwapChain()
 #pragma region RTV : Resource, View系
 bool DirectXCommon::CreateRTVDescriptorHeap()
 {
+	descriptorSizeRTV_ = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+
 	//RTV用のヒープでデスクリプタの数は2	RTVはShaderないで触らないので ShaderVisible = false
-	rtvDescriptorHeap_ = CreateDescriptorHeap(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_RTV,SwapChainNum,false);
+	rtvDescriptorHeap_ = CreateDescriptorHeap(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_RTV, SwapChainNum,false);
 
 	return true;
 }
 
 bool DirectXCommon::CreateSRVDescriptorHeap()
 {
+	descriptorSizeSRV_ = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
 	//SRV用のヒープでディスクリプタの数は128	SRVはShaderないで触れるものなので ShaderVisible = true
 	srvDescriptorHeap_ = CreateDescriptorHeap(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 128, true);
 
@@ -330,6 +334,8 @@ bool DirectXCommon::CreateSRVDescriptorHeap()
 
 bool DirectXCommon::CreateDSVDescriptorHeap()
 {
+	 descriptorSizeDSV_ = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+
 	//DSB用のヒープでディスクリプタの数は1		DSVはShaderないで降れるものではないので、ShaderVisible = false
 	dsvDescriptorHeap_ = CreateDescriptorHeap(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 1, false);
 
@@ -354,16 +360,10 @@ bool DirectXCommon::CreateRTV()
 	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;	//出力結果をSRGBに変換、書き込み
 	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;	//2Dテクスチャとして書き込む
 	
-	//ディスクリプタの先頭アドレスを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvStartHandle = rtvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
-
 	for(int i = 0; i < SwapChainNum; i++){
 		
 		//作成する場所指定
-		rtvHandles_[i] = CD3DX12_CPU_DESCRIPTOR_HANDLE(
-			rtvStartHandle, i,
-			device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV)
-		);
+		rtvHandles_[i] = GetCPUDescriptorHandle(rtvDescriptorHeap_.Get(), descriptorSizeRTV_, i);
 		
 		//生成
 		device_->CreateRenderTargetView(swapChainResources_[i].Get(), &rtvDesc, rtvHandles_[i]);

@@ -20,6 +20,8 @@ public:
 	~Object3D()	{
 		delete pipeline_;
 	}
+	//更新
+	void Update();
 	//描画
 	void Draw(Matrix4x4 viewProjectionMatrix);
 
@@ -100,9 +102,11 @@ private:
 	Vector4 color_ = {1,1,1,1};
 	//トランスフォーム情報
 	Transform transform_ =  {{0,0,0}, {0,0,0}, {1,1,1}};
+	bool isUseMonsterBall = true;
 
 	//SRVのDescriptorTableの先頭(テクスチャ)
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_ = {};
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU1_ = {};
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU2_ = {};
 
 
 

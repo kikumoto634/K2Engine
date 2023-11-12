@@ -47,9 +47,13 @@ public:
 
 	ID3D12DescriptorHeap* GetSRVDescriptorHeap()	{return srvDescriptorHeap_.Get();}
 
+	uint32_t GetDescriptorSIzeSRV()	{return descriptorSizeSRV_;}
+
 	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()	{return swapChainDesc;}
+
 	D3D12_RENDER_TARGET_VIEW_DESC GetRTVDesc()	{return rtvDesc;}
 	D3D12_DEPTH_STENCIL_DESC GetDSVDesc()		{return depthStencilDesc_;}
+
 private:
 	void Initialize();
 
@@ -109,8 +113,6 @@ private:
 	static D3DResourceLeakChacker leakCheck;
 	static DirectXCommon* instance_;
 	static float clearColor_[4];
-
-private:
 	//ダブルバッファ
 	static const int SwapChainNum = 2;
 
@@ -156,9 +158,17 @@ private:
 	//DSV用のディスクリプタヒープ	(DVSのヒープは全体に一つだけ)　
 	ComPtr<ID3D12DescriptorHeap> dsvDescriptorHeap_;
 
+	//各ディスクリプタヒープサイズ
+	//RTV
+	uint32_t descriptorSizeRTV_;
+	//SRV
+	uint32_t descriptorSizeSRV_;
+	//DSV
+	uint32_t descriptorSizeDSV_;
+
 	//SwapChainのResource
 	ComPtr<ID3D12Resource> swapChainResources_[SwapChainNum];
-	//RTVは二つ生成するのでディスクリプタを2つ用意(スワップチェーン用)
+	//RTVは二つ生成するのでディスクリプタハンドルを2つ用意(スワップチェーン用)
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[SwapChainNum];
 	//DepthStencilの設定
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc_;

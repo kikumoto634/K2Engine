@@ -1,5 +1,7 @@
 #include "Object3D.h"
 #include "SpriteLoader.h"
+#include "DescriptorHeap.h"
+#include <imgui.h>
 
 Object3D *Object3D::Create()
 {
@@ -16,28 +18,46 @@ void Object3D::Initialize()
 	dxCommon_ = DirectXCommon::GetInstance();
 
 	//画像読み込み
-	DirectX::ScratchImage mipImages = SpriteLoader::LoadTexture("uvChecker.png");
-	const DirectX::TexMetadata& metaData = mipImages.GetMetadata();
-	ID3D12Resource*textureResource = SpriteLoader::CreateTextureResource(dxCommon_->GetDevice(), metaData);
-	SpriteLoader::UploadTextureData(textureResource, mipImages);
+	DirectX::ScratchImage mipImages1 = SpriteLoader::LoadTexture("uvChecker.png");
+	const DirectX::TexMetadata& metaData1 = mipImages1.GetMetadata();
+	ID3D12Resource*textureResource1 = SpriteLoader::CreateTextureResource(dxCommon_->GetDevice(), metaData1);
+	SpriteLoader::UploadTextureData(textureResource1, mipImages1);
 	
+	DirectX::ScratchImage mipImages2 = SpriteLoader::LoadTexture("monsterBall.png");
+	const DirectX::TexMetadata& metaData2 = mipImages2.GetMetadata();
+	ID3D12Resource*textureResource2 = SpriteLoader::CreateTextureResource(dxCommon_->GetDevice(), metaData2);
+	SpriteLoader::UploadTextureData(textureResource2, mipImages2);
+
 	//SRV作成
 	{
 		//MetaDataを基にSRV設定
-		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-		srvDesc.Format = metaData.format;
-		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-		srvDesc.Texture2D.MipLevels = UINT(metaData.mipLevels);
+		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc1{};
+		srvDesc1.Format = metaData1.format;
+		srvDesc1.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		srvDesc1.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		srvDesc1.Texture2D.MipLevels = UINT(metaData1.mipLevels);
 
 		//SRVを使用するHeapの場所決め
-		D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU = dxCommon_->GetSRVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
-		textureSrvHandleGPU_ = dxCommon_->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart();
 		//先頭はImGuiなのでずらす
-		textureSrvHandleCPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-		textureSrvHandleGPU_.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+		D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU1 = GetCPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), dxCommon_->GetDescriptorSIzeSRV(), 1);
+		textureSrvHandleGPU1_ = GetGPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), dxCommon_->GetDescriptorSIzeSRV(), 1);
 		//SRVの生成
-		dxCommon_->GetDevice()->CreateShaderResourceView(textureResource, &srvDesc, textureSrvHandleCPU);
+		dxCommon_->GetDevice()->CreateShaderResourceView(textureResource1, &srvDesc1, textureSrvHandleCPU1);
+
+
+		//MetaDataを基にSRV設定
+		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc2{};
+		srvDesc2.Format = metaData2.format;
+		srvDesc2.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		srvDesc2.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		srvDesc2.Texture2D.MipLevels = UINT(metaData2.mipLevels);
+
+		//SRVを使用するHeapの場所決め
+		//先頭はImGuiなのでずらす
+		D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU2 = GetCPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), dxCommon_->GetDescriptorSIzeSRV(), 2);
+		textureSrvHandleGPU2_ = GetGPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), dxCommon_->GetDescriptorSIzeSRV(), 2);
+		//SRVの生成
+		dxCommon_->GetDevice()->CreateShaderResourceView(textureResource2, &srvDesc2, textureSrvHandleCPU2);
 	}
 
 	pipeline_ = new Pipeline();
@@ -122,6 +142,11 @@ void Object3D::PipelineInitialize()
 	);
 }
 
+void Object3D::Update()
+{
+	ImGui::Checkbox("useMonsterBall", &isUseMonsterBall);
+}
+
 void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 {
 	transform_.rotation.y += 0.01f;
@@ -151,7 +176,7 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	//行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
 	//SRV(テクスチャ)のDescriptorTableの先頭を設定 2はRootParamterのインデックスRootParamter[2]
-	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU_);
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, isUseMonsterBall ? textureSrvHandleGPU1_ : textureSrvHandleGPU2_);
 
 	//描画
 	dxCommon_->GetCommandList()->DrawInstanced(kSubdivision*kSubdivision*6,1,0,0);
@@ -160,6 +185,7 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	//Sprite用
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferViewSprite_);
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationMatrixResourceSprite_->GetGPUVirtualAddress());
+	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU1_);
 	dxCommon_->GetCommandList()->DrawInstanced(6,1,0,0);
 }
 
