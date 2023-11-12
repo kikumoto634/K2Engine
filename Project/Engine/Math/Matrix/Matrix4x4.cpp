@@ -235,10 +235,10 @@ Matrix4x4 Matrix4x4::MakePerspectiveFovMatrix(float fovY, float aspectRatio, flo
 Matrix4x4 Matrix4x4::MakeOrthographicMatrix(float left, float top, float right, float down, float nearClip, float farClip)
 {
 	Matrix4x4 result = {
-		2/(right-left), 0, 0, -((right+left)/(right-left)),
-		0, 2/(top-down), 0, -((top+down)/(top-down)),
-		0, 0, -2/(farClip-nearClip), -((farClip+nearClip)/(farClip-nearClip)),
-		0, 0, 0, 1		
+		2/(right-left), 0, 0, 0,
+		0, 2/(top-down), 0, 0,
+		0, 0, (farClip-nearClip), 0,
+		(left+right)/(left-right), (top+down)/(down-top), nearClip/(nearClip-farClip), 1		
 	};
 
 	return result;
