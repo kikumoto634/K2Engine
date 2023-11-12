@@ -125,7 +125,6 @@ void Object3D::PipelineInitialize()
 void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 {
 	transform_.rotation.y += 0.01f;
-
 	//更新情報
 	Matrix4x4 worldViewProjectionMatrix = transform_.GetWorldMatrix() * viewProjectionMatrix;
 	*wvpData = worldViewProjectionMatrix;
@@ -155,7 +154,7 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU_);
 
 	//描画
-	dxCommon_->GetCommandList()->DrawInstanced(6,1,0,0);
+	dxCommon_->GetCommandList()->DrawInstanced(16*16*6,1,0,0);
 
 
 	//Sprite用
@@ -209,33 +208,89 @@ void Object3D::CreateBufferView(D3D12_VERTEX_BUFFER_VIEW& view, ID3D12Resource* 
 bool Object3D::CreateVertex()
 {
 	//リソース
-	vertexResource_ = CreateBufferResource(sizeof(VertexData)*6);
+	vertexResource_ = CreateBufferResource(sizeof(VertexData)*(16*16*6));
 	//ビュー
-	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*6, sizeof(VertexData));
+	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*(16*16*6), sizeof(VertexData));
 
 	//頂点リソースにデータを書き込む
 	//書き込むためのアドレス取得
 	vertexResource_->Map(0,nullptr,reinterpret_cast<void**>(&vertexData));
 	
-	//左上
-	vertexData[0].position = {-0.5f, -0.5f, +0.0f, +1.0f};
-	vertexData[0].texcoord = {+0.0f, +1.0f};
-	//上
-	vertexData[1].position = {+0.0f, +0.5f, +0.0f, +1.0f};
-	vertexData[1].texcoord = {+0.5f, +0.0f};
-	//右下
-	vertexData[2].position = {+0.5f, -0.5f, +0.0f, +1.0f};
-	vertexData[2].texcoord = {+1.0f, +1.0f};
+	//球体
+	//PI円周率
+	const float pi = 3.14159265f;
+	//分割数
+	const uint32_t kSubdivision = 16;
+	//経度分割1つ分の角度 φ
+	const float kLonEvery = pi * 2.0f / (float)kSubdivision;
+	//緯度分割1つ分の角度 Θ
+	const float kLatEvert = pi / (float)kSubdivision;
 
-	//左下2
-	vertexData[3].position = {-0.5f, -0.5f, +0.5f, +1.0f};
-	vertexData[3].texcoord = {+0.0f, +1.0f};
-	//上2
-	vertexData[4].position = {+0.0f, +0.0f, +0.0f, +1.0f};
-	vertexData[4].texcoord = {+0.5f, +0.0f};
-	//右下2
-	vertexData[5].position = {+0.5f, -0.5f, -0.5f, +1.0f};
-	vertexData[5].texcoord = {+1.0f, +1.0f};
+	//経度インデックス
+	uint32_t lonIndex = 0;
+	//緯度インデックス
+	uint32_t latIndex = 0;
+
+	//緯度の方向に分割
+	for(latIndex = 0; latIndex < kSubdivision; ++latIndex){
+		float lat = -pi / 2.0f + kLatEvert * latIndex;	//Θ
+		//経度の方向に分割しながら絵を書く
+		for(lonIndex = 0; lonIndex < kSubdivision; ++lonIndex){
+			uint32_t start = (latIndex * kSubdivision + lonIndex) * 6;
+			float lon = lonIndex * kLonEvery;	//φ
+
+			float u = (float)lonIndex / (float)kSubdivision;
+			float v = 1.0f - (float)latIndex / (float)kSubdivision;
+			float uvLength = 1.0f / (float)kSubdivision;
+
+			//頂点データを入力
+			//一枚目
+			vertexData[start].position.x = cos(lat) * cos(lon);
+			vertexData[start].position.y = sin(lat);
+			vertexData[start].position.z = cos(lat) * sin(lon);
+			vertexData[start].position.w = 1.0f;
+			vertexData[start].texcoord.x = u;
+			vertexData[start].texcoord.y = v;
+			
+			vertexData[start+1].position.x = cos(lat+kLatEvert) * cos(lon);
+			vertexData[start+1].position.y = sin(lat+kLatEvert);
+			vertexData[start+1].position.z = cos(lat+kLatEvert) * sin(lon);
+			vertexData[start+1].position.w = 1.0f;
+			vertexData[start+1].texcoord.x = u;
+			vertexData[start+1].texcoord.y = v - uvLength;
+
+			vertexData[start+2].position.x = cos(lat) * cos(lon+kLonEvery);
+			vertexData[start+2].position.y = sin(lat);
+			vertexData[start+2].position.z = cos(lat) * sin(lon+kLonEvery);
+			vertexData[start+2].position.w = 1.0f;
+			vertexData[start+2].texcoord.x = u + uvLength;
+			vertexData[start+2].texcoord.y = v;
+
+			//二枚目
+			vertexData[start+3].position.x = cos(lat+kLatEvert) * cos(lon);
+			vertexData[start+3].position.y = sin(lat+kLatEvert);
+			vertexData[start+3].position.z = cos(lat+kLatEvert) * sin(lon);
+			vertexData[start+3].position.w = 1.0f;
+			vertexData[start+3].texcoord.x = u;
+			vertexData[start+3].texcoord.y = v - uvLength;
+			
+			vertexData[start+4].position.x = cos(lat+kLatEvert) * cos(lon+kLonEvery);
+			vertexData[start+4].position.y = sin(lat+kLatEvert);
+			vertexData[start+4].position.z = cos(lat+kLatEvert) * sin(lon+kLonEvery);
+			vertexData[start+4].position.w = 1.0f;
+			vertexData[start+4].texcoord.x = u + uvLength;
+			vertexData[start+4].texcoord.y = v - uvLength;
+
+			vertexData[start+5].position.x = cos(lat) * cos(lon+kLonEvery);
+			vertexData[start+5].position.y = sin(lat);
+			vertexData[start+5].position.z = cos(lat) * sin(lon+kLonEvery);
+			vertexData[start+5].position.w = 1.0f;
+			vertexData[start+5].texcoord.x = u + uvLength;
+			vertexData[start+5].texcoord.y = v;
+
+		}
+	}
+
 
 
 	//Sprite用

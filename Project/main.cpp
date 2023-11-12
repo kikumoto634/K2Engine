@@ -14,8 +14,8 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	WindowsApp* win = WindowsApp::Create(L"K2Engine", 1280, 720);
 	DirectXCommon* dxCommon = DirectXCommon::Create();
 
-	ImGuiManager* imgui = ImGuiManager::Create();
-	ImGuiManager::Initialize(win->GetHWND(), dxCommon);
+	//ImGuiManager* imgui = ImGuiManager::Create();
+	//ImGuiManager::Initialize(win->GetHWND(), dxCommon);
 
 
 	Object3D* obj = Object3D::Create();
@@ -24,25 +24,25 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	while(win->ProcessMessage() == 0){
 
 		//更新開始
-		ImGuiManager::NewFrame();
-		imgui->ShowDemo();
+		//ImGuiManager::NewFrame();
+		//imgui->ShowDemo();
 
 
 		//描画前
-		ImGuiManager::CreateCommand();
+		//ImGuiManager::CreateCommand();
 		dxCommon->PreDraw();
 
 		//描画
 		obj->Draw(camera->GetViewProjectionMatrix());
 
 		//描画後
-		ImGuiManager::CommandsExcute(dxCommon->GetCommandList());
+		//ImGuiManager::CommandsExcute(dxCommon->GetCommandList());
 		dxCommon->PostDraw();
 	}
 
 	delete camera;
 	delete obj;
-	delete imgui;
+	//delete imgui;
 	DirectXCommon::Finalize();
 	WindowsApp::Finalize();
 
