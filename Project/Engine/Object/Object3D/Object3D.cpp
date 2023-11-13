@@ -159,6 +159,7 @@ void Object3D::Update()
 		ImGui::Checkbox("useMonsterBall", &isUseMonsterBall);
 	}
 
+	//平行光源
 	{
 		float lightCol[4] = {directionalLightData->color.x,directionalLightData->color.y,directionalLightData->color.z,directionalLightData->color.w};
 		float lightDir[3] = {directionalLightData->direction.x, directionalLightData->direction.y, directionalLightData->direction.z};
