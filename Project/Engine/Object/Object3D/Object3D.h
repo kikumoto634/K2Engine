@@ -17,6 +17,8 @@ private:
 	struct Material{
 		Vector4 color;
 		int enableLighting;
+		float padding[3];
+		Matrix4x4 uvTransform;
 	};
 
 	struct TransformationMatrix{
@@ -162,5 +164,10 @@ private:
 	TransformationMatrix* transformationMatrixDataSprite_ = nullptr;
 
 	Transform transformSprite_ = {{0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f}, {1.0f,1.0f,1.0f}};
+	Transform uvTransformSprite{
+		{0.0f, 1.0f, 0.0f},
+		{0.0f, 0.0f, 0.0f},
+		{1.0f, 1.0f, 1.0f},
+	};
 };
 

@@ -4,6 +4,7 @@ struct Material
 {
     float4 color;
     int enableLighting;
+    float4x4 uvTransform;
 };
 ConstantBuffer<Material> gMaterial : register(b0);
 
@@ -27,7 +28,8 @@ struct PixelShaderOutput
 
 PixelShaderOutput main(VertexShaderOutput input)
 {
-    float4 textureColor = gTexture.Sample(gSampler, input.texcoord); //サンプラー(絵)を基に、UVに応じたピクセルをTexture(ピクセル)に抽出
+    float4 transformUV = mul(float4(input.texcoord,0.0f,1.0f), gMaterial.uvTransform);
+    float4 textureColor = gTexture.Sample(gSampler, transformUV.xy); //サンプラー(絵)を基に、UVに応じたピクセルをTexture(ピクセル)に抽出
     
     PixelShaderOutput output;
     if (gMaterial.enableLighting != 0)

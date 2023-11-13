@@ -175,6 +175,13 @@ void Object3D::Update()
 		directionalLightData->direction = {lightDir[0],lightDir[1],lightDir[2]};
 		directionalLightData->intensity = lightInt;
 	}
+
+	//UV
+	{
+		ImGui::DragFloat2("UVTranslate", &uvTransformSprite.translate.x, 0.01f, -10.f, 10.f);
+		ImGui::DragFloat2("UVScale", &uvTransformSprite.scale.x, 0.01f,-10.f,10.f);
+		ImGui::SliderAngle("UVRotate", &uvTransformSprite.rotation.z);
+	}
 }
 
 void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
@@ -192,6 +199,15 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	Matrix4x4 projectionMatrixSprite = projectionMatrixSprite.MakeOrthographicMatrix(0.0f,0.0f, (float)WindowsApp::kWindowWidth_,(float)WindowsApp::kWindowHeight_, 0.0f,100.0f);
 	Matrix4x4 worldViewProjectionMatrixSprite = worldMatrixSprite * (viewMatrixSprite*projectionMatrixSprite);
 	transformationMatrixDataSprite_->WVP = worldViewProjectionMatrixSprite;
+	transformationMatrixDataSprite_->World = worldViewProjectionMatrixSprite;
+
+	Matrix4x4 scaleSprite = scaleSprite.MakeScaleMatrix(uvTransformSprite.scale);
+	Matrix4x4 rotZSprite = rotZSprite.MakeRotationZMatrix(uvTransformSprite.rotation.z);
+	Matrix4x4 transSprite = transSprite.MakeTranslateMatrix(uvTransformSprite.translate);
+	Matrix4x4 uvTransformMatrix = scaleSprite;
+	uvTransformMatrix = uvTransformMatrix * rotZSprite;
+	uvTransformMatrix = uvTransformMatrix * transSprite;
+	materialDataSprite->uvTransform= uvTransformMatrix;
 
 
 	//ルートシグネチャ設定 PSOに設定しいているが別途設定が必要
@@ -427,6 +443,7 @@ bool Object3D::CreateConstant()
 	constResource_->Map(0,nullptr,reinterpret_cast<void**>(&materialData));
 	materialData->color = color_;
 	materialData->enableLighting = true;
+	materialData->uvTransform = materialData->uvTransform.MakeIdentityMatrix();
 
 
 	//Sprite用
@@ -435,6 +452,7 @@ bool Object3D::CreateConstant()
 	constResourceSprite_->Map(0,nullptr,reinterpret_cast<void**>(&materialDataSprite));
 	materialDataSprite->color = color_;
 	materialDataSprite->enableLighting = false;
+	materialDataSprite->uvTransform =materialDataSprite->uvTransform.MakeIdentityMatrix();
 
 	return true;
 }
