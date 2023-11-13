@@ -11,6 +11,23 @@ private:
 	struct VertexData{
 		Vector4 position;
 		Vector2 texcoord;
+		Vector3 normal;
+	};
+
+	struct Material{
+		Vector4 color;
+		int enableLighting;
+	};
+
+	struct TransformationMatrix{
+		Matrix4x4 WVP;		//ワールドビュープロジェクション
+		Matrix4x4 World;	//ワールド
+	};
+
+	struct DirectionalLight{
+		Vector4 color;
+		Vector3 direction;
+		float intensity;
 	};
 
 public:
@@ -70,6 +87,10 @@ private:
 	bool CreateWVP();
 #pragma endregion
 
+#pragma region ライトリソース
+	//平行光源用データのResource
+	bool CreateDirectionalLight();
+#pragma endregion
 
 private:
 	HRESULT result{};
@@ -89,11 +110,15 @@ private:
 
 	//定数リソース
 	ComPtr<ID3D12Resource> constResource_;
-	Vector4* materialData = nullptr;
+	Material* materialData = nullptr;
 
 	//行列リソース
 	ComPtr<ID3D12Resource> wvpResource_;
-	Matrix4x4* wvpData = nullptr;
+	TransformationMatrix* wvpData = nullptr;
+
+	//Lightリソース
+	ComPtr<ID3D12Resource> directionalLightResource_;
+	DirectionalLight* directionalLightData = nullptr;
 
 
 	//球体分割数
@@ -115,8 +140,11 @@ private:
 	VertexData* vertexDataSprite_ = nullptr;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferViewSprite_{};
 
+	ComPtr<ID3D12Resource> constResourceSprite_;
+	Material* materialDataSprite = nullptr;
+
 	ComPtr<ID3D12Resource> transformationMatrixResourceSprite_;
-	Matrix4x4* transformationMatrixDataSprite_ = nullptr;
+	TransformationMatrix* transformationMatrixDataSprite_ = nullptr;
 
 	Transform transformSprite_ = {{0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f}, {1.0f,1.0f,1.0f}};
 };

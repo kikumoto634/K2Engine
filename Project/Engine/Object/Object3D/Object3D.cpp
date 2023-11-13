@@ -67,7 +67,10 @@ void Object3D::Initialize()
 	assert(SUCCEEDED(CreateVertex()));
 	//定数バッファ作成
 	assert(SUCCEEDED(CreateConstant()));
+	//行列バッファ作成
 	assert(SUCCEEDED(CreateWVP()));
+	//Lightバッファ作成
+	assert(SUCCEEDED(CreateDirectionalLight()));
 }
 
 void Object3D::PipelineInitialize()
@@ -86,7 +89,7 @@ void Object3D::PipelineInitialize()
 	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;		//Offsetを自動計算
 
 	//ルートパラメータ設定
-	rootParameters_.resize(3);
+	rootParameters_.resize(4);
 	//PS
 	rootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
 	rootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShader使用
@@ -101,6 +104,10 @@ void Object3D::PipelineInitialize()
 	rootParameters_[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShaderで使用
 	rootParameters_[2].DescriptorTable.pDescriptorRanges = descriptorRange;	//tableの中身の配列を指定
 	rootParameters_[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);	//Tableで利用する数
+	//Light(PS)
+	rootParameters_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
+	rootParameters_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShader
+	rootParameters_[3].Descriptor.ShaderRegister = 1;	//レジスタ番号 b1
 
 
 	//Sampler設定(シェーダーのPS SamplerState　シェーダでは画像のことをいう)
@@ -116,7 +123,7 @@ void Object3D::PipelineInitialize()
 
 	
 	//インプットレイアウト設定(頂点データでシェーダ内に送るデータたちのセマンティック名)
-	inputElementDescs_.resize(2);
+	inputElementDescs_.resize(3);
 	inputElementDescs_[0].SemanticName = "POSITION";							//頂点シェーダーのセマンティック名
 	inputElementDescs_[0].SemanticIndex = 0;									//セマンティック番号
 	inputElementDescs_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;				//float4 型
@@ -130,6 +137,10 @@ void Object3D::PipelineInitialize()
 	inputElementDescs_[1].Format = DXGI_FORMAT_R32G32_FLOAT;					//float4 型
 	inputElementDescs_[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
+	inputElementDescs_[2].SemanticName = "NORMAL";
+	inputElementDescs_[2].SemanticIndex = 0;
+	inputElementDescs_[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	inputElementDescs_[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
 	//生成
 	pipeline_->Create(
@@ -144,7 +155,23 @@ void Object3D::PipelineInitialize()
 
 void Object3D::Update()
 {
-	ImGui::Checkbox("useMonsterBall", &isUseMonsterBall);
+	{
+		ImGui::Checkbox("useMonsterBall", &isUseMonsterBall);
+	}
+
+	{
+		float lightCol[4] = {directionalLightData->color.x,directionalLightData->color.y,directionalLightData->color.z,directionalLightData->color.w};
+		float lightDir[3] = {directionalLightData->direction.x, directionalLightData->direction.y, directionalLightData->direction.z};
+		float lightInt = directionalLightData->intensity;
+
+		ImGui::DragFloat4("LightColor", lightCol, 0.1f, 0.0f, 1.0f);
+		ImGui::DragFloat3("LightDirection", lightDir, 0.1f, -1.f, 1.f);
+		ImGui::DragFloat("LightIntencity", &lightInt, 0.1f, 0.0f, 100.0f);
+
+		directionalLightData->color = {lightCol[0],lightCol[1],lightCol[2], lightCol[3]};
+		directionalLightData->direction = {lightDir[0],lightDir[1],lightDir[2]};
+		directionalLightData->intensity = lightInt;
+	}
 }
 
 void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
@@ -152,7 +179,7 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	transform_.rotation.y += 0.01f;
 	//更新情報
 	Matrix4x4 worldViewProjectionMatrix = transform_.GetWorldMatrix() * viewProjectionMatrix;
-	*wvpData = worldViewProjectionMatrix;
+	wvpData->WVP = worldViewProjectionMatrix;
 
 
 	//Sprite用
@@ -160,7 +187,7 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	Matrix4x4 viewMatrixSprite = viewMatrixSprite.MakeIdentityMatrix();
 	Matrix4x4 projectionMatrixSprite = projectionMatrixSprite.MakeOrthographicMatrix(0.0f,0.0f, (float)WindowsApp::kWindowWidth_,(float)WindowsApp::kWindowHeight_, 0.0f,100.0f);
 	Matrix4x4 worldViewProjectionMatrixSprite = worldMatrixSprite * (viewMatrixSprite*projectionMatrixSprite);
-	*transformationMatrixDataSprite_ = worldViewProjectionMatrixSprite;
+	transformationMatrixDataSprite_->WVP = worldViewProjectionMatrixSprite;
 
 
 	//ルートシグネチャ設定 PSOに設定しいているが別途設定が必要
@@ -177,6 +204,8 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
 	//SRV(テクスチャ)のDescriptorTableの先頭を設定 2はRootParamterのインデックスRootParamter[2]
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, isUseMonsterBall ? textureSrvHandleGPU1_ : textureSrvHandleGPU2_);
+	//Light
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
 
 	//描画
 	dxCommon_->GetCommandList()->DrawInstanced(kSubdivision*kSubdivision*6,1,0,0);
@@ -184,6 +213,7 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 
 	//Sprite用
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferViewSprite_);
+	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constResourceSprite_->GetGPUVirtualAddress());
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationMatrixResourceSprite_->GetGPUVirtualAddress());
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU1_);
 	dxCommon_->GetCommandList()->DrawInstanced(6,1,0,0);
@@ -275,6 +305,9 @@ bool Object3D::CreateVertex()
 			vertexData[start].position.w = 1.0f;
 			vertexData[start].texcoord.x = u;
 			vertexData[start].texcoord.y = v;
+			vertexData[start].normal.x = vertexData[start].position.x;
+			vertexData[start].normal.y = vertexData[start].position.y;
+			vertexData[start].normal.z = vertexData[start].position.z;
 			
 			vertexData[start+1].position.x = cos(lat+kLatEvert) * cos(lon);
 			vertexData[start+1].position.y = sin(lat+kLatEvert);
@@ -282,6 +315,9 @@ bool Object3D::CreateVertex()
 			vertexData[start+1].position.w = 1.0f;
 			vertexData[start+1].texcoord.x = u;
 			vertexData[start+1].texcoord.y = v - uvLength;
+			vertexData[start+1].normal.x = vertexData[start+1].position.x;
+			vertexData[start+1].normal.y = vertexData[start+1].position.y;
+			vertexData[start+1].normal.z = vertexData[start+1].position.z;
 
 			vertexData[start+2].position.x = cos(lat) * cos(lon+kLonEvery);
 			vertexData[start+2].position.y = sin(lat);
@@ -289,6 +325,9 @@ bool Object3D::CreateVertex()
 			vertexData[start+2].position.w = 1.0f;
 			vertexData[start+2].texcoord.x = u + uvLength;
 			vertexData[start+2].texcoord.y = v;
+			vertexData[start+2].normal.x = vertexData[start+2].position.x;
+			vertexData[start+2].normal.y = vertexData[start+2].position.y;
+			vertexData[start+2].normal.z = vertexData[start+2].position.z;
 
 			//二枚目
 			vertexData[start+3].position.x = cos(lat+kLatEvert) * cos(lon);
@@ -297,6 +336,9 @@ bool Object3D::CreateVertex()
 			vertexData[start+3].position.w = 1.0f;
 			vertexData[start+3].texcoord.x = u;
 			vertexData[start+3].texcoord.y = v - uvLength;
+			vertexData[start+3].normal.x = vertexData[start+3].position.x;
+			vertexData[start+3].normal.y = vertexData[start+3].position.y;
+			vertexData[start+3].normal.z = vertexData[start+3].position.z;
 			
 			vertexData[start+4].position.x = cos(lat+kLatEvert) * cos(lon+kLonEvery);
 			vertexData[start+4].position.y = sin(lat+kLatEvert);
@@ -304,6 +346,9 @@ bool Object3D::CreateVertex()
 			vertexData[start+4].position.w = 1.0f;
 			vertexData[start+4].texcoord.x = u + uvLength;
 			vertexData[start+4].texcoord.y = v - uvLength;
+			vertexData[start+4].normal.x = vertexData[start+4].position.x;
+			vertexData[start+4].normal.y = vertexData[start+4].position.y;
+			vertexData[start+4].normal.z = vertexData[start+4].position.z;
 
 			vertexData[start+5].position.x = cos(lat) * cos(lon+kLonEvery);
 			vertexData[start+5].position.y = sin(lat);
@@ -311,6 +356,9 @@ bool Object3D::CreateVertex()
 			vertexData[start+5].position.w = 1.0f;
 			vertexData[start+5].texcoord.x = u + uvLength;
 			vertexData[start+5].texcoord.y = v;
+			vertexData[start+5].normal.x = vertexData[start+5].position.x;
+			vertexData[start+5].normal.y = vertexData[start+5].position.y;
+			vertexData[start+5].normal.z = vertexData[start+5].position.z;
 
 		}
 	}
@@ -324,17 +372,23 @@ bool Object3D::CreateVertex()
 	//一枚目
 	vertexDataSprite_[0].position = {0.0f, 360.0f, 0.0f, 1.0f};		//左下
 	vertexDataSprite_[0].texcoord = {0.0f, 1.0f};
+	vertexDataSprite_[0].normal = {0.0f, 0.0f, -1.0f};
 	vertexDataSprite_[1].position = {0.0f, 0.0f, 0.0f, 1.0f};		//左上
 	vertexDataSprite_[1].texcoord = {0.0f, 0.0f};
+	vertexDataSprite_[1].normal = {0.0f, 0.0f, -1.0f};
 	vertexDataSprite_[2].position = {640.0f, 360.0f, 0.0f, 1.0f};	//右下
 	vertexDataSprite_[2].texcoord = {1.0f, 1.0f};
+	vertexDataSprite_[2].normal = {0.0f, 0.0f, -1.0f};
 	//二枚目
 	vertexDataSprite_[3].position = {0.0f, 0.0f, 0.0f, 1.0f};		//左上
 	vertexDataSprite_[3].texcoord = {0.0f, 0.0f};
+	vertexDataSprite_[3].normal = {0.0f, 0.0f, -1.0f};
 	vertexDataSprite_[4].position = {640.0f, 0.0f, 0.0f, 1.0f};		//右上
 	vertexDataSprite_[4].texcoord = {1.0f, 0.0f};
+	vertexDataSprite_[4].normal = {0.0f, 0.0f, -1.0f};
 	vertexDataSprite_[5].position = {640.0f, 360.0f, 0.0f, 1.0f};	//右下
 	vertexDataSprite_[5].texcoord = {1.0f, 1.0f};
+	vertexDataSprite_[5].normal = {0.0f, 0.0f, -1.0f};
 
 	return true;
 }
@@ -343,10 +397,19 @@ bool Object3D::CreateVertex()
 #pragma region 定数リソース
 bool Object3D::CreateConstant()
 {
-	constResource_ = CreateBufferResource(sizeof(Vector4));
+	constResource_ = CreateBufferResource(sizeof(Material));
 
 	constResource_->Map(0,nullptr,reinterpret_cast<void**>(&materialData));
-	*materialData = color_;
+	materialData->color = color_;
+	materialData->enableLighting = true;
+
+
+	//Sprite用
+	constResourceSprite_ = CreateBufferResource(sizeof(Material));
+
+	constResourceSprite_->Map(0,nullptr,reinterpret_cast<void**>(&materialDataSprite));
+	materialDataSprite->color = color_;
+	materialDataSprite->enableLighting = false;
 
 	return true;
 }
@@ -355,19 +418,36 @@ bool Object3D::CreateConstant()
 #pragma region 行列リソース
 bool Object3D::CreateWVP()
 {
-	wvpResource_ = CreateBufferResource(sizeof(Matrix4x4));
+	wvpResource_ = CreateBufferResource(sizeof(TransformationMatrix));
 
 	wvpResource_->Map(0, nullptr, reinterpret_cast<void**>(&wvpData));
 	
 	Matrix4x4 worldMatrix = worldMatrix.MakeIdentityMatrix();
-	*wvpData = worldMatrix;
+	wvpData->WVP = worldMatrix;
+	wvpData->World = worldMatrix;
 
 
 	//Sprite用
-	transformationMatrixResourceSprite_ = CreateBufferResource(sizeof(Matrix4x4));
+	transformationMatrixResourceSprite_ = CreateBufferResource(sizeof(TransformationMatrix));
 	transformationMatrixResourceSprite_->Map(0,nullptr,reinterpret_cast<void**>(&transformationMatrixDataSprite_));
 	Matrix4x4 worldMatrixSprite = worldMatrixSprite.MakeIdentityMatrix();
-	*transformationMatrixDataSprite_ = worldMatrixSprite;
+	transformationMatrixDataSprite_->WVP = worldMatrixSprite;
+	transformationMatrixDataSprite_->World = worldMatrixSprite;
+
+	return true;
+}
+#pragma endregion
+
+#pragma region Lightリソース
+bool Object3D::CreateDirectionalLight()
+{
+	directionalLightResource_= CreateBufferResource(sizeof(DirectionalLight));
+
+	directionalLightResource_->Map(0,nullptr,reinterpret_cast<void**>(&directionalLightData));
+
+	directionalLightData->color = {1.0f, 1.0f, 1.0f, 1.0f};
+	directionalLightData->direction = {0.0f, -1.0f, 0.0f};
+	directionalLightData->intensity = 1.0f;
 
 	return true;
 }
