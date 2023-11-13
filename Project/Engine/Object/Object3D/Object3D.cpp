@@ -181,6 +181,7 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	//更新情報
 	Matrix4x4 worldViewProjectionMatrix = transform_.GetWorldMatrix() * viewProjectionMatrix;
 	wvpData->WVP = worldViewProjectionMatrix;
+	wvpData->World = worldViewProjectionMatrix;
 
 
 	//Sprite用

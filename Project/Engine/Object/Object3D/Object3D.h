@@ -126,7 +126,7 @@ private:
 	//色
 	Vector4 color_ = {1,1,1,1};
 	//トランスフォーム情報
-	Transform transform_ =  {{0,0,0}, {0,0,0}, {1,1,1}};
+	Transform transform_ =  {{0,0,0}, {0,0,0}, {0.5,0.5,0.5}};
 	bool isUseMonsterBall = true;
 
 	//SRVのDescriptorTableの先頭(テクスチャ)
