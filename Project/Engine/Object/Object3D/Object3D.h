@@ -65,16 +65,27 @@ private:
 	ID3D12Resource* CreateBufferResource(size_t sizeInByte);
 	
 	/// <summary>
-	/// ビュー作成関数
+	/// 頂点ビュー作成関数
 	/// </summary>
 	/// <param name="sizeInByte">使用するバイトサイズ</param>
 	/// <param name="Num">使用する個数</param>
 	void CreateBufferView(D3D12_VERTEX_BUFFER_VIEW& view, ID3D12Resource* resource, UINT sizeInByte, UINT strideInBytes);
+	/// <summary>
+	/// インデックスビュー作成関数
+	/// </summary>
+	/// <param name="sizeInByte">使用するバイトサイズ</param>
+	/// <param name="Num">使用する個数</param>
+	void CreateBufferView(D3D12_INDEX_BUFFER_VIEW& view, ID3D12Resource* resource, UINT sizeInByte);
 
 #pragma region 頂点リソース/ビュー/更新
 	// 頂点データ用のResource : VertexBuffer/VertexResource		※メモリ内に保存されているデータ
 	// 頂点データ用のView     : VertexBufferView(VBV)			※Shaderへの入力頂点として処理する作業方法
 	bool CreateVertex();
+#pragma endregion
+
+#pragma region インデックスリソース/ビュー
+	//インデックス用のResource
+	bool CreateIndex();
 #pragma endregion
 
 #pragma region 定数リソース/更新
@@ -139,6 +150,10 @@ private:
 	ComPtr<ID3D12Resource> vertexResourceSprite_;
 	VertexData* vertexDataSprite_ = nullptr;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferViewSprite_{};
+
+	ComPtr<ID3D12Resource> indexResourceSprite_{};
+	uint32_t* indexDataSprite_ = nullptr;
+	D3D12_INDEX_BUFFER_VIEW indexBufferViewSprite{};
 
 	ComPtr<ID3D12Resource> constResourceSprite_;
 	Material* materialDataSprite = nullptr;

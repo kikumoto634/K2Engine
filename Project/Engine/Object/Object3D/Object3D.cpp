@@ -65,6 +65,8 @@ void Object3D::Initialize()
 
 	//頂点バッファ作成
 	assert(SUCCEEDED(CreateVertex()));
+	//インデックスバッファ作成
+	assert(SUCCEEDED(CreateIndex()));
 	//定数バッファ作成
 	assert(SUCCEEDED(CreateConstant()));
 	//行列バッファ作成
@@ -215,10 +217,11 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 
 	//Sprite用
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferViewSprite_);
+	dxCommon_->GetCommandList()->IASetIndexBuffer(&indexBufferViewSprite);		//IBV設定
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constResourceSprite_->GetGPUVirtualAddress());
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationMatrixResourceSprite_->GetGPUVirtualAddress());
 	dxCommon_->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU1_);
-	dxCommon_->GetCommandList()->DrawInstanced(6,1,0,0);
+	dxCommon_->GetCommandList()->DrawIndexedInstanced(6,1,0,0,0);
 }
 
 
@@ -256,10 +259,20 @@ void Object3D::CreateBufferView(D3D12_VERTEX_BUFFER_VIEW& view, ID3D12Resource* 
 {
 	//リソースの先頭アドレスから使用
 	view.BufferLocation = resource->GetGPUVirtualAddress();
-	//使用するリソースのサイズは頂点3つ分のサイズ
+	//使用するリソースのサイズは頂点引数分のサイズ
 	view.SizeInBytes = sizeInByte;
 	//1頂点当たりのサイズ
 	view.StrideInBytes = strideInBytes;
+}
+
+void Object3D::CreateBufferView(D3D12_INDEX_BUFFER_VIEW &view, ID3D12Resource *resource, UINT sizeInByte)
+{
+	//リソースの先頭アドレスから使う
+	view.BufferLocation = resource->GetGPUVirtualAddress();
+	//使用するリソースのサイズはインデックスは引数分
+	view.SizeInBytes = sizeInByte;
+	//インデックスはuint32_tとする
+	view.Format = DXGI_FORMAT_R32_UINT;
 }
 
 #pragma region 頂点リソース
@@ -381,16 +394,26 @@ bool Object3D::CreateVertex()
 	vertexDataSprite_[2].position = {640.0f, 360.0f, 0.0f, 1.0f};	//右下
 	vertexDataSprite_[2].texcoord = {1.0f, 1.0f};
 	vertexDataSprite_[2].normal = {0.0f, 0.0f, -1.0f};
-	//二枚目
-	vertexDataSprite_[3].position = {0.0f, 0.0f, 0.0f, 1.0f};		//左上
-	vertexDataSprite_[3].texcoord = {0.0f, 0.0f};
+	vertexDataSprite_[3].position = {640.0f, 0.0f, 0.0f, 1.0f};		//右上
+	vertexDataSprite_[3].texcoord = {1.0f, 0.0f};
 	vertexDataSprite_[3].normal = {0.0f, 0.0f, -1.0f};
-	vertexDataSprite_[4].position = {640.0f, 0.0f, 0.0f, 1.0f};		//右上
-	vertexDataSprite_[4].texcoord = {1.0f, 0.0f};
-	vertexDataSprite_[4].normal = {0.0f, 0.0f, -1.0f};
-	vertexDataSprite_[5].position = {640.0f, 360.0f, 0.0f, 1.0f};	//右下
-	vertexDataSprite_[5].texcoord = {1.0f, 1.0f};
-	vertexDataSprite_[5].normal = {0.0f, 0.0f, -1.0f};
+
+	return true;
+}
+#pragma endregion
+
+#pragma region インデックスリソース
+bool Object3D::CreateIndex()
+{
+	indexResourceSprite_ = CreateBufferResource(sizeof(uint32_t)*6);
+
+	CreateBufferView(indexBufferViewSprite, indexResourceSprite_.Get(), sizeof(uint32_t)*6);
+
+	//インデックスリソースにデータを書き込む
+	indexResourceSprite_->Map(0, nullptr, reinterpret_cast<void**>(&indexDataSprite_));
+
+	indexDataSprite_[0] = 0;	indexDataSprite_[1] = 1;	indexDataSprite_[2] = 2;
+	indexDataSprite_[3] = 1;	indexDataSprite_[4] = 3;	indexDataSprite_[5] = 2;
 
 	return true;
 }
