@@ -1,10 +1,9 @@
 #include "WindowsApp.h"
 #include "DirectXCommon.h"
 
-#include "Transform.h"
-
 #include <Object3D/Object3D.h>
 #include "Camera.h"
+#include "Geometry/Sphere.h"
 
 #include "Engine/Tool/ImGui/ImGuiManager.h"
 
@@ -18,15 +17,16 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	ImGuiManager::Initialize(win->GetHWND(), dxCommon);
 
 
-	Object3D* obj = Object3D::Create();
+	//Object3D* obj = Object3D::Create();
 	Camera*camera = Camera::Create();
+	Sphere* base = Sphere::Create();
 
 	while(win->ProcessMessage() == 0){
 
 		//更新開始
 		ImGuiManager::NewFrame();
 		imgui->ShowDemo();
-		obj->Update();
+		base->Update();
 
 
 		//描画前
@@ -34,15 +34,16 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 		dxCommon->PreDraw();
 
 		//描画
-		obj->Draw(camera->GetViewProjectionMatrix());
+		//obj->Draw(camera->GetViewProjectionMatrix());
+		base->Draw(camera->GetViewProjectionMatrix());
 
 		//描画後
 		ImGuiManager::CommandsExcute(dxCommon->GetCommandList());
 		dxCommon->PostDraw();
 	}
-
+	delete base;
 	delete camera;
-	delete obj;
+	//delete obj;
 	delete imgui;
 	DirectXCommon::Finalize();
 	WindowsApp::Finalize();

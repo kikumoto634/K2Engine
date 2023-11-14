@@ -19,9 +19,6 @@
     <Filter Include="ヘッダー ファイル\Engine">
       <UniqueIdentifier>{da61857b-009a-4f7f-b594-3ae9d95f140c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Engine\Window">
-      <UniqueIdentifier>{150de01b-89c4-47a0-854b-615b5619e4b4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Engine\DirectXCommon">
       <UniqueIdentifier>{12cd02d6-d31d-4cb1-8f81-4e05e27d48c2}</UniqueIdentifier>
     </Filter>
@@ -130,23 +127,32 @@
     <Filter Include="ヘッダー ファイル\Engine\Component\Loader\Sprite">
       <UniqueIdentifier>{e2a41a27-d9b0-4873-b68c-4f3a1159881d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Engine\Component\Manager">
-      <UniqueIdentifier>{30d679fd-d283-413e-bf36-5473f33ede8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Component\Manager">
-      <UniqueIdentifier>{7bd44a68-f3bb-4a9e-ad80-789547973e75}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Engine\Component\Manager\Texture">
-      <UniqueIdentifier>{bb2fdc26-eda1-4f35-9af2-e62d6c691373}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Component\Manager\Texture">
-      <UniqueIdentifier>{dbe640ca-6bbf-4777-b858-22911cbec9ec}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Engine\Component\DepthStencil">
       <UniqueIdentifier>{f6ca520f-441c-4115-a331-45f4caa9f05b}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Engine\Component\DepthStencil">
       <UniqueIdentifier>{2ecbd76a-b65d-45aa-8aa5-f5e3d2dab0c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Object\Geometry">
+      <UniqueIdentifier>{4e1c0c9d-0192-4779-8ed7-6e30276302e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Geometry">
+      <UniqueIdentifier>{06fa412f-dd6c-4d99-acd8-62b00ffe2ca4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Geometry\Common">
+      <UniqueIdentifier>{192d63f6-bdd2-43ac-9ebd-666b0a49637b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Object\Geometry\Common">
+      <UniqueIdentifier>{6ead54d5-d0f5-4794-a399-f64b19a2b995}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Window">
+      <UniqueIdentifier>{150de01b-89c4-47a0-854b-615b5619e4b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Buffer">
+      <UniqueIdentifier>{c29dfca0-9ae9-4722-a964-77efea6bb176}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Buffer">
+      <UniqueIdentifier>{01079afc-8c7c-4ae2-a7b3-2f387a767a71}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -213,11 +219,20 @@
     <ClCompile Include="Engine\Component\Loader\Sprite\SpriteLoader.cpp">
       <Filter>ソース ファイル\Engine\Component\Loader\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Component\Manager\Texture\TextureManager.cpp">
-      <Filter>ソース ファイル\Engine\Component\Manager\Texture</Filter>
+    <ClCompile Include="Engine\Object\Geometry\Sphere.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\Common\GeometryBase.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Buffer\BufferView.cpp">
+      <Filter>ソース ファイル\Engine\Component\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Buffer\BufferResource.cpp">
+      <Filter>ソース ファイル\Engine\Component\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Component\DepthStencil\DepthStencil.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Engine\Component\DepthStencil</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -284,11 +299,20 @@
     <ClInclude Include="Engine\Component\Loader\Sprite\SpriteLoader.h">
       <Filter>ヘッダー ファイル\Engine\Component\Loader\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Manager\Texture\TextureManager.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Manager\Texture</Filter>
+    <ClInclude Include="Engine\Object\Geometry\Sphere.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Common\GeometryBase.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Buffer\BufferView.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Buffer\BufferResource.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Component\DepthStencil\DepthStencil.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Engine\Component\DepthStencil</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
