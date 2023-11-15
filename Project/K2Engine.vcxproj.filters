@@ -118,14 +118,8 @@
     <Filter Include="ソース ファイル\Engine\Component\Loader">
       <UniqueIdentifier>{eeb5b5d2-d8e0-4f23-b16d-673cc8754758}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Engine\Component\Loader\Sprite">
-      <UniqueIdentifier>{e477dbe1-4a03-4e78-86e8-a8cb8dbdf747}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Engine\Component\Loader">
       <UniqueIdentifier>{ea32bc8a-b2e2-4b15-a820-9aa30e20a161}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Component\Loader\Sprite">
-      <UniqueIdentifier>{e2a41a27-d9b0-4873-b68c-4f3a1159881d}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Engine\Component\DepthStencil">
       <UniqueIdentifier>{f6ca520f-441c-4115-a331-45f4caa9f05b}</UniqueIdentifier>
@@ -153,6 +147,9 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Engine\Component\Buffer">
       <UniqueIdentifier>{01079afc-8c7c-4ae2-a7b3-2f387a767a71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Struct">
+      <UniqueIdentifier>{32f94ad5-247a-4304-8b65-a9ceaaf12f1d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -216,9 +213,6 @@
     <ClCompile Include="External\imgui\imgui_widgets.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Component\Loader\Sprite\SpriteLoader.cpp">
-      <Filter>ソース ファイル\Engine\Component\Loader\Sprite</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Object\Geometry\Sphere.cpp">
       <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
     </ClCompile>
@@ -233,6 +227,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Component\DepthStencil\DepthStencil.cpp">
       <Filter>ソース ファイル\Engine\Component\DepthStencil</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Loader\ObjLoader.cpp">
+      <Filter>ソース ファイル\Engine\Component\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Loader\SpriteLoader.cpp">
+      <Filter>ソース ファイル\Engine\Component\Loader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -296,9 +296,6 @@
     <ClInclude Include="External\imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Loader\Sprite\SpriteLoader.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Loader\Sprite</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Object\Geometry\Sphere.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
     </ClInclude>
@@ -313,6 +310,24 @@
     </ClInclude>
     <ClInclude Include="Engine\Component\DepthStencil\DepthStencil.h">
       <Filter>ヘッダー ファイル\Engine\Component\DepthStencil</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Loader\ObjLoader.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Loader\SpriteLoader.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\VertexData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\MaterialData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\TransformationMatrixData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\DirectionalLightData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

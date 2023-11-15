@@ -116,7 +116,7 @@
       <ConformanceMode>false</ConformanceMode>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\DirectXCommon;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\Buffer;$(ProjectDir)Engine\Component\DescriptorHeap;$(ProjectDir)Engine\Component\DepthStencil;$(ProjectDir)Engine\Component\Loader\Sprite;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\Math\Matrix;$(ProjectDir)Engine\Math\Vector;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\DirectXCommon;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\Buffer;$(ProjectDir)Engine\Component\DescriptorHeap;$(ProjectDir)Engine\Component\DepthStencil;$(ProjectDir)Engine\Component\Struct;$(ProjectDir)Engine\Component\Loader;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\Math\Matrix;$(ProjectDir)Engine\Math\Vector;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -164,7 +164,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Component\Buffer\BufferView.cpp" />
     <ClCompile Include="Engine\Component\DepthStencil\DepthStencil.cpp" />
     <ClCompile Include="Engine\Component\DescriptorHeap\DescriptorHeap.cpp" />
-    <ClCompile Include="Engine\Component\Loader\Sprite\SpriteLoader.cpp" />
+    <ClCompile Include="Engine\Component\Loader\ObjLoader.cpp" />
+    <ClCompile Include="Engine\Component\Loader\SpriteLoader.cpp" />
     <ClCompile Include="Engine\Component\Pipeline\Pipeline.cpp" />
     <ClCompile Include="Engine\DirectXCommon\DirectXCommon.cpp" />
     <ClCompile Include="Engine\Math\Matrix\Matrix4x4.cpp" />
@@ -192,8 +193,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Component\Buffer\BufferView.h" />
     <ClInclude Include="Engine\Component\DepthStencil\DepthStencil.h" />
     <ClInclude Include="Engine\Component\DescriptorHeap\DescriptorHeap.h" />
-    <ClInclude Include="Engine\Component\Loader\Sprite\SpriteLoader.h" />
+    <ClInclude Include="Engine\Component\Loader\ObjLoader.h" />
+    <ClInclude Include="Engine\Component\Loader\SpriteLoader.h" />
     <ClInclude Include="Engine\Component\Pipeline\Pipeline.h" />
+    <ClInclude Include="Engine\Component\Struct\DirectionalLightData.h" />
+    <ClInclude Include="Engine\Component\Struct\MaterialData.h" />
+    <ClInclude Include="Engine\Component\Struct\TransformationMatrixData.h" />
+    <ClInclude Include="Engine\Component\Struct\VertexData.h" />
     <ClInclude Include="Engine\DirectXCommon\DirectXCommon.h" />
     <ClInclude Include="Engine\Math\Matrix\Matrix4x4.h" />
     <ClInclude Include="Engine\Math\Vector\Vector2.h" />

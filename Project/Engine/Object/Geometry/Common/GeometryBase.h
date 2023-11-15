@@ -7,9 +7,10 @@
 #include "DirectXCommon.h"
 #include "Transform.h"
 
-#include "Vector3.h"
-#include "Vector2.h"
-#include "Matrix4x4.h"
+#include "VertexData.h"
+#include "MaterialData.h"
+#include "TransformationMatrixData.h"
+#include "DirectionalLightData.h"
 
 //幾何学オブジェクトの共通
 class GeometryBase : public Transform
@@ -17,35 +18,6 @@ class GeometryBase : public Transform
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	template <class T> using vector = std::vector<T>;
-
-private:
-	//頂点データ
-	struct VertexData{
-		Vector4 position;	//座標
-		Vector2 texcoord;	//UV
-		Vector3 normal;		//法線
-	};
-
-	//マテリアルデータ
-	struct Material{
-		Vector4 color;			//色
-		int enableLighting;		//ライト処理可否
-		float padding[3];		//パディング
-		Matrix4x4 uvTransform;	//UV行列
-	};
-
-	//行列
-	struct TransformationMatrix{
-		Matrix4x4 WVP;		//ワールドビュープロジェクション
-		Matrix4x4 World;	//ワールド
-	};
-
-	//平行高原
-	struct DirectionalLight{
-		Vector4 color;
-		Vector3 direction;
-		float intensity;
-	};
 
 public:
 	~GeometryBase(){

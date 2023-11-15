@@ -2,35 +2,16 @@
 #include "Transform.h"
 #include "Pipeline.h"
 
+#include "VertexData.h"
+#include "MaterialData.h"
+#include "TransformationMatrixData.h"
+#include "DirectionalLightData.h"
+
 class Object3D
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	template <class T> using vector = std::vector<T>;
-
-	struct VertexData{
-		Vector4 position;
-		Vector2 texcoord;
-		Vector3 normal;
-	};
-
-	struct Material{
-		Vector4 color;
-		int enableLighting;
-		float padding[3];
-		Matrix4x4 uvTransform;
-	};
-
-	struct TransformationMatrix{
-		Matrix4x4 WVP;		//ワールドビュープロジェクション
-		Matrix4x4 World;	//ワールド
-	};
-
-	struct DirectionalLight{
-		Vector4 color;
-		Vector3 direction;
-		float intensity;
-	};
 
 public:
 	static Object3D* Create();
