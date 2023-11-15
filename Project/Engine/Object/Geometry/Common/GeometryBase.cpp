@@ -156,9 +156,11 @@ void GeometryBase::PipelineStateInitialize()
 	inputElementDesc_[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
 	//生成
+	std::wstring vs = WindowsApp::ConvertString(VSPath_);
+	std::wstring ps = WindowsApp::ConvertString(PSPath_);
 	pipeline_->Create(
-		L"Object3D/Object3D.VS.hlsl",
-		L"Object3D/Object3D.PS.hlsl",
+		vs,
+		ps,
 		rootParameters_,
 		staticSamplers_,
 		inputElementDesc_,

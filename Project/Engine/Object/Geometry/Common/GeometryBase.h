@@ -99,5 +99,8 @@ protected:
 	float lightIntensity = 1.0f;
 
 	std::string texturePath_ = "uvChecker.png";
+
+	std::string VSPath_ = "Object3D/Object3D.VS.hlsl";
+	std::string PSPath_ = "Object3D/Object3D.PS.Texture.hlsl";
 };
 

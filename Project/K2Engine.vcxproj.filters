@@ -340,10 +340,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.hlsl">
+    <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Texture.hlsl">
       <Filter>リソース ファイル\Shader\Object3D</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.VS.hlsl">
+      <Filter>リソース ファイル\Shader\Object3D</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.OneColor.hlsl">
       <Filter>リソース ファイル\Shader\Object3D</Filter>
     </FxCompile>
   </ItemGroup>
