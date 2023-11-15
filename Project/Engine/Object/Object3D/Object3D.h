@@ -102,6 +102,11 @@ private:
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};
 
+	//インデックスリソース
+	ComPtr<ID3D12Resource> indexResource_{};
+	uint32_t* indexData_ = nullptr;
+	D3D12_INDEX_BUFFER_VIEW indexBufferView{};
+
 	//定数リソース
 	ComPtr<ID3D12Resource> constResource_;
 	Material* materialData = nullptr;

@@ -234,6 +234,9 @@
     <ClCompile Include="Engine\Component\Loader\SpriteLoader.cpp">
       <Filter>ソース ファイル\Engine\Component\Loader</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\ObjModel.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -328,6 +331,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Component\Struct\DirectionalLightData.h">
       <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\ObjModelData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\ObjModel.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

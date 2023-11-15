@@ -1,13 +1,10 @@
 #pragma once
-#include <vector>
-#include "VertexData.h"
+#include "ObjModelData.h"
+#include <string>
 
-class ObjLoader
-{
-public:
-	struct ModelData{
-		std::vector<VertexData> vertices;
-	};
+//Objファイル読み込み
+ObjModelData LoadObjFile(const std::string& fileName);
 
-};
+//Objファイルマテリアル読み込み
+ObjMaterialData LoadObjMaterialTemplateFile(const std::string fileName, const std::string mtlName);
 

@@ -4,6 +4,7 @@
 #include <Object3D/Object3D.h>
 #include "Camera.h"
 #include "Geometry/Sphere.h"
+#include "Geometry/ObjModel.h"
 
 #include "Engine/Tool/ImGui/ImGuiManager.h"
 
@@ -17,9 +18,10 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	ImGuiManager::Initialize(win->GetHWND(), dxCommon);
 
 
-	//Object3D* obj = Object3D::Create();
+	Object3D* obj = Object3D::Create();
 	Camera*camera = Camera::Create();
-	Sphere* base = Sphere::Create();
+	//Sphere* base = Sphere::Create();
+	//ObjModel* obj = ObjModel::Create("cube");
 
 	while(win->ProcessMessage() == 0){
 
@@ -27,22 +29,24 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 		ImGuiManager::NewFrame();
 		imgui->ShowDemo();
 		camera->Update();
-		base->Update();
-
+		//base->Update();
+		obj->Update();
 
 		//描画前
 		ImGuiManager::CreateCommand();
 		dxCommon->PreDraw();
 
 		//描画
+		obj->Draw(camera->GetViewProjectionMatrix());
+		//base->Draw(camera->GetViewProjectionMatrix());
 		//obj->Draw(camera->GetViewProjectionMatrix());
-		base->Draw(camera->GetViewProjectionMatrix());
 
 		//描画後
 		ImGuiManager::CommandsExcute(dxCommon->GetCommandList());
 		dxCommon->PostDraw();
 	}
-	delete base;
+	delete obj;
+	//delete base;
 	delete camera;
 	//delete obj;
 	delete imgui;

@@ -214,6 +214,7 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	dxCommon_->GetCommandList()->SetGraphicsRootSignature(pipeline_->GetRootSignature());
 	dxCommon_->GetCommandList()->SetPipelineState(pipeline_->GetGraphicsPipelineState());	//PSO設定
 	dxCommon_->GetCommandList()->IASetVertexBuffers(0,1,&vertexBufferView_);		//VBV設定
+	dxCommon_->GetCommandList()->IASetIndexBuffer(&indexBufferView);		//IBV設定
 
 	//形状設定、PSOに設定しているのとは別
 	dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -228,7 +229,7 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
 
 	//描画
-	dxCommon_->GetCommandList()->DrawInstanced(kSubdivision*kSubdivision*6,1,0,0);
+	dxCommon_->GetCommandList()->DrawIndexedInstanced((kSubdivision*kSubdivision*6),1,0,0,0);
 
 
 	//Sprite用
@@ -295,9 +296,9 @@ void Object3D::CreateBufferView(D3D12_INDEX_BUFFER_VIEW &view, ID3D12Resource *r
 bool Object3D::CreateVertex()
 {
 	//リソース
-	vertexResource_ = CreateBufferResource(sizeof(VertexData)*(kSubdivision*kSubdivision*6));
+	vertexResource_ = CreateBufferResource(sizeof(VertexData)*(kSubdivision*kSubdivision*4));
 	//ビュー
-	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*(kSubdivision*kSubdivision*6), sizeof(VertexData));
+	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*(kSubdivision*kSubdivision*4), sizeof(VertexData));
 
 	//頂点リソースにデータを書き込む
 	//書き込むためのアドレス取得
@@ -321,7 +322,7 @@ bool Object3D::CreateVertex()
 		float lat = -pi / 2.0f + kLatEvert * latIndex;	//Θ
 		//経度の方向に分割しながら絵を書く
 		for(lonIndex = 0; lonIndex < kSubdivision; ++lonIndex){
-			uint32_t start = (latIndex * kSubdivision + lonIndex) * 6;
+			uint32_t start = (latIndex * kSubdivision + lonIndex) * 4;
 			float lon = lonIndex * kLonEvery;	//φ
 
 			float u = (float)lonIndex / (float)kSubdivision;
@@ -360,45 +361,24 @@ bool Object3D::CreateVertex()
 			vertexData[start+2].normal.y = vertexData[start+2].position.y;
 			vertexData[start+2].normal.z = vertexData[start+2].position.z;
 
-			//二枚目
-			vertexData[start+3].position.x = cos(lat+kLatEvert) * cos(lon);
+			
+			vertexData[start+3].position.x = cos(lat+kLatEvert) * cos(lon+kLonEvery);
 			vertexData[start+3].position.y = sin(lat+kLatEvert);
-			vertexData[start+3].position.z = cos(lat+kLatEvert) * sin(lon);
+			vertexData[start+3].position.z = cos(lat+kLatEvert) * sin(lon+kLonEvery);
 			vertexData[start+3].position.w = 1.0f;
-			vertexData[start+3].texcoord.x = u;
+			vertexData[start+3].texcoord.x = u + uvLength;
 			vertexData[start+3].texcoord.y = v - uvLength;
 			vertexData[start+3].normal.x = vertexData[start+3].position.x;
 			vertexData[start+3].normal.y = vertexData[start+3].position.y;
 			vertexData[start+3].normal.z = vertexData[start+3].position.z;
-			
-			vertexData[start+4].position.x = cos(lat+kLatEvert) * cos(lon+kLonEvery);
-			vertexData[start+4].position.y = sin(lat+kLatEvert);
-			vertexData[start+4].position.z = cos(lat+kLatEvert) * sin(lon+kLonEvery);
-			vertexData[start+4].position.w = 1.0f;
-			vertexData[start+4].texcoord.x = u + uvLength;
-			vertexData[start+4].texcoord.y = v - uvLength;
-			vertexData[start+4].normal.x = vertexData[start+4].position.x;
-			vertexData[start+4].normal.y = vertexData[start+4].position.y;
-			vertexData[start+4].normal.z = vertexData[start+4].position.z;
-
-			vertexData[start+5].position.x = cos(lat) * cos(lon+kLonEvery);
-			vertexData[start+5].position.y = sin(lat);
-			vertexData[start+5].position.z = cos(lat) * sin(lon+kLonEvery);
-			vertexData[start+5].position.w = 1.0f;
-			vertexData[start+5].texcoord.x = u + uvLength;
-			vertexData[start+5].texcoord.y = v;
-			vertexData[start+5].normal.x = vertexData[start+5].position.x;
-			vertexData[start+5].normal.y = vertexData[start+5].position.y;
-			vertexData[start+5].normal.z = vertexData[start+5].position.z;
-
 		}
 	}
 
 
 
 	//Sprite用
-	vertexResourceSprite_ = CreateBufferResource(sizeof(VertexData)*6);
-	CreateBufferView(vertexBufferViewSprite_, vertexResourceSprite_.Get(), sizeof(VertexData)*6, sizeof(VertexData));
+	vertexResourceSprite_ = CreateBufferResource(sizeof(VertexData)*4);
+	CreateBufferView(vertexBufferViewSprite_, vertexResourceSprite_.Get(), sizeof(VertexData)*4, sizeof(VertexData));
 	vertexResourceSprite_->Map(0,nullptr,reinterpret_cast<void**>(&vertexDataSprite_));
 	//一枚目
 	vertexDataSprite_[0].position = {0.0f, 360.0f, 0.0f, 1.0f};		//左下
@@ -421,6 +401,35 @@ bool Object3D::CreateVertex()
 #pragma region インデックスリソース
 bool Object3D::CreateIndex()
 {
+	indexResource_ = CreateBufferResource(sizeof(uint32_t)*(kSubdivision*kSubdivision*6));
+	CreateBufferView(indexBufferView, indexResource_.Get(), sizeof(uint32_t)*(kSubdivision*kSubdivision*6));
+	indexResource_->Map(0,nullptr, reinterpret_cast<void**>(&indexData_));
+
+
+	//PI円周率
+	const float pi = 3.14159265f;
+	//経度分割1つ分の角度 φ
+	const float kLonEvery = pi * 2.0f / (float)kSubdivision;
+	//緯度分割1つ分の角度 Θ
+	const float kLatEvert = pi / (float)kSubdivision;
+	//経度インデックス
+	uint32_t lonIndex = 0;
+	//緯度インデックス
+	uint32_t latIndex = 0;
+	for(latIndex = 0; latIndex < kSubdivision; ++latIndex){
+		float lat = -pi / 2.0f + kLatEvert * latIndex;	//Θ
+		//経度の方向に分割しながら絵を書く
+		for(lonIndex = 0; lonIndex < kSubdivision; ++lonIndex){
+			uint32_t start = (latIndex * kSubdivision + lonIndex) * 6;
+
+			//インデックス
+			indexData_[start] = start;		indexData_[start+1] = start+1;	indexData_[start+2] = start+2;
+			indexData_[start+3] = start+1;	indexData_[start+4] = start+3;	indexData_[start+5] = start+2;
+		}
+	}
+
+
+	//Sprite用
 	indexResourceSprite_ = CreateBufferResource(sizeof(uint32_t)*6);
 
 	CreateBufferView(indexBufferViewSprite, indexResourceSprite_.Get(), sizeof(uint32_t)*6);
