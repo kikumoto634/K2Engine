@@ -13,7 +13,6 @@ Sphere *Sphere::Create(Transform transform)
 void Sphere::Update()
 {
 	ImGui::Text("Sphere");
-	ImGui::Text("Vert : %d", vertNum_);
 	ImGui::DragFloat3("Pos", &translate.x, 0.01f);
 	ImGui::DragFloat3("Rot", &rotation.x, 0.01f);
 	ImGui::DragFloat3("Scale", &scale.x, 0.01f);

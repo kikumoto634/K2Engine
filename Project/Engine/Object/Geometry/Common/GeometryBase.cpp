@@ -46,7 +46,7 @@ void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
 	if(isIndexDataEnable_)dxCommon->GetCommandList()->IASetIndexBuffer(&indexBufferView_);		//IBV設定
 
 	//形状設定、PSOに設定しているのとは別
-	dxCommon->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology);
 
 	//マテリアルのconstBufferの場所を設定
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(0, constResource_->GetGPUVirtualAddress());
@@ -164,7 +164,8 @@ void GeometryBase::PipelineStateInitialize()
 		rootParameters_,
 		staticSamplers_,
 		inputElementDesc_,
-		D3D12_FILL_MODE_SOLID
+		fillMode,
+		pipelinePrimitiveTopology
 	);
 }
 

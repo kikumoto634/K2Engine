@@ -17,7 +17,8 @@ public:
 		vector<D3D12_ROOT_PARAMETER> rootParameter,			//ルートパラメータ
 		vector<D3D12_STATIC_SAMPLER_DESC> staticSampler,	//サンプラー
 		vector<D3D12_INPUT_ELEMENT_DESC> inputLayoutDesc,	//インプットレイアウト
-		D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID	//描画種類
+		D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID,	//描画種類
+		D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE
 	);
 
 public:
@@ -69,6 +70,7 @@ private:
 	DirectXCommon* dxCommon_ = nullptr;
 
 	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_SOLID;
+	D3D12_PRIMITIVE_TOPOLOGY_TYPE primitiveTopology_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
 #pragma region シェーダ関連
 	std::wstring VSpath_;

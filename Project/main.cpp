@@ -4,6 +4,7 @@
 #include <Object3D/Object3D.h>
 #include "Camera.h"
 #include "Geometry/Sphere.h"
+#include "Geometry/Line.h"
 #include "Geometry/ObjModel.h"
 
 #include "Engine/Tool/ImGui/ImGuiManager.h"
@@ -20,7 +21,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 
 	//Object3D* obj = Object3D::Create();
 	Camera*camera = Camera::Create();
-	Sphere* base = Sphere::Create();
+	Line* base = Line::Create();
 	//ObjModel* obj = ObjModel::Create("cube");
 
 	while(win->ProcessMessage() == 0){

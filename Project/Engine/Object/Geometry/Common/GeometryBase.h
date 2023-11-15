@@ -90,6 +90,13 @@ protected:
 	uint32_t* indexData_ = nullptr;
 	UINT indexNum_ = 4;
 
+	//描画方法
+	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
+	D3D_PRIMITIVE_TOPOLOGY commandPrimitiveTopology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;				//コマンドリスト
+
+	D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID;	//塗りつぶし
+
+
 	//パラメータ
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	bool isLightEnable = true;

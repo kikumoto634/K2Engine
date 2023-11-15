@@ -15,7 +15,8 @@ void Pipeline::Create(
 	vector<D3D12_ROOT_PARAMETER> rootParameter,
 	vector<D3D12_STATIC_SAMPLER_DESC> staticSampler,	
 	vector<D3D12_INPUT_ELEMENT_DESC> inputLayoutDesc,
-	D3D12_FILL_MODE fillMode
+	D3D12_FILL_MODE fillMode,
+	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology
 )
 {
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -36,6 +37,9 @@ void Pipeline::Create(
 
 	//FillMode
 	fillMode_ = fillMode;
+
+	//Primitive Topology
+	primitiveTopology_ = pipelinePrimitiveTopology;
 
 
 	assert(SUCCEEDED(CreateDXCCompiler()));
@@ -231,7 +235,8 @@ bool Pipeline::CreatePipelineStateObject()
 	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 
 	//利用するトポロジ(形状)のタイプ
-	graphicsPipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	//graphicsPipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	graphicsPipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
 
 	//どのように画面に色を打ち込むか設定
 	graphicsPipelineStateDesc.SampleDesc.Count = 1;

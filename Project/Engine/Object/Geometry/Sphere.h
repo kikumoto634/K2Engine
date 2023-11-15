@@ -15,8 +15,6 @@ public:
 		indexNum_ = kSubdivision*kSubdivision*6;
 
 		PSPath_ = "Object3D/Object3D.PS.OneColor.hlsl";
-
-		return ;
 	}
 	void Update();
 
