@@ -12,7 +12,7 @@
 #include "Matrix4x4.h"
 
 //幾何学オブジェクトの共通
-class GeometryBase
+class GeometryBase : public Transform
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -111,7 +111,6 @@ protected:
 	UINT vertNum_ = 4;
 
 	//パラメータ
-	Transform transform_ = {{0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f}, {1.0f,1.0f,1.0f}};	//座標
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	bool isLightEnable = true;
 

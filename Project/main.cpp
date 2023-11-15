@@ -26,6 +26,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 		//更新開始
 		ImGuiManager::NewFrame();
 		imgui->ShowDemo();
+		camera->Update();
 		base->Update();
 
 

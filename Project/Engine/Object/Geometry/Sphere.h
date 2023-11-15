@@ -3,28 +3,17 @@
 class Sphere : public GeometryBase
 {
 public:
-	static Sphere* Create();
+	static Sphere* Create(Transform transform = {{0,0,0}, {0,0,0}, {1,1,1}});
 
 public:
-	Sphere(){
+	Sphere(Transform transform){
+		translate = transform.translate;
+		rotation = transform.rotation;
+		scale = transform.scale;
 		//頂点数決め
 		vertNum_ = kSubdivision*kSubdivision*6;
 	}
 	void Update();
-
-	//Getter
-	Transform GetTransform()	{return transform_;}
-	Vector4 GetColor()			{return color_;}
-	bool GetLightEnable()		{return isLightEnable;}
-
-	Vector4 GetLightColor()		{return lightColor_;}
-	Vector3 GetLightDirection()	{return lightDirection_;}
-	float GetLightIntensity()	{return lightIntensity;}
-
-	//Setter
-	void SetTransform(Transform trans)	{transform_ = trans;}
-
-	void SetLightDirection(Vector3 dir)	{lightDirection_ = dir;}
 
 private:
 	void SphereVertexData();

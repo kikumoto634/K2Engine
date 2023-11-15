@@ -11,6 +11,10 @@ void GeometryBase::Initialize()
 {
 	dxCommon = DirectXCommon::GetInstance();
 
+	translate = {0,0,0};
+	rotation = {0,0,0};
+	scale = {1,1,1};
+
 	//テクスチャSRV
 	TextureSRVInitialize();
 
@@ -28,7 +32,7 @@ void GeometryBase::Initialize()
 
 void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
 {
-	Matrix4x4 worldViewProjectionMatrix = transform_.GetWorldMatrix() * viewProjectionMatrix;
+	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * viewProjectionMatrix;
 	wvpData_->WVP = worldViewProjectionMatrix;
 	wvpData_->World = worldViewProjectionMatrix;
 

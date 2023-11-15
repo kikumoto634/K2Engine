@@ -1,11 +1,20 @@
 #include "Camera.h"
 #include "WindowsApp.h"
 
+#include <imgui.h>
+
 Camera::Camera(Transform transform)
 {
 	translate = transform.translate;
 	rotation = transform.rotation;
-	scale = transform.scale;
+}
+
+void Camera::Update()
+{
+	ImGui::Text("camera");
+	ImGui::DragFloat3("pos", &translate.x, 0.01f);
+	ImGui::DragFloat3("rot", &rotation.x, 0.01f);
+	ImGui::DragFloat("Aspect", &aspect_, 0.01f);
 }
 
 Camera* Camera::Create(Transform transform)
@@ -24,7 +33,7 @@ Matrix4x4 Camera::GetProjectionMatrix()
 {
 	projectionMatrix = 
 		projectionMatrix.MakePerspectiveFovMatrix(
-			0.45f,
+			aspect_,
 			(float)WindowsApp::kWindowWidth_/(float)WindowsApp::kWindowHeight_,
 			0.1f,
 			100.f

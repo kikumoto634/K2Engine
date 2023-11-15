@@ -1,9 +1,9 @@
 #include "Sphere.h"
 #include <imgui.h>
 
-Sphere *Sphere::Create()
+Sphere *Sphere::Create(Transform transform)
 {
-	Sphere* instance = new Sphere();
+	Sphere* instance = new Sphere(transform);
 	instance->Initialize();
 	instance->SphereVertexData();
 	return instance;
@@ -11,9 +11,10 @@ Sphere *Sphere::Create()
 
 void Sphere::Update()
 {
-	ImGui::DragFloat3("Pos", &transform_.translate.x, 0.1f);
-	ImGui::DragFloat3("Rot", &transform_.rotation.x, 0.1f);
-	ImGui::DragFloat3("Scale", &transform_.scale.x, 0.1f);
+	ImGui::Text("Sphere");
+	ImGui::DragFloat3("Pos", &translate.x, 0.01f);
+	ImGui::DragFloat3("Rot", &rotation.x, 0.01f);
+	ImGui::DragFloat3("Scale", &scale.x, 0.01f);
 }
 
 void Sphere::SphereVertexData()

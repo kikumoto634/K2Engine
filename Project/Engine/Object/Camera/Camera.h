@@ -10,6 +10,8 @@ public:
 	Camera() = default;
 	Camera(Transform transform);
 
+	void Update();
+
 	/// <summary>
 	/// カメラ行列
 	/// </summary>
@@ -30,5 +32,7 @@ private:
 	Matrix4x4 projectionMatrix;
 
 	Matrix4x4 viewProjectionMatrix;
+
+	float aspect_ = 0.45f;
 };
 
