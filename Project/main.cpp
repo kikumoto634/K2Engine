@@ -18,10 +18,10 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	ImGuiManager::Initialize(win->GetHWND(), dxCommon);
 
 
-	Object3D* obj = Object3D::Create();
+	//Object3D* obj = Object3D::Create();
 	Camera*camera = Camera::Create();
 	//Sphere* base = Sphere::Create();
-	//ObjModel* obj = ObjModel::Create("cube");
+	ObjModel* obj = ObjModel::Create("cube");
 
 	while(win->ProcessMessage() == 0){
 
@@ -37,9 +37,9 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 		dxCommon->PreDraw();
 
 		//描画
-		obj->Draw(camera->GetViewProjectionMatrix());
-		//base->Draw(camera->GetViewProjectionMatrix());
 		//obj->Draw(camera->GetViewProjectionMatrix());
+		//base->Draw(camera->GetViewProjectionMatrix());
+		obj->Draw(camera->GetViewProjectionMatrix());
 
 		//描画後
 		ImGuiManager::CommandsExcute(dxCommon->GetCommandList());

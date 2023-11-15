@@ -6,12 +6,14 @@ Sphere *Sphere::Create(Transform transform)
 	Sphere* instance = new Sphere(transform);
 	instance->Initialize();
 	instance->SphereVertexData();
+	instance->SphereIndexData();
 	return instance;
 }
 
 void Sphere::Update()
 {
 	ImGui::Text("Sphere");
+	ImGui::Text("Vert : %d", vertNum_);
 	ImGui::DragFloat3("Pos", &translate.x, 0.01f);
 	ImGui::DragFloat3("Rot", &rotation.x, 0.01f);
 	ImGui::DragFloat3("Scale", &scale.x, 0.01f);
@@ -37,7 +39,7 @@ void Sphere::SphereVertexData()
 		float lat = -pi / 2.0f + kLatEvert * latIndex;	//Θ
 		//経度の方向に分割しながら絵を書く
 		for(lonIndex = 0; lonIndex < kSubdivision; ++lonIndex){
-			uint32_t start = (latIndex * kSubdivision + lonIndex) * 6;
+			uint32_t start = (latIndex * kSubdivision + lonIndex) * 4;
 			float lon = lonIndex * kLonEvery;	//φ
 
 			float u = (float)lonIndex / (float)kSubdivision;
@@ -45,7 +47,6 @@ void Sphere::SphereVertexData()
 			float uvLength = 1.0f / (float)kSubdivision;
 
 			//頂点データを入力
-			//一枚目
 			vertData_[start].position.x = cos(lat) * cos(lon);
 			vertData_[start].position.y = sin(lat);
 			vertData_[start].position.z = cos(lat) * sin(lon);
@@ -76,37 +77,33 @@ void Sphere::SphereVertexData()
 			vertData_[start+2].normal.y = vertData_[start+2].position.y;
 			vertData_[start+2].normal.z = vertData_[start+2].position.z;
 
-			//二枚目
-			vertData_[start+3].position.x = cos(lat+kLatEvert) * cos(lon);
+			
+			vertData_[start+3].position.x = cos(lat+kLatEvert) * cos(lon+kLonEvery);
 			vertData_[start+3].position.y = sin(lat+kLatEvert);
-			vertData_[start+3].position.z = cos(lat+kLatEvert) * sin(lon);
+			vertData_[start+3].position.z = cos(lat+kLatEvert) * sin(lon+kLonEvery);
 			vertData_[start+3].position.w = 1.0f;
-			vertData_[start+3].texcoord.x = u;
+			vertData_[start+3].texcoord.x = u + uvLength;
 			vertData_[start+3].texcoord.y = v - uvLength;
 			vertData_[start+3].normal.x = vertData_[start+3].position.x;
 			vertData_[start+3].normal.y = vertData_[start+3].position.y;
 			vertData_[start+3].normal.z = vertData_[start+3].position.z;
-			
-			vertData_[start+4].position.x = cos(lat+kLatEvert) * cos(lon+kLonEvery);
-			vertData_[start+4].position.y = sin(lat+kLatEvert);
-			vertData_[start+4].position.z = cos(lat+kLatEvert) * sin(lon+kLonEvery);
-			vertData_[start+4].position.w = 1.0f;
-			vertData_[start+4].texcoord.x = u + uvLength;
-			vertData_[start+4].texcoord.y = v - uvLength;
-			vertData_[start+4].normal.x = vertData_[start+4].position.x;
-			vertData_[start+4].normal.y = vertData_[start+4].position.y;
-			vertData_[start+4].normal.z = vertData_[start+4].position.z;
 
-			vertData_[start+5].position.x = cos(lat) * cos(lon+kLonEvery);
-			vertData_[start+5].position.y = sin(lat);
-			vertData_[start+5].position.z = cos(lat) * sin(lon+kLonEvery);
-			vertData_[start+5].position.w = 1.0f;
-			vertData_[start+5].texcoord.x = u + uvLength;
-			vertData_[start+5].texcoord.y = v;
-			vertData_[start+5].normal.x = vertData_[start+5].position.x;
-			vertData_[start+5].normal.y = vertData_[start+5].position.y;
-			vertData_[start+5].normal.z = vertData_[start+5].position.z;
+		}
+	}
+}
 
+void Sphere::SphereIndexData()
+{
+	uint32_t lonIndex = 0;
+	uint32_t latIndex = 0;
+	for(latIndex = 0; latIndex < kSubdivision; ++latIndex){
+		for(lonIndex = 0; lonIndex < kSubdivision; ++lonIndex){
+			uint32_t start = (latIndex * kSubdivision + lonIndex) * 6;
+			uint32_t vertStart = (latIndex * kSubdivision + lonIndex) * 4;
+
+			//インデックス
+			indexData_[start] = vertStart;		indexData_[start+1] = vertStart+1;	indexData_[start+2] = vertStart+2;
+			indexData_[start+3] = vertStart+1;	indexData_[start+4] = vertStart+3;	indexData_[start+5] = vertStart+2;
 		}
 	}
 }

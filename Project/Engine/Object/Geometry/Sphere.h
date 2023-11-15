@@ -10,13 +10,16 @@ public:
 		translate = transform.translate;
 		rotation = transform.rotation;
 		scale = transform.scale;
-		//頂点数決め
-		vertNum_ = kSubdivision*kSubdivision*6;
+
+		vertNum_ = kSubdivision*kSubdivision*4;
+		indexNum_ = kSubdivision*kSubdivision*6;
+		return ;
 	}
 	void Update();
 
 private:
 	void SphereVertexData();
+	void SphereIndexData();
 
 private:
 	//球体分割数

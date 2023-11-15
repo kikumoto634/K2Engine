@@ -7,13 +7,15 @@
 #include "BufferView.h"
 
 
-void GeometryBase::Initialize()
+void GeometryBase::Initialize(bool isIndexEnable)
 {
 	dxCommon = DirectXCommon::GetInstance();
 
 	translate = {0,0,0};
 	rotation = {0,0,0};
 	scale = {1,1,1};
+
+	isIndexDataEnable_ = isIndexEnable;
 
 	//テクスチャSRV
 	TextureSRVInitialize();
@@ -41,6 +43,7 @@ void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
 	dxCommon->GetCommandList()->SetGraphicsRootSignature(pipeline_->GetRootSignature());
 	dxCommon->GetCommandList()->SetPipelineState(pipeline_->GetGraphicsPipelineState());	//PSO設定
 	dxCommon->GetCommandList()->IASetVertexBuffers(0,1,&vertexBufferView_);		//VBV設定
+	if(isIndexDataEnable_)dxCommon->GetCommandList()->IASetIndexBuffer(&indexBufferView_);		//IBV設定
 
 	//形状設定、PSOに設定しているのとは別
 	dxCommon->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -55,7 +58,9 @@ void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
 
 	//描画
-	dxCommon->GetCommandList()->DrawInstanced(vertNum_,1,0,0);
+	isIndexDataEnable_ ? 
+		dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,1,0,0,0) : 
+		dxCommon->GetCommandList()->DrawInstanced(vertNum_,1,0,0);
 }
 
 
@@ -176,15 +181,14 @@ void GeometryBase::CreateVertex()
 
 void GeometryBase::CreateIndex()
 {
-	//indexResourceSprite_ = CreateBufferResource(sizeof(uint32_t)*6);
+	if(!isIndexDataEnable_) return ;
 
-	//CreateBufferView(indexBufferViewSprite, indexResourceSprite_.Get(), sizeof(uint32_t)*6);
+	indexResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(uint32_t)*indexNum_);
 
-	////インデックスリソースにデータを書き込む
-	//indexResourceSprite_->Map(0, nullptr, reinterpret_cast<void**>(&indexDataSprite_));
+	CreateBufferView(indexBufferView_, indexResource_.Get(), sizeof(uint32_t)*indexNum_);
 
-	//indexDataSprite_[0] = 0;	indexDataSprite_[1] = 1;	indexDataSprite_[2] = 2;
-	//indexDataSprite_[3] = 1;	indexDataSprite_[4] = 3;	indexDataSprite_[5] = 2;
+	//インデックスリソースにデータを書き込む
+	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
 }
 
 void GeometryBase::CreateMaterial()

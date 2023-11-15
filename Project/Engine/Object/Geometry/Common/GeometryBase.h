@@ -27,7 +27,7 @@ public:
 
 protected:
 	//初期化
-	void Initialize();
+	void Initialize(bool isIndexEnable = true);
 
 private:
 
@@ -62,6 +62,9 @@ private:
 	ComPtr<ID3D12Resource> vertexResource_;		//頂点
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 
+	ComPtr<ID3D12Resource> indexResource_;
+	D3D12_INDEX_BUFFER_VIEW indexBufferView_;
+
 	ComPtr<ID3D12Resource> constResource_;		//定数
 	Material* materialData_ = nullptr;
 
@@ -81,6 +84,11 @@ protected:
 	//頂点データ
 	VertexData* vertData_ = nullptr;
 	UINT vertNum_ = 4;
+
+	//インデックスデータ
+	bool isIndexDataEnable_ = true;
+	uint32_t* indexData_ = nullptr;
+	UINT indexNum_ = 4;
 
 	//パラメータ
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};

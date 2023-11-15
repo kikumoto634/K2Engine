@@ -6,7 +6,7 @@ ObjModel *ObjModel::Create(std::string filePath, Transform transform)
 {
 	ObjModel* instance = new ObjModel(filePath, transform);
 	instance->ObjModelLoad();
-	instance->Initialize();
+	instance->Initialize(false);
 	instance->ObjModelVertexData();
 	return instance;
 }
