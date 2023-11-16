@@ -7,7 +7,7 @@ class SpriteLoader
 {
 public:
 	//画像読み込み
-	static DirectX::ScratchImage LoadTexture(const std::string& filePath);
+	static DirectX::ScratchImage LoadTexture(const std::string& filePath, DirectX::TexMetadata& metaData);
 
 	//テクスチャリソース作成
 	static ID3D12Resource* CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metaData);

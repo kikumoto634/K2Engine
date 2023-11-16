@@ -19,6 +19,13 @@ private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	template <class T> using vector = std::vector<T>;
 
+protected:
+	//描画タイプ
+	enum class PrimitiveType{
+		TRIANGLE,	//三角形
+		LINE		//ライン
+	};
+
 public:
 	~GeometryBase(){
 		delete pipeline_;
@@ -79,6 +86,10 @@ private:
 	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_ = {};	//画像のテクスチャハンドルCPU
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_ = {};	//画像テクスチャハンドルGPU
 
+	//描画方法
+	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
+	D3D_PRIMITIVE_TOPOLOGY commandPrimitiveTopology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;				//コマンドリスト
+
 
 protected:
 	//頂点データ
@@ -90,12 +101,8 @@ protected:
 	uint32_t* indexData_ = nullptr;
 	UINT indexNum_ = 4;
 
-	//描画方法
-	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
-	D3D_PRIMITIVE_TOPOLOGY commandPrimitiveTopology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;				//コマンドリスト
-
 	D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID;	//塗りつぶし
-
+	PrimitiveType primitiveType_ = PrimitiveType::TRIANGLE;		//描画方法
 
 	//パラメータ
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};

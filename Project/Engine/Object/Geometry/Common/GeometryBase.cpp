@@ -17,6 +17,12 @@ void GeometryBase::Initialize(bool isIndexEnable)
 
 	isIndexDataEnable_ = isIndexEnable;
 
+	//描画方法
+	if(primitiveType_ == PrimitiveType::LINE){
+		pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
+		commandPrimitiveTopology = D3D_PRIMITIVE_TOPOLOGY_LINELIST;
+	}
+
 	//テクスチャSRV
 	TextureSRVInitialize();
 
@@ -67,8 +73,8 @@ void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
 void GeometryBase::TextureSRVInitialize()
 {
 	//画像読み込み
-	DirectX::ScratchImage mipImages = SpriteLoader::LoadTexture(texturePath_);
-	const DirectX::TexMetadata& metaData = mipImages.GetMetadata();
+	DirectX::TexMetadata metaData;
+	DirectX::ScratchImage mipImages = SpriteLoader::LoadTexture(texturePath_, metaData);
 	ID3D12Resource* textureResource = SpriteLoader::CreateTextureResource(dxCommon->GetDevice(), metaData);
 	SpriteLoader::UploadTextureData(textureResource, mipImages);
 

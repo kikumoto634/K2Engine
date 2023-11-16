@@ -102,7 +102,7 @@ private:
 	ComPtr<IDxcBlob> vertexShaderBlob_;
 	ComPtr<IDxcBlob> pixelShaderBlob_;
 	//ブレンドディスク		: PixelShaderからの出力を画面にどのように書き込むか設定する項目
-	D3D12_BLEND_DESC blendDesc_{};
+	D3D12_RENDER_TARGET_BLEND_DESC blendDesc_{};
 	//ラスタライザ			: ラスタライザに対する処理
 	D3D12_RASTERIZER_DESC rasterizerDesc_{};
 

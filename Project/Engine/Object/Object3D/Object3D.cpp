@@ -18,13 +18,13 @@ void Object3D::Initialize()
 	dxCommon_ = DirectXCommon::GetInstance();
 
 	//画像読み込み
-	DirectX::ScratchImage mipImages1 = SpriteLoader::LoadTexture("uvChecker.png");
-	const DirectX::TexMetadata& metaData1 = mipImages1.GetMetadata();
+	DirectX::TexMetadata metaData1;
+	DirectX::ScratchImage mipImages1 = SpriteLoader::LoadTexture("texture.png", metaData1); 
 	ID3D12Resource*textureResource1 = SpriteLoader::CreateTextureResource(dxCommon_->GetDevice(), metaData1);
 	SpriteLoader::UploadTextureData(textureResource1, mipImages1);
 	
-	DirectX::ScratchImage mipImages2 = SpriteLoader::LoadTexture("monsterBall.png");
-	const DirectX::TexMetadata& metaData2 = mipImages2.GetMetadata();
+	DirectX::TexMetadata metaData2;
+	DirectX::ScratchImage mipImages2 = SpriteLoader::LoadTexture("monsterBall.png", metaData2);
 	ID3D12Resource*textureResource2 = SpriteLoader::CreateTextureResource(dxCommon_->GetDevice(), metaData2);
 	SpriteLoader::UploadTextureData(textureResource2, mipImages2);
 

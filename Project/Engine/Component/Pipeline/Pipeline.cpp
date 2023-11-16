@@ -179,7 +179,17 @@ bool Pipeline::CreateBlendState()
 	//PixelShaderからの出力を画面にどのように書き込むか設定する項目
 
 	//全ての色要素を書き込む
-	blendDesc_.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	blendDesc_.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	//レンダーターゲットのブレンド設定
+	//共通設定(α値)
+	blendDesc_.BlendEnable = true;					//ブレンド有効
+	blendDesc_.BlendOpAlpha = D3D12_BLEND_OP_ADD;	//加算
+	blendDesc_.SrcBlendAlpha = D3D12_BLEND_ONE;		//ソースの値を100%使う
+	blendDesc_.DestBlendAlpha = D3D12_BLEND_ZERO;	//デストの値を  0%使う
+
+	blendDesc_.BlendOp = D3D12_BLEND_OP_ADD;
+	blendDesc_.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	blendDesc_.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
 
 	return true;
 }
@@ -225,7 +235,7 @@ bool Pipeline::CreatePipelineStateObject()
 	graphicsPipelineStateDesc.PS = {pixelShaderBlob_.Get()->GetBufferPointer(), pixelShaderBlob_.Get()->GetBufferSize()};
 
 	//Blend
-	graphicsPipelineStateDesc.BlendState = blendDesc_;
+	graphicsPipelineStateDesc.BlendState.RenderTarget[0] = blendDesc_;
 
 	//Rasterrize
 	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc_;

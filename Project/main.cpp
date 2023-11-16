@@ -20,10 +20,10 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 
 
 	Camera*camera = Camera::Create();
-	Object3D* obj = Object3D::Create();
+	//Object3D* obj = Object3D::Create();
 	//Line* obj = Line::Create();
 	//Sphere* obj = Sphere::Create();
-	//ObjModel* obj = ObjModel::Create("cube");
+	ObjModel* obj = ObjModel::Create("cube");
 
 	while(win->ProcessMessage() == 0){
 

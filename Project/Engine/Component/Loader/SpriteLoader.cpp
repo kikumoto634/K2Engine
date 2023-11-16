@@ -7,7 +7,7 @@ using namespace std;
 
 string SpriteLoader::basePath = "Resources/";
 
-ScratchImage SpriteLoader::LoadTexture(const std::string &filePath)
+ScratchImage SpriteLoader::LoadTexture(const std::string &filePath, DirectX::TexMetadata& metaData)
 {
 	const string fullPath = basePath + filePath;
 
@@ -15,7 +15,7 @@ ScratchImage SpriteLoader::LoadTexture(const std::string &filePath)
 	ScratchImage image{};
 	wstring lFilePath = WindowsApp::ConvertString(fullPath);
 
-	HRESULT result = LoadFromWICFile(lFilePath.c_str(), WIC_FLAGS_FORCE_SRGB, nullptr, image);
+	HRESULT result = LoadFromWICFile(lFilePath.c_str(), WIC_FLAGS_FORCE_SRGB, &metaData, image);
 	assert(SUCCEEDED(result));
 
 	//ミップマップ
@@ -24,7 +24,12 @@ ScratchImage SpriteLoader::LoadTexture(const std::string &filePath)
 		image.GetImages(), image.GetImageCount(), image.GetMetadata(),
 		TEX_FILTER_SRGB, 0, mipImages
 	);
-	assert(SUCCEEDED(result));
+	if(SUCCEEDED(result)){
+		image = std::move(mipImages);
+		metaData = image.GetMetadata();
+	}
+
+	metaData.format = MakeSRGB(metaData.format);
 
 	return image;
 }
