@@ -98,7 +98,7 @@ protected:
 	//パラメータ
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 
-	std::string texturePath_ = "uvChecker.png";
+	std::string texturePath_ = "white1x1.png";
 
 	std::string VSPath_ = "Sprite/Sprite.VS.hlsl";
 	std::string PSPath_ = "Sprite/Sprite.PS.Texture.hlsl";

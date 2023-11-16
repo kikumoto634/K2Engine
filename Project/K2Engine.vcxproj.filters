@@ -25,18 +25,6 @@
     <Filter Include="ヘッダー ファイル\Engine\DirectXCommon">
       <UniqueIdentifier>{82a0485d-8d5f-4681-99ea-e13da9d77452}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Engine\Math">
-      <UniqueIdentifier>{7fc1da1b-da5b-4a76-9e76-730c67530066}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Math">
-      <UniqueIdentifier>{eb1ecf38-91bf-4584-829c-897e1ffb887d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Engine\Math\Vector">
-      <UniqueIdentifier>{78c53dfa-0f00-4923-947f-ac027aae391d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Math\Vector">
-      <UniqueIdentifier>{239be0b9-6e22-463e-9591-1262adc77131}</UniqueIdentifier>
-    </Filter>
     <Filter Include="リソース ファイル\Shader">
       <UniqueIdentifier>{d07203a2-fd2a-4fe5-8bd2-90df0669b69c}</UniqueIdentifier>
     </Filter>
@@ -57,12 +45,6 @@
     </Filter>
     <Filter Include="リソース ファイル\Shader\Object3D">
       <UniqueIdentifier>{b8b79309-267a-4bc0-ac5f-139d31698071}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Math\Matrix">
-      <UniqueIdentifier>{eb7c61fb-83cf-4274-b6f3-53c3113f8ff3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Engine\Math\Matrix">
-      <UniqueIdentifier>{13149cab-3cef-43aa-b925-04249a6fc92d}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Engine\Component">
       <UniqueIdentifier>{84d3aa69-fc56-4c88-84fc-4e3825354f2d}</UniqueIdentifier>
@@ -115,12 +97,6 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{877d8d17-0354-466a-ac3f-aa0f52f0a911}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Engine\Component\Loader">
-      <UniqueIdentifier>{eeb5b5d2-d8e0-4f23-b16d-673cc8754758}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Component\Loader">
-      <UniqueIdentifier>{ea32bc8a-b2e2-4b15-a820-9aa30e20a161}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Engine\Component\DepthStencil">
       <UniqueIdentifier>{f6ca520f-441c-4115-a331-45f4caa9f05b}</UniqueIdentifier>
     </Filter>
@@ -154,6 +130,36 @@
     <Filter Include="リソース ファイル\Shader\Sprite">
       <UniqueIdentifier>{80ff74f8-0d37-40c9-9ec3-057eb267b57b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Engine\FrameWork">
+      <UniqueIdentifier>{22690821-7380-4ca9-bbf3-4f7744b237ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\FrameWork">
+      <UniqueIdentifier>{616ca278-fc8f-43c7-8eb1-5f3628768f88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Application\Loader">
+      <UniqueIdentifier>{eeb5b5d2-d8e0-4f23-b16d-673cc8754758}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Application\Loader">
+      <UniqueIdentifier>{ea32bc8a-b2e2-4b15-a820-9aa30e20a161}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Application\Math">
+      <UniqueIdentifier>{eb1ecf38-91bf-4584-829c-897e1ffb887d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Application\Math\Vector">
+      <UniqueIdentifier>{239be0b9-6e22-463e-9591-1262adc77131}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Application\Math\Matrix">
+      <UniqueIdentifier>{eb7c61fb-83cf-4274-b6f3-53c3113f8ff3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Application\Math">
+      <UniqueIdentifier>{7fc1da1b-da5b-4a76-9e76-730c67530066}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Application\Math\Vector">
+      <UniqueIdentifier>{78c53dfa-0f00-4923-947f-ac027aae391d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Application\Math\Matrix">
+      <UniqueIdentifier>{13149cab-3cef-43aa-b925-04249a6fc92d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -165,20 +171,8 @@
     <ClCompile Include="Engine\DirectXCommon\DirectXCommon.cpp">
       <Filter>ソース ファイル\Engine\DirectXCommon</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Math\Vector\Vector4.cpp">
-      <Filter>ソース ファイル\Engine\Math\Vector</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Object\Object3D\Object3D.cpp">
       <Filter>ソース ファイル\Engine\Object\Object3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Math\Vector\Vector2.cpp">
-      <Filter>ソース ファイル\Engine\Math\Vector</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Math\Vector\Vector3.cpp">
-      <Filter>ソース ファイル\Engine\Math\Vector</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Math\Matrix\Matrix4x4.cpp">
-      <Filter>ソース ファイル\Engine\Math\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object\Camera\Camera.cpp">
       <Filter>ソース ファイル\Engine\Object\Camera</Filter>
@@ -231,12 +225,6 @@
     <ClCompile Include="Engine\Component\DepthStencil\DepthStencil.cpp">
       <Filter>ソース ファイル\Engine\Component\DepthStencil</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Component\Loader\ObjLoader.cpp">
-      <Filter>ソース ファイル\Engine\Component\Loader</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Component\Loader\SpriteLoader.cpp">
-      <Filter>ソース ファイル\Engine\Component\Loader</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Object\Geometry\ObjModel.cpp">
       <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
     </ClCompile>
@@ -249,6 +237,30 @@
     <ClCompile Include="Engine\Object\Geometry\Sprite2D.cpp">
       <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\FrameWork\FrameWork.cpp">
+      <Filter>ソース ファイル\Engine\FrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Loader\ObjLoader.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Loader\SpriteLoader.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Math\Matrix\Matrix4x4.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Math\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Math\Vector\Vector2.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Math\Vector\Vector3.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Math\Vector\Vector4.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\FrameWork\Application.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -257,20 +269,8 @@
     <ClInclude Include="Engine\DirectXCommon\DirectXCommon.h">
       <Filter>ヘッダー ファイル\Engine\DirectXCommon</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Math\Vector\Vector4.h">
-      <Filter>ヘッダー ファイル\Engine\Math\Vector</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Object\Object3D\Object3D.h">
       <Filter>ヘッダー ファイル\Engine\Object\Object3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Math\Vector\Vector3.h">
-      <Filter>ヘッダー ファイル\Engine\Math\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Math\Vector\Vector2.h">
-      <Filter>ヘッダー ファイル\Engine\Math\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Math\Matrix\Matrix4x4.h">
-      <Filter>ヘッダー ファイル\Engine\Math\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object\Camera\Camera.h">
       <Filter>ヘッダー ファイル\Engine\Object\Camera</Filter>
@@ -326,12 +326,6 @@
     <ClInclude Include="Engine\Component\DepthStencil\DepthStencil.h">
       <Filter>ヘッダー ファイル\Engine\Component\DepthStencil</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Loader\ObjLoader.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Loader\SpriteLoader.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Loader</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Component\Struct\VertexData.h">
       <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
     </ClInclude>
@@ -358,6 +352,30 @@
     </ClInclude>
     <ClInclude Include="Engine\Object\Geometry\Sprite2D.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\FrameWork\FrameWork.h">
+      <Filter>ヘッダー ファイル\Engine\FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Loader\ObjLoader.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Loader\SpriteLoader.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Math\Matrix\Matrix4x4.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Math\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Math\Vector\Vector2.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Math\Vector\Vector3.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Math\Vector\Vector4.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\FrameWork\Application.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
