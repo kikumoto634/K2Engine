@@ -246,6 +246,9 @@
     <ClCompile Include="Engine\Object\Geometry\Common\SpriteBase.cpp">
       <Filter>ソース ファイル\Engine\Object\Geometry\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\Sprite2D.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -352,6 +355,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Object\Geometry\Common\SpriteBase.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Sprite2D.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

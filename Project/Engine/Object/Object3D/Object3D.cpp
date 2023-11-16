@@ -201,9 +201,9 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	transformationMatrixDataSprite_->WVP = worldViewProjectionMatrixSprite;
 	transformationMatrixDataSprite_->World = worldViewProjectionMatrixSprite;
 
-	Matrix4x4 scaleSprite = scaleSprite.MakeScaleMatrix(uvTransformSprite.scale);
-	Matrix4x4 rotZSprite = rotZSprite.MakeRotationZMatrix(uvTransformSprite.rotation.z);
-	Matrix4x4 transSprite = transSprite.MakeTranslateMatrix(uvTransformSprite.translate);
+	Matrix4x4 scaleSprite = MakeScaleMatrix(uvTransformSprite.scale);
+	Matrix4x4 rotZSprite = MakeRotationZMatrix(uvTransformSprite.rotation.z);
+	Matrix4x4 transSprite = MakeTranslateMatrix(uvTransformSprite.translate);
 	Matrix4x4 uvTransformMatrix = scaleSprite;
 	uvTransformMatrix = uvTransformMatrix * rotZSprite;
 	uvTransformMatrix = uvTransformMatrix * transSprite;

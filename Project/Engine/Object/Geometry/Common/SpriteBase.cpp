@@ -10,10 +10,6 @@ void SpriteBase::Initialize(bool isIndexEnable)
 {
 	dxCommon = DirectXCommon::GetInstance();
 
-	translate = {0,0,0};
-	rotation = {0,0,0};
-	scale = {1,1,1};
-
 	//テクスチャSRV
 	TextureSRVInitialize();
 
@@ -171,32 +167,14 @@ void SpriteBase::CreateVertex()
 	vertexResource_ = CreateBufferResource(dxCommon->GetDevice() ,sizeof(VertexData)*4);
 	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*4, sizeof(VertexData));
 	vertexResource_->Map(0,nullptr,reinterpret_cast<void**>(&vertData_));
-	//一枚目
-	vertData_[0].position = {0.0f, 100.0f, 0.0f, 1.0f};		//左下
-	vertData_[0].texcoord = {0.0f, 1.0f};
-	vertData_[0].normal = {0.0f, 0.0f, -1.0f};
-	vertData_[1].position = {0.0f, 0.0f, 0.0f, 1.0f};		//左上
-	vertData_[1].texcoord = {0.0f, 0.0f};
-	vertData_[1].normal = {0.0f, 0.0f, -1.0f};
-	vertData_[2].position = {100.0f, 100.0f, 0.0f, 1.0f};	//右下
-	vertData_[2].texcoord = {1.0f, 1.0f};
-	vertData_[2].normal = {0.0f, 0.0f, -1.0f};
-	vertData_[3].position = {100.0f, 0.0f, 0.0f, 1.0f};		//右上
-	vertData_[3].texcoord = {1.0f, 0.0f};
-	vertData_[3].normal = {0.0f, 0.0f, -1.0f};
 }
 
 void SpriteBase::CreateIndex()
 {
 	indexResource_ = CreateBufferResource(dxCommon->GetDevice() ,sizeof(uint32_t)*6);
-
 	CreateBufferView(indexBufferView_, indexResource_.Get(), sizeof(uint32_t)*6);
-
 	//インデックスリソースにデータを書き込む
 	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
-
-	indexData_[0] = 0;	indexData_[1] = 1;	indexData_[2] = 2;
-	indexData_[3] = 1;	indexData_[4] = 3;	indexData_[5] = 2;
 }
 
 void SpriteBase::CreateMaterial()

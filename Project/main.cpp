@@ -2,12 +2,11 @@
 #include "DirectXCommon.h"
 
 #include <Object3D/Object3D.h>
-#include "Geometry/Common/SpriteBase.h"
-
 #include "Camera.h"
 #include "Geometry/Sphere.h"
 #include "Geometry/Line.h"
 #include "Geometry/ObjModel.h"
+#include "Geometry/Sprite2D.h"
 
 #include "Engine/Tool/ImGui/ImGuiManager.h"
 
@@ -26,8 +25,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	//Line* obj = Line::Create();
 	//Sphere* obj = Sphere::Create();
 	//ObjModel* obj = ObjModel::Create("cube");
-	SpriteBase* obj = new SpriteBase();
-	obj->Initialize();
+	Sprite2D* obj = Sprite2D::Create();
 
 	while(win->ProcessMessage() == 0){
 
@@ -35,7 +33,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 		ImGuiManager::NewFrame();
 		imgui->ShowDemo();
 		camera->Update();
-		//obj->Update();
+		obj->Update();
 
 		//描画前
 		ImGuiManager::CreateCommand();

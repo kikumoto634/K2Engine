@@ -178,6 +178,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Object\Geometry\Line.cpp" />
     <ClCompile Include="Engine\Object\Geometry\ObjModel.cpp" />
     <ClCompile Include="Engine\Object\Geometry\Sphere.cpp" />
+    <ClCompile Include="Engine\Object\Geometry\Sprite2D.cpp" />
     <ClCompile Include="Engine\Object\Object3D\Object3D.cpp" />
     <ClCompile Include="Engine\Tool\ImGui\ImGuiManager.cpp" />
     <ClCompile Include="Engine\Window\WindowsApp.cpp" />
@@ -215,6 +216,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Object\Geometry\Line.h" />
     <ClInclude Include="Engine\Object\Geometry\ObjModel.h" />
     <ClInclude Include="Engine\Object\Geometry\Sphere.h" />
+    <ClInclude Include="Engine\Object\Geometry\Sprite2D.h" />
     <ClInclude Include="Engine\Object\Object3D\Object3D.h" />
     <ClInclude Include="Engine\Tool\ImGui\ImGuiManager.h" />
     <ClInclude Include="Engine\Window\WindowsApp.h" />

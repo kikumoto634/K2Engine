@@ -24,7 +24,7 @@ public:
 	}
 	void Draw(Matrix4x4 viewProjectionMatrix);
 
-public:
+protected:
 	//初期化
 	void Initialize(bool isIndexEnable = true);
 
