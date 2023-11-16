@@ -32,7 +32,7 @@ Matrix4x4 Camera::GetViewMatrix()
 Matrix4x4 Camera::GetProjectionMatrix()
 {
 	projectionMatrix = 
-		projectionMatrix.MakePerspectiveFovMatrix(
+		MakePerspectiveFovMatrix(
 			aspect_,
 			(float)WindowsApp::kWindowWidth_/(float)WindowsApp::kWindowHeight_,
 			0.1f,

@@ -220,31 +220,6 @@ Matrix4x4 Matrix4x4::Inverse(Matrix4x4 m) {
 	return result;
 }
 
-Matrix4x4 Matrix4x4::MakePerspectiveFovMatrix(float fovY, float aspectRatio, float nearClip, float farClip)
-{
-	Matrix4x4 result = {
-		(1/aspectRatio)*(1/(std::tanf(fovY/2))),	0,	0,	0,
-		0,	(1/(std::tanf(fovY/2))),	0,	0,
-		0,	0,	farClip/(farClip-nearClip),	1,
-		0,	0,	(-nearClip*farClip)/(farClip-nearClip),	0
-	};
-
-	return result;
-}
-
-Matrix4x4 Matrix4x4::MakeOrthographicMatrix(float left, float top, float right, float down, float nearClip, float farClip)
-{
-	Matrix4x4 result = {
-		2/(right-left), 0, 0, 0,
-		0, 2/(top-down), 0, 0,
-		0, 0, (farClip-nearClip), 0,
-		(left+right)/(left-right), (top+down)/(down-top), nearClip/(nearClip-farClip), 1		
-	};
-
-	return result;
-}
-
-
 Matrix4x4 &Matrix4x4::operator*=(Matrix4x4 &m1)
 {
 	Matrix4x4 temp;
@@ -262,6 +237,134 @@ Matrix4x4 &Matrix4x4::operator*=(Matrix4x4 &m1)
 	return *this;
 }
 
+
+
+Matrix4x4 MakeIdentityMatrix()
+{
+	Matrix4x4 result{
+		1.0f, 0.0f, 0.0f, 0.0f, 
+		0.0f, 1.0f, 0.0f, 0.0f,
+	    0.0f, 0.0f, 1.0f, 0.0f, 
+		0.0f, 0.0f, 0.0f, 1.0f};
+
+	return result;
+}
+
+Matrix4x4 MakeScaleMatrix(const Vector3 &scale)
+{
+	Matrix4x4 result;
+
+	result = {
+		scale.x, 0.0f,	  0.0f,		0.0f,
+		0.0f,	 scale.y, 0.0f,		0.0f,
+		0.0f,	 0.0f,	  scale.z,  0.0f,
+		0.0f,	 0.0f,	  0.0f,		1.0f,
+	};
+
+	return result; 
+}
+
+Matrix4x4 MakeRotationXMatrix(float theta)
+{
+	float sin = std::sin(theta);
+	float cos = std::cos(theta);
+
+	Matrix4x4 result = {
+		1.0f,	0.0f,		0.0f,	0.0f,
+		0.0f,	cos,		sin,	0.0f,
+		0.0f,	-sin,		cos,	0.0f,
+		0.0f,	0.0f,		0.0f,	1.0f,
+	};
+
+	return result; 
+}
+
+Matrix4x4 MakeRotationYMatrix(float theta)
+{
+	float sin = std::sin(theta);
+	float cos = std::cos(theta);
+
+	Matrix4x4 result = {
+		cos, 0.0f, -sin, 0.0f, 
+		0.0f,1.0f, 0.0f, 0.0f,
+		sin, 0.0f, cos,  0.0f, 
+		0.0f,0.0f, 0.0f, 1.0f
+	};
+
+	return result;
+}
+
+Matrix4x4 MakeRotationZMatrix(float theta)
+{
+	float sin = std::sin(theta);
+	float cos = std::cos(theta);
+
+	Matrix4x4 result = {
+		cos,  sin,  0.0f, 0.0f, 
+		-sin, cos,  0.0f, 0.0f,
+	    0.0f, 0.0f, 1.0f, 0.0f, 
+		0.0f, 0.0f, 0.0f, 1.0f
+	};
+
+	return result;
+}
+
+Matrix4x4 MakeTranslateMatrix(const Vector3 &trans)
+{
+	Matrix4x4 result = {
+		1.0f,	 0.0f,	  0.0f,	   0.0f,
+		0.0f,	 1.0f,	  0.0f,	   0.0f,
+		0.0f,	 0.0f,	  1.0f,	   0.0f,
+		trans.x, trans.y, trans.z, 1.0f,
+	};
+
+	return result; 
+}
+
+Matrix4x4 MakeAffineMatrix(const Vector3 &scale, const Vector3 &rot, const Vector3 &trans)
+{
+	//スケーリング行列
+	Matrix4x4 matScale = MakeScaleMatrix(scale);
+
+	//回転行列
+	Matrix4x4 matRotX = MakeRotationXMatrix(rot.x);
+	Matrix4x4 matRotY = MakeRotationYMatrix(rot.y);
+	Matrix4x4 matRotZ = MakeRotationZMatrix(rot.z);
+	//合成(Z * X * Y)
+	Matrix4x4 matRot = matRotZ * matRotX * matRotY;
+
+	//平行移動行列
+	Matrix4x4 matTrans = MakeTranslateMatrix(trans);
+
+	//合成
+	Matrix4x4 result = matScale*matRot*matTrans;
+
+	return result;
+}
+
+Matrix4x4 MakePerspectiveFovMatrix(float fovY, float aspectRatio, float nearClip, float farClip)
+{
+	Matrix4x4 result = {
+		(1/aspectRatio)*(1/(std::tanf(fovY/2))),	0,	0,	0,
+		0,	(1/(std::tanf(fovY/2))),	0,	0,
+		0,	0,	farClip/(farClip-nearClip),	1,
+		0,	0,	(-nearClip*farClip)/(farClip-nearClip),	0
+	};
+
+	return result;
+}
+
+Matrix4x4 MakeOrthographicMatrix(float left, float top, float right, float down, float nearClip, float farClip)
+{
+	Matrix4x4 result = {
+		2/(right-left), 0, 0, 0,
+		0, 2/(top-down), 0, 0,
+		0, 0, (farClip-nearClip), 0,
+		(left+right)/(left-right), (top+down)/(down-top), nearClip/(nearClip-farClip), 1		
+	};
+
+	return result;
+}
 
 Matrix4x4 operator*(Matrix4x4 &m1, Matrix4x4 &m2)
 {

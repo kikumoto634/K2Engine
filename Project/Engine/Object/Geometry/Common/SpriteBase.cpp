@@ -30,16 +30,16 @@ void SpriteBase::Initialize(bool isIndexEnable)
 
 void SpriteBase::Draw(Matrix4x4 viewProjectionMatrix)
 {
-	Matrix4x4 worldMatrixSprite = worldMatrixSprite.MakeAffineMatrix(scale, rotation, translate);
-	Matrix4x4 viewMatrixSprite = viewMatrixSprite.MakeIdentityMatrix();
-	Matrix4x4 projectionMatrixSprite = projectionMatrixSprite.MakeOrthographicMatrix(0.0f,0.0f, (float)WindowsApp::kWindowWidth_,(float)WindowsApp::kWindowHeight_, 0.0f,100.0f);
+	Matrix4x4 worldMatrixSprite = MakeAffineMatrix(scale, rotation, translate);
+	Matrix4x4 viewMatrixSprite = MakeIdentityMatrix();
+	Matrix4x4 projectionMatrixSprite = MakeOrthographicMatrix(0.0f,0.0f, (float)WindowsApp::kWindowWidth_,(float)WindowsApp::kWindowHeight_, 0.0f,100.0f);
 	Matrix4x4 worldViewProjectionMatrixSprite = worldMatrixSprite * (viewMatrixSprite*projectionMatrixSprite);
 	wvpData_->WVP = worldViewProjectionMatrixSprite;
 	wvpData_->World = worldViewProjectionMatrixSprite;
 
-	Matrix4x4 scaleSprite = scaleSprite.MakeScaleMatrix(uvTransformSprite.scale);
-	Matrix4x4 rotZSprite = rotZSprite.MakeRotationZMatrix(uvTransformSprite.rotation.z);
-	Matrix4x4 transSprite = transSprite.MakeTranslateMatrix(uvTransformSprite.translate);
+	Matrix4x4 scaleSprite = MakeScaleMatrix(uvTransformSprite.scale);
+	Matrix4x4 rotZSprite = MakeRotationZMatrix(uvTransformSprite.rotation.z);
+	Matrix4x4 transSprite = MakeTranslateMatrix(uvTransformSprite.translate);
 	Matrix4x4 uvTransformMatrix = scaleSprite;
 	uvTransformMatrix = uvTransformMatrix * rotZSprite;
 	uvTransformMatrix = uvTransformMatrix * transSprite;

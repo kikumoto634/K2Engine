@@ -196,7 +196,7 @@ void Object3D::Draw(Matrix4x4 viewProjectionMatrix)
 	//Sprite用
 	Matrix4x4 worldMatrixSprite = worldMatrixSprite.MakeAffineMatrix(transformSprite_.scale, transformSprite_.rotation, transformSprite_.translate);
 	Matrix4x4 viewMatrixSprite = viewMatrixSprite.MakeIdentityMatrix();
-	Matrix4x4 projectionMatrixSprite = projectionMatrixSprite.MakeOrthographicMatrix(0.0f,0.0f, (float)WindowsApp::kWindowWidth_,(float)WindowsApp::kWindowHeight_, 0.0f,100.0f);
+	Matrix4x4 projectionMatrixSprite = MakeOrthographicMatrix(0.0f,0.0f, (float)WindowsApp::kWindowWidth_,(float)WindowsApp::kWindowHeight_, 0.0f,100.0f);
 	Matrix4x4 worldViewProjectionMatrixSprite = worldMatrixSprite * (viewMatrixSprite*projectionMatrixSprite);
 	transformationMatrixDataSprite_->WVP = worldViewProjectionMatrixSprite;
 	transformationMatrixDataSprite_->World = worldViewProjectionMatrixSprite;
