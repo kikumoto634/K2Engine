@@ -16,7 +16,7 @@ public:
 		PSPath_ = "Object3D/Object3D.PS.OneColor.hlsl";
 
 		pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
-		commandPrimitiveTopology = D3D10_PRIMITIVE_TOPOLOGY_LINELIST;
+		commandPrimitiveTopology = D3D_PRIMITIVE_TOPOLOGY_LINELIST;
 	}
 
 	void Update();

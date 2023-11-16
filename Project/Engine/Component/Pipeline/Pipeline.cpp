@@ -235,9 +235,9 @@ bool Pipeline::CreatePipelineStateObject()
 	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 
 	//利用するトポロジ(形状)のタイプ
-	//graphicsPipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-	graphicsPipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
-
+	graphicsPipelineStateDesc.PrimitiveTopologyType = primitiveTopology_;
+;
+	
 	//どのように画面に色を打ち込むか設定
 	graphicsPipelineStateDesc.SampleDesc.Count = 1;
 	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;

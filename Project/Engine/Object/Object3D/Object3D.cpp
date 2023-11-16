@@ -147,7 +147,7 @@ void Object3D::PipelineInitialize()
 	//生成
 	pipeline_->Create(
 		L"Object3D/Object3D.VS.hlsl",
-		L"Object3D/Object3D.PS.hlsl",
+		L"Object3D/Object3D.PS.Texture.hlsl",
 		rootParameters_,
 		staticSamplers_,
 		inputElementDescs_,
