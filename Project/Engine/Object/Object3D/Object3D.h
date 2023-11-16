@@ -109,7 +109,7 @@ private:
 
 	//定数リソース
 	ComPtr<ID3D12Resource> constResource_;
-	Material* materialData = nullptr;
+	GeometryMaterial* materialData = nullptr;
 
 	//行列リソース
 	ComPtr<ID3D12Resource> wvpResource_;
@@ -144,7 +144,7 @@ private:
 	D3D12_INDEX_BUFFER_VIEW indexBufferViewSprite{};
 
 	ComPtr<ID3D12Resource> constResourceSprite_;
-	Material* materialDataSprite = nullptr;
+	GeometryMaterial* materialDataSprite = nullptr;
 
 	ComPtr<ID3D12Resource> transformationMatrixResourceSprite_;
 	TransformationMatrix* transformationMatrixDataSprite_ = nullptr;

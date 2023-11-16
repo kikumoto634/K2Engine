@@ -2,6 +2,8 @@
 #include "DirectXCommon.h"
 
 #include <Object3D/Object3D.h>
+#include "Geometry/Common/SpriteBase.h"
+
 #include "Camera.h"
 #include "Geometry/Sphere.h"
 #include "Geometry/Line.h"
@@ -23,7 +25,9 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	//Object3D* obj = Object3D::Create();
 	//Line* obj = Line::Create();
 	//Sphere* obj = Sphere::Create();
-	ObjModel* obj = ObjModel::Create("cube");
+	//ObjModel* obj = ObjModel::Create("cube");
+	SpriteBase* obj = new SpriteBase();
+	obj->Initialize();
 
 	while(win->ProcessMessage() == 0){
 
@@ -31,7 +35,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 		ImGuiManager::NewFrame();
 		imgui->ShowDemo();
 		camera->Update();
-		obj->Update();
+		//obj->Update();
 
 		//描画前
 		ImGuiManager::CreateCommand();
@@ -46,7 +50,6 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int){
 	}
 	delete obj;
 	delete camera;
-	//delete obj;
 	delete imgui;
 	DirectXCommon::Finalize();
 	WindowsApp::Finalize();

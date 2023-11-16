@@ -19,7 +19,7 @@ void Object3D::Initialize()
 
 	//画像読み込み
 	DirectX::TexMetadata metaData1;
-	DirectX::ScratchImage mipImages1 = SpriteLoader::LoadTexture("texture.png", metaData1); 
+	DirectX::ScratchImage mipImages1 = SpriteLoader::LoadTexture("white1x1.png", metaData1); 
 	ID3D12Resource*textureResource1 = SpriteLoader::CreateTextureResource(dxCommon_->GetDevice(), metaData1);
 	SpriteLoader::UploadTextureData(textureResource1, mipImages1);
 	
@@ -381,16 +381,16 @@ bool Object3D::CreateVertex()
 	CreateBufferView(vertexBufferViewSprite_, vertexResourceSprite_.Get(), sizeof(VertexData)*4, sizeof(VertexData));
 	vertexResourceSprite_->Map(0,nullptr,reinterpret_cast<void**>(&vertexDataSprite_));
 	//一枚目
-	vertexDataSprite_[0].position = {0.0f, 360.0f, 0.0f, 1.0f};		//左下
+	vertexDataSprite_[0].position = {0.0f, 100.0f, 0.0f, 1.0f};		//左下
 	vertexDataSprite_[0].texcoord = {0.0f, 1.0f};
 	vertexDataSprite_[0].normal = {0.0f, 0.0f, -1.0f};
 	vertexDataSprite_[1].position = {0.0f, 0.0f, 0.0f, 1.0f};		//左上
 	vertexDataSprite_[1].texcoord = {0.0f, 0.0f};
 	vertexDataSprite_[1].normal = {0.0f, 0.0f, -1.0f};
-	vertexDataSprite_[2].position = {640.0f, 360.0f, 0.0f, 1.0f};	//右下
+	vertexDataSprite_[2].position = {100.0f, 100.0f, 0.0f, 1.0f};	//右下
 	vertexDataSprite_[2].texcoord = {1.0f, 1.0f};
 	vertexDataSprite_[2].normal = {0.0f, 0.0f, -1.0f};
-	vertexDataSprite_[3].position = {640.0f, 0.0f, 0.0f, 1.0f};		//右上
+	vertexDataSprite_[3].position = {100.0f, 0.0f, 0.0f, 1.0f};		//右上
 	vertexDataSprite_[3].texcoord = {1.0f, 0.0f};
 	vertexDataSprite_[3].normal = {0.0f, 0.0f, -1.0f};
 
@@ -437,7 +437,7 @@ bool Object3D::CreateIndex()
 #pragma region 定数リソース
 bool Object3D::CreateConstant()
 {
-	constResource_ = CreateBufferResource(sizeof(Material));
+	constResource_ = CreateBufferResource(sizeof(GeometryMaterial));
 
 	constResource_->Map(0,nullptr,reinterpret_cast<void**>(&materialData));
 	materialData->color = color_;
@@ -446,7 +446,7 @@ bool Object3D::CreateConstant()
 
 
 	//Sprite用
-	constResourceSprite_ = CreateBufferResource(sizeof(Material));
+	constResourceSprite_ = CreateBufferResource(sizeof(GeometryMaterial));
 
 	constResourceSprite_->Map(0,nullptr,reinterpret_cast<void**>(&materialDataSprite));
 	materialDataSprite->color = color_;

@@ -1,4 +1,4 @@
-#include "GeometryBase.h"
+#include "SpriteBase.h"
 
 #include "SpriteLoader.h"
 #include "DescriptorHeap.h"
@@ -6,22 +6,13 @@
 #include "BufferResource.h"
 #include "BufferView.h"
 
-
-void GeometryBase::Initialize(bool isIndexEnable)
+void SpriteBase::Initialize(bool isIndexEnable)
 {
 	dxCommon = DirectXCommon::GetInstance();
 
 	translate = {0,0,0};
 	rotation = {0,0,0};
 	scale = {1,1,1};
-
-	isIndexDataEnable_ = isIndexEnable;
-
-	//描画方法
-	if(primitiveType_ == PrimitiveType::LINE){
-		pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
-		commandPrimitiveTopology = D3D_PRIMITIVE_TOPOLOGY_LINELIST;
-	}
 
 	//テクスチャSRV
 	TextureSRVInitialize();
@@ -35,21 +26,31 @@ void GeometryBase::Initialize(bool isIndexEnable)
 	CreateIndex();
 	CreateMaterial();
 	CreateWVP();
-	CreateLight();
 }
 
-void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
+void SpriteBase::Draw(Matrix4x4 viewProjectionMatrix)
 {
-	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * viewProjectionMatrix;
-	wvpData_->WVP = worldViewProjectionMatrix;
-	wvpData_->World = worldViewProjectionMatrix;
+	Matrix4x4 worldMatrixSprite = worldMatrixSprite.MakeAffineMatrix(scale, rotation, translate);
+	Matrix4x4 viewMatrixSprite = viewMatrixSprite.MakeIdentityMatrix();
+	Matrix4x4 projectionMatrixSprite = projectionMatrixSprite.MakeOrthographicMatrix(0.0f,0.0f, (float)WindowsApp::kWindowWidth_,(float)WindowsApp::kWindowHeight_, 0.0f,100.0f);
+	Matrix4x4 worldViewProjectionMatrixSprite = worldMatrixSprite * (viewMatrixSprite*projectionMatrixSprite);
+	wvpData_->WVP = worldViewProjectionMatrixSprite;
+	wvpData_->World = worldViewProjectionMatrixSprite;
+
+	Matrix4x4 scaleSprite = scaleSprite.MakeScaleMatrix(uvTransformSprite.scale);
+	Matrix4x4 rotZSprite = rotZSprite.MakeRotationZMatrix(uvTransformSprite.rotation.z);
+	Matrix4x4 transSprite = transSprite.MakeTranslateMatrix(uvTransformSprite.translate);
+	Matrix4x4 uvTransformMatrix = scaleSprite;
+	uvTransformMatrix = uvTransformMatrix * rotZSprite;
+	uvTransformMatrix = uvTransformMatrix * transSprite;
+	materialData_->uvTransform= uvTransformMatrix;
 
 
 	//ルートシグネチャ設定 PSOに設定しいているが別途設定が必要
 	dxCommon->GetCommandList()->SetGraphicsRootSignature(pipeline_->GetRootSignature());
 	dxCommon->GetCommandList()->SetPipelineState(pipeline_->GetGraphicsPipelineState());	//PSO設定
 	dxCommon->GetCommandList()->IASetVertexBuffers(0,1,&vertexBufferView_);		//VBV設定
-	if(isIndexDataEnable_)dxCommon->GetCommandList()->IASetIndexBuffer(&indexBufferView_);		//IBV設定
+	dxCommon->GetCommandList()->IASetIndexBuffer(&indexBufferView_);		//IBV設定
 
 	//形状設定、PSOに設定しているのとは別
 	dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology);
@@ -60,17 +61,12 @@ void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
 	//SRV(テクスチャ)のDescriptorTableの先頭を設定 2はRootParamterのインデックスRootParamter[2]
 	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU_);
-	//Light
-	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
 
 	//描画
-	isIndexDataEnable_ ? 
-		dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,1,0,0,0) : 
-		dxCommon->GetCommandList()->DrawInstanced(vertNum_,1,0,0);
+	dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,1,0,0,0);
 }
 
-
-void GeometryBase::TextureSRVInitialize()
+void SpriteBase::TextureSRVInitialize()
 {
 	//画像読み込み
 	DirectX::TexMetadata metaData;
@@ -91,8 +87,7 @@ void GeometryBase::TextureSRVInitialize()
 	dxCommon->GetDevice()->CreateShaderResourceView(textureResource, &srvDesc, textureSrvHandleCPU_);
 }
 
-
-void GeometryBase::PipelineStateInitialize()
+void SpriteBase::PipelineStateInitialize()
 {
 	//デスクリプタレンジ(SRV, CBVなどの情報をこれにまとめる)
 	//例 :														Shaderでは
@@ -108,7 +103,7 @@ void GeometryBase::PipelineStateInitialize()
 	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;		//Offsetを自動計算
 
 	//ルートパラメータ設定
-	rootParameters_.resize(4);
+	rootParameters_.resize(3);
 	//PS
 	rootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
 	rootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShader使用
@@ -123,10 +118,6 @@ void GeometryBase::PipelineStateInitialize()
 	rootParameters_[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShaderで使用
 	rootParameters_[2].DescriptorTable.pDescriptorRanges = descriptorRange;	//tableの中身の配列を指定
 	rootParameters_[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);	//Tableで利用する数
-	//Light(PS)
-	rootParameters_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
-	rootParameters_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShader
-	rootParameters_[3].Descriptor.ShaderRegister = 1;	//レジスタ番号 b1
 
 
 	//Sampler設定(シェーダーのPS SamplerState　シェーダでは画像のことをいう)
@@ -175,59 +166,53 @@ void GeometryBase::PipelineStateInitialize()
 	);
 }
 
-
-void GeometryBase::CreateVertex()
+void SpriteBase::CreateVertex()
 {
-	//リソース
-	vertexResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(VertexData)*vertNum_);
-	//ビュー
-	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*vertNum_, sizeof(VertexData));
-
-	//頂点リソースにデータを書き込む
-	//書き込むためのアドレス取得
+	vertexResource_ = CreateBufferResource(dxCommon->GetDevice() ,sizeof(VertexData)*4);
+	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*4, sizeof(VertexData));
 	vertexResource_->Map(0,nullptr,reinterpret_cast<void**>(&vertData_));
+	//一枚目
+	vertData_[0].position = {0.0f, 100.0f, 0.0f, 1.0f};		//左下
+	vertData_[0].texcoord = {0.0f, 1.0f};
+	vertData_[0].normal = {0.0f, 0.0f, -1.0f};
+	vertData_[1].position = {0.0f, 0.0f, 0.0f, 1.0f};		//左上
+	vertData_[1].texcoord = {0.0f, 0.0f};
+	vertData_[1].normal = {0.0f, 0.0f, -1.0f};
+	vertData_[2].position = {100.0f, 100.0f, 0.0f, 1.0f};	//右下
+	vertData_[2].texcoord = {1.0f, 1.0f};
+	vertData_[2].normal = {0.0f, 0.0f, -1.0f};
+	vertData_[3].position = {100.0f, 0.0f, 0.0f, 1.0f};		//右上
+	vertData_[3].texcoord = {1.0f, 0.0f};
+	vertData_[3].normal = {0.0f, 0.0f, -1.0f};
 }
 
-void GeometryBase::CreateIndex()
+void SpriteBase::CreateIndex()
 {
-	if(!isIndexDataEnable_) return ;
+	indexResource_ = CreateBufferResource(dxCommon->GetDevice() ,sizeof(uint32_t)*6);
 
-	indexResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(uint32_t)*indexNum_);
-
-	CreateBufferView(indexBufferView_, indexResource_.Get(), sizeof(uint32_t)*indexNum_);
+	CreateBufferView(indexBufferView_, indexResource_.Get(), sizeof(uint32_t)*6);
 
 	//インデックスリソースにデータを書き込む
 	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
+
+	indexData_[0] = 0;	indexData_[1] = 1;	indexData_[2] = 2;
+	indexData_[3] = 1;	indexData_[4] = 3;	indexData_[5] = 2;
 }
 
-void GeometryBase::CreateMaterial()
+void SpriteBase::CreateMaterial()
 {
-	constResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(GeometryMaterial));
+	constResource_ = CreateBufferResource(dxCommon->GetDevice() ,sizeof(TextureMaterial));
 
 	constResource_->Map(0,nullptr,reinterpret_cast<void**>(&materialData_));
 	materialData_->color = color_;
-	materialData_->enableLighting = isLightEnable;
-	materialData_->uvTransform = materialData_->uvTransform.MakeIdentityMatrix();
+	materialData_->uvTransform =materialData_->uvTransform.MakeIdentityMatrix();
 }
 
-void GeometryBase::CreateWVP()
+void SpriteBase::CreateWVP()
 {
-	wvpResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(TransformationMatrix));
-
-	wvpResource_->Map(0, nullptr, reinterpret_cast<void**>(&wvpData_));
-	
-	Matrix4x4 worldMatrix = worldMatrix.MakeIdentityMatrix();
-	wvpData_->WVP = worldMatrix;
-	wvpData_->World = worldMatrix;
-}
-
-void GeometryBase::CreateLight()
-{
-	directionalLightResource_= CreateBufferResource(dxCommon->GetDevice(), sizeof(DirectionalLight));
-
-	directionalLightResource_->Map(0,nullptr,reinterpret_cast<void**>(&directionalLightData_));
-
-	directionalLightData_->color = lightColor_;
-	directionalLightData_->direction = lightDirection_;
-	directionalLightData_->intensity = lightIntensity;
+	wvpResource_ = CreateBufferResource(dxCommon->GetDevice() ,sizeof(TransformationMatrix));
+	wvpResource_->Map(0,nullptr,reinterpret_cast<void**>(&wvpData_));
+	Matrix4x4 worldMatrixSprite = worldMatrixSprite.MakeIdentityMatrix();
+	wvpData_->WVP = worldMatrixSprite;
+	wvpData_->World = worldMatrixSprite;
 }

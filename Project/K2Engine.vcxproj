@@ -174,6 +174,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Math\Vector\Vector4.cpp" />
     <ClCompile Include="Engine\Object\Camera\Camera.cpp" />
     <ClCompile Include="Engine\Object\Geometry\Common\GeometryBase.cpp" />
+    <ClCompile Include="Engine\Object\Geometry\Common\SpriteBase.cpp" />
     <ClCompile Include="Engine\Object\Geometry\Line.cpp" />
     <ClCompile Include="Engine\Object\Geometry\ObjModel.cpp" />
     <ClCompile Include="Engine\Object\Geometry\Sphere.cpp" />
@@ -210,6 +211,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Math\Vector\Vector4.h" />
     <ClInclude Include="Engine\Object\Camera\Camera.h" />
     <ClInclude Include="Engine\Object\Geometry\Common\GeometryBase.h" />
+    <ClInclude Include="Engine\Object\Geometry\Common\SpriteBase.h" />
     <ClInclude Include="Engine\Object\Geometry\Line.h" />
     <ClInclude Include="Engine\Object\Geometry\ObjModel.h" />
     <ClInclude Include="Engine\Object\Geometry\Sphere.h" />
@@ -259,12 +261,27 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="Resources\Shaders\Sprite\Sprite.PS.Texture.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Sprite\Sprite.VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.0</ShaderModel>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="External\imgui\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Object3D\Object3D.hlsli" />
+    <None Include="Resources\Shaders\Sprite\Sprite.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

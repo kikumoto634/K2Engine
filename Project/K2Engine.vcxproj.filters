@@ -151,6 +151,9 @@
     <Filter Include="ヘッダー ファイル\Engine\Component\Struct">
       <UniqueIdentifier>{32f94ad5-247a-4304-8b65-a9ceaaf12f1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shader\Sprite">
+      <UniqueIdentifier>{80ff74f8-0d37-40c9-9ec3-057eb267b57b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -239,6 +242,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Object\Geometry\Line.cpp">
       <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\Common\SpriteBase.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -344,6 +350,9 @@
     <ClInclude Include="Engine\Object\Geometry\Line.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Common\SpriteBase.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Texture.hlsl">
@@ -355,6 +364,12 @@
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.OneColor.hlsl">
       <Filter>リソース ファイル\Shader\Object3D</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\Shaders\Sprite\Sprite.VS.hlsl">
+      <Filter>リソース ファイル\Shader\Sprite</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Sprite\Sprite.PS.Texture.hlsl">
+      <Filter>リソース ファイル\Shader\Sprite</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="External\imgui\LICENSE.txt">
@@ -364,6 +379,9 @@
   <ItemGroup>
     <None Include="Resources\Shaders\Object3D\Object3D.hlsli">
       <Filter>リソース ファイル\Shader\Object3D</Filter>
+    </None>
+    <None Include="Resources\Shaders\Sprite\Sprite.hlsli">
+      <Filter>リソース ファイル\Shader\Sprite</Filter>
     </None>
   </ItemGroup>
 </Project>
