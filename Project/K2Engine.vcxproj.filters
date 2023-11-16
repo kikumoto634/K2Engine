@@ -259,7 +259,7 @@
       <Filter>ソース ファイル\Engine\Component\Application\Math\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Engine\FrameWork\Application.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Engine\FrameWork</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -375,7 +375,7 @@
       <Filter>ヘッダー ファイル\Engine\Component\Application\Math\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Engine\FrameWork\Application.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Engine\FrameWork</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

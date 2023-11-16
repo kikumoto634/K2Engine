@@ -6,6 +6,22 @@ using namespace DirectX;
 using namespace std;
 
 string SpriteLoader::basePath = "Resources/";
+uint32_t SpriteLoader::textureIndex = 0;
+
+uint32_t SpriteLoader::LoadTexture(const std::string &filePath, ID3D12Device *device)
+{
+	DirectX::TexMetadata metaData;
+	DirectX::ScratchImage mipImages;
+	
+	mipImages = LoadTexture(filePath, metaData);
+	textureResources_[textureIndex] = CreateTextureResource(device, metaData);
+	UploadTextureData(textureResources_[textureIndex].Get() ,mipImages);
+
+	return textureIndex-1;
+}
+
+
+
 
 ScratchImage SpriteLoader::LoadTexture(const std::string &filePath, DirectX::TexMetadata& metaData)
 {
@@ -33,7 +49,6 @@ ScratchImage SpriteLoader::LoadTexture(const std::string &filePath, DirectX::Tex
 
 	return image;
 }
-
 
 ID3D12Resource *SpriteLoader::CreateTextureResource(ID3D12Device *device, const DirectX::TexMetadata &metaData)
 {
