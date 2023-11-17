@@ -2,22 +2,43 @@
 #include <cassert>
 #include <WindowsApp.h>
 
+#include "DescriptorHeap.h"
+
 using namespace DirectX;
 using namespace std;
 
 string SpriteLoader::basePath = "Resources/";
-uint32_t SpriteLoader::textureIndex = 0;
+uint32_t SpriteLoader::index_ = 0;
 
-uint32_t SpriteLoader::LoadTexture(const std::string &filePath, ID3D12Device *device)
+void SpriteLoader::LoadTexture(const std::string &filePath, DirectXCommon* dxCommon)
 {
+	if(index_ >= kMaxSRVCount){
+		WindowsApp::Log("テクスチャ保存数が最大を超えました");
+		assert(0);
+	}
+
 	DirectX::TexMetadata metaData;
 	DirectX::ScratchImage mipImages;
 	
 	mipImages = LoadTexture(filePath, metaData);
-	textureResources_[textureIndex] = CreateTextureResource(device, metaData);
-	UploadTextureData(textureResources_[textureIndex].Get() ,mipImages);
+	resources_[index_] = CreateTextureResource(dxCommon->GetDevice(), metaData);
+	UploadTextureData(resources_[index_].Get() ,mipImages);
 
-	return textureIndex-1;
+	//SRV設定
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = metaData.format;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = UINT(metaData.mipLevels);
+
+	//Heapのハンドル
+	SrvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSIzeSRV(), index_ + 1);
+	SrvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSIzeSRV(), index_ + 1);
+
+	//SRV生成
+	dxCommon->GetDevice()->CreateShaderResourceView(resources_[index_].Get(), &srvDesc, SrvHandleCPU_);
+
+	index_++;
 }
 
 
