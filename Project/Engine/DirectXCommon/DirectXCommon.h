@@ -47,7 +47,7 @@ public:
 
 	ID3D12DescriptorHeap* GetSRVDescriptorHeap()	{return srvDescriptorHeap_.Get();}
 
-	uint32_t GetDescriptorSIzeSRV()	{return descriptorSizeSRV_;}
+	uint32_t GetDescriptorSizeSRV()	{return descriptorSizeSRV_;}
 
 	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()	{return swapChainDesc;}
 

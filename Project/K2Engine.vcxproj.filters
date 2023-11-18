@@ -377,6 +377,9 @@
     <ClInclude Include="Engine\FrameWork\Application.h">
       <Filter>ヘッダー ファイル\Engine\FrameWork</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\Texture.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Texture.hlsl">

@@ -17,47 +17,47 @@ void Object3D::Initialize()
 {
 	dxCommon_ = DirectXCommon::GetInstance();
 
-	//画像読み込み
-	DirectX::TexMetadata metaData1;
-	DirectX::ScratchImage mipImages1 = SpriteLoader::LoadTexture("white1x1.png", metaData1); 
-	ID3D12Resource*textureResource1 = SpriteLoader::CreateTextureResource(dxCommon_->GetDevice(), metaData1);
-	SpriteLoader::UploadTextureData(textureResource1, mipImages1);
-	
-	DirectX::TexMetadata metaData2;
-	DirectX::ScratchImage mipImages2 = SpriteLoader::LoadTexture("monsterBall.png", metaData2);
-	ID3D12Resource*textureResource2 = SpriteLoader::CreateTextureResource(dxCommon_->GetDevice(), metaData2);
-	SpriteLoader::UploadTextureData(textureResource2, mipImages2);
+	////画像読み込み
+	//DirectX::TexMetadata metaData1;
+	//DirectX::ScratchImage mipImages1 = SpriteLoader::LoadTexture("white1x1.png", metaData1); 
+	//ID3D12Resource*textureResource1 = SpriteLoader::CreateTextureResource(dxCommon_->GetDevice(), metaData1);
+	//SpriteLoader::UploadTextureData(textureResource1, mipImages1);
+	//
+	//DirectX::TexMetadata metaData2;
+	//DirectX::ScratchImage mipImages2 = SpriteLoader::LoadTexture("monsterBall.png", metaData2);
+	//ID3D12Resource*textureResource2 = SpriteLoader::CreateTextureResource(dxCommon_->GetDevice(), metaData2);
+	//SpriteLoader::UploadTextureData(textureResource2, mipImages2);
 
 	//SRV作成
 	{
-		//MetaDataを基にSRV設定
-		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc1{};
-		srvDesc1.Format = metaData1.format;
-		srvDesc1.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		srvDesc1.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-		srvDesc1.Texture2D.MipLevels = UINT(metaData1.mipLevels);
+		////MetaDataを基にSRV設定
+		//D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc1{};
+		//srvDesc1.Format = metaData1.format;
+		//srvDesc1.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		//srvDesc1.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		//srvDesc1.Texture2D.MipLevels = UINT(metaData1.mipLevels);
 
-		//SRVを使用するHeapの場所決め
-		//先頭はImGuiなのでずらす
-		D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU1 = GetCPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), dxCommon_->GetDescriptorSIzeSRV(), 1);
-		textureSrvHandleGPU1_ = GetGPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), dxCommon_->GetDescriptorSIzeSRV(), 1);
-		//SRVの生成
-		dxCommon_->GetDevice()->CreateShaderResourceView(textureResource1, &srvDesc1, textureSrvHandleCPU1);
+		////SRVを使用するHeapの場所決め
+		////先頭はImGuiなのでずらす
+		//D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU1 = GetCPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), dxCommon_->GetDescriptorSizeSRV(), 1);
+		//textureSrvHandleGPU1_ = GetGPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), dxCommon_->GetDescriptorSizeSRV(), 1);
+		////SRVの生成
+		//dxCommon_->GetDevice()->CreateShaderResourceView(textureResource1, &srvDesc1, textureSrvHandleCPU1);
 
 
-		//MetaDataを基にSRV設定
-		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc2{};
-		srvDesc2.Format = metaData2.format;
-		srvDesc2.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		srvDesc2.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-		srvDesc2.Texture2D.MipLevels = UINT(metaData2.mipLevels);
+		////MetaDataを基にSRV設定
+		//D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc2{};
+		//srvDesc2.Format = metaData2.format;
+		//srvDesc2.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		//srvDesc2.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		//srvDesc2.Texture2D.MipLevels = UINT(metaData2.mipLevels);
 
-		//SRVを使用するHeapの場所決め
-		//先頭はImGuiなのでずらす
-		D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU2 = GetCPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), dxCommon_->GetDescriptorSIzeSRV(), 2);
-		textureSrvHandleGPU2_ = GetGPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), dxCommon_->GetDescriptorSIzeSRV(), 2);
-		//SRVの生成
-		dxCommon_->GetDevice()->CreateShaderResourceView(textureResource2, &srvDesc2, textureSrvHandleCPU2);
+		////SRVを使用するHeapの場所決め
+		////先頭はImGuiなのでずらす
+		//D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU2 = GetCPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), dxCommon_->GetDescriptorSizeSRV(), 2);
+		//textureSrvHandleGPU2_ = GetGPUDescriptorHandle(dxCommon_->GetSRVDescriptorHeap(), dxCommon_->GetDescriptorSizeSRV(), 2);
+		////SRVの生成
+		//dxCommon_->GetDevice()->CreateShaderResourceView(textureResource2, &srvDesc2, textureSrvHandleCPU2);
 	}
 
 	pipeline_ = new Pipeline();

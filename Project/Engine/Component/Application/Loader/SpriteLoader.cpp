@@ -10,47 +10,56 @@ using namespace std;
 string SpriteLoader::basePath = "Resources/";
 uint32_t SpriteLoader::index_ = 0;
 
-void SpriteLoader::LoadTexture(const std::string &filePath, DirectXCommon* dxCommon)
+//Texture SpriteLoader::LoadTexture(const std::string &filePath, DirectXCommon* dxCommon)
+//{
+//	if(index_ >= kMaxSRVCount){
+//		WindowsApp::Log("テクスチャ保存数が最大を超えました");
+//		assert(0);
+//	}
+//
+//	Texture tex;
+//	DirectX::TexMetadata metaData;
+//	DirectX::ScratchImage mipImages;
+//	
+//	const string fullPath = basePath + filePath;
+//
+//	mipImages = Load(fullPath, metaData);
+//	resources_[index_] = CreateTextureResource(dxCommon->GetDevice(), metaData);
+//	UploadTextureData(resources_[index_].Get() ,mipImages);
+//
+//	//SRV設定
+//	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+//	srvDesc.Format = metaData.format;
+//	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+//	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+//	srvDesc.Texture2D.MipLevels = UINT(metaData.mipLevels);
+//
+//	//Heapのハンドル
+//	tex.srvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + 1);
+//	tex.srvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + 1);
+//
+//	//SRV生成
+//	dxCommon->GetDevice()->CreateShaderResourceView(resources_[index_].Get(), &srvDesc, tex.srvHandleCPU_);
+//
+//	tex.filePath = fullPath;
+//	tex.index = index_;
+//
+//	index_++;
+//	return tex;
+//}
+
+void SpriteLoader::SetTextureSRVDescriptor(UINT rootParamterIndex, Texture tex, DirectXCommon* dxCommon)
 {
-	if(index_ >= kMaxSRVCount){
-		WindowsApp::Log("テクスチャ保存数が最大を超えました");
-		assert(0);
-	}
-
-	DirectX::TexMetadata metaData;
-	DirectX::ScratchImage mipImages;
-	
-	mipImages = LoadTexture(filePath, metaData);
-	resources_[index_] = CreateTextureResource(dxCommon->GetDevice(), metaData);
-	UploadTextureData(resources_[index_].Get() ,mipImages);
-
-	//SRV設定
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = metaData.format;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = UINT(metaData.mipLevels);
-
-	//Heapのハンドル
-	SrvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSIzeSRV(), index_ + 1);
-	SrvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSIzeSRV(), index_ + 1);
-
-	//SRV生成
-	dxCommon->GetDevice()->CreateShaderResourceView(resources_[index_].Get(), &srvDesc, SrvHandleCPU_);
-
-	index_++;
+	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(rootParamterIndex, tex.srvHandleGPU_);
 }
 
 
 
-
-ScratchImage SpriteLoader::LoadTexture(const std::string &filePath, DirectX::TexMetadata& metaData)
+ScratchImage SpriteLoader::Load(const std::string &filePath, DirectX::TexMetadata& metaData)
 {
-	const string fullPath = basePath + filePath;
-
 	//テクスチャファイルを読み込んでプログラムで扱えるようにする
 	ScratchImage image{};
-	wstring lFilePath = WindowsApp::ConvertString(fullPath);
+	wstring lFilePath = WindowsApp::ConvertString(filePath);
 
 	HRESULT result = LoadFromWICFile(lFilePath.c_str(), WIC_FLAGS_FORCE_SRGB, &metaData, image);
 	assert(SUCCEEDED(result));
