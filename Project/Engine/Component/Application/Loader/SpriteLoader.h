@@ -33,6 +33,19 @@ public:
 	//GetGPUDescriptorHandle作成してたのでそれを使用。DescriptorHeap.h
 
 
+	//Textureに情報を保存
+	//フォルダないの画像を自動読み
+	//ファイル名で呼び出せるようにする
+
+	//そうなると、呼び出す際インデックスが指定できない分処理がかさむ
+	//Baseに必要となるindexの保存変数を持たせる
+
+	//1.ビルド後に自動ロード
+	//2.オブジェクトたちは、画像名から必要なインデックスをもらう。
+	//3.それと同時にオブジェクト(Base)が保持しているインデックス格納変数に代入
+	//4.インデックスを基に、Loader側でcommandListとインデックスを渡して必要画像のハンドルをSRVに受け渡す
+
+
 private:
 	//画像読み込み
 	static DirectX::ScratchImage Load(const std::string& filePath, DirectX::TexMetadata& metaData);

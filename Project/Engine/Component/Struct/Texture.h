@@ -4,6 +4,9 @@
 #include <string>
 
 struct Texture{
+	//テクスチャ名
+	std::string name;
+
 	//テクスチャパス
 	std::string filePath;
 
