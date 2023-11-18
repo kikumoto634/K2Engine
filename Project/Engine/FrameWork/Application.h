@@ -9,6 +9,11 @@
 
 #include "Object3D/Object3D.h"
 
+
+
+#include <vector>
+#include <string>
+
 class Application
 {
 public:
@@ -25,8 +30,12 @@ public:
 private:
 	void Initialize();
 
+	std::vector<std::string> getImageName(std::string dir_name);
+
 private:
 	Camera* camera_ = nullptr;
+
+	std::vector<std::string> files;
 
 	//Object3D* obj;
 
