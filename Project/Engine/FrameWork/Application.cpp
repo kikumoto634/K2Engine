@@ -18,9 +18,9 @@ void Application::Initialize()
 
 	//obj = Object3D::Create();
 
-	//obj = Sphere::Create();
+	obj = Sphere::Create();
 	//obj = ObjModel::Create("cube");
-	obj = Line::Create();
+	//obj = Line::Create();
 	//obj = Sprite2D::Create();
 }
 

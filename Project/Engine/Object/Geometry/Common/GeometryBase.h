@@ -38,9 +38,6 @@ protected:
 	void Initialize(bool isIndexEnable = true);
 
 private:
-
-	//テクスチャSRV
-	void TextureSRVInitialize();
 	//パイプライン
 	void PipelineStateInitialize();
 

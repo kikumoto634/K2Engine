@@ -12,9 +12,6 @@ void SpriteBase::Initialize(bool isIndexEnable)
 
 	texture_ = SpriteLoader::SearchTexture(texturePath_);
 
-	//テクスチャSRV
-	TextureSRVInitialize();
-
 	//パイプライン
 	pipeline_ = new Pipeline();
 	PipelineStateInitialize();	//パイプライン初期化
@@ -64,26 +61,6 @@ void SpriteBase::Draw(Matrix4x4 viewProjectionMatrix)
 	dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,1,0,0,0);
 }
 
-void SpriteBase::TextureSRVInitialize()
-{
-	//画像読み込み
-	//DirectX::TexMetadata metaData;
-	//DirectX::ScratchImage mipImages = SpriteLoader::LoadTexture(texturePath_, metaData);
-	//ID3D12Resource* textureResource = SpriteLoader::CreateTextureResource(dxCommon->GetDevice(), metaData);
-	//SpriteLoader::UploadTextureData(textureResource, mipImages);
-
-	////画像SRV生成
-	//D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};	//MetaDataを基に設定
-	//srvDesc.Format = metaData.format;
-	//srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	//srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	//srvDesc.Texture2D.MipLevels = UINT(metaData.mipLevels);
-	////画像SRVを使用するHeapの場所決め
-	//textureSrvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), 1);
-	//textureSrvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), 1);
-	////画像SRV生成
-	//dxCommon->GetDevice()->CreateShaderResourceView(textureResource, &srvDesc, textureSrvHandleCPU_);
-}
 
 void SpriteBase::PipelineStateInitialize()
 {

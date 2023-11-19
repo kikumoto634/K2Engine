@@ -11,7 +11,6 @@
 #include "VertexData.h"
 #include "MaterialData.h"
 #include "TransformationMatrixData.h"
-#include "DirectionalLightData.h"
 
 class SpriteBase : public Transform
 {
@@ -30,9 +29,6 @@ protected:
 	void Initialize(bool isIndexEnable = true);
 
 private:
-
-	//テクスチャSRV
-	void TextureSRVInitialize();
 	//パイプライン
 	void PipelineStateInitialize();
 
