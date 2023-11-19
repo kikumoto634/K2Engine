@@ -35,9 +35,9 @@ private:
 
 	//Object3D* obj;
 
-	Sphere* obj;
+	//Sphere* obj;
 	//ObjModel* obj;
-	//Line* obj;
+	Line* obj;
 	//Sprite2D* obj;
 };
 

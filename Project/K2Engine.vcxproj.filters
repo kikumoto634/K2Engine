@@ -160,6 +160,12 @@
     <Filter Include="ソース ファイル\Engine\Component\Application\Math\Matrix">
       <UniqueIdentifier>{13149cab-3cef-43aa-b925-04249a6fc92d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Application\Math\Utility">
+      <UniqueIdentifier>{1c2d5808-e389-44c9-9fa8-162482e32996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Application\Math\Utility">
+      <UniqueIdentifier>{a8225c91-98b3-435d-90ba-2072b907404c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -260,6 +266,9 @@
     </ClCompile>
     <ClCompile Include="Engine\FrameWork\Application.cpp">
       <Filter>ソース ファイル\Engine\FrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Math\MathUtility.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Math\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -379,6 +388,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Component\Struct\Texture.h">
       <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Math\MathUtility.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Math\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

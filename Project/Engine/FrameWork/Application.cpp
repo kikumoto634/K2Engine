@@ -18,9 +18,9 @@ void Application::Initialize()
 
 	//obj = Object3D::Create();
 
-	obj = Sphere::Create();
+	//obj = Sphere::Create();
 	//obj = ObjModel::Create("cube");
-	//obj = Line::Create();
+	obj = Line::Create();
 	//obj = Sprite2D::Create();
 }
 
@@ -28,9 +28,12 @@ void Application::Update()
 {
 	camera_->Update();
 
-	for(auto tex : SpriteLoader::GetTexture()){
-		if(tex.filePath == "") break;
-		ImGui::Text("%d: %s", tex.index, tex.filePath.c_str());
+	if(ImGui::TreeNode("LoadTexture  Index : Name")){
+		for(auto tex : SpriteLoader::GetTexture()){
+			if(tex.filePath == "") break;
+			ImGui::Text("%d: %s", tex.index, tex.filePath.c_str());
+		}
+		ImGui::TreePop();
 	}
 
 	obj->Update();

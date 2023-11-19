@@ -1,6 +1,6 @@
 #include "ObjModel.h"
 #include <imgui.h>
-
+#include "SpriteLoader.h"
 
 ObjModel *ObjModel::Create(std::string filePath, Transform transform)
 {
@@ -27,6 +27,7 @@ void ObjModel::ObjModelLoad()
 	vertNum_ = (UINT)modelData_.vertices.size();
 	//画像パス
 	texturePath_ = modelData_.material.textureFilePath;
+	SpriteLoader::LoadTexture(DirectXCommon::GetInstance(), texturePath_);
 }
 
 void ObjModel::ObjModelVertexData()

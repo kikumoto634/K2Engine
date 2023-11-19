@@ -21,6 +21,7 @@ public:
 	static Texture SearchTexture(std::string textureName);
 	//画像読み込み
 	static void LoadTexture(DirectXCommon* dxCommon);
+	static void LoadTexture(DirectXCommon* dxCommon, std::string filePath);
 
 	static std::array<Texture, kMaxSRVCount> GetTexture()	{return textures_;}
 

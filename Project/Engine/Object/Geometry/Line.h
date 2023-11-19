@@ -3,13 +3,14 @@
 class Line : public GeometryBase
 {
 public:
-	static Line* Create(Transform transform = {{0,0,0}, {0,0,0}, {1,1,1}});
+	static Line* Create(Vector3 start = {0,0,0}, Vector3 end = {1,0,0});
 
 public:
-	Line(Transform transform){
-		translate = transform.translate;
-		rotation = transform.rotation;
-		scale = transform.scale;
+	Line(Vector3 start, Vector3 end){
+		translate = start;
+		target = end;
+		rotation = {0,0,0};
+		scale = {0,0,0};
 
 		vertNum_ = 2;
 
@@ -22,4 +23,7 @@ public:
 
 private:
 	void LineVertexData();
+
+private:
+	Vector3 target = {-1.f,0,0.f};
 };
