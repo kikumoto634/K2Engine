@@ -5,53 +5,114 @@
 #include "DescriptorHeap.h"
 
 using namespace DirectX;
+using namespace Microsoft::WRL;
 using namespace std;
 
 string SpriteLoader::basePath = "Resources/";
+vector<string> SpriteLoader::files = {};
+
+array<ComPtr<ID3D12Resource>, SpriteLoader::kMaxSRVCount> SpriteLoader::resources_ = {};
 uint32_t SpriteLoader::index_ = 0;
+array<Texture, SpriteLoader::kMaxSRVCount> SpriteLoader::textures_ = {};
 
-//Texture SpriteLoader::LoadTexture(const std::string &filePath, DirectXCommon* dxCommon)
-//{
-//	if(index_ >= kMaxSRVCount){
-//		WindowsApp::Log("テクスチャ保存数が最大を超えました");
-//		assert(0);
-//	}
-//
-//	Texture tex;
-//	DirectX::TexMetadata metaData;
-//	DirectX::ScratchImage mipImages;
-//	
-//	const string fullPath = basePath + filePath;
-//
-//	mipImages = Load(fullPath, metaData);
-//	resources_[index_] = CreateTextureResource(dxCommon->GetDevice(), metaData);
-//	UploadTextureData(resources_[index_].Get() ,mipImages);
-//
-//	//SRV設定
-//	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-//	srvDesc.Format = metaData.format;
-//	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-//	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-//	srvDesc.Texture2D.MipLevels = UINT(metaData.mipLevels);
-//
-//	//Heapのハンドル
-//	tex.srvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + 1);
-//	tex.srvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + 1);
-//
-//	//SRV生成
-//	dxCommon->GetDevice()->CreateShaderResourceView(resources_[index_].Get(), &srvDesc, tex.srvHandleCPU_);
-//
-//	tex.filePath = fullPath;
-//	tex.index = index_;
-//
-//	index_++;
-//	return tex;
-//}
 
-void SpriteLoader::SetTextureSRVDescriptor(UINT rootParamterIndex, Texture tex, DirectXCommon* dxCommon)
+std::vector<std::string> SpriteLoader::getImageName()
 {
-	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(rootParamterIndex, tex.srvHandleGPU_);
+	HANDLE hFind;
+	WIN32_FIND_DATA win32d;
+	std::string dir_name = "./"+basePath;
+	std::vector<std::wstring> filaNames;
+
+	//.png, .jpgの拡張子のみ読み込む
+	std::string extension[2] = {"png", "jpg"};
+
+	for(int i = 0; i < 2; i++){
+		std::string searchName = dir_name + "*." + extension[i];
+		std::wstring str = WindowsApp::ConvertString(searchName);
+		hFind = FindFirstFile(str.c_str(), &win32d);
+
+		if(hFind == INVALID_HANDLE_VALUE){
+			continue;
+		}
+		do{
+			if(win32d.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY){
+			}
+			else{
+				filaNames.push_back(win32d.cFileName);
+			}
+		}while(FindNextFile(hFind, &win32d));
+
+		FindClose(hFind);
+	}
+
+	std::vector<std::string> vec;
+	vec.resize(filaNames.size());
+	for(int i = 0; i < filaNames.size(); i++){
+		vec[i] = WindowsApp::ConvertString(filaNames[i]);
+	}
+	return vec;
 }
+
+void SpriteLoader::LoadTexture(DirectXCommon* dxCommon)
+{
+	if(index_ >= kMaxSRVCount){
+		WindowsApp::Log("テクスチャ保存数が最大を超えました");
+		assert(0);
+	}
+
+	files = getImageName();
+
+	for(auto str : files){
+		Texture tex;
+		DirectX::TexMetadata metaData;
+		DirectX::ScratchImage mipImages;
+	
+		const string fullPath = basePath + str;
+
+		mipImages = Load(fullPath, metaData);
+		resources_[index_] = CreateTextureResource(dxCommon->GetDevice(), metaData);
+		UploadTextureData(resources_[index_].Get() ,mipImages);
+
+		//SRV設定
+		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+		srvDesc.Format = metaData.format;
+		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		srvDesc.Texture2D.MipLevels = UINT(metaData.mipLevels);
+
+		//Heapのハンドル
+		tex.srvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + 1);
+		tex.srvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + 1);
+
+		//SRV生成
+		dxCommon->GetDevice()->CreateShaderResourceView(resources_[index_].Get(), &srvDesc, tex.srvHandleCPU_);
+
+		tex.name = str;
+		tex.filePath = fullPath;
+		tex.index = index_;
+
+		textures_[index_] = tex;
+
+		index_++;
+	}
+}
+
+Texture SpriteLoader::SearchTexture(std::string textureName)
+{
+	Texture temp = {};
+
+	for(auto tex : textures_){
+		if(tex.filePath == ""){
+			break;
+		}
+		else if(tex.name == textureName){
+			temp = tex;
+			break;
+		}
+	}
+	return temp;
+}
+
 
 
 

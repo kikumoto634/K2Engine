@@ -10,6 +10,8 @@ void SpriteBase::Initialize(bool isIndexEnable)
 {
 	dxCommon = DirectXCommon::GetInstance();
 
+	texture_ = SpriteLoader::SearchTexture(texturePath_);
+
 	//テクスチャSRV
 	TextureSRVInitialize();
 
@@ -56,7 +58,7 @@ void SpriteBase::Draw(Matrix4x4 viewProjectionMatrix)
 	//行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
 	//SRV(テクスチャ)のDescriptorTableの先頭を設定 2はRootParamterのインデックスRootParamter[2]
-	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU_);
+	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(2, texture_.srvHandleGPU_);
 
 	//描画
 	dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,1,0,0,0);

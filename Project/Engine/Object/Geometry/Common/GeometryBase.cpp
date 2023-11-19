@@ -16,6 +16,7 @@ void GeometryBase::Initialize(bool isIndexEnable)
 	scale = {1,1,1};
 
 	isIndexDataEnable_ = isIndexEnable;
+	texture_ = SpriteLoader::SearchTexture(texturePath_);
 
 	//描画方法
 	if(primitiveType_ == PrimitiveType::LINE){
@@ -59,7 +60,7 @@ void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
 	//行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
 	//SRV(テクスチャ)のDescriptorTableの先頭を設定 2はRootParamterのインデックスRootParamter[2]
-	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(2, textureSrvHandleGPU_);
+	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(2, texture_.srvHandleGPU_);
 	//Light
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
 

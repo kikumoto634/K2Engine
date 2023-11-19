@@ -14,7 +14,9 @@ public:
 		vertNum_ = kSubdivision*kSubdivision*4;
 		indexNum_ = kSubdivision*kSubdivision*6;
 
-		PSPath_ = "Object3D/Object3D.PS.OneColor.hlsl";
+		texturePath_ = "monsterBall.png";
+
+		PSPath_ = "Object3D/Object3D.PS.Texture.hlsl";
 	}
 	void Update();
 

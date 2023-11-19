@@ -9,7 +9,7 @@
 
 #include "Object3D/Object3D.h"
 
-
+#include "SpriteLoader.h"
 
 #include <vector>
 #include <string>
@@ -21,7 +21,7 @@ public:
 
 public:
 	~Application(){
-		//delete obj;
+		delete obj;
 	}
 
 	void Update();
@@ -30,16 +30,12 @@ public:
 private:
 	void Initialize();
 
-	std::vector<std::string> getImageName(std::string dir_name);
-
 private:
 	Camera* camera_ = nullptr;
 
-	std::vector<std::string> files;
-
 	//Object3D* obj;
 
-	//Sphere* obj;
+	Sphere* obj;
 	//ObjModel* obj;
 	//Line* obj;
 	//Sprite2D* obj;

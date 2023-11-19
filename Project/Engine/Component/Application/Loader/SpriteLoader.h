@@ -8,45 +8,26 @@
 
 class SpriteLoader
 {
-
 private:
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	template <class T> using vector = std::vector<T>;
+
+public:
 	//テクスチャ最大保存枚数
 	static const size_t kMaxSRVCount = 2056;
 
 public:
+	//フォルダ名から必要なテクスチャデータを確保
+	static Texture SearchTexture(std::string textureName);
 	//画像読み込み
-	static Texture LoadTexture(const std::string& filePath, DirectXCommon* dxCommon);
-	static void SetTextureSRVDescriptor(UINT rootParamterIndex, Texture tex, DirectXCommon* dxCommon);
+	static void LoadTexture(DirectXCommon* dxCommon);
 
-	//リソースGetter
-
-
-	//最終的に欲しいのはテクスチャの保存先GPUHandle
-	
-	//Load処理、SRV設定、Heapへの場所決めは、オブジェクトの処理にはまったく関係ない。
-	//というか、SRVの生成もやる必要性がわからん?　
-	//StaticのLoad作成してそっちでよくね?
-
-	//引数として、indexをもらってきて、インデックスから探すのは可能?
-
-	//スタートハンドル + (GPUハンドルに仕様しているSize)*index
-	//GetGPUDescriptorHandle作成してたのでそれを使用。DescriptorHeap.h
-
-
-	//Textureに情報を保存
-	//フォルダないの画像を自動読み
-	//ファイル名で呼び出せるようにする
-
-	//そうなると、呼び出す際インデックスが指定できない分処理がかさむ
-	//Baseに必要となるindexの保存変数を持たせる
-
-	//1.ビルド後に自動ロード
-	//2.オブジェクトたちは、画像名から必要なインデックスをもらう。
-	//3.それと同時にオブジェクト(Base)が保持しているインデックス格納変数に代入
-	//4.インデックスを基に、Loader側でcommandListとインデックスを渡して必要画像のハンドルをSRVに受け渡す
-
+	static std::array<Texture, kMaxSRVCount> GetTexture()	{return textures_;}
 
 private:
+	//フォルダ内の画像名全取得
+	static std::vector<std::string> getImageName();
+
 	//画像読み込み
 	static DirectX::ScratchImage Load(const std::string& filePath, DirectX::TexMetadata& metaData);
 
@@ -58,9 +39,13 @@ private:
 
 private:
 	static std::string basePath;
+	//フォルダ内の画像全て
+	static vector<std::string> files;
 
-	//改造用
-	//static std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, kMaxSRVCount> resources_;
+	//テクスチャリソース
+	static std::array<ComPtr<ID3D12Resource>, kMaxSRVCount> resources_;
 	static uint32_t index_;
+
+	static std::array<Texture, kMaxSRVCount> textures_;
 };
 

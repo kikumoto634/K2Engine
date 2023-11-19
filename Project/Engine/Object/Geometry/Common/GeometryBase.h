@@ -6,6 +6,7 @@
 #include "Pipeline.h"
 #include "DirectXCommon.h"
 #include "Transform.h"
+#include "Texture.h"
 
 #include "VertexData.h"
 #include "MaterialData.h"
@@ -64,6 +65,8 @@ private:
 	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDesc_;		//インプットレイアウト
 	vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers_;		//サンプラー
 
+	//テクスチャ情報
+	Texture texture_;
 
 	//リソース関係
 	ComPtr<ID3D12Resource> vertexResource_;		//頂点
@@ -80,11 +83,6 @@ private:
 
 	ComPtr<ID3D12Resource> directionalLightResource_;	//ライト
 	DirectionalLight* directionalLightData_ = nullptr;
-
-
-	//テクスチャ関係
-	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_ = {};	//画像のテクスチャハンドルCPU
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_ = {};	//画像テクスチャハンドルGPU
 
 	//描画方法
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
