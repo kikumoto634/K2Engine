@@ -1,5 +1,6 @@
 #pragma once
 #include "Camera.h"
+#include "LightingGroup.h"
 
 #include "Geometry/Sphere.h"
 #include "Geometry/ObjModel.h"
@@ -36,6 +37,7 @@ private:
 
 private:
 	Camera* camera_ = nullptr;
+	LightingGroup* light_ = nullptr;
 
 	//Object3D* obj;
 

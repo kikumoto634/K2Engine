@@ -13,6 +13,7 @@ Application *Application::Create()
 void Application::Initialize()
 {
 	camera_ = Camera::Create();
+	light_ = LightingGroup::Create();
 
 	SpriteLoader::LoadTexture(DirectXCommon::GetInstance());
 
@@ -27,6 +28,7 @@ void Application::Initialize()
 void Application::Update()
 {
 	camera_->Update();
+	light_->Update();
 
 	if(ImGui::TreeNode("LoadTexture  Index : Name")){
 		for(auto tex : SpriteLoader::GetTexture()){

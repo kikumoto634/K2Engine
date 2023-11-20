@@ -172,12 +172,6 @@
     <Filter Include="ソース ファイル\Engine\Object\Lighting">
       <UniqueIdentifier>{fc021e34-da9a-4384-8980-e18e186a1327}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Engine\Component\Application\Lighting">
-      <UniqueIdentifier>{664691f2-66e6-4e02-b1eb-981cc0f14640}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Component\Application\Lighting">
-      <UniqueIdentifier>{2966ea76-a0b2-4b1b-9509-9e0296c35b5f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -284,9 +278,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Object\Lighting\LightingGroup.cpp">
       <Filter>ソース ファイル\Engine\Object\Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Component\Application\Lighting\DirectionalLight.cpp">
-      <Filter>ソース ファイル\Engine\Component\Application\Lighting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -412,9 +403,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Object\Lighting\LightingGroup.h">
       <Filter>ヘッダー ファイル\Engine\Object\Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Lighting\DirectionalLight.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Application\Lighting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

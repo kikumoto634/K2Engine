@@ -6,6 +6,7 @@
 #include "BufferResource.h"
 #include "BufferView.h"
 
+#include "LightingGroup.h"
 
 void GeometryBase::Initialize(bool isIndexEnable)
 {
@@ -33,7 +34,6 @@ void GeometryBase::Initialize(bool isIndexEnable)
 	CreateIndex();
 	CreateMaterial();
 	CreateWVP();
-	CreateLight();
 }
 
 void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
@@ -59,7 +59,7 @@ void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
 	//SRV(テクスチャ)のDescriptorTableの先頭を設定 2はRootParamterのインデックスRootParamter[2]
 	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(2, texture_.srvHandleGPU_);
 	//Light
-	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource_->GetGPUVirtualAddress());
+	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(3, LightingGroup::GetInstance()->GetResource()->GetGPUVirtualAddress());
 
 	//描画
 	isIndexDataEnable_ ? 
@@ -195,15 +195,4 @@ void GeometryBase::CreateWVP()
 	Matrix4x4 worldMatrix = worldMatrix.MakeIdentityMatrix();
 	wvpData_->WVP = worldMatrix;
 	wvpData_->World = worldMatrix;
-}
-
-void GeometryBase::CreateLight()
-{
-	directionalLightResource_= CreateBufferResource(dxCommon->GetDevice(), sizeof(DirectionalLight));
-
-	directionalLightResource_->Map(0,nullptr,reinterpret_cast<void**>(&directionalLightData_));
-
-	directionalLightData_->color = lightColor_;
-	directionalLightData_->direction = lightDirection_;
-	directionalLightData_->intensity = lightIntensity;
 }

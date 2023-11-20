@@ -117,7 +117,7 @@ private:
 
 	//Lightリソース
 	ComPtr<ID3D12Resource> directionalLightResource_;
-	DirectionalLight* directionalLightData = nullptr;
+	DirectionalLightData* directionalLightData = nullptr;
 
 
 	//球体分割数

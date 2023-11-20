@@ -483,7 +483,7 @@ bool Object3D::CreateWVP()
 #pragma region Lightリソース
 bool Object3D::CreateDirectionalLight()
 {
-	directionalLightResource_= CreateBufferResource(sizeof(DirectionalLight));
+	directionalLightResource_= CreateBufferResource(sizeof(DirectionalLightData));
 
 	directionalLightResource_->Map(0,nullptr,reinterpret_cast<void**>(&directionalLightData));
 

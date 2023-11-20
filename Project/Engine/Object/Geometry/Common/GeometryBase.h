@@ -11,7 +11,6 @@
 #include "VertexData.h"
 #include "MaterialData.h"
 #include "TransformationMatrixData.h"
-#include "DirectionalLightData.h"
 
 //幾何学オブジェクトの共通
 class GeometryBase : public Transform
@@ -49,8 +48,6 @@ private:
 	void CreateMaterial();
 	//行列リソース/ビュー
 	void CreateWVP();
-	//ライトリソース/ビュー
-	void CreateLight();
 
 private:
 	//Instance
@@ -78,9 +75,6 @@ private:
 	ComPtr<ID3D12Resource> wvpResource_;		//行列
 	TransformationMatrix* wvpData_ = nullptr;
 
-	ComPtr<ID3D12Resource> directionalLightResource_;	//ライト
-	DirectionalLight* directionalLightData_ = nullptr;
-
 	//描画方法
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
 	D3D_PRIMITIVE_TOPOLOGY commandPrimitiveTopology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;				//コマンドリスト
@@ -102,10 +96,6 @@ protected:
 	//パラメータ
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	bool isLightEnable = true;
-
-	Vector4 lightColor_ = {1,1,1,1};
-	Vector3 lightDirection_ = {0,-1,0};
-	float lightIntensity = 1.0f;
 
 	std::string texturePath_ = "uvChecker.png";
 
