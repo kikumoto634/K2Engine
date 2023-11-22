@@ -42,14 +42,14 @@ void Pipeline::Create(
 	primitiveTopology_ = pipelinePrimitiveTopology;
 
 
-	assert(SUCCEEDED(CreateDXCCompiler()));
+	CreateDXCCompiler();
 
-	assert(SUCCEEDED(CreateRootSignature()));
-	assert(SUCCEEDED(CreateInputLayout()));
-	assert(SUCCEEDED(CreateBlendState()));
-	assert(SUCCEEDED(CreateRasterizerState()));
-	assert(SUCCEEDED(LoadShader()));
-	assert(SUCCEEDED(CreatePipelineStateObject()));
+	CreateRootSignature();
+	CreateInputLayout();
+	CreateBlendState();
+	CreateRasterizerState();
+	LoadShader();
+	CreatePipelineStateObject();
 }
 
 IDxcBlob *Pipeline::CompileShader(const std::wstring &filePath, const wchar_t *profile, IDxcUtils *dxcUtils, IDxcCompiler3 *dxcCompiler, IDxcIncludeHandler *includeHandler)

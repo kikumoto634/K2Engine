@@ -35,46 +35,39 @@ void DirectXCommon::Initialize()
 	windows = WindowsApp::GetInstance();
 
 	//デバック
-	assert(SUCCEEDED(CreateDebugLayer()));
-
+	CreateDebugLayer();
 
 	//ファクトリー・アダプタ・デバイス
-	assert(SUCCEEDED(CreateFactory()));
-	assert(SUCCEEDED(CreateAdapter()));
-	assert(SUCCEEDED(CreateDevice()));
-
+	CreateFactory();
+	CreateAdapter();
+	CreateDevice();
 
 	//エラー
-	assert(SUCCEEDED(CreateErrorInfoQueue()));
-
+	CreateErrorInfoQueue();
 
 	//コマンド系
-	assert(SUCCEEDED(CreateCommandQueue()));
-	assert(SUCCEEDED(CreateCommandAllocator()));
-	assert(SUCCEEDED(CreateCommandList()));
-
+	CreateCommandQueue();
+	CreateCommandAllocator();
+	CreateCommandList();
 
 	//スワップチェーン
-	assert(SUCCEEDED(CreateSwapChain()));
-
+	CreateSwapChain();
 
 	//RTV/SRV/DSV
-	assert(SUCCEEDED(CreateRTVDescriptorHeap()));
-	assert(SUCCEEDED(CreateSRVDescriptorHeap()));
-	assert(SUCCEEDED(CreateDSVDescriptorHeap()));
+	CreateRTVDescriptorHeap();
+	CreateSRVDescriptorHeap();
+	CreateDSVDescriptorHeap();
 
-	assert(SUCCEEDED(BringResourceFromSwapChain()));
-	assert(SUCCEEDED(CreateRTV()));
-	assert(SUCCEEDED(CreateDSV()));
-
+	BringResourceFromSwapChain();
+	CreateRTV();
+	CreateDSV();
 
 	//フェンス
-	assert(SUCCEEDED(CreateFence()));
-
+	CreateFence();
 
 	//ビューポート、シザー矩形
-	assert(SUCCEEDED(CreateViewport()));
-	assert(SUCCEEDED(CreateScissor()));
+	CreateViewport();
+	CreateScissor();
 }
 
 void DirectXCommon::PreDraw()

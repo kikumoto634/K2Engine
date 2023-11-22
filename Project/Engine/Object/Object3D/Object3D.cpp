@@ -64,15 +64,15 @@ void Object3D::Initialize()
 	PipelineInitialize();
 
 	//頂点バッファ作成
-	assert(SUCCEEDED(CreateVertex()));
+	CreateVertex();
 	//インデックスバッファ作成
-	assert(SUCCEEDED(CreateIndex()));
+	CreateIndex();
 	//定数バッファ作成
-	assert(SUCCEEDED(CreateConstant()));
+	CreateConstant();
 	//行列バッファ作成
-	assert(SUCCEEDED(CreateWVP()));
+	CreateWVP();
 	//Lightバッファ作成
-	assert(SUCCEEDED(CreateDirectionalLight()));
+	CreateDirectionalLight();
 }
 
 void Object3D::PipelineInitialize()
