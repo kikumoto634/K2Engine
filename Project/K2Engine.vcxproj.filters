@@ -421,6 +421,9 @@
     <FxCompile Include="Resources\Shaders\Sprite\Sprite.PS.Texture.hlsl">
       <Filter>リソース ファイル\Shader\Sprite</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\Shaders\Object3D\Object3D.VS.Shadow.hlsl">
+      <Filter>リソース ファイル\Shader\Object3D</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="External\imgui\LICENSE.txt">
