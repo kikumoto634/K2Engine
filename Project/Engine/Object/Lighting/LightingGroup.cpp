@@ -40,11 +40,11 @@ void LightingGroup::Update()
 {
 	ImGui::Text("Light");
 	ImGui::ColorEdit4("Color", &lightColor_.x);
-	ImGui::DragFloat3("Dir", &lightDirection_.x, 0.01f);
+	ImGui::DragFloat3("Dir", &lightDirection_.x, 1.f);
 	ImGui::DragFloat("intencity", &lightIntensity, 0.01f);
 
 	//平行光源
-	data_->direction = lightDirection_;
+	data_->direction = DirectionalVector3FromDegrees((lightDirection_));
 	data_->color = lightColor_;
 	data_->intensity = lightIntensity;
 }

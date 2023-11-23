@@ -40,7 +40,6 @@ private:
 	DirectionalLightData* data_ = nullptr;		//構造体
 
 	Vector4 lightColor_ = {1,1,1,1};
-	Vector3 lightDirection_ = {0,-1,0};
+	Vector3 lightDirection_ = {0,0,-90};
 	float lightIntensity = 1.0f;
 };
-
