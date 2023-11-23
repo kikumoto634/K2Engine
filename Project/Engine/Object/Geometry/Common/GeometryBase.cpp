@@ -12,10 +12,6 @@ void GeometryBase::Initialize(bool isIndexEnable)
 {
 	dxCommon = DirectXCommon::GetInstance();
 
-	translate = {0,0,0};
-	rotation = {0,0,0};
-	scale = {1,1,1};
-
 	isIndexDataEnable_ = isIndexEnable;
 	texture_ = SpriteLoader::SearchTexture(texturePath_);
 

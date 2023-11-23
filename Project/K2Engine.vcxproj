@@ -164,6 +164,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Component\Application\Loader\SpriteLoader.cpp" />
     <ClCompile Include="Engine\Component\Application\Math\MathUtility.cpp" />
     <ClCompile Include="Engine\Component\Application\Math\Matrix\Matrix4x4.cpp" />
+    <ClCompile Include="Engine\Component\Application\Math\Quaternion\Quaternion.cpp" />
     <ClCompile Include="Engine\Component\Application\Math\Vector\Vector2.cpp" />
     <ClCompile Include="Engine\Component\Application\Math\Vector\Vector3.cpp" />
     <ClCompile Include="Engine\Component\Application\Math\Vector\Vector4.cpp" />
@@ -201,6 +202,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Component\Application\Loader\SpriteLoader.h" />
     <ClInclude Include="Engine\Component\Application\Math\MathUtility.h" />
     <ClInclude Include="Engine\Component\Application\Math\Matrix\Matrix4x4.h" />
+    <ClInclude Include="Engine\Component\Application\Math\Quaternion\Quaternion.h" />
     <ClInclude Include="Engine\Component\Application\Math\Vector\Vector2.h" />
     <ClInclude Include="Engine\Component\Application\Math\Vector\Vector3.h" />
     <ClInclude Include="Engine\Component\Application\Math\Vector\Vector4.h" />

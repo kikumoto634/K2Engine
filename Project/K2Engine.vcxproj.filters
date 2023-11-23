@@ -172,6 +172,12 @@
     <Filter Include="ソース ファイル\Engine\Object\Lighting">
       <UniqueIdentifier>{fc021e34-da9a-4384-8980-e18e186a1327}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Application\Math\Quaternion">
+      <UniqueIdentifier>{a0888f51-9f6b-49de-b0f5-a07e296a7e98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Application\Math\Quaternion">
+      <UniqueIdentifier>{960693bc-659a-4f75-9761-83a063549ab7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -278,6 +284,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Object\Lighting\LightingGroup.cpp">
       <Filter>ソース ファイル\Engine\Object\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Math\Quaternion\Quaternion.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Math\Quaternion</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -403,6 +412,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Object\Lighting\LightingGroup.h">
       <Filter>ヘッダー ファイル\Engine\Object\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Math\Quaternion\Quaternion.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Math\Quaternion</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

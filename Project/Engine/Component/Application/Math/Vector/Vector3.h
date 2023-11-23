@@ -16,6 +16,7 @@ public:
 	float dot(const Vector3& v) const;
 	Vector3 cross(const Vector3& v) const;
 
+
 	Vector3 operator+() const;
 	Vector3 operator-() const;
 
@@ -31,6 +32,10 @@ public:
 		return is_hit;
 	}
 };
+
+Vector3 DegreesToRadians(const Vector3 degrees);
+//角度から方向ベクトルを取得
+Vector3 DirectionalVector3FromDegrees(Vector3 rot);
 
 const Vector3 operator+(const Vector3& v1, const Vector3& v2);
 const Vector3 operator-(const Vector3& v1, const Vector3& v2);

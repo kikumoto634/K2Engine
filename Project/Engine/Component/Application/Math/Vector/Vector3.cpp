@@ -83,6 +83,29 @@ Vector3 &Vector3::operator/=(float s)
 	return *this;
 }
 
+Vector3 DegreesToRadians(Vector3 degrees)
+{
+	Vector3 result = degrees;
+
+	result.x = degrees.x * (3.141592f/180.f);
+	result.y = degrees.y * (3.141592f/180.f);
+	result.z = degrees.z * (3.141592f/180.f);
+	
+	return result;
+}
+
+Vector3 DirectionalVector3FromDegrees(Vector3 rot)
+{
+	Vector3 Rot = DegreesToRadians(rot);
+
+	Vector3 dir = {};
+	dir.x = std::cosf(Rot.z)*std::cosf(Rot.y);
+	dir.y = std::sinf(Rot.z)*std::cosf(Rot.y);
+	dir.z = std::sinf(Rot.y);
+
+	return dir;
+}
+
 const Vector3 operator+(const Vector3 &v1, const Vector3 &v2)
 {
 	Vector3 temp(v1);

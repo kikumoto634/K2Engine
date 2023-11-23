@@ -19,7 +19,7 @@ Transform::Transform(Vector3 trans, Vector3 rot, Vector3 scale):
 Matrix4x4 Transform::GetWorldMatrix()
 {
 	worldMatrix4x4 = 
-		worldMatrix4x4.MakeAffineMatrix(scale,rotation,translate);
+		worldMatrix4x4.MakeAffineMatrix(scale,DegreesToRadians(rotation),translate);
 
 	return worldMatrix4x4;
 }
