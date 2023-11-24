@@ -174,7 +174,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Component\DepthStencil\DepthStencil.cpp" />
     <ClCompile Include="Engine\Component\DescriptorHeap\DescriptorHeap.cpp" />
     <ClCompile Include="Engine\Component\Pipeline\Pipeline.cpp" />
+    <ClCompile Include="Engine\Component\Pipeline\ShadowPipeline.cpp" />
     <ClCompile Include="Engine\DirectXCommon\DirectXCommon.cpp" />
+    <ClCompile Include="Engine\DirectXCommon\ShadowCommon.cpp" />
     <ClCompile Include="Engine\FrameWork\Application.cpp" />
     <ClCompile Include="Engine\FrameWork\FrameWork.cpp" />
     <ClCompile Include="Engine\Object\Camera\Camera.cpp" />
@@ -212,6 +214,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Component\DepthStencil\DepthStencil.h" />
     <ClInclude Include="Engine\Component\DescriptorHeap\DescriptorHeap.h" />
     <ClInclude Include="Engine\Component\Pipeline\Pipeline.h" />
+    <ClInclude Include="Engine\Component\Pipeline\ShadowPipeline.h" />
     <ClInclude Include="Engine\Component\Struct\DirectionalLightData.h" />
     <ClInclude Include="Engine\Component\Struct\MaterialData.h" />
     <ClInclude Include="Engine\Component\Struct\ObjModelData.h" />
@@ -219,6 +222,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Component\Struct\TransformationMatrixData.h" />
     <ClInclude Include="Engine\Component\Struct\VertexData.h" />
     <ClInclude Include="Engine\DirectXCommon\DirectXCommon.h" />
+    <ClInclude Include="Engine\DirectXCommon\ShadowCommon.h" />
     <ClInclude Include="Engine\FrameWork\Application.h" />
     <ClInclude Include="Engine\FrameWork\FrameWork.h" />
     <ClInclude Include="Engine\Object\Camera\Camera.h" />

@@ -288,6 +288,12 @@
     <ClCompile Include="Engine\Component\Application\Math\Quaternion\Quaternion.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Math\Quaternion</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\DirectXCommon\ShadowCommon.cpp">
+      <Filter>ソース ファイル\Engine\DirectXCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Pipeline\ShadowPipeline.cpp">
+      <Filter>ソース ファイル\Engine\Component\Pipeline</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -415,6 +421,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Component\Application\Math\Quaternion\Quaternion.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Math\Quaternion</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectXCommon\ShadowCommon.h">
+      <Filter>ヘッダー ファイル\Engine\DirectXCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Pipeline\ShadowPipeline.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Pipeline</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
