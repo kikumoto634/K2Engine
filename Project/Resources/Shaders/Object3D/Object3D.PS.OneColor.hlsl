@@ -6,16 +6,7 @@ struct Material
     int enableLighting;
     float4x4 uvTransform;
 };
-ConstantBuffer<Material> gMaterial : register(b0);
-
-
-struct DirectionalLight
-{
-    float4 color;
-    float3 direction;
-    float intensity;
-};
-ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
+ConstantBuffer<Material> gMaterial : register(b1);
 
 
 struct PixelShaderOutput
@@ -28,9 +19,9 @@ PixelShaderOutput main(VertexShaderOutput input)
     PixelShaderOutput output;
     if (gMaterial.enableLighting != 0)
     {
-        float NdotL = dot(normalize(input.normal), -gDirectionalLight.direction);
+        float NdotL = dot(normalize(input.normal), -lightDirection);
         float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
-        output.color = (gMaterial.color) * float4(gDirectionalLight.color.xyz * cos * gDirectionalLight.intensity, 1.0f);
+        output.color = (gMaterial.color) * float4(lightColor.xyz * cos * lightIntensity, 1.0f);
     }
     else
     {

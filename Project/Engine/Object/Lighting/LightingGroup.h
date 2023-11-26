@@ -4,8 +4,9 @@
 
 #include "DirectXCommon.h"
 #include "DirectionalLightData.h"
+#include "Transform.h"
 
-class LightingGroup
+class LightingGroup : public Transform
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -40,6 +41,8 @@ private:
 	DirectionalLightData* data_ = nullptr;		//構造体
 
 	Vector4 lightColor_ = {1,1,1,1};
-	Vector3 lightDirection_ = {0,0,-90};
 	float lightIntensity = 1.0f;
+
+	Matrix4x4 view;
+	Matrix4x4 proj;
 };

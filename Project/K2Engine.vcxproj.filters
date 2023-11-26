@@ -19,12 +19,6 @@
     <Filter Include="ヘッダー ファイル\Engine">
       <UniqueIdentifier>{da61857b-009a-4f7f-b594-3ae9d95f140c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Engine\DirectXCommon">
-      <UniqueIdentifier>{12cd02d6-d31d-4cb1-8f81-4e05e27d48c2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\DirectXCommon">
-      <UniqueIdentifier>{82a0485d-8d5f-4681-99ea-e13da9d77452}</UniqueIdentifier>
-    </Filter>
     <Filter Include="リソース ファイル\Shader">
       <UniqueIdentifier>{d07203a2-fd2a-4fe5-8bd2-90df0669b69c}</UniqueIdentifier>
     </Filter>
@@ -178,6 +172,12 @@
     <Filter Include="ヘッダー ファイル\Engine\Component\Application\Math\Quaternion">
       <UniqueIdentifier>{960693bc-659a-4f75-9761-83a063549ab7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Engine\Common">
+      <UniqueIdentifier>{12cd02d6-d31d-4cb1-8f81-4e05e27d48c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Common">
+      <UniqueIdentifier>{82a0485d-8d5f-4681-99ea-e13da9d77452}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -185,9 +185,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Window\WindowsApp.cpp">
       <Filter>ソース ファイル\Engine\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectXCommon\DirectXCommon.cpp">
-      <Filter>ソース ファイル\Engine\DirectXCommon</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object\Object3D\Object3D.cpp">
       <Filter>ソース ファイル\Engine\Object\Object3D</Filter>
@@ -288,13 +285,16 @@
     <ClCompile Include="Engine\Component\Application\Math\Quaternion\Quaternion.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Math\Quaternion</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Common\DirectXCommon.cpp">
+      <Filter>ソース ファイル\Engine\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Common\ShadowCommon.cpp">
+      <Filter>ソース ファイル\Engine\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
       <Filter>ヘッダー ファイル\Engine\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectXCommon\DirectXCommon.h">
-      <Filter>ヘッダー ファイル\Engine\DirectXCommon</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object\Object3D\Object3D.h">
       <Filter>ヘッダー ファイル\Engine\Object\Object3D</Filter>
@@ -415,6 +415,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Component\Application\Math\Quaternion\Quaternion.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Math\Quaternion</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Common\DirectXCommon.h">
+      <Filter>ヘッダー ファイル\Engine\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Common\ShadowCommon.h">
+      <Filter>ヘッダー ファイル\Engine\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

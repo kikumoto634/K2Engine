@@ -84,12 +84,12 @@ void GeometryBase::PipelineStateInitialize()
 	//PS
 	rootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
 	rootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShader使用
-	rootParameters_[0].Descriptor.ShaderRegister = 0;	//レジスタ番号 b0	
+	rootParameters_[0].Descriptor.ShaderRegister = 1;	//レジスタ番号 b1	
 	//※RegisterとはShader上でのResource配置場所の情報　bというのは(ConstantBuffer)を意味
 	//VS
 	rootParameters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
 	rootParameters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;	//VertexShaderで使用
-	rootParameters_[1].Descriptor.ShaderRegister = 0;	//レジスタ番号 b0
+	rootParameters_[1].Descriptor.ShaderRegister = 1;	//レジスタ番号 b1
 	//SRV(テクスチャ		シェーダでは各ピクセルのことをいう)
 	rootParameters_[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//DescriptorTableに使用
 	rootParameters_[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShaderで使用
@@ -97,8 +97,8 @@ void GeometryBase::PipelineStateInitialize()
 	rootParameters_[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);	//Tableで利用する数
 	//Light(PS)
 	rootParameters_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
-	rootParameters_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShader
-	rootParameters_[3].Descriptor.ShaderRegister = 1;	//レジスタ番号 b1
+	rootParameters_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//PixelShader
+	rootParameters_[3].Descriptor.ShaderRegister = 0;	//レジスタ番号 b0
 
 
 	//Sampler設定(シェーダーのPS SamplerState　シェーダでは画像のことをいう)
