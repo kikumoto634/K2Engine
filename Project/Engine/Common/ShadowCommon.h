@@ -6,8 +6,11 @@ class ShadowCommon
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-private:
+public:
 	void Initialize();
+
+	void PreDraw();
+	void PostDraw();
 
 private:
 	DirectXCommon* dxCommon = nullptr;

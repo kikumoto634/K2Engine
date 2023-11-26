@@ -4,6 +4,8 @@
 #include <vector>
 
 #include "Pipeline.h"
+#include "ShadowPipeline.h"
+
 #include "DirectXCommon.h"
 #include "Transform.h"
 #include "Texture.h"
@@ -28,8 +30,10 @@ protected:
 
 public:
 	~GeometryBase(){
+		delete shadowPipeline_;
 		delete pipeline_;
 	}
+	void ShadowDraw(Matrix4x4 viewProjectionMatrix);
 	void Draw(Matrix4x4 viewProjectionMatrix);
 
 protected:
@@ -55,6 +59,8 @@ private:
 
 	//パイプライン関係
 	Pipeline* pipeline_ = nullptr;
+	ShadowPipeline* shadowPipeline_ = nullptr;
+
 	vector<D3D12_ROOT_PARAMETER> rootParameters_;			//ルートパラメータ
 	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDesc_;		//インプットレイアウト
 	vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers_;		//サンプラー

@@ -1,5 +1,6 @@
 #include "ShadowCommon.h"
 #include <cassert>
+#include <d3dx12.h>
 
 void ShadowCommon::Initialize()
 {
@@ -55,4 +56,43 @@ void ShadowCommon::Initialize()
 	dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
 	dxCommon->GetDevice()->CreateDepthStencilView(shadowResources_.Get(), &dsvDesc, shadowDescriptorHeap_->GetCPUDescriptorHandleForHeapStart());
 
+}
+
+void ShadowCommon::PreDraw()
+{
+	//リソースバリア書き込み可能
+	dxCommon->GetCommandList()->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(shadowResources_.Get(),
+		D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_DEPTH_WRITE));
+
+	//指定した深度で画面全体をクリア
+	dxCommon->GetCommandList()->ClearDepthStencilView(shadowDescriptorHeap_->GetCPUDescriptorHandleForHeapStart(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0,0, nullptr);
+
+	//Screen設定
+	dxCommon->GetCommandList()->RSSetViewports(1,&dxCommon->GetViewport());			//ビューポート
+	dxCommon->GetCommandList()->RSSetScissorRects(1,&dxCommon->GetScissorRect());	//シザー矩形
+
+	dxCommon->GetCommandList()->OMSetRenderTargets(0,nullptr,false,&shadowDescriptorHeap_->GetCPUDescriptorHandleForHeapStart());
+}
+
+void ShadowCommon::PostDraw()
+{
+	HRESULT result{};
+
+	//リソースバリア書き込み可能
+	dxCommon->GetCommandList()->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(shadowResources_.Get(),
+		D3D12_RESOURCE_STATE_DEPTH_WRITE, D3D12_RESOURCE_STATE_GENERIC_READ));
+
+	////コマンドリストの内容を確定。
+	//result = dxCommon->GetCommandList()->Close();
+	//assert(SUCCEEDED(result));
+
+	////GPUにコマンドリストの実行を行わせる
+	//ID3D12CommandList* commandList[] = {dxCommon->GetCommandList()};
+	//dxCommon->GetCommandQueue()->ExecuteCommandLists(1, commandList);
+
+	////次のフレーム用のコマンドリスト用意
+	//result = dxCommon->GetCommandAllocator()->Reset();
+	//assert(SUCCEEDED(result));
+	//result = dxCommon->GetCommandList()->Reset(dxCommon->GetCommandAllocator(), nullptr);
+	//assert(SUCCEEDED(result));
 }

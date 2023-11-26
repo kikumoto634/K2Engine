@@ -131,15 +131,14 @@ void DirectXCommon::PostDraw()
 		WaitForSingleObject(fenceEvent_, INFINITE);
 	}
 
-
-	//GPUとOSに画面の交換
-	swapChain_->Present(1,0);
-
 	//次のフレーム用のコマンドリスト用意
 	result = commandAllocator_.Get()->Reset();
 	assert(SUCCEEDED(result));
 	result = commandList_->Reset(commandAllocator_.Get(), nullptr);
 	assert(SUCCEEDED(result));
+
+	//GPUとOSに画面の交換
+	swapChain_->Present(1,0);
 }
 
 

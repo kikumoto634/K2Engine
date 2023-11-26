@@ -26,9 +26,11 @@ private:
 public:
 	void Create(
 		Pipeline* lPipeline,
-		std::wstring vsPath,
-		vector<D3D12_ROOT_PARAMETER> rootParameter			//ルートパラメータ
+		std::wstring vsPath
 	);
+
+	//Getter
+	ID3D12PipelineState* GetGraphicsPipelineState()	{return graphicsPipelineState_.Get();}
 
 private:
 	DirectXCommon* dxCommon = nullptr;

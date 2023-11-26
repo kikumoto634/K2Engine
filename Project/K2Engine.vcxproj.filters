@@ -291,6 +291,9 @@
     <ClCompile Include="Engine\Common\ShadowCommon.cpp">
       <Filter>ソース ファイル\Engine\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Component\Pipeline\ShadowPipeline.cpp">
+      <Filter>ソース ファイル\Engine\Component\Pipeline</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -421,6 +424,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Common\ShadowCommon.h">
       <Filter>ヘッダー ファイル\Engine\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Pipeline\ShadowPipeline.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Pipeline</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

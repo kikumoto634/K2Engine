@@ -2,8 +2,7 @@
 
 void ShadowPipeline::Create(
 	Pipeline *lPipeline, 
-	std::wstring vsPath, 
-	vector<D3D12_ROOT_PARAMETER> rootParameter
+	std::wstring vsPath
 )
 {
 	dxCommon = DirectXCommon::GetInstance();
@@ -45,9 +44,29 @@ void ShadowPipeline::Create(
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineStateDesc{};
 	pipelineStateDesc.pRootSignature = pipeline->GetRootSignature();
 	pipelineStateDesc.InputLayout = pipeline->GetInputLayout();
-	//DepthStencil未定
+	
+	pipelineStateDesc.SampleDesc.Count = 1;
+	pipelineStateDesc.SampleDesc.Quality = 0;
+	pipelineStateDesc.SampleMask = UINT_MAX;
 
+	pipelineStateDesc.DepthStencilState.DepthEnable = true;
+	pipelineStateDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+	pipelineStateDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	pipelineStateDesc.DepthStencilState.StencilEnable = false;
+	pipelineStateDesc.DepthStencilState.StencilReadMask = D3D12_DEFAULT_STENCIL_READ_MASK;
+	pipelineStateDesc.DepthStencilState.StencilWriteMask = D3D12_DEFAULT_STENCIL_WRITE_MASK;
+
+	pipelineStateDesc.DepthStencilState.FrontFace.StencilFailOp = D3D12_STENCIL_OP_KEEP;
+	pipelineStateDesc.DepthStencilState.FrontFace.StencilDepthFailOp = D3D12_STENCIL_OP_KEEP;
+	pipelineStateDesc.DepthStencilState.FrontFace.StencilPassOp = D3D12_STENCIL_OP_KEEP;
+	pipelineStateDesc.DepthStencilState.FrontFace.StencilFunc = D3D12_COMPARISON_FUNC_ALWAYS;
+
+	pipelineStateDesc.DepthStencilState.BackFace.StencilFailOp = D3D12_STENCIL_OP_KEEP;
+	pipelineStateDesc.DepthStencilState.BackFace.StencilDepthFailOp = D3D12_STENCIL_OP_KEEP;
+	pipelineStateDesc.DepthStencilState.BackFace.StencilPassOp = D3D12_STENCIL_OP_KEEP;
+	pipelineStateDesc.DepthStencilState.BackFace.StencilFunc = D3D12_COMPARISON_FUNC_ALWAYS;
 	pipelineStateDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
+
 	pipelineStateDesc.VS = {vertexShaderBlob_.Get()->GetBufferPointer(), vertexShaderBlob_.Get()->GetBufferSize()};
 	pipelineStateDesc.BlendState.RenderTarget[0] = blendDesc_;
 	pipelineStateDesc.BlendState.AlphaToCoverageEnable = false;

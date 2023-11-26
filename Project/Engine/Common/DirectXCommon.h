@@ -44,6 +44,8 @@ public:
 	//Getter
 	ID3D12Device* GetDevice()	{return device_.Get();}
 	ID3D12GraphicsCommandList* GetCommandList()	{return commandList_.Get();}
+	ID3D12CommandQueue* GetCommandQueue()	{return commandQueue_.Get();}
+	ID3D12CommandAllocator*	GetCommandAllocator()	{return commandAllocator_.Get();}
 
 	ID3D12DescriptorHeap* GetSRVDescriptorHeap()	{return srvDescriptorHeap_.Get();}
 
@@ -53,6 +55,9 @@ public:
 
 	D3D12_RENDER_TARGET_VIEW_DESC GetRTVDesc()	{return rtvDesc;}
 	D3D12_DEPTH_STENCIL_DESC GetDSVDesc()		{return depthStencilDesc_;}
+
+	D3D12_VIEWPORT GetViewport()	{return viewport_;}
+	D3D12_RECT GetScissorRect()	{return scissorRect_;}
 
 private:
 	void Initialize();

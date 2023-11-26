@@ -23,6 +23,7 @@ void GeometryBase::Initialize(bool isIndexEnable)
 
 	//パイプライン
 	pipeline_ = new Pipeline();
+	shadowPipeline_ = new ShadowPipeline();
 	PipelineStateInitialize();	//パイプライン初期化
 
 	//リソース
@@ -30,6 +31,37 @@ void GeometryBase::Initialize(bool isIndexEnable)
 	CreateIndex();
 	CreateMaterial();
 	CreateWVP();
+}
+
+void GeometryBase::ShadowDraw(Matrix4x4 viewProjectionMatrix)
+{
+	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * viewProjectionMatrix;
+	wvpData_->WVP = worldViewProjectionMatrix;
+	wvpData_->World = worldViewProjectionMatrix;
+
+
+	//ルートシグネチャ設定 PSOに設定しいているが別途設定が必要
+	dxCommon->GetCommandList()->SetGraphicsRootSignature(pipeline_->GetRootSignature());
+	dxCommon->GetCommandList()->SetPipelineState(shadowPipeline_->GetGraphicsPipelineState());	//PSO設定
+	dxCommon->GetCommandList()->IASetVertexBuffers(0,1,&vertexBufferView_);		//VBV設定
+	if(isIndexDataEnable_)dxCommon->GetCommandList()->IASetIndexBuffer(&indexBufferView_);		//IBV設定
+
+	//形状設定、PSOに設定しているのとは別
+	dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology);
+
+	////マテリアルのconstBufferの場所を設定
+	//dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(0, constResource_->GetGPUVirtualAddress());
+	////行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
+	//dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
+	////SRV(テクスチャ)のDescriptorTableの先頭を設定 2はRootParamterのインデックスRootParamter[2]
+	//dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(2, texture_.srvHandleGPU_);
+	////Light
+	//dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(3, LightingGroup::GetInstance()->GetResource()->GetGPUVirtualAddress());
+
+	//描画
+	isIndexDataEnable_ ? 
+		dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,1,0,0,0) : 
+		dxCommon->GetCommandList()->DrawInstanced(vertNum_,1,0,0);
 }
 
 void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
@@ -144,6 +176,11 @@ void GeometryBase::PipelineStateInitialize()
 		inputElementDesc_,
 		fillMode,
 		pipelinePrimitiveTopology
+	);
+
+	shadowPipeline_->Create(
+		pipeline_,
+		L"Resources/Shaders/Object3D/Object3D.VS.Shadow.hlsl"
 	);
 }
 
