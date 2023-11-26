@@ -27,10 +27,16 @@ public:
 	//ルートシグネチャ
 
 	//Getter
+	IDxcUtils* GetDxcUtils() {return dxcUtils_.Get();};
+	IDxcCompiler3* GetDxcCompiler()	{return dxcCompiler_.Get();}
+	IDxcIncludeHandler* GetIncludeHandler()	{return includeHandler_.Get();}
+	D3D12_INPUT_LAYOUT_DESC  GetInputLayout()	{return inputLayoutDesc_;}
+
+
 	ID3D12RootSignature* GetRootSignature()	{return rootSignature_.Get();}
 	ID3D12PipelineState* GetGraphicsPipelineState()	{return graphicsPipelineState_.Get();}
 
-private:
+
 	//コンパイルシェーダー
 	static IDxcBlob* CompileShader(
 		//ComplierするShaderファイルパス
