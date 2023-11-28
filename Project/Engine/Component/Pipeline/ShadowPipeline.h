@@ -26,7 +26,8 @@ private:
 public:
 	void Create(
 		Pipeline* lPipeline,
-		std::wstring vsPath
+		std::wstring vsPath,
+		vector<D3D12_ROOT_PARAMETER> rootParameter
 	);
 
 	//Getter
@@ -45,6 +46,10 @@ private:
 	D3D12_RENDER_TARGET_BLEND_DESC blendDesc_{};
 	//ラスタライザ			: ラスタライザに対する処理
 	D3D12_RASTERIZER_DESC rasterizerDesc_{};
+
+	//ルートシグネチャ/パラメータ
+	vector<D3D12_ROOT_PARAMETER> rootParameters_;
+	ComPtr<ID3D12RootSignature> rootSignature_;
 
 	//パイプラインステート
 	ComPtr<ID3D12PipelineState> graphicsPipelineState_;

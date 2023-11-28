@@ -26,6 +26,7 @@ public:
 	}
 
 	~Application(){
+		delete obj2;
 		delete obj;
 	}
 
@@ -44,7 +45,7 @@ private:
 	//Object3D* obj;
 
 	Sphere* obj;
-	//ObjModel* obj;
+	ObjModel* obj2;
 	//Line* obj;
 	//Sprite2D* obj;
 };

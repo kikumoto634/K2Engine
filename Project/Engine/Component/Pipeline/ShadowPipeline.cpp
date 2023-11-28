@@ -2,7 +2,8 @@
 
 void ShadowPipeline::Create(
 	Pipeline *lPipeline, 
-	std::wstring vsPath
+	std::wstring vsPath,
+	vector<D3D12_ROOT_PARAMETER> rootParameter
 )
 {
 	dxCommon = DirectXCommon::GetInstance();
@@ -10,10 +11,34 @@ void ShadowPipeline::Create(
 
 	VSPath_ = vsPath;
 
+	//作成
+	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature{};
+	descriptionRootSignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+
+
+	//ルートパラメータ配列へのポインタ渡し
+	descriptionRootSignature.pParameters = rootParameters_.data();		//ポインタ渡し
+	descriptionRootSignature.NumParameters = (UINT)rootParameters_.size();	//長さ渡し
+
+
+	//シリアライズとしてバイナリにする
+	ID3D10Blob* signatureBlob = nullptr;
+	ID3D10Blob* errorBlob = nullptr;
+	HRESULT result = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
+	if(FAILED(result)){
+		WindowsApp::Log(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
+		assert(false);
+	}
+	
+	//バイナリをもとに作成
+	result = dxCommon->GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
+		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
+	assert(SUCCEEDED(result));
+
+
 	//シェーダー
 	vertexShaderBlob_ = pipeline->CompileShader(VSPath_, VSVersion_, pipeline->GetDxcUtils(), pipeline->GetDxcCompiler(), pipeline->GetIncludeHandler());
 
-	//インプット
 
 	//ラスタライザ
 	rasterizerDesc_.CullMode = D3D12_CULL_MODE_NONE;
@@ -42,7 +67,7 @@ void ShadowPipeline::Create(
 
 	//生成
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineStateDesc{};
-	pipelineStateDesc.pRootSignature = pipeline->GetRootSignature();
+	pipelineStateDesc.pRootSignature = rootSignature_.Get();
 	pipelineStateDesc.InputLayout = pipeline->GetInputLayout();
 	
 	pipelineStateDesc.SampleDesc.Count = 1;
@@ -74,6 +99,6 @@ void ShadowPipeline::Create(
 	pipelineStateDesc.RasterizerState = rasterizerDesc_;
 	pipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	HRESULT result = dxCommon->GetDevice()->CreateGraphicsPipelineState(&pipelineStateDesc, IID_PPV_ARGS(&graphicsPipelineState_));
+	result = dxCommon->GetDevice()->CreateGraphicsPipelineState(&pipelineStateDesc, IID_PPV_ARGS(&graphicsPipelineState_));
 	assert(SUCCEEDED(result));
 }

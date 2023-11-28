@@ -56,12 +56,12 @@ void GeometryBase::ShadowDraw(Matrix4x4 viewProjectionMatrix)
 	////SRV(テクスチャ)のDescriptorTableの先頭を設定 2はRootParamterのインデックスRootParamter[2]
 	//dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(2, texture_.srvHandleGPU_);
 	////Light
-	//dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(3, LightingGroup::GetInstance()->GetResource()->GetGPUVirtualAddress());
+	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(0, LightingGroup::GetInstance()->GetResource()->GetGPUVirtualAddress());
 
 	//描画
-	isIndexDataEnable_ ? 
+	/*isIndexDataEnable_ ? 
 		dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,1,0,0,0) : 
-		dxCommon->GetCommandList()->DrawInstanced(vertNum_,1,0,0);
+		dxCommon->GetCommandList()->DrawInstanced(vertNum_,1,0,0);*/
 }
 
 void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
@@ -178,9 +178,18 @@ void GeometryBase::PipelineStateInitialize()
 		pipelinePrimitiveTopology
 	);
 
+
+	//ルートパラメータ設定
+	shadowRootParameters_.resize(1);
+	//Light(PS)
+	shadowRootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
+	shadowRootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//PixelShader
+	shadowRootParameters_[0].Descriptor.ShaderRegister = 0;	//レジスタ番号 b0
+
 	shadowPipeline_->Create(
 		pipeline_,
-		L"Resources/Shaders/Object3D/Object3D.VS.Shadow.hlsl"
+		L"Resources/Shaders/Object3D/Object3D.VS.Shadow.hlsl",
+		shadowRootParameters_
 	);
 }
 

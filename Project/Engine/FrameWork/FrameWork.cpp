@@ -42,7 +42,7 @@ void FrameWork::Run()
 		dxCommon_->PreDraw();
 
 		//描画
-		//app_->Draw();
+		app_->Draw();
 
 		//描画後
 		ImGuiManager::CommandsExcute(dxCommon_->GetCommandList());
