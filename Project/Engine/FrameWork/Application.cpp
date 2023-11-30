@@ -42,11 +42,7 @@ void Application::Update()
 	obj2->Update();
 }
 
-void Application::ShadowDraw()
-{
-	obj->Draw(camera_->GetViewProjectionMatrix());
-	//obj2->ShadowDraw(camera_->GetViewProjectionMatrix());
-}
+
 
 void Application::Draw()
 {

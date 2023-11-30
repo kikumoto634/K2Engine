@@ -32,7 +32,6 @@ public:
 
 	void Update();
 
-	void ShadowDraw();
 	void Draw();
 
 private:

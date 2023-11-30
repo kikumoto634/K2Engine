@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "Pipeline.h"
-//#include "ShadowPipeline.h"
 
 #include "DirectXCommon.h"
 #include "Transform.h"
@@ -59,10 +58,8 @@ private:
 
 	//パイプライン関係
 	Pipeline* pipeline_ = nullptr;
-	//ShadowPipeline* shadowPipeline_ = nullptr;
 
 	vector<D3D12_ROOT_PARAMETER> rootParameters_;			//ルートパラメータ
-	vector<D3D12_ROOT_PARAMETER> shadowRootParameters_;
 	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDesc_;		//インプットレイアウト
 	vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers_;		//サンプラー
 

@@ -11,8 +11,6 @@ void FrameWork::Initialize()
 {
 	win_ = WindowsApp::Create(L"K2Engine", 1280, 720);
 	dxCommon_ = DirectXCommon::Create();
-	shadowCommon_ = new ShadowCommon;
-	shadowCommon_->Initialize();
 
 	app_ = Application::Create();
 
@@ -28,13 +26,6 @@ void FrameWork::Run()
 		ImGuiManager::NewFrame();
 		imgui_->ShowDemo();
 		app_->Update();
-
-
-		shadowCommon_->PreDraw();
-
-		app_->ShadowDraw();
-
-		shadowCommon_->PostDraw();
 
 
 		//描画前

@@ -189,20 +189,6 @@ void GeometryBase::PipelineStateInitialize()
 		fillMode,
 		pipelinePrimitiveTopology
 	);
-
-
-	////ルートパラメータ設定
-	//shadowRootParameters_.resize(1);
-	////行列
-	//shadowRootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
-	//shadowRootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;	//VertexShaderで使用
-	//shadowRootParameters_[0].Descriptor.ShaderRegister = 3;	//レジスタ番号 b1
-
-	//shadowPipeline_->Create(
-	//	pipeline_,
-	//	L"Resources/Shaders/Object3D/Object3D.VS.Shadow.hlsl",
-	//	shadowRootParameters_
-	//);
 }
 
 
