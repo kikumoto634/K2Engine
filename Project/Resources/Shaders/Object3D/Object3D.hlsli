@@ -23,7 +23,7 @@ struct VertexShaderInput
 struct VertexShaderOutput
 {
     float4 position : SV_POSITION;
-    float4 positionSM : POSITION_SM;
+    //float4 positionSM : POSITION_SM;
     float2 texcoord : TEXCOORD0;
     float3 normal : NORMAL0;
 };

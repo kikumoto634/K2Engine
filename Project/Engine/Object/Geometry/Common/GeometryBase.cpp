@@ -23,7 +23,7 @@ void GeometryBase::Initialize(bool isIndexEnable)
 
 	//パイプライン
 	pipeline_ = new Pipeline();
-	shadowPipeline_ = new ShadowPipeline();
+	//shadowPipeline_ = new ShadowPipeline();
 	PipelineStateInitialize();	//パイプライン初期化
 
 	//リソース
@@ -33,7 +33,7 @@ void GeometryBase::Initialize(bool isIndexEnable)
 	CreateWVP();
 }
 
-void GeometryBase::ShadowDraw(Matrix4x4 viewProjectionMatrix)
+/*void GeometryBase::ShadowDraw(Matrix4x4 viewProjectionMatrix)
 {
 	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * viewProjectionMatrix;
 	wvpData_->WVP = worldViewProjectionMatrix;
@@ -61,8 +61,9 @@ void GeometryBase::ShadowDraw(Matrix4x4 viewProjectionMatrix)
 	//描画
 	/*isIndexDataEnable_ ? 
 		dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,1,0,0,0) : 
-		dxCommon->GetCommandList()->DrawInstanced(vertNum_,1,0,0);*/
-}
+		dxCommon->GetCommandList()->DrawInstanced(vertNum_,1,0,0);
+
+}*/
 
 void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
 {

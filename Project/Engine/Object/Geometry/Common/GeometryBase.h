@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "Pipeline.h"
-#include "ShadowPipeline.h"
+//#include "ShadowPipeline.h"
 
 #include "DirectXCommon.h"
 #include "Transform.h"
@@ -30,10 +30,10 @@ protected:
 
 public:
 	~GeometryBase(){
-		delete shadowPipeline_;
+		//delete shadowPipeline_;
 		delete pipeline_;
 	}
-	void ShadowDraw(Matrix4x4 viewProjectionMatrix);
+	//void ShadowDraw(Matrix4x4 viewProjectionMatrix);
 	void Draw(Matrix4x4 viewProjectionMatrix);
 
 protected:
@@ -59,7 +59,7 @@ private:
 
 	//パイプライン関係
 	Pipeline* pipeline_ = nullptr;
-	ShadowPipeline* shadowPipeline_ = nullptr;
+	//ShadowPipeline* shadowPipeline_ = nullptr;
 
 	vector<D3D12_ROOT_PARAMETER> rootParameters_;			//ルートパラメータ
 	vector<D3D12_ROOT_PARAMETER> shadowRootParameters_;
