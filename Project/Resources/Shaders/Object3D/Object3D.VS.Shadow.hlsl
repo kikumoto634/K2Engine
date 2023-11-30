@@ -1,9 +1,9 @@
-#include "Object3D.hlsli"
+#include "ShadowMap.hlsli"
 
-float4 main(VertexShaderInput input) : SV_POSITION
+VSOutput main(float4 pos : POSITION, float2 uv : TEXCOORD)
 {
-    float4 pos = float4(input.position.xyz,1.0f);
-    pos = mul(pos, World);
-    pos = mul(pos, lightVP);
-    return pos;
+    VSOutput output;
+    output.svpos = pos;
+    output.uv = uv;
+    return output;
 }

@@ -246,6 +246,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="External\imgui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Shadow.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Texture.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
@@ -304,6 +310,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Object3D\Object3D.hlsli" />
+    <None Include="Resources\Shaders\Object3D\Object3D.Shadow.hlsli" />
     <None Include="Resources\Shaders\Sprite\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>

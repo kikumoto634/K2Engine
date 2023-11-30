@@ -36,7 +36,7 @@ public:
 	ID3D12RootSignature* GetRootSignature()	{return rootSignature_.Get();}
 	ID3D12PipelineState* GetGraphicsPipelineState()	{return graphicsPipelineState_.Get();}
 
-
+private:
 	//コンパイルシェーダー
 	static IDxcBlob* CompileShader(
 		//ComplierするShaderファイルパス

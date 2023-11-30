@@ -448,6 +448,9 @@
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.VS.Shadow.hlsl">
       <Filter>リソース ファイル\Shader\Object3D</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Shadow.hlsl">
+      <Filter>リソース ファイル\Shader\Object3D</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="External\imgui\LICENSE.txt">
@@ -460,6 +463,9 @@
     </None>
     <None Include="Resources\Shaders\Sprite\Sprite.hlsli">
       <Filter>リソース ファイル\Shader\Sprite</Filter>
+    </None>
+    <None Include="Resources\Shaders\Object3D\Object3D.Shadow.hlsli">
+      <Filter>リソース ファイル\Shader\Object3D</Filter>
     </None>
   </ItemGroup>
 </Project>

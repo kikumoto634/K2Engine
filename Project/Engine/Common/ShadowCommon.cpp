@@ -7,92 +7,98 @@ void ShadowCommon::Initialize()
 	HRESULT result = {};
 	dxCommon = DirectXCommon::GetInstance();
 
-	//深度バッファヒープ
-	D3D12_DESCRIPTOR_HEAP_DESC descriptorHeapDesc{};
-	descriptorHeapDesc.NumDescriptors = 1;
-	descriptorHeapDesc.Type	= D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
-	descriptorHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-	descriptorHeapDesc.NodeMask = 0;
-
-	result = dxCommon->GetDevice()->CreateDescriptorHeap(&descriptorHeapDesc, IID_PPV_ARGS(&shadowDescriptorHeap_));
+	//ヒープ
+	D3D12_DESCRIPTOR_HEAP_DESC srvDescHeapDesc = {};
+	srvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	srvDescHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	srvDescHeapDesc.NumDescriptors = 1;
+	srvDescHeapDesc.NodeMask = 0;
+	//生成
+	result = dxCommon->GetDevice()->CreateDescriptorHeap(
+		&srvDescHeapDesc,
+		IID_PPV_ARGS(&shadowDSVHeap)
+	);
 	assert(SUCCEEDED(result));
 
-
 	//深度バッファ
-	D3D12_HEAP_PROPERTIES heapProperties{};
 	D3D12_RESOURCE_DESC resourceDesc{};
-	D3D12_CLEAR_VALUE clearValue{};
-	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
-	heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-	heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-	heapProperties.CreationNodeMask = 0;
-	heapProperties.VisibleNodeMask = 0;
-
 	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	resourceDesc.Width = WindowsApp::kWindowWidth_;
-	resourceDesc.Height = WindowsApp::kWindowHeight_;
+	resourceDesc.Width = 256;	//テクスチャ幅
+	resourceDesc.Height = 256;	//テクスチャ高さ
 	resourceDesc.DepthOrArraySize = 1;
 	resourceDesc.MipLevels = 0;
-	resourceDesc.Format = DXGI_FORMAT_R32_TYPELESS;
+	resourceDesc.Format = DXGI_FORMAT_R32_FLOAT;
 	resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
 	resourceDesc.SampleDesc.Count = 1;
 	resourceDesc.SampleDesc.Quality = 0;
 	resourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
 
-	clearValue.Format = DXGI_FORMAT_D32_FLOAT;
-	clearValue.DepthStencil.Depth = 1.0f;
-	clearValue.DepthStencil.Stencil = 0;
-
-	result = dxCommon->GetDevice()->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE,
-		&resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, &clearValue, IID_PPV_ARGS(&shadowResources_));
+	result = dxCommon->GetDevice()->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT), 
+		D3D12_HEAP_FLAG_NONE,
+		&resourceDesc, 
+		D3D12_RESOURCE_STATE_GENERIC_READ, 
+		&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_D32_FLOAT, 1.0f, 0), 
+		IID_PPV_ARGS(&shadowResources_)
+	);
 	assert(SUCCEEDED(result));
 
 
 	//深度バッファビュー
-	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
-	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	dsvDesc.Format = DXGI_FORMAT_R32_FLOAT;
 	dsvDesc.Texture2D.MipSlice = 0;
-	dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
-	dxCommon->GetDevice()->CreateDepthStencilView(shadowResources_.Get(), &dsvDesc, shadowDescriptorHeap_->GetCPUDescriptorHandleForHeapStart());
 
+
+	dxCommon->GetDevice()->CreateDepthStencilView(
+		shadowResources_.Get(), 
+		&dsvDesc,
+		shadowDSVHeap->GetCPUDescriptorHandleForHeapStart()
+	);
+
+	//パイプライン
+	pipeline_ = new ShadowPipeline();
+	pipeline_->Create(
+		L"Resources/shaders/Object3D.VS.Shadow.hlsl",
+		L"Resources/shaders/Object3D.PS.Shadow.hlsl"
+	);
 }
 
 void ShadowCommon::PreDraw()
 {
-	//リソースバリア書き込み可能
-	dxCommon->GetCommandList()->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(shadowResources_.Get(),
-		D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_DEPTH_WRITE));
+	dxCommon->GetCommandList()->ResourceBarrier(1, 
+		&CD3DX12_RESOURCE_BARRIER::Transition(
+			shadowResources_.Get(), 
+			D3D12_RESOURCE_STATE_GENERIC_READ, 
+			D3D12_RESOURCE_STATE_DEPTH_WRITE)
+	);
 
-	//指定した深度で画面全体をクリア
-	dxCommon->GetCommandList()->ClearDepthStencilView(shadowDescriptorHeap_->GetCPUDescriptorHandleForHeapStart(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0,0, nullptr);
+	//コマンド記録
+	dxCommon->GetCommandList()->OMSetRenderTargets(0, nullptr, false, &shadowDSVHeap->GetCPUDescriptorHandleForHeapStart());
 
-	//Screen設定
-	dxCommon->GetCommandList()->RSSetViewports(1,&dxCommon->GetViewport());			//ビューポート
-	dxCommon->GetCommandList()->RSSetScissorRects(1,&dxCommon->GetScissorRect());	//シザー矩形
+	//パイプライン
+	dxCommon->GetCommandList()->SetPipelineState(pipeline_->GetGraphicsPipelineState());
 
-	dxCommon->GetCommandList()->OMSetRenderTargets(0,nullptr,false,&shadowDescriptorHeap_->GetCPUDescriptorHandleForHeapStart());
+	//シャドウマップクリア
+	dxCommon->GetCommandList()->ClearDepthStencilView(shadowDSVHeap->GetCPUDescriptorHandleForHeapStart(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0,0,nullptr);
+
+	CD3DX12_VIEWPORT viewports;
+	CD3DX12_RECT scissorRects;
+	viewports = CD3DX12_VIEWPORT(0.0F,0.0F,(FLOAT)WindowsApp::kWindowWidth_,(FLOAT)WindowsApp::kWindowHeight_);
+	scissorRects = CD3DX12_RECT(0,0,WindowsApp::kWindowWidth_,WindowsApp::kWindowHeight_);
+	//ビューポート
+	dxCommon->GetCommandList()->RSSetViewports(1,&viewports);
+	//シザー
+	dxCommon->GetCommandList()->RSSetScissorRects(1,&scissorRects);
+
 }
 
 void ShadowCommon::PostDraw()
 {
-	HRESULT result{};
-
-	//リソースバリア書き込み可能
-	dxCommon->GetCommandList()->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(shadowResources_.Get(),
-		D3D12_RESOURCE_STATE_DEPTH_WRITE, D3D12_RESOURCE_STATE_GENERIC_READ));
-
-	////コマンドリストの内容を確定。
-	//result = dxCommon->GetCommandList()->Close();
-	//assert(SUCCEEDED(result));
-
-	////GPUにコマンドリストの実行を行わせる
-	//ID3D12CommandList* commandList[] = {dxCommon->GetCommandList()};
-	//dxCommon->GetCommandQueue()->ExecuteCommandLists(1, commandList);
-
-	////次のフレーム用のコマンドリスト用意
-	//result = dxCommon->GetCommandAllocator()->Reset();
-	//assert(SUCCEEDED(result));
-	//result = dxCommon->GetCommandList()->Reset(dxCommon->GetCommandAllocator(), nullptr);
-	//assert(SUCCEEDED(result));
+	dxCommon->GetCommandList()->ResourceBarrier(1, 
+		&CD3DX12_RESOURCE_BARRIER::Transition(
+			shadowResources_.Get(), 
+			D3D12_RESOURCE_STATE_DEPTH_WRITE, 
+			D3D12_RESOURCE_STATE_GENERIC_READ)
+	);
 }

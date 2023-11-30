@@ -44,12 +44,12 @@ void Application::Update()
 
 void Application::ShadowDraw()
 {
-	//obj->ShadowDraw(camera_->GetViewProjectionMatrix());
+	obj->Draw(camera_->GetViewProjectionMatrix());
 	//obj2->ShadowDraw(camera_->GetViewProjectionMatrix());
 }
 
 void Application::Draw()
 {
-	obj->Draw(camera_->GetViewProjectionMatrix());
+	//obj->Draw(camera_->GetViewProjectionMatrix());
 	obj2->Draw(camera_->GetViewProjectionMatrix());
 }
