@@ -25,7 +25,7 @@ void SpriteBase::Initialize(bool isIndexEnable)
 
 void SpriteBase::Draw(Matrix4x4 viewProjectionMatrix)
 {
-	Matrix4x4 worldMatrixSprite = MakeAffineMatrix(scale, rotation, translate);
+	Matrix4x4 worldMatrixSprite = MakeAffineMatrix(transform.scale, transform.rotation, transform.translate);
 	Matrix4x4 viewMatrixSprite = MakeIdentityMatrix();
 	Matrix4x4 projectionMatrixSprite = MakeOrthographicMatrix(0.0f,0.0f, (float)WindowsApp::kWindowWidth_,(float)WindowsApp::kWindowHeight_, 0.0f,100.0f);
 	Matrix4x4 worldViewProjectionMatrixSprite = worldMatrixSprite * (viewMatrixSprite*projectionMatrixSprite);

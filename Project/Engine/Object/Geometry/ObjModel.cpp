@@ -14,9 +14,9 @@ ObjModel *ObjModel::Create(std::string filePath, Transform transform)
 void ObjModel::Update()
 {
 	ImGui::Text("Obj");
-	ImGui::DragFloat3("Pos", &translate.x, 0.01f);
-	ImGui::DragFloat3("Rot", &rotation.x, 0.01f);
-	ImGui::DragFloat3("Scale", &scale.x, 0.01f);
+	ImGui::DragFloat3("Pos", &this->transform.translate.x, 0.01f);
+	ImGui::DragFloat3("Rot", &this->transform.rotation.x, 0.01f);
+	ImGui::DragFloat3("Scale", &this->transform.scale.x, 0.01f);
 }
 
 void ObjModel::ObjModelLoad()

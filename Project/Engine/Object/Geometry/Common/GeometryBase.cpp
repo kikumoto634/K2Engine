@@ -67,7 +67,7 @@ void GeometryBase::Initialize(bool isIndexEnable)
 
 void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
 {
-	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * viewProjectionMatrix;
+	Matrix4x4 worldViewProjectionMatrix = transform.GetWorldMatrix() * viewProjectionMatrix;
 	wvpData_->WVP = worldViewProjectionMatrix;
 	wvpData_->World = worldViewProjectionMatrix;
 

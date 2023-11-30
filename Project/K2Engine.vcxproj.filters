@@ -178,6 +178,12 @@
     <Filter Include="ヘッダー ファイル\Engine\Common">
       <UniqueIdentifier>{82a0485d-8d5f-4681-99ea-e13da9d77452}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Application\PostEffect">
+      <UniqueIdentifier>{9270850a-91c2-44cf-bec2-e1b6004ab299}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Application\PostEffect">
+      <UniqueIdentifier>{09065245-8d58-4637-be36-ab28cd373ff4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -287,6 +293,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Common\DirectXCommon.cpp">
       <Filter>ソース ファイル\Engine\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\PostEffect\PostEffect.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -415,6 +424,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Common\DirectXCommon.h">
       <Filter>ヘッダー ファイル\Engine\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\PostEffect\PostEffect.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -13,9 +13,9 @@ Sphere *Sphere::Create(Transform transform)
 void Sphere::Update()
 {
 	ImGui::Text("Sphere");
-	ImGui::DragFloat3("Pos", &translate.x, 0.01f);
-	ImGui::DragFloat3("Rot", &rotation.x, 1.f);
-	ImGui::DragFloat3("Scale", &scale.x, 0.01f);
+	ImGui::DragFloat3("Pos", &this->transform.translate.x, 0.01f);
+	ImGui::DragFloat3("Rot", &this->transform.rotation.x, 1.f);
+	ImGui::DragFloat3("Scale", &this->transform.scale.x, 0.01f);
 }
 
 void Sphere::SphereVertexData()

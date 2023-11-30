@@ -7,10 +7,10 @@ public:
 
 public:
 	Line(Vector3 start, Vector3 end){
-		translate = start;
+		this->transform.translate = start;
 		target = end;
-		rotation = {0,0,0};
-		scale = {0,0,0};
+		this->transform.rotation = {0,0,0};
+		this->transform.scale = {0,0,0};
 
 		vertNum_ = 2;
 

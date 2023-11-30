@@ -1,28 +1,19 @@
-#include "Sprite2D.h"
-#include <imgui.h>
+#include "PostEffect.h"
 
-Sprite2D *Sprite2D::Create(Transform transform, std::string filePath)
+PostEffect *PostEffect::Create(Transform transform)
 {
-	Sprite2D* instance = new Sprite2D(transform, filePath);
+	PostEffect* instance = new PostEffect(transform);
 	instance->Initialize();
-	instance->Sprite2DVertexData();
-	instance->Sprite2DIndexData();
+	instance->PostEffectVertexData();
+	instance->PostEffectIndexData();
 	return instance;
 }
 
-void Sprite2D::Update()
+void PostEffect::Update()
 {
-	ImGui::Text("Sprite");
-	ImGui::DragFloat3("Pos", &transform.translate.x, 1.0f);
-	ImGui::DragFloat3("Rot", &transform.rotation.x, 1.0f);
-	ImGui::DragFloat3("Scale", &transform.scale.x, 1.0f);
-
-	ImGui::DragFloat2("UVTranslate", &uvTransformSprite.translate.x, 0.01f, -10.f, 10.f);
-	ImGui::DragFloat2("UVScale", &uvTransformSprite.scale.x, 0.01f,-10.f,10.f);
-	ImGui::SliderAngle("UVRotate", &uvTransformSprite.rotation.z);
 }
 
-void Sprite2D::Sprite2DVertexData()
+void PostEffect::PostEffectVertexData()
 {
 	vertData_[0].position = {0.0f, size.y, 0.0f, 1.0f};		//左下
 	vertData_[0].texcoord = {0.0f, 1.0f};
@@ -38,7 +29,7 @@ void Sprite2D::Sprite2DVertexData()
 	vertData_[3].normal = {0.0f, 0.0f, -1.0f};
 }
 
-void Sprite2D::Sprite2DIndexData()
+void PostEffect::PostEffectIndexData()
 {
 	indexData_[0] = 0;	indexData_[1] = 1;	indexData_[2] = 2;
 	indexData_[3] = 1;	indexData_[4] = 3;	indexData_[5] = 2;

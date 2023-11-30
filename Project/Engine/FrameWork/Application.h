@@ -8,6 +8,7 @@
 #include "Geometry/Sprite2D.h"
 
 
+#include "../Component/Application/PostEffect/PostEffect.h"
 #include "Object3D/Object3D.h"
 
 #include "SpriteLoader.h"
@@ -26,8 +27,10 @@ public:
 	}
 
 	~Application(){
+		delete postEffect;
+		delete tex;
 		delete obj2;
-		delete obj;
+		//delete obj;
 	}
 
 	void Update();
@@ -43,9 +46,11 @@ private:
 
 	//Object3D* obj;
 
-	Sphere* obj;
+	//Sphere* obj;
 	ObjModel* obj2;
 	//Line* obj;
-	//Sprite2D* obj;
+	Sprite2D* tex;
+
+	PostEffect* postEffect = nullptr;
 };
 

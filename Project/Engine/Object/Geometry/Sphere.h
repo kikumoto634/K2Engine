@@ -7,9 +7,9 @@ public:
 
 public:
 	Sphere(Transform transform){
-		translate = transform.translate;
-		rotation = transform.rotation;
-		scale = transform.scale;
+		this->transform.translate = transform.translate;
+		this->transform.rotation = transform.rotation;
+		this->transform.scale = transform.scale;
 
 		vertNum_ = kSubdivision*kSubdivision*4;
 		indexNum_ = kSubdivision*kSubdivision*6;

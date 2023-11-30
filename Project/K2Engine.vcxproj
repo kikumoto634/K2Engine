@@ -169,6 +169,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Component\Application\Math\Vector\Vector2.cpp" />
     <ClCompile Include="Engine\Component\Application\Math\Vector\Vector3.cpp" />
     <ClCompile Include="Engine\Component\Application\Math\Vector\Vector4.cpp" />
+    <ClCompile Include="Engine\Component\Application\PostEffect\PostEffect.cpp" />
     <ClCompile Include="Engine\Component\Application\Transform\Transform.cpp" />
     <ClCompile Include="Engine\Component\Buffer\BufferResource.cpp" />
     <ClCompile Include="Engine\Component\Buffer\BufferView.cpp" />
@@ -207,6 +208,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Component\Application\Math\Vector\Vector2.h" />
     <ClInclude Include="Engine\Component\Application\Math\Vector\Vector3.h" />
     <ClInclude Include="Engine\Component\Application\Math\Vector\Vector4.h" />
+    <ClInclude Include="Engine\Component\Application\PostEffect\PostEffect.h" />
     <ClInclude Include="Engine\Component\Application\Transform\Transform.h" />
     <ClInclude Include="Engine\Component\Buffer\BufferResource.h" />
     <ClInclude Include="Engine\Component\Buffer\BufferView.h" />

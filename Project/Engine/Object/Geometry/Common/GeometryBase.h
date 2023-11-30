@@ -14,7 +14,7 @@
 #include "TransformationMatrixData.h"
 
 //幾何学オブジェクトの共通
-class GeometryBase : public Transform
+class GeometryBase
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -98,6 +98,7 @@ protected:
 	PrimitiveType primitiveType_ = PrimitiveType::TRIANGLE;		//描画方法
 
 	//パラメータ
+	Transform transform;
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	bool isLightEnable = true;
 

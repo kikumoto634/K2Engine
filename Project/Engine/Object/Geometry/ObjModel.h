@@ -10,9 +10,9 @@ public:
 public:
 	ObjModel(std::string filePath, Transform transform){
 		filePath_ = filePath;
-		translate = transform.translate;
-		rotation = transform.rotation;
-		scale = transform.scale;
+		this->transform.translate = transform.translate;
+		this->transform.rotation = transform.rotation;
+		this->transform.scale = transform.scale;
 	}
 	void Update();
 

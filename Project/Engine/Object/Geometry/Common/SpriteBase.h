@@ -12,7 +12,7 @@
 #include "MaterialData.h"
 #include "TransformationMatrixData.h"
 
-class SpriteBase : public Transform
+class SpriteBase
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -90,6 +90,8 @@ protected:
 	D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID;	//塗りつぶし
 
 	//パラメータ
+	Transform transform;
+	Vector2 size = {100.f, 100.f};
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 
 	std::string texturePath_ = "white1x1.png";

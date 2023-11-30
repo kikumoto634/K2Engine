@@ -19,10 +19,12 @@ void Application::Initialize()
 
 	//obj = Object3D::Create();
 
-	 obj = Sphere::Create({{0,0,15},{0,0,0},{1,1,1}});
-	 obj2 = ObjModel::Create("cube", {{0,-2,15},{0,0,0},{5,0.5,5}});
+	//obj = Sphere::Create({{0,0,15},{0,0,0},{1,1,1}});
+	obj2 = ObjModel::Create("cube", {{0,-2,15},{0,0,0},{5,0.5,5}});
 	//obj = Line::Create();
-	//obj = Sprite2D::Create();
+	tex = Sprite2D::Create({{600,0,0},{0,0,0},{1,1,1}}, "texture.png");
+
+	postEffect = PostEffect::Create();
 }
 
 void Application::Update()
@@ -38,8 +40,10 @@ void Application::Update()
 		ImGui::TreePop();
 	}
 
-	obj->Update();
+	//obj->Update();
 	obj2->Update();
+
+	tex->Update();
 }
 
 
@@ -48,4 +52,8 @@ void Application::Draw()
 {
 	//obj->Draw(camera_->GetViewProjectionMatrix());
 	obj2->Draw(camera_->GetViewProjectionMatrix());
+
+	tex->Draw(camera_->GetViewProjectionMatrix());
+
+	postEffect->Draw(camera_->GetViewProjectionMatrix());
 }
