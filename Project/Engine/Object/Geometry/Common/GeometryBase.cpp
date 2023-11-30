@@ -80,14 +80,15 @@ void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
 	//形状設定、PSOに設定しているのとは別
 	dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology);
 
-	//マテリアルのconstBufferの場所を設定
-	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(0, constResource_->GetGPUVirtualAddress());
-	//行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
-	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
+
 	//SRV(テクスチャ)のDescriptorTableの先頭を設定 2はRootParamterのインデックスRootParamter[2]
-	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(2, texture_.srvHandleGPU_);
+	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(0, texture_.srvHandleGPU_);
 	//Light
-	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(3, LightingGroup::GetInstance()->GetResource()->GetGPUVirtualAddress());
+	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, LightingGroup::GetInstance()->GetResource()->GetGPUVirtualAddress());
+	//行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
+	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(2, wvpResource_->GetGPUVirtualAddress());
+	//マテリアルのconstBufferの場所を設定
+	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(3, constResource_->GetGPUVirtualAddress());
 
 	//描画
 	isIndexDataEnable_ ? 
@@ -105,32 +106,42 @@ void GeometryBase::PipelineStateInitialize()
 	//numDescriptor = 2;		NumDescritor = 3;				ConstBuffer<..>gMaterial2 : register(b2)
 	//Type = SRV;				Type = CBV;						Texture2D<..> gTexture0 : register(t3)
 	//															Texture2D<..> gTexture1 : register(t4)
-	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
-	descriptorRange[0].BaseShaderRegister = 0;	//0から開始
-	descriptorRange[0].NumDescriptors = 1;	//数は1
-	descriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;	//SRVを使用
-	descriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;		//Offsetを自動計算
+
+	//現在
+	//DescriptorHeap (Index / 対象名)
+	// 0 / ImGui
+	// 1~x / SRV(Texture)
+	// 2+x / CSV(ALL)
+	// 3+x / CSV(VERTEX)
+	// 4+x / CSV(PIXEL)
+
+	//SRV(Texture)
+	D3D12_DESCRIPTOR_RANGE SRVDescriptorRange[1] = {};
+	SRVDescriptorRange[0].BaseShaderRegister = 0;	//0から開始
+	SRVDescriptorRange[0].NumDescriptors = 1;	//数は1
+	SRVDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;	//SRVを使用
+	SRVDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;		//Offsetを自動計算
 
 	//ルートパラメータ設定
 	rootParameters_.resize(4);
-	//PS
-	rootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
-	rootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShader使用
-	rootParameters_[0].Descriptor.ShaderRegister = 1;	//レジスタ番号 b1	
-	//※RegisterとはShader上でのResource配置場所の情報　bというのは(ConstantBuffer)を意味
-	//VS
-	rootParameters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
-	rootParameters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;	//VertexShaderで使用
-	rootParameters_[1].Descriptor.ShaderRegister = 1;	//レジスタ番号 b1
 	//SRV(テクスチャ		シェーダでは各ピクセルのことをいう)
-	rootParameters_[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//DescriptorTableに使用
-	rootParameters_[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShaderで使用
-	rootParameters_[2].DescriptorTable.pDescriptorRanges = descriptorRange;	//tableの中身の配列を指定
-	rootParameters_[2].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);	//Tableで利用する数
-	//Light(PS)
+	rootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//DescriptorTableに使用
+	rootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShaderで使用
+	rootParameters_[0].DescriptorTable.pDescriptorRanges = SRVDescriptorRange;	//tableの中身の配列を指定
+	rootParameters_[0].DescriptorTable.NumDescriptorRanges = _countof(SRVDescriptorRange);	//Tableで利用する数
+	//ALL(ライト)
+	rootParameters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
+	rootParameters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//PixelShader
+	rootParameters_[1].Descriptor.ShaderRegister = 0;	//レジスタ番号 b0
+	//※RegisterとはShader上でのResource配置場所の情報　bというのは(ConstantBuffer)を意味
+	//VS(行列)
+	rootParameters_[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
+	rootParameters_[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//VertexShaderで使用
+	rootParameters_[2].Descriptor.ShaderRegister = 1;	//レジスタ番号 b1
+	//PS(色)
 	rootParameters_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
-	rootParameters_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//PixelShader
-	rootParameters_[3].Descriptor.ShaderRegister = 0;	//レジスタ番号 b0
+	rootParameters_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShader使用
+	rootParameters_[3].Descriptor.ShaderRegister = 2;	//レジスタ番号 b1	
 
 
 	//Sampler設定(シェーダーのPS SamplerState　シェーダでは画像のことをいう)
@@ -179,18 +190,18 @@ void GeometryBase::PipelineStateInitialize()
 	);
 
 
-	//ルートパラメータ設定
-	shadowRootParameters_.resize(1);
-	//行列
-	shadowRootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
-	shadowRootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;	//VertexShaderで使用
-	shadowRootParameters_[0].Descriptor.ShaderRegister = 3;	//レジスタ番号 b1
+	////ルートパラメータ設定
+	//shadowRootParameters_.resize(1);
+	////行列
+	//shadowRootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
+	//shadowRootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;	//VertexShaderで使用
+	//shadowRootParameters_[0].Descriptor.ShaderRegister = 3;	//レジスタ番号 b1
 
-	shadowPipeline_->Create(
-		pipeline_,
-		L"Resources/Shaders/Object3D/Object3D.VS.Shadow.hlsl",
-		rootParameters_
-	);
+	//shadowPipeline_->Create(
+	//	pipeline_,
+	//	L"Resources/Shaders/Object3D/Object3D.VS.Shadow.hlsl",
+	//	shadowRootParameters_
+	//);
 }
 
 

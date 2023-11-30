@@ -44,8 +44,8 @@ void Application::Update()
 
 void Application::ShadowDraw()
 {
-	obj->ShadowDraw(camera_->GetViewProjectionMatrix());
-	obj2->ShadowDraw(camera_->GetViewProjectionMatrix());
+	//obj->ShadowDraw(camera_->GetViewProjectionMatrix());
+	//obj2->ShadowDraw(camera_->GetViewProjectionMatrix());
 }
 
 void Application::Draw()

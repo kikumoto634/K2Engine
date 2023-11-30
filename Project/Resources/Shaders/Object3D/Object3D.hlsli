@@ -1,5 +1,5 @@
 
-cbuffer ConstantBuffer : register(b0)
+cbuffer LightConstantBuffer : register(b0)
 {
     float4 lightColor;
     float4x4 lightVP;
@@ -7,6 +7,11 @@ cbuffer ConstantBuffer : register(b0)
     float lightIntensity;
 }
 
+cbuffer WorldConstantBuffer : register(b1)
+{
+    float4x4 WVP;
+    float4x4 World;
+}
 
 struct VertexShaderInput
 {
