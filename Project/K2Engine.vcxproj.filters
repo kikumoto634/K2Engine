@@ -249,9 +249,6 @@
     <ClCompile Include="Engine\Object\Geometry\ObjModel.cpp">
       <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object\Geometry\Line.cpp">
-      <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Object\Geometry\Common\SpriteBase.cpp">
       <Filter>ソース ファイル\Engine\Object\Geometry\Common</Filter>
     </ClCompile>
@@ -296,6 +293,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Component\Application\PostEffect\PostEffect.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\Common\GeometryBaseCommon.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -377,9 +377,6 @@
     <ClInclude Include="Engine\Object\Geometry\ObjModel.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object\Geometry\Line.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Object\Geometry\Common\SpriteBase.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
     </ClInclude>
@@ -427,6 +424,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Component\Application\PostEffect\PostEffect.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Common\GeometryBaseCommon.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

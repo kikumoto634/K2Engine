@@ -4,7 +4,6 @@
 
 #include "Geometry/Sphere.h"
 #include "Geometry/ObjModel.h"
-#include "Geometry/Line.h"
 #include "Geometry/Sprite2D.h"
 
 
@@ -22,15 +21,11 @@ public:
 	static Application* Create();
 
 public:
-	Application(){
-	
-	}
-
 	~Application(){
 		delete postEffect;
 		delete tex;
 		delete obj2;
-		//delete obj;
+		delete obj;
 	}
 
 	void Update();
@@ -46,7 +41,7 @@ private:
 
 	//Object3D* obj;
 
-	//Sphere* obj;
+	Sphere* obj;
 	ObjModel* obj2;
 	//Line* obj;
 	Sprite2D* tex;

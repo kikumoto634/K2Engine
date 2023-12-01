@@ -1,17 +1,15 @@
 #pragma once
 #include <wrl.h>
 #include <dxcapi.h>
-#include <vector>
 
-#include "Pipeline.h"
-
-#include "DirectXCommon.h"
 #include "Transform.h"
 #include "Texture.h"
 
 #include "VertexData.h"
 #include "MaterialData.h"
 #include "TransformationMatrixData.h"
+
+#include "GeometryBaseCommon.h"
 
 //幾何学オブジェクトの共通
 class GeometryBase
@@ -20,29 +18,18 @@ private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	template <class T> using vector = std::vector<T>;
 
-protected:
-	//描画タイプ
-	enum class PrimitiveType{
-		TRIANGLE,	//三角形
-		LINE		//ライン
-	};
+public:
+	static void StaticInitialize();
+	static void StaticDraw();
 
 public:
-	~GeometryBase(){
-		//delete shadowPipeline_;
-		delete pipeline_;
-	}
-	//void ShadowDraw(Matrix4x4 viewProjectionMatrix);
-	void Draw(Matrix4x4 viewProjectionMatrix);
+	virtual void Draw(Matrix4x4 viewProjectionMatrix);
 
 protected:
 	//初期化
 	void Initialize(bool isIndexEnable = true);
 
 private:
-	//パイプライン
-	void PipelineStateInitialize();
-
 	//頂点リソース/ビュー
 	void CreateVertex();
 	//インデックスリソース/ビュー
@@ -53,16 +40,9 @@ private:
 	void CreateWVP();
 
 private:
-	//Instance
-	DirectXCommon* dxCommon = nullptr;
+	static std::unique_ptr<GeometryBaseCommon> common;
 
-	//パイプライン関係
-	Pipeline* pipeline_ = nullptr;
-
-	vector<D3D12_ROOT_PARAMETER> rootParameters_;			//ルートパラメータ
-	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDesc_;		//インプットレイアウト
-	vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers_;		//サンプラー
-
+private:
 	//テクスチャ情報
 	Texture texture_;
 
@@ -79,11 +59,6 @@ private:
 	ComPtr<ID3D12Resource> wvpResource_;		//行列
 	TransformationMatrix* wvpData_ = nullptr;
 
-	//描画方法
-	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
-	D3D_PRIMITIVE_TOPOLOGY commandPrimitiveTopology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;				//コマンドリスト
-
-
 protected:
 	//頂点データ
 	VertexData* vertData_ = nullptr;
@@ -94,17 +69,11 @@ protected:
 	uint32_t* indexData_ = nullptr;
 	UINT indexNum_ = 4;
 
-	D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID;	//塗りつぶし
-	PrimitiveType primitiveType_ = PrimitiveType::TRIANGLE;		//描画方法
-
 	//パラメータ
 	Transform transform;
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	bool isLightEnable = true;
 
 	std::string texturePath_ = "uvChecker.png";
-
-	std::string VSPath_ = "Object3D/Object3D.VS.hlsl";
-	std::string PSPath_ = "Object3D/Object3D.PS.Texture.hlsl";
 };
 

@@ -32,6 +32,8 @@ void FrameWork::Run()
 		ImGuiManager::CreateCommand();
 		dxCommon_->PreDraw();
 
+		//GeometryCommonの描画の共通処理、パイプラインをStaticで用意
+
 		//描画
 		app_->Draw();
 
