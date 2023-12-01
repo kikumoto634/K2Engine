@@ -21,6 +21,7 @@ void Application::Initialize()
 	//obj = Object3D::Create();
 
 	obj = Sphere::Create({{0,0,15},{0,0,0},{1,1,1}});
+	
 	obj2 = ObjModel::Create("cube", {{0,-2,15},{0,0,0},{5,0.5,5}});
 	//obj = Line::Create();
 	tex = Sprite2D::Create({{600,0,0},{0,0,0},{1,1,1}}, "texture.png");
@@ -40,7 +41,6 @@ void Application::Update()
 		}
 		ImGui::TreePop();
 	}
-
 	obj->Update();
 	obj2->Update();
 
@@ -57,7 +57,6 @@ void Application::Draw()
 
 	//自作
 	obj->Draw(camera_->GetViewProjectionMatrix());
-
 
 	//2D
 	tex->Draw(camera_->GetViewProjectionMatrix());
