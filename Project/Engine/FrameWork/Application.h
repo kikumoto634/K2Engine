@@ -46,6 +46,6 @@ private:
 	Sphere* obj;
 	ObjModel* obj2;
 	//Line* obj;
-	//Sprite2D* obj;
+	Sprite2D* sp;
 };
 

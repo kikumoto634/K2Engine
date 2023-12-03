@@ -23,6 +23,9 @@ public:
 	static void LoadTexture(DirectXCommon* dxCommon);
 	static void LoadTexture(DirectXCommon* dxCommon, std::string filePath);
 
+	//深度値画像
+	static void LoadDepth(DirectXCommon* dxCommon);
+
 	static std::array<Texture, kMaxSRVCount> GetTexture()	{return textures_;}
 
 private:

@@ -3,6 +3,8 @@
 #include "WindowsApp.h"
 #include <imgui.h>
 
+#include <d3dx12.h>
+
 Application *Application::Create()
 {
 	Application* instance = new Application();
@@ -16,13 +18,14 @@ void Application::Initialize()
 	light_ = LightingGroup::Create();
 
 	SpriteLoader::LoadTexture(DirectXCommon::GetInstance());
+	SpriteLoader::LoadDepth(DirectXCommon::GetInstance());
 
 	//obj = Object3D::Create();
 
 	 obj = Sphere::Create({{0,0,15},{0,0,0},{1,1,1}});
 	 obj2 = ObjModel::Create("cube", {{0,-2,15},{0,0,0},{5,0.5,5}});
 	//obj = Line::Create();
-	//obj = Sprite2D::Create();
+	sp = Sprite2D::Create();
 }
 
 void Application::Update()
@@ -40,6 +43,8 @@ void Application::Update()
 
 	obj->Update();
 	obj2->Update();
+
+	sp->Update();
 }
 
 
@@ -48,4 +53,6 @@ void Application::Draw()
 {
 	//obj->Draw(camera_->GetViewProjectionMatrix());
 	obj2->Draw(camera_->GetViewProjectionMatrix());
+
+	sp->Draw(camera_->GetViewProjectionMatrix());
 }

@@ -8,7 +8,7 @@ struct Material
 ConstantBuffer<Material> gMaterial : register(b0);
 
 
-Texture2D<float4> gTexture : register(t0); //SRVのレジスタ
+Texture2D<float> gTexture : register(t0); //SRVのレジスタ
 SamplerState gSampler : register(s0); //Samplerレジスタ
 
 struct PixelShaderOutput
@@ -22,7 +22,10 @@ PixelShaderOutput main(VertexShaderOutput input)
     float4 textureColor = gTexture.Sample(gSampler, transformUV.xy); //サンプラー(絵)を基に、UVに応じたピクセルをTexture(ピクセル)に抽出
     
     PixelShaderOutput output;
-    output.color = gMaterial.color * textureColor;
+    //output.color = gMaterial.color * textureColor;
+    
+    float dep = pow(textureColor, 20);
+    output.color = float4(dep, dep, dep, 1.0f);
     
     return output;
 }
