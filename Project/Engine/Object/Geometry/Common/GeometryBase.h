@@ -32,7 +32,6 @@ public:
 		//delete shadowPipeline_;
 		delete pipeline_;
 	}
-	//void ShadowDraw(Matrix4x4 viewProjectionMatrix);
 	void Draw(Matrix4x4 viewProjectionMatrix);
 
 protected:

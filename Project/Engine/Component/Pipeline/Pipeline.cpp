@@ -92,12 +92,12 @@ IDxcBlob *Pipeline::CompileShader(const std::wstring &filePath, const wchar_t *p
 
 
 	//警告・エラー発生時、ログ出力
-	/*IDxcBlobUtf8* shaderError = nullptr;
+	IDxcBlobUtf8* shaderError = nullptr;
 	shaderResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(&shaderError), nullptr);
 	if(shaderError != nullptr && shaderError->GetStringLength() != 0){
 		WindowsApp::Log(shaderError->GetStringPointer());
 		assert(false);
-	}*/
+	}
 
 
 	//コンパイル結果から実行用のバイナリ部分を取得

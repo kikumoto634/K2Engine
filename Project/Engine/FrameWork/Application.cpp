@@ -25,7 +25,7 @@ void Application::Initialize()
 	 obj = Sphere::Create({{0,0,15},{0,0,0},{1,1,1}});
 	 obj2 = ObjModel::Create("cube", {{0,-2,15},{0,0,0},{5,0.5,5}});
 	//obj = Line::Create();
-	sp = Sprite2D::Create();
+	//sp = Sprite2D::Create();
 }
 
 void Application::Update()
@@ -44,15 +44,15 @@ void Application::Update()
 	obj->Update();
 	obj2->Update();
 
-	sp->Update();
+	//sp->Update();
 }
 
 
 
 void Application::Draw()
 {
-	//obj->Draw(camera_->GetViewProjectionMatrix());
+	obj->Draw(camera_->GetViewProjectionMatrix());
 	obj2->Draw(camera_->GetViewProjectionMatrix());
 
-	sp->Draw(camera_->GetViewProjectionMatrix());
+	//sp->Draw(camera_->GetViewProjectionMatrix());
 }

@@ -51,5 +51,7 @@ private:
 	static uint32_t index_;
 
 	static std::array<Texture, kMaxSRVCount> textures_;
+
+	static ComPtr<ID3D12Resource> depthBuffer_;
 };
 

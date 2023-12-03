@@ -3,6 +3,7 @@
 #include <WindowsApp.h>
 
 #include "DescriptorHeap.h"
+#include <d3dx12.h>
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -14,6 +15,8 @@ vector<string> SpriteLoader::files = {};
 array<ComPtr<ID3D12Resource>, SpriteLoader::kMaxSRVCount> SpriteLoader::resources_ = {};
 uint32_t SpriteLoader::index_ = 0;
 array<Texture, SpriteLoader::kMaxSRVCount> SpriteLoader::textures_ = {};
+
+ComPtr<ID3D12Resource> SpriteLoader::depthBuffer_ = {};
 
 
 std::vector<std::string> SpriteLoader::getImageName()
@@ -139,12 +142,60 @@ void SpriteLoader::LoadTexture(DirectXCommon *dxCommon, std::string filePath)
 
 void SpriteLoader::LoadDepth(DirectXCommon *dxCommon)
 {
+	HRESULT result;
 	Texture tex;
 
 	if(index_ >= kMaxSRVCount){
 		WindowsApp::Log("テクスチャ保存数が最大を超えました");
 		assert(0);
 	}
+
+	//テクスチャ
+	{
+		//リソース
+		CD3DX12_RESOURCE_DESC textureDesc = CD3DX12_RESOURCE_DESC::Tex2D(
+			DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
+			256,
+			256,
+			1U, 1U,
+			D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET
+		);
+
+		//バッファ
+		float clear[4] = {0.1f,0.2f,0.5f,1.0f};
+		result = dxCommon->GetDevice()->CreateCommittedResource(
+			&CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK,
+				D3D12_MEMORY_POOL_L0),
+			D3D12_HEAP_FLAG_NONE,
+			&textureDesc,
+			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+			&CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, clear),
+			IID_PPV_ARGS(&depthBuffer_)
+		);
+		assert(SUCCEEDED(result));
+
+		//イメージデータ
+		const UINT pixelCount = 256*256;
+		//画像一行のデータ
+		const UINT rowPitch = sizeof(UINT) * 256;
+		//画像全体サイズ
+		const UINT depthPitch = rowPitch * 256;
+		//イメージ
+		UINT* img = new UINT[pixelCount];
+		for(UINT j = 0; j < pixelCount; j++) {img[j] = 0xff0000ff;}
+
+		//転送
+		result = depthBuffer_->WriteToSubresource(
+			0,
+			nullptr,
+			img,
+			rowPitch,
+			depthPitch
+		);
+		assert(SUCCEEDED(result));
+		delete[] img;
+	}
+
 
 	//SRV設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
@@ -158,7 +209,7 @@ void SpriteLoader::LoadDepth(DirectXCommon *dxCommon)
 	tex.srvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + 1);
 
 	//SRV生成
-	dxCommon->GetDevice()->CreateShaderResourceView(resources_[index_].Get(), &srvDesc, tex.srvHandleCPU_);
+	dxCommon->GetDevice()->CreateShaderResourceView(depthBuffer_.Get(), &srvDesc, tex.srvHandleCPU_);
 
 	tex.name = "DepthValue - Mine";
 	tex.filePath = "DepthValue - Mine";
