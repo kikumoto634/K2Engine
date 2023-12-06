@@ -1,7 +1,6 @@
 #pragma once
 #include "WindowsApp.h"
 #include "DirectXCommon.h"
-#include "ShadowCommon.h"
 
 #include "Application.h"
 
@@ -16,7 +15,6 @@ public:
 	~FrameWork(){
 		delete imgui_;
 		delete app_;
-		delete shadowCommon_;
 		DirectXCommon::Finalize();
 		WindowsApp::Finalize();
 	}
@@ -29,7 +27,6 @@ private:
 private:
 	WindowsApp* win_ = nullptr;
 	DirectXCommon* dxCommon_ = nullptr;
-	ShadowCommon* shadowCommon_ = nullptr;
 
 	Application* app_ = nullptr;
 

@@ -161,7 +161,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Common\DirectXCommon.cpp" />
-    <ClCompile Include="Engine\Common\ShadowCommon.cpp" />
     <ClCompile Include="Engine\Component\Application\Loader\ObjLoader.cpp" />
     <ClCompile Include="Engine\Component\Application\Loader\SpriteLoader.cpp" />
     <ClCompile Include="Engine\Component\Application\Math\MathUtility.cpp" />
@@ -176,7 +175,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Component\DepthStencil\DepthStencil.cpp" />
     <ClCompile Include="Engine\Component\DescriptorHeap\DescriptorHeap.cpp" />
     <ClCompile Include="Engine\Component\Pipeline\Pipeline.cpp" />
-    <ClCompile Include="Engine\Component\Pipeline\ShadowPipeline.cpp" />
     <ClCompile Include="Engine\FrameWork\Application.cpp" />
     <ClCompile Include="Engine\FrameWork\FrameWork.cpp" />
     <ClCompile Include="Engine\Object\Camera\Camera.cpp" />
@@ -201,7 +199,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Common\DirectXCommon.h" />
-    <ClInclude Include="Engine\Common\ShadowCommon.h" />
     <ClInclude Include="Engine\Component\Application\Loader\ObjLoader.h" />
     <ClInclude Include="Engine\Component\Application\Loader\SpriteLoader.h" />
     <ClInclude Include="Engine\Component\Application\Math\MathUtility.h" />
@@ -216,7 +213,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Component\DepthStencil\DepthStencil.h" />
     <ClInclude Include="Engine\Component\DescriptorHeap\DescriptorHeap.h" />
     <ClInclude Include="Engine\Component\Pipeline\Pipeline.h" />
-    <ClInclude Include="Engine\Component\Pipeline\ShadowPipeline.h" />
     <ClInclude Include="Engine\Component\Struct\DirectionalLightData.h" />
     <ClInclude Include="Engine\Component\Struct\MaterialData.h" />
     <ClInclude Include="Engine\Component\Struct\ObjModelData.h" />
@@ -273,14 +269,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       </ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Object3D\Object3D.VS.Shadow.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Sprite\Sprite.PS.Texture.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
