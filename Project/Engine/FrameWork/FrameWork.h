@@ -2,6 +2,8 @@
 #include "WindowsApp.h"
 #include "DirectXCommon.h"
 
+#include "Input.h"
+
 #include "Application.h"
 
 #include "../Tool/ImGui/ImGuiManager.h"
@@ -27,6 +29,8 @@ private:
 private:
 	WindowsApp* win_ = nullptr;
 	DirectXCommon* dxCommon_ = nullptr;
+
+	Input* input_ = nullptr;
 
 	Application* app_ = nullptr;
 

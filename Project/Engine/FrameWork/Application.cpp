@@ -3,6 +3,8 @@
 #include "WindowsApp.h"
 #include <imgui.h>
 
+#include "../../GlobalVariables.h"
+
 Application *Application::Create()
 {
 	Application* instance = new Application();
@@ -13,8 +15,13 @@ Application *Application::Create()
 void Application::Initialize()
 {
 	camera_ = Camera::Create();
-	input_ = Input::GetInstance();
 	light_ = LightingGroup::Create();
+
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "Player";
+	//グループを追加
+	GlobalVariables::GetInstance()->CreateGroup(groupName);
+	globalVariables->SetValue(groupName, "Test", 90.0f);
 
 	SpriteLoader::LoadTexture(DirectXCommon::GetInstance());
 
@@ -42,9 +49,6 @@ void Application::Update()
 #ifdef _DEBUG
 	ImGui::End();
 #endif // _DEBUG
-
-
-	input_->Update();
 
 #ifdef _DEBUG
 	ImGui::SetNextWindowPos({WindowsApp::kWindowWidth_ - 400.f,0});

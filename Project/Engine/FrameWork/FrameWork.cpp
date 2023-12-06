@@ -1,6 +1,8 @@
 #include "FrameWork.h"
 #include <imgui.h>
 
+#include "../../GlobalVariables.h"
+
 FrameWork *FrameWork::Create()
 {
 	FrameWork* instance = new FrameWork();
@@ -12,6 +14,8 @@ void FrameWork::Initialize()
 {
 	win_ = WindowsApp::Create(L"K2Engine", 1280, 720);
 	dxCommon_ = DirectXCommon::Create();
+
+	input_ = Input::GetInstance();
 
 	app_ = Application::Create();
 
@@ -29,7 +33,13 @@ void FrameWork::Run()
 #ifdef _DEBUG
 		ImGuiManager::NewFrame();
 		//imgui_->ShowDemo();
+
+		GlobalVariables::GetInstance()->Update();
+
 #endif // _DEBUG
+
+		input_->Update();
+
 		app_->Update();
 
 

@@ -73,12 +73,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)..\Generated\Outputs\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)External/DirectXTex;$(SolutionDir)External/imgui</IncludePath>
+    <IncludePath>$(SolutionDir)External/DirectXTex;$(SolutionDir)External/imgui;$(ProjectDir)External\json</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)..\Generated\Outputs\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)External/DirectXTex;$(SolutionDir)External/imgui</IncludePath>
+    <IncludePath>$(SolutionDir)External/DirectXTex;$(SolutionDir)External/imgui;$(ProjectDir)External\json</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -162,6 +162,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClCompile Include="Engine\Common\DirectXCommon.cpp" />
     <ClCompile Include="Engine\Component\Application\Input\Input.cpp" />
+    <ClCompile Include="Engine\Component\Application\Loader\LevelLoader.cpp" />
     <ClCompile Include="Engine\Component\Application\Loader\ObjLoader.cpp" />
     <ClCompile Include="Engine\Component\Application\Loader\SpriteLoader.cpp" />
     <ClCompile Include="Engine\Component\Application\Math\Easing\Easing.cpp" />
@@ -197,11 +198,13 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="External\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="External\imgui\imgui_tables.cpp" />
     <ClCompile Include="External\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="GlobalVariables.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Common\DirectXCommon.h" />
     <ClInclude Include="Engine\Component\Application\Input\Input.h" />
+    <ClInclude Include="Engine\Component\Application\Loader\LevelLoader.h" />
     <ClInclude Include="Engine\Component\Application\Loader\ObjLoader.h" />
     <ClInclude Include="Engine\Component\Application\Loader\SpriteLoader.h" />
     <ClInclude Include="Engine\Component\Application\Math\Easing\Easing.h" />
@@ -244,6 +247,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="External\imgui\imstb_rectpack.h" />
     <ClInclude Include="External\imgui\imstb_textedit.h" />
     <ClInclude Include="External\imgui\imstb_truetype.h" />
+    <ClInclude Include="GlobalVariables.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Texture.hlsl">
