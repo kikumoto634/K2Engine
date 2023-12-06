@@ -12,16 +12,16 @@ Line *Line::Create(Vector3 start, Vector3 end)
 void Line::Update()
 {
 	ImGui::Text("Line");
-	ImGui::DragFloat3("Pos", &translate.x, 0.01f);
-	ImGui::DragFloat3("Rot", &rotation.x, 0.01f);
-	ImGui::DragFloat3("Scale", &scale.x, 0.01f);
+	ImGui::DragFloat3("Pos", &transform.translate.x, 0.01f);
+	ImGui::DragFloat3("Rot", &transform.rotation.x, 0.01f);
+	ImGui::DragFloat3("Scale", &transform.scale.x, 0.01f);
 
 	ImGui::DragFloat3("Target", &target.x, 0.01f);
 
 
 	//長さ
-	Vector3 sub = target - translate;
-	scale.x = sub.length();
+	Vector3 sub = target - transform.translate;
+	transform.scale.x = sub.length();
 
 	//X軸とY軸に対する角度
 	float horizontal = std::atan2f(sub.y, sub.x);
@@ -29,7 +29,7 @@ void Line::Update()
 	//3D空間内の角度
 	float vertical = std::atan2f(sub.z, sub.length());
 
-	rotation = {0, horizontal, vertical};
+	transform.rotation = {0, horizontal, vertical};
 }
 
 void Line::LineVertexData()

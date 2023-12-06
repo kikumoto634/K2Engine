@@ -6,10 +6,8 @@ public:
 	static Sphere* Create(Transform transform = {{0,0,0}, {0,0,0}, {1,1,1}});
 
 public:
-	Sphere(Transform transform){
-		translate = transform.translate;
-		rotation = transform.rotation;
-		scale = transform.scale;
+	Sphere(Transform lTransform){
+		transform = lTransform;
 
 		vertNum_ = kSubdivision*kSubdivision*4;
 		indexNum_ = kSubdivision*kSubdivision*6;

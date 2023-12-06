@@ -8,11 +8,9 @@ public:
 	static ObjModel* Create(std::string filePath, Transform transform = {{0,0,0}, {0,0,0}, {1,1,1}});
 
 public:
-	ObjModel(std::string filePath, Transform transform){
+	ObjModel(std::string filePath, Transform lTransform){
 		filePath_ = filePath;
-		translate = transform.translate;
-		rotation = transform.rotation;
-		scale = transform.scale;
+		transform = lTransform;
 	}
 	void Update();
 

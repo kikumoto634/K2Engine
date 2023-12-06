@@ -33,41 +33,10 @@ void GeometryBase::Initialize(bool isIndexEnable)
 	CreateWVP();
 }
 
-/*void GeometryBase::ShadowDraw(Matrix4x4 viewProjectionMatrix)
-{
-	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * viewProjectionMatrix;
-	wvpData_->WVP = worldViewProjectionMatrix;
-	wvpData_->World = worldViewProjectionMatrix;
-
-
-	//ルートシグネチャ設定 PSOに設定しいているが別途設定が必要
-	dxCommon->GetCommandList()->SetGraphicsRootSignature(pipeline_->GetRootSignature());
-	dxCommon->GetCommandList()->SetPipelineState(shadowPipeline_->GetGraphicsPipelineState());	//PSO設定
-	dxCommon->GetCommandList()->IASetVertexBuffers(0,1,&vertexBufferView_);		//VBV設定
-	if(isIndexDataEnable_)dxCommon->GetCommandList()->IASetIndexBuffer(&indexBufferView_);		//IBV設定
-
-	//形状設定、PSOに設定しているのとは別
-	dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology);
-
-	////マテリアルのconstBufferの場所を設定
-	//dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(0, constResource_->GetGPUVirtualAddress());
-	////行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
-	//dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
-	////SRV(テクスチャ)のDescriptorTableの先頭を設定 2はRootParamterのインデックスRootParamter[2]
-	//dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(2, texture_.srvHandleGPU_);
-	////Light
-	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, wvpResource_->GetGPUVirtualAddress());
-
-	//描画
-	/*isIndexDataEnable_ ? 
-		dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,1,0,0,0) : 
-		dxCommon->GetCommandList()->DrawInstanced(vertNum_,1,0,0);
-
-}*/
 
 void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
 {
-	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * viewProjectionMatrix;
+	Matrix4x4 worldViewProjectionMatrix = transform.GetWorldMatrix() * viewProjectionMatrix;
 	wvpData_->WVP = worldViewProjectionMatrix;
 	wvpData_->World = worldViewProjectionMatrix;
 
@@ -189,20 +158,6 @@ void GeometryBase::PipelineStateInitialize()
 		fillMode,
 		pipelinePrimitiveTopology
 	);
-
-
-	////ルートパラメータ設定
-	//shadowRootParameters_.resize(1);
-	////行列
-	//shadowRootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
-	//shadowRootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;	//VertexShaderで使用
-	//shadowRootParameters_[0].Descriptor.ShaderRegister = 3;	//レジスタ番号 b1
-
-	//shadowPipeline_->Create(
-	//	pipeline_,
-	//	L"Resources/Shaders/Object3D/Object3D.VS.Shadow.hlsl",
-	//	shadowRootParameters_
-	//);
 }
 
 

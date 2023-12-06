@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "Pipeline.h"
-//#include "ShadowPipeline.h"
 
 #include "DirectXCommon.h"
 #include "Transform.h"
@@ -15,7 +14,7 @@
 #include "TransformationMatrixData.h"
 
 //幾何学オブジェクトの共通
-class GeometryBase : public Transform
+class GeometryBase
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -30,10 +29,8 @@ protected:
 
 public:
 	~GeometryBase(){
-		//delete shadowPipeline_;
 		delete pipeline_;
 	}
-	//void ShadowDraw(Matrix4x4 viewProjectionMatrix);
 	void Draw(Matrix4x4 viewProjectionMatrix);
 
 protected:
@@ -59,7 +56,6 @@ private:
 
 	//パイプライン関係
 	Pipeline* pipeline_ = nullptr;
-	//ShadowPipeline* shadowPipeline_ = nullptr;
 
 	vector<D3D12_ROOT_PARAMETER> rootParameters_;			//ルートパラメータ
 	vector<D3D12_ROOT_PARAMETER> shadowRootParameters_;
@@ -101,6 +97,7 @@ protected:
 	PrimitiveType primitiveType_ = PrimitiveType::TRIANGLE;		//描画方法
 
 	//パラメータ
+	Transform transform = {{0,0,0},{0,0,0},{1,1,1}};
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	bool isLightEnable = true;
 

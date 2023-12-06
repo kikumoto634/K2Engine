@@ -26,7 +26,7 @@ void LightingGroup::Initialize()
 {
 	dxCommon = DirectXCommon::GetInstance();
 
-	view = view.Inverse(GetWorldMatrix());
+	view = view.Inverse(transform.GetWorldMatrix());
 	proj = MakeOrthographicMatrix(0,0,
 		(float)WindowsApp::kWindowWidth_, (float)WindowsApp::kWindowHeight_,
 		0.1f, 1.f);
@@ -36,7 +36,7 @@ void LightingGroup::Initialize()
 	resource_->Map(0,nullptr, reinterpret_cast<void**>(&data_));
 
 	//平行光源
-	data_->direction = rotation;
+	data_->direction = transform.rotation;
 	data_->VP = view*proj;
 	data_->color = lightColor_;
 	data_->intensity = lightIntensity;
@@ -46,12 +46,12 @@ void LightingGroup::Update()
 {
 	ImGui::Text("Light");
 	ImGui::ColorEdit4("Color", &lightColor_.x);
-	ImGui::DragFloat3("Pos", &translate.x, 1.f);
-	ImGui::DragFloat3("Dir", &rotation.x, 1.f);
+	ImGui::DragFloat3("Pos", &transform.translate.x, 1.f);
+	ImGui::DragFloat3("Dir", &transform.rotation.x, 1.f);
 	ImGui::DragFloat("intencity", &lightIntensity, 0.01f);
 
 	//平行光源
-	data_->direction = DirectionalVector3FromDegrees((rotation));
+	data_->direction = DirectionalVector3FromDegrees(transform.rotation);
 	data_->color = lightColor_;
 	data_->intensity = lightIntensity;
 }
