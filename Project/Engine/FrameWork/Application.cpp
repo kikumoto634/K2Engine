@@ -13,6 +13,7 @@ Application *Application::Create()
 void Application::Initialize()
 {
 	camera_ = Camera::Create();
+	input_ = Input::GetInstance();
 	light_ = LightingGroup::Create();
 
 	SpriteLoader::LoadTexture(DirectXCommon::GetInstance());
@@ -27,9 +28,28 @@ void Application::Initialize()
 
 void Application::Update()
 {
+//オブジェクトImGui座標
+#ifdef _DEBUG
+	ImGui::SetNextWindowPos({0,0});
+	ImGui::SetNextWindowSize({400,500});
+	ImGui::Begin("Object");
+#endif // _DEBUG
 	camera_->Update();
 	light_->Update();
 
+	obj->Update();
+	obj2->Update();
+#ifdef _DEBUG
+	ImGui::End();
+#endif // _DEBUG
+
+
+	input_->Update();
+
+#ifdef _DEBUG
+	ImGui::SetNextWindowPos({WindowsApp::kWindowWidth_ - 400.f,0});
+	ImGui::SetNextWindowSize({400,500});
+	ImGui::Begin("Setting");
 	if(ImGui::TreeNode("LoadTexture  Index : Name")){
 		for(auto tex : SpriteLoader::GetTexture()){
 			if(tex.filePath == "") break;
@@ -37,15 +57,8 @@ void Application::Update()
 		}
 		ImGui::TreePop();
 	}
-
-	obj->Update();
-	obj2->Update();
-}
-
-void Application::ShadowDraw()
-{
-	//obj->ShadowDraw(camera_->GetViewProjectionMatrix());
-	//obj2->ShadowDraw(camera_->GetViewProjectionMatrix());
+	ImGui::End();
+#endif // _DEBUG
 }
 
 void Application::Draw()

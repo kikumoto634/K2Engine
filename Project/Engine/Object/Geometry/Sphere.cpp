@@ -12,16 +12,12 @@ Sphere *Sphere::Create(Transform transform)
 
 void Sphere::Update()
 {
-	//transform.translate.x += 1;
-	
-	ImGui::SetNextWindowPos({0,200});
-	ImGui::SetNextWindowSize({100,100});
-	ImGui::Begin("Sphere");
+#ifdef _DEBUG
 	ImGui::Text("Sphere");
-	ImGui::DragFloat3("Pos", &transform.translate.x, 0.01f);
-	ImGui::DragFloat3("Rot", &transform.rotation.x, 1.f);
-	ImGui::DragFloat3("Scale", &transform.scale.x, 0.01f);
-	ImGui::End();
+	ImGui::DragFloat3("Pos   - Sphere", &transform.translate.x, 0.01f);
+	ImGui::DragFloat3("Rot   - Sphere", &transform.rotation.x, 1.f);
+	ImGui::DragFloat3("Scale - Sphere", &transform.scale.x, 0.01f);
+#endif // _DEBUG
 }
 
 void Sphere::SphereVertexData()

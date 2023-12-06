@@ -44,11 +44,13 @@ void LightingGroup::Initialize()
 
 void LightingGroup::Update()
 {
+#ifdef _DEBUG
 	ImGui::Text("Light");
 	ImGui::ColorEdit4("Color", &lightColor_.x);
 	ImGui::DragFloat3("Pos", &transform.translate.x, 1.f);
 	ImGui::DragFloat3("Dir", &transform.rotation.x, 1.f);
 	ImGui::DragFloat("intencity", &lightIntensity, 0.01f);
+#endif // _DEBUG
 
 	//平行光源
 	data_->direction = DirectionalVector3FromDegrees(transform.rotation);

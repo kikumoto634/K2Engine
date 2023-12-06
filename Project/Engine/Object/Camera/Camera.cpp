@@ -11,10 +11,12 @@ Camera::Camera(Transform transform)
 
 void Camera::Update()
 {
+#ifdef _DEBUG
 	ImGui::Text("camera");
 	ImGui::DragFloat3("pos", &translate.x, 0.01f);
 	ImGui::DragFloat3("rot", &rotation.x, 0.01f);
 	ImGui::DragFloat("Aspect", &aspect_, 0.01f);
+#endif // _DEBUG
 }
 
 Camera* Camera::Create(Transform transform)

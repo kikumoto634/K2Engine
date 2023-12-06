@@ -1,5 +1,6 @@
 #pragma once
 #include "Camera.h"
+#include "Input.h"
 #include "LightingGroup.h"
 
 #include "Geometry/Sphere.h"
@@ -12,27 +13,18 @@
 
 #include "SpriteLoader.h"
 
-#include <vector>
-#include <string>
-
 class Application
 {
 public:
 	static Application* Create();
 
 public:
-	Application(){
-	
-	}
-
 	~Application(){
 		delete obj2;
 		delete obj;
 	}
 
 	void Update();
-
-	void ShadowDraw();
 	void Draw();
 
 private:
@@ -40,6 +32,7 @@ private:
 
 private:
 	Camera* camera_ = nullptr;
+	Input* input_ = nullptr;
 	LightingGroup* light_ = nullptr;
 
 	//Object3D* obj;

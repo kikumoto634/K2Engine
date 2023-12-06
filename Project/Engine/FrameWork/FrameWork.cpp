@@ -15,8 +15,10 @@ void FrameWork::Initialize()
 
 	app_ = Application::Create();
 
+#ifdef _DEBUG
 	imgui_ = ImGuiManager::Create();
 	ImGuiManager::Initialize(win_->GetHWND(), dxCommon_);
+#endif // _DEBUG
 }
 
 void FrameWork::Run()
@@ -24,20 +26,26 @@ void FrameWork::Run()
 	while(win_->ProcessMessage() == 0){
 
 		//更新開始
+#ifdef _DEBUG
 		ImGuiManager::NewFrame();
-		imgui_->ShowDemo();
+		//imgui_->ShowDemo();
+#endif // _DEBUG
 		app_->Update();
 
 
 		//描画前
+#ifdef _DEBUG
 		ImGuiManager::CreateCommand();
+#endif // _DEBUG
 		dxCommon_->PreDraw();
 
 		//描画
 		app_->Draw();
 
 		//描画後
+#ifdef _DEBUG
 		ImGuiManager::CommandsExcute(dxCommon_->GetCommandList());
+#endif // _DEBUG
 		dxCommon_->PostDraw();
 	}
 }

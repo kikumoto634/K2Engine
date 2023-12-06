@@ -178,6 +178,18 @@
     <Filter Include="ヘッダー ファイル\Engine\Common">
       <UniqueIdentifier>{82a0485d-8d5f-4681-99ea-e13da9d77452}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Application\Input">
+      <UniqueIdentifier>{e47d0fa4-305c-4f59-acfb-64babcd01710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Application\Input">
+      <UniqueIdentifier>{5b619904-946e-488b-b15d-adb15eb154b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Application\Math\Easing">
+      <UniqueIdentifier>{4d7388b1-5c01-47e5-bd56-57da197d4968}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Application\Math\Easing">
+      <UniqueIdentifier>{c114d4aa-91ca-4284-9cfa-f50dbab6f521}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -287,6 +299,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Common\DirectXCommon.cpp">
       <Filter>ソース ファイル\Engine\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Input\Input.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Math\Easing\Easing.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -415,6 +433,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Common\DirectXCommon.h">
       <Filter>ヘッダー ファイル\Engine\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Input\Input.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Math\Easing\Easing.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
