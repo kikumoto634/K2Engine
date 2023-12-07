@@ -1,23 +1,38 @@
 #include "Sphere.h"
 #include <imgui.h>
 
+#include "../../GlobalVariables.h"
+
 Sphere *Sphere::Create(Transform transform)
 {
 	Sphere* instance = new Sphere(transform);
 	instance->Initialize();
+	instance->LocalInitialize();
 	instance->SphereVertexData();
 	instance->SphereIndexData();
 	return instance;
 }
 
+void Sphere::LocalInitialize()
+{
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "Sphere";
+	//グループを追加
+	GlobalVariables::GetInstance()->CreateGroup(groupName);
+	transform.translate = globalVariables->GetVector3Value(groupName, "translate");
+	transform.rotation = globalVariables->GetVector3Value(groupName, "rotate");
+	transform.scale = globalVariables->GetVector3Value(groupName, "scale");
+}
+
 void Sphere::Update()
 {
-#ifdef _DEBUG
-	ImGui::Text("Sphere");
-	ImGui::DragFloat3("Pos   - Sphere", &transform.translate.x, 0.01f);
-	ImGui::DragFloat3("Rot   - Sphere", &transform.rotation.x, 1.f);
-	ImGui::DragFloat3("Scale - Sphere", &transform.scale.x, 0.01f);
-#endif // _DEBUG
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "Sphere";
+	//グループを追加
+	GlobalVariables::GetInstance()->CreateGroup(groupName);
+	globalVariables->AddItem(groupName, "translate", transform.translate);
+	globalVariables->AddItem(groupName, "rotate", transform.rotation);
+	globalVariables->AddItem(groupName, "scale", transform.scale);
 }
 
 void Sphere::SphereVertexData()

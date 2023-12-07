@@ -17,6 +17,9 @@ void FrameWork::Initialize()
 
 	input_ = Input::GetInstance();
 
+	//グルーバル変数の読み込み
+	GlobalVariables::GetInstance()->LoadFiles();
+
 	app_ = Application::Create();
 
 #ifdef _DEBUG

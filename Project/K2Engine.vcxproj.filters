@@ -303,14 +303,14 @@
     <ClCompile Include="Engine\Component\Application\Input\Input.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Component\Application\Math\Easing\Easing.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="GlobalVariables.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Component\Application\Loader\LevelLoader.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Engine\Component\Application\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Math\Easing\Easing.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Math\Easing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -450,7 +450,7 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Component\Application\Loader\LevelLoader.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Loader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

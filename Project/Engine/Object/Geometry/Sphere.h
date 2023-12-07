@@ -16,6 +16,7 @@ public:
 
 		PSPath_ = "Object3D/Object3D.PS.Texture.hlsl";
 	}
+	void LocalInitialize();
 	void Update();
 
 private:
