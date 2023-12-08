@@ -41,20 +41,6 @@ void Application::Update()
 #ifdef _DEBUG
 	ImGui::End();
 #endif // _DEBUG
-
-#ifdef _DEBUG
-	ImGui::SetNextWindowPos({WindowsApp::kWindowWidth_ - 400.f,0});
-	ImGui::SetNextWindowSize({400,500});
-	ImGui::Begin("Setting");
-	if(ImGui::TreeNode("LoadTexture  Index : Name")){
-		for(auto tex : SpriteLoader::GetTexture()){
-			if(tex.filePath == "") break;
-			ImGui::Text("%d: %s", tex.index, tex.filePath.c_str());
-		}
-		ImGui::TreePop();
-	}
-	ImGui::End();
-#endif // _DEBUG
 }
 
 void Application::Draw()

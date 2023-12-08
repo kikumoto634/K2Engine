@@ -173,11 +173,10 @@ void GlobalVariables::LoadFile(const std::string &groupName)
 
 void GlobalVariables::Update()
 {
-	if(!ImGui::Begin("Global Variables", nullptr, ImGuiWindowFlags_MenuBar))
-		return;
-	if(!ImGui::BeginMenuBar())
-		return;
-
+	ImGui::SetNextWindowPos({0,0});
+	ImGui::SetNextWindowSize({350,500});
+	ImGui::Begin("Global Variables", nullptr, ImGuiWindowFlags_MenuBar);
+	ImGui::BeginMenuBar();
 	//各Groupについて
 	for(std::map<std::string, Group>::iterator itGroup = data_.begin();
 		itGroup != data_.end(); ++itGroup){
@@ -201,17 +200,17 @@ void GlobalVariables::Update()
 			//int32_t型の値を保持していれば
 			if(std::holds_alternative<int32_t>(item.value)){
 				int32_t* ptr = std::get_if<int32_t>(&item.value);
-				ImGui::SliderInt(itemName.c_str(), ptr, 0, 100);
+				ImGui::DragInt(itemName.c_str(), ptr);
 			}
 			//float型の値を保持していれば
 			else if(std::holds_alternative<float>(item.value)){
 				float* ptr = std::get_if<float>(&item.value);
-				ImGui::SliderFloat(itemName.c_str(), ptr, 0.0f, 100.0f);
+				ImGui::DragFloat(itemName.c_str(), ptr);
 			}
 			//Vector3型の値を保持していれば
 			else if(std::holds_alternative<Vector3>(item.value)){
 				Vector3* ptr = std::get_if<Vector3>(&item.value);
-				ImGui::SliderFloat3(itemName.c_str(), reinterpret_cast<float*>(ptr), -10.0f, 10.0f);
+				ImGui::DragFloat3(itemName.c_str(), reinterpret_cast<float*>(ptr));
 			}
 		}
 
@@ -307,53 +306,45 @@ void GlobalVariables::AddItem(const std::string &groupName, const std::string &k
 int32_t GlobalVariables::GetIntValue(const std::string &groupName, const std::string &key) const
 {
 	//指定のグループの有無
-	auto itGroup = data_.find(groupName);
-	assert(itGroup != data_.end());
+	//指定のグループの有無
+	assert(data_.contains(groupName));
 
 	//グループ参照取得
 	const Group& group = data_.at(groupName);
 
 	//指定のキーの有無
-	auto itItem = itGroup->second.items.find(key);
-	assert(itItem != group.items.begin());
+	assert(group.items.contains(key));
 
 	//項目の参照を取得
-	auto value = get<int32_t>(itItem->second.value);
-	return value;
+	return get<int32_t>(group.items.at(key).value);
 }
 
 float GlobalVariables::GetFloatValue(const std::string &groupName, const std::string &key) const
 {
 	//指定のグループの有無
-	auto itGroup = data_.find(groupName);
-	assert(itGroup != data_.end());
+	assert(data_.contains(groupName));
 
 	//グループ参照取得
 	const Group& group = data_.at(groupName);
 
 	//指定のキーの有無
-	auto itItem = itGroup->second.items.find(key);
-	assert(itItem != group.items.begin());
+	assert(group.items.contains(key));
 
 	//項目の参照を取得
-	auto value = get<float>(itItem->second.value);
-	return value;
+	return get<float>(group.items.at(key).value);
 }
 
 Vector3 GlobalVariables::GetVector3Value(const std::string &groupName, const std::string &key) const
 {
 	//指定のグループの有無
-	auto itGroup = data_.find(groupName);
-	assert(itGroup != data_.end());
+	assert(data_.contains(groupName));
 
 	//グループ参照取得
 	const Group& group = data_.at(groupName);
 
 	//指定のキーの有無
-	auto itItem = itGroup->second.items.find(key);
-	assert(itItem != group.items.begin());
+	assert(group.items.contains(key));
 
 	//項目の参照を取得
-	auto value = get<Vector3>(itItem->second.value);
-	return value;
+	return get<Vector3>(group.items.at(key).value);
 }

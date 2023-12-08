@@ -1,7 +1,8 @@
 #include "FrameWork.h"
 #include <imgui.h>
 
-#include "../../GlobalVariables.h"
+#include "GlobalVariables.h"
+#include "GlobalSetting.h"
 
 FrameWork *FrameWork::Create()
 {
@@ -17,8 +18,10 @@ void FrameWork::Initialize()
 
 	input_ = Input::GetInstance();
 
+#ifdef _DEBUG
 	//グルーバル変数の読み込み
 	GlobalVariables::GetInstance()->LoadFiles();
+#endif // _DEBUG
 
 	app_ = Application::Create();
 
@@ -38,6 +41,7 @@ void FrameWork::Run()
 		//imgui_->ShowDemo();
 
 		GlobalVariables::GetInstance()->Update();
+		GlobalSetting::GetInstance()->Update();
 
 #endif // _DEBUG
 

@@ -19,6 +19,8 @@ public:
 	void LocalInitialize();
 	void Update();
 
+	void ApplyGlobalVariables();
+
 private:
 	void SphereVertexData();
 	void SphereIndexData();
