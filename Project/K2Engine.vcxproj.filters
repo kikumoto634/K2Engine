@@ -330,6 +330,9 @@
     <ClCompile Include="Game\Object\Character\Player.cpp">
       <Filter>ソース ファイル\Game\Object\Character</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Object\Camera\FollowCamera.cpp">
+      <Filter>ソース ファイル\Engine\Object\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -469,6 +472,9 @@
     </ClInclude>
     <ClInclude Include="Game\Object\Character\Player.h">
       <Filter>ヘッダー ファイル\Game\Object\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Camera\FollowCamera.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

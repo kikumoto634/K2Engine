@@ -12,7 +12,7 @@ Application *Application::Create()
 
 void Application::Initialize()
 {
-	camera_ = Camera::Create();
+	camera_ = FollowCamera::Create();
 	light_ = LightingGroup::Create();
 
 	SpriteLoader::LoadTexture(DirectXCommon::GetInstance());
@@ -28,7 +28,7 @@ void Application::Initialize()
 
 void Application::Update()
 {
-	camera_->Update();
+	camera_->Update(player->translate, {0,3,-15});
 	light_->Update();
 
 	//シーンオブジェクト

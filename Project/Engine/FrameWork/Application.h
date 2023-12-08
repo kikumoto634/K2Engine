@@ -12,6 +12,7 @@
 //シーンオブジェクト
 #include "LevelLoader.h"
 #include "../../Game/Object/Character/Player.h"
+#include "FollowCamera.h"
 
 class Application
 {
@@ -32,7 +33,7 @@ private:
 	void Initialize();
 
 private:
-	Camera* camera_ = nullptr;
+	FollowCamera* camera_ = nullptr;
 	LightingGroup* light_ = nullptr;
 
 	//シーンオブジェクト

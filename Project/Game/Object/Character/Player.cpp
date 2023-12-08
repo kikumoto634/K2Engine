@@ -13,10 +13,12 @@ Player::Player(std::string filePath, Transform transform):
 
 void Player::Update()
 {
-	if(Input::GetInstance()->Push(DIK_D)){
-		translate.x += 1.f;
-	}
-	else if(Input::GetInstance()->Push(DIK_A)){
-		translate.x -= 1.f;
-	}
+	if(!Input::GetInstance()->GetIsPadConnect()) return;
+
+	Vector3 move = {
+		Input::GetInstance()->PadLStick().x,0.0f,Input::GetInstance()->PadLStick().y
+	};
+	move = move.normalize() * 1.0f;
+
+	translate +=  move;
 }

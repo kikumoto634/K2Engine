@@ -3,6 +3,12 @@
 
 #include "GlobalVariables.h"
 
+Camera* Camera::Create(Transform transform)
+{
+	Camera* instance = new Camera(transform);
+	return instance;
+}
+
 Camera::Camera(Transform transform)
 {
 	translate = transform.translate;
@@ -14,12 +20,6 @@ Camera::Camera(Transform transform)
 void Camera::Update()
 {
 	ApplyGlobalVariablesUpdate();
-}
-
-Camera* Camera::Create(Transform transform)
-{
-	Camera* instance = new Camera(transform);
-	return instance;
 }
 
 Matrix4x4 Camera::GetViewMatrix()
