@@ -16,9 +16,10 @@ public:
 		rotation = lTransform.rotation;
 		scale = lTransform.scale;
 	}
-	void Update();
+public:
+	virtual void Update(){};
 
-private:
+protected:
 	void ObjModelLoad();
 	void ObjModelVertexData();
 

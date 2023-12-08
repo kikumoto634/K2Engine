@@ -190,6 +190,24 @@
     <Filter Include="ヘッダー ファイル\Engine\Component\Global">
       <UniqueIdentifier>{2aa0198c-dfea-46ce-9b93-f82b299723c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game">
+      <UniqueIdentifier>{5e556301-b72c-43e3-bf8a-8a028df386f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game">
+      <UniqueIdentifier>{267e1aff-700f-405a-aaae-5c3f3dc891f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Object">
+      <UniqueIdentifier>{809b0f10-c51a-431c-930d-6f203dcbd5c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Object">
+      <UniqueIdentifier>{35447b10-1f6f-404b-b7a7-ff9387bda724}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Object\Character">
+      <UniqueIdentifier>{9505cb1c-f21c-45eb-88fb-266f402bd96b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Object\Character">
+      <UniqueIdentifier>{21e478e2-8c96-428b-97ef-e1a63cbfbfab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -308,6 +326,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Component\Global\GlobalSetting.cpp">
       <Filter>ソース ファイル\Engine\Component\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Object\Character\Player.cpp">
+      <Filter>ソース ファイル\Game\Object\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -445,6 +466,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Component\Global\GlobalSetting.h">
       <Filter>ヘッダー ファイル\Engine\Component\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Object\Character\Player.h">
+      <Filter>ヘッダー ファイル\Game\Object\Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

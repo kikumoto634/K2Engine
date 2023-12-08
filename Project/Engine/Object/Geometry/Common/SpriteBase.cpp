@@ -23,22 +23,10 @@ void SpriteBase::Initialize(bool isIndexEnable)
 	CreateIndex();
 	CreateMaterial();
 	CreateWVP();
-
-#ifdef _DEBUG
-	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
-	//グループを追加
-	GlobalVariables::GetInstance()->CreateGroup(texture_.name);
-	globalVariables->AddItem(texture_.name, "0.translate", translate);
-	globalVariables->AddItem(texture_.name, "1.rotate", rotation);
-	globalVariables->AddItem(texture_.name, "2.scale", scale);
-#endif // _DEBUG
 }
 
 void SpriteBase::Draw(Matrix4x4 viewProjectionMatrix)
 {
-	//反映
-	ApplyGlobalVariables();
-
 	Matrix4x4 worldMatrixSprite = MakeAffineMatrix(scale, rotation, translate);
 	Matrix4x4 viewMatrixSprite = MakeIdentityMatrix();
 	Matrix4x4 projectionMatrixSprite = MakeOrthographicMatrix(0.0f,0.0f, (float)WindowsApp::kWindowWidth_,(float)WindowsApp::kWindowHeight_, 0.0f,100.0f);
@@ -188,7 +176,19 @@ void SpriteBase::CreateWVP()
 	wvpData_->World = worldMatrixSprite;
 }
 
-void SpriteBase::ApplyGlobalVariables()
+void SpriteBase::ApplyGlobalVariablesInitialize()
+{
+#ifdef _DEBUG
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	//グループを追加
+	GlobalVariables::GetInstance()->CreateGroup(texture_.name);
+	globalVariables->AddItem(texture_.name, "0.translate", translate);
+	globalVariables->AddItem(texture_.name, "1.rotate", rotation);
+	globalVariables->AddItem(texture_.name, "2.scale", scale);
+#endif // _DEBUG
+}
+
+void SpriteBase::ApplyGlobalVariablesUpdate()
 {
 #ifdef _DEBUG
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();

@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Vector3.h"
+#include "Vector4.h"
 
 /// <summary>
 /// グローバル変数
@@ -47,6 +48,8 @@ public:
 	void SetValue(const std::string& groupName, const std::string& key, float value);
 	//値のセット(Vector3)
 	void SetValue(const std::string& groupName, const std::string& key, const Vector3& value);
+	//値のセット(Vector4)
+	void SetValue(const std::string& groupName, const std::string& key, const Vector4& value);
 
 	//項目の追加(int32_t)
 	void AddItem(const std::string& groupName, const std::string& key, int32_t value);
@@ -54,12 +57,15 @@ public:
 	void AddItem(const std::string& groupName, const std::string& key, float value);
 	//項目の追加(Vector3)
 	void AddItem(const std::string& groupName, const std::string& key, Vector3 value);
+	//項目の追加(Vector4)
+	void AddItem(const std::string& groupName, const std::string& key, Vector4 value);
 
 
 	//Getter
 	int32_t GetIntValue(const std::string& groupName, const std::string& key) const;
 	float GetFloatValue(const std::string& groupName, const std::string& key) const;
 	Vector3 GetVector3Value(const std::string& groupName, const std::string& key) const;
+	Vector4 GetVector4Value(const std::string& groupName, const std::string& key) const;
 
 private:
 	GlobalVariables() = default;
@@ -78,7 +84,7 @@ private:
 	//項目
 	struct Item{
 		//項目の値
-		std::variant<int32_t, float, Vector3> value;
+		std::variant<int32_t, float, Vector3, Vector4> value;
 	};
 
 	//グループ

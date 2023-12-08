@@ -10,7 +10,10 @@
 const std::string LevelLoader::kDefaultBaseDirectory = "Resources/Levels/";
 const std::string LevelLoader::kExtension = ".json";
 
-LevelData *LevelLoader::Load(const std::string &filename)
+LevelLoader::LevelData* LevelLoader::levelDatas = nullptr;
+std::vector<ObjModel*> LevelLoader::objects;
+
+void LevelLoader::Load(const std::string &filename)
 {
 	const std::string fullpath = kDefaultBaseDirectory + filename + kExtension;
 
@@ -60,17 +63,17 @@ LevelData *LevelLoader::Load(const std::string &filename)
 				//トランスフォームのパラメータ読み込み
 				nlohmann::json& transform = object["transform"];
 				//平行移動
-				objectData.translation.x = -(float)transform["translation"][0];
-				objectData.translation.y = (float)transform["translation"][2];
-				objectData.translation.z = -(float)transform["translation"][1];
+				objectData.transform.translate.x = -(float)transform["translation"][0];
+				objectData.transform.translate.y = (float)transform["translation"][2];
+				objectData.transform.translate.z = -(float)transform["translation"][1];
 				//回転角
-				objectData.rotation.x = (float)transform["rotation"][0]*(180.f/PI) - 90*(PI/180.f);
-				objectData.rotation.y = (float)transform["rotation"][2]*(180.f/PI);
-				objectData.rotation.z = (float)transform["rotation"][1]*(180.f/PI);
+				objectData.transform.rotation.x = (float)transform["rotation"][0]*(180.f/PI) - 90*(PI/180.f);
+				objectData.transform.rotation.y = (float)transform["rotation"][2]*(180.f/PI);
+				objectData.transform.rotation.z = (float)transform["rotation"][1]*(180.f/PI);
 				//スケーリング
-				objectData.scaling.x = (float)transform["scaling"][0];
-				objectData.scaling.y = (float)transform["scaling"][1];
-				objectData.scaling.z = (float)transform["scaling"][2];
+				objectData.transform.scale.x = (float)transform["scaling"][0];
+				objectData.transform.scale.y = (float)transform["scaling"][1];
+				objectData.transform.scale.z = (float)transform["scaling"][2];
 
 				//コライダーのパラメータ読み込み
 			}
@@ -83,5 +86,32 @@ LevelData *LevelLoader::Load(const std::string &filename)
 		}
 	}
 
-	return levelData;
+	//return levelData;
+	levelDatas = levelData;
+}
+
+void LevelLoader::Initialize()
+{
+	//レベルデータからオブジェクトを生成
+	for(auto& objectData : levelDatas->objects){
+		ObjModel* model = ObjModel::Create(objectData.fileName, objectData.transform);
+		//配列に登録
+		objects.push_back(model);
+	}
+}
+
+void LevelLoader::Update()
+{
+	//レベルデータからオブジェクトを更新
+	for(auto& obj : objects){
+		obj->Update();
+	}
+}
+
+void LevelLoader::Draw(const Matrix4x4 &viewProjectionMatrix)
+{
+	//レベルデータからオブジェクトを更新
+	for(auto& obj : objects){
+		obj->Draw(viewProjectionMatrix);
+	}
 }

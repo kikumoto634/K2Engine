@@ -17,34 +17,28 @@ void Application::Initialize()
 
 	SpriteLoader::LoadTexture(DirectXCommon::GetInstance());
 
-	//obj = Object3D::Create();
 
-	//obj = Sphere::Create({{0,0,15},{0,0,0},{1,1,1}});
-	obj2 = ObjModel::Create("cube", {{0,-2,15},{0,0,0},{5,0.5,5}});
-	//obj = Line::Create();
-	obj = Sprite2D::Create();
+	//シーンオブジェクト
+	levelLoader_ = std::make_unique<LevelLoader>();
+	levelLoader_->Load("SampleLevels");
+	levelLoader_->Initialize();
+
+	player = std::make_unique<Player>("necromancer");
 }
 
 void Application::Update()
 {
-//オブジェクトImGui座標
-#ifdef _DEBUG
-	ImGui::SetNextWindowPos({0,0});
-	ImGui::SetNextWindowSize({400,500});
-	ImGui::Begin("Object");
-#endif // _DEBUGz
 	camera_->Update();
 	light_->Update();
 
-	obj->Update();
-	obj2->Update();
-#ifdef _DEBUG
-	ImGui::End();
-#endif // _DEBUG
+	//シーンオブジェクト
+	levelLoader_->Update();
+	player->Update();
 }
 
 void Application::Draw()
 {
-	obj->Draw(camera_->GetViewProjectionMatrix());
-	obj2->Draw(camera_->GetViewProjectionMatrix());
+	//シーンオブジェクト
+	levelLoader_->Draw(camera_->GetViewProjectionMatrix());
+	player->Draw(camera_->GetViewProjectionMatrix());
 }

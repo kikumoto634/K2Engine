@@ -28,6 +28,9 @@ protected:
 	//初期化
 	void Initialize(bool isIndexEnable = true);
 
+	void ApplyGlobalVariablesInitialize();
+	void ApplyGlobalVariablesUpdate();
+
 private:
 	//パイプライン
 	void PipelineStateInitialize();
@@ -40,8 +43,6 @@ private:
 	void CreateMaterial();
 	//行列リソース/ビュー
 	void CreateWVP();
-
-	void ApplyGlobalVariables();
 
 private:
 	//Instance

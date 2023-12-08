@@ -11,10 +11,6 @@ ObjModel *ObjModel::Create(std::string filePath, Transform transform)
 	return instance;
 }
 
-void ObjModel::Update()
-{
-}
-
 void ObjModel::ObjModelLoad()
 {
 	//モデル読み込み

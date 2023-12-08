@@ -33,23 +33,11 @@ void GeometryBase::Initialize(bool isIndexEnable)
 	CreateIndex();
 	CreateMaterial();
 	CreateWVP();
-
-#ifdef _DEBUG
-	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
-	//グループを追加
-	GlobalVariables::GetInstance()->CreateGroup(name);
-	globalVariables->AddItem(name, "0.translate", translate);
-	globalVariables->AddItem(name, "1.rotate", rotation);
-	globalVariables->AddItem(name, "2.scale", scale);
-#endif // _DEBUG
 }
 
 
 void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
 {
-	//反映
-	ApplyGlobalVariables();
-
 	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * viewProjectionMatrix;
 	wvpData_->WVP = worldViewProjectionMatrix;
 	wvpData_->World = worldViewProjectionMatrix;
@@ -220,7 +208,19 @@ void GeometryBase::CreateWVP()
 	wvpData_->World = worldMatrix;
 }
 
-void GeometryBase::ApplyGlobalVariables()
+void GeometryBase::ApplyGlobalVariablesInitialize()
+{
+#ifdef _DEBUG
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	//グループを追加
+	GlobalVariables::GetInstance()->CreateGroup(name);
+	globalVariables->AddItem(name, "0.translate", translate);
+	globalVariables->AddItem(name, "1.rotate", rotation);
+	globalVariables->AddItem(name, "2.scale", scale);
+#endif // _DEBUG
+}
+
+void GeometryBase::ApplyGlobalVariablesUpdate()
 {
 #ifdef _DEBUG
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();

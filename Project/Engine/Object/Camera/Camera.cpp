@@ -1,22 +1,19 @@
 #include "Camera.h"
 #include "WindowsApp.h"
 
-#include <imgui.h>
+#include "GlobalVariables.h"
 
 Camera::Camera(Transform transform)
 {
 	translate = transform.translate;
 	rotation = transform.rotation;
+
+	ApplyGlobalVariablesInitialize();
 }
 
 void Camera::Update()
 {
-#ifdef _DEBUG
-	ImGui::Text("camera");
-	ImGui::DragFloat3("pos", &translate.x, 0.01f);
-	ImGui::DragFloat3("rot", &rotation.x, 0.01f);
-	ImGui::DragFloat("Aspect", &aspect_, 0.01f);
-#endif // _DEBUG
+	ApplyGlobalVariablesUpdate();
 }
 
 Camera* Camera::Create(Transform transform)
@@ -38,7 +35,7 @@ Matrix4x4 Camera::GetProjectionMatrix()
 			aspect_,
 			(float)WindowsApp::kWindowWidth_/(float)WindowsApp::kWindowHeight_,
 			0.1f,
-			100.f
+			1000.f
 		);
 	return projectionMatrix;
 }
@@ -47,4 +44,30 @@ Matrix4x4 Camera::GetViewProjectionMatrix()
 {
 	viewProjectionMatrix = GetViewMatrix()*GetProjectionMatrix();
 	return viewProjectionMatrix;
+}
+
+void Camera::ApplyGlobalVariablesInitialize()
+{
+#ifdef _DEBUG
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* name = "Camera";
+	//グループを追加
+	GlobalVariables::GetInstance()->CreateGroup(name);
+	globalVariables->AddItem(name, "0.translate", translate);
+	globalVariables->AddItem(name, "1.rotate", rotation);
+	globalVariables->AddItem(name, "2.scale", scale);
+	globalVariables->AddItem(name, "3.aspect", aspect_);
+#endif // _DEBUG
+}
+
+void Camera::ApplyGlobalVariablesUpdate()
+{
+#ifdef _DEBUG
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* name = "Camera";
+	translate = globalVariables->GetVector3Value(name, "0.translate");
+	rotation = globalVariables->GetVector3Value(name, "1.rotate");
+	scale = globalVariables->GetVector3Value(name, "2.scale");
+	aspect_ = globalVariables->GetFloatValue(name, "3.aspect");
+#endif // _DEBUG
 }

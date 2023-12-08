@@ -7,9 +7,11 @@
 #include "Geometry/Sprite2D.h"
 
 
-#include "Object3D/Object3D.h"
-
 #include "SpriteLoader.h"
+
+//シーンオブジェクト
+#include "LevelLoader.h"
+#include "../../Game/Object/Character/Player.h"
 
 class Application
 {
@@ -18,8 +20,9 @@ public:
 
 public:
 	~Application(){
-		delete obj2;
-		delete obj;
+
+		//シーンオブジェクト
+
 	}
 
 	void Update();
@@ -32,11 +35,8 @@ private:
 	Camera* camera_ = nullptr;
 	LightingGroup* light_ = nullptr;
 
-	//Object3D* obj;
-
-	//Sphere* obj;
-	ObjModel* obj2;
-	//Line* obj;
-	Sprite2D* obj;
+	//シーンオブジェクト
+	std::unique_ptr<LevelLoader> levelLoader_;
+	std::unique_ptr<Player> player;
 };
 

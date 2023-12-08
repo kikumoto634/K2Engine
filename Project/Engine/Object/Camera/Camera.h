@@ -28,6 +28,10 @@ public:
 	Matrix4x4 GetViewProjectionMatrix();
 
 private:
+	void ApplyGlobalVariablesInitialize();
+	void ApplyGlobalVariablesUpdate();
+
+private:
 	Matrix4x4 viewMatrix;
 	Matrix4x4 projectionMatrix;
 
