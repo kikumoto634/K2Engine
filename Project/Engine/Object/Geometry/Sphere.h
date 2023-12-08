@@ -7,7 +7,11 @@ public:
 
 public:
 	Sphere(Transform lTransform){
-		transform = lTransform;
+		name = "Sphere";
+
+		translate = lTransform.translate;
+		rotation = lTransform.rotation;
+		scale = lTransform.scale;
 
 		vertNum_ = kSubdivision*kSubdivision*4;
 		indexNum_ = kSubdivision*kSubdivision*6;
@@ -16,10 +20,7 @@ public:
 
 		PSPath_ = "Object3D/Object3D.PS.Texture.hlsl";
 	}
-	void LocalInitialize();
 	void Update();
-
-	void ApplyGlobalVariables();
 
 private:
 	void SphereVertexData();

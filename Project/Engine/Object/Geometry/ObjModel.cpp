@@ -13,12 +13,6 @@ ObjModel *ObjModel::Create(std::string filePath, Transform transform)
 
 void ObjModel::Update()
 {
-#ifdef _DEBUG
-	ImGui::Text("Obj");
-	ImGui::DragFloat3("Pos   - Obj", &transform.translate.x, 0.01f);
-	ImGui::DragFloat3("Rot   - Obj", &transform.rotation.x, 0.01f);
-	ImGui::DragFloat3("Scale - Obj", &transform.scale.x, 0.01f);
-#endif // _DEBUG
 }
 
 void ObjModel::ObjModelLoad()

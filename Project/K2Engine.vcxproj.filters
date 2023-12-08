@@ -28,12 +28,6 @@
     <Filter Include="ヘッダー ファイル\Engine\Object">
       <UniqueIdentifier>{79a47e2a-09ac-4d8f-91d4-2ba68eb0b14e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Engine\Object\Object3D">
-      <UniqueIdentifier>{39daa25d-63f8-4cb1-a7d8-012be191a90e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Object\Object3D">
-      <UniqueIdentifier>{8f55446e-4ecf-4baa-9d25-d8766f2d1d0d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Engine\Window">
       <UniqueIdentifier>{7938d539-2b4b-4a05-84ef-19b8aee3c600}</UniqueIdentifier>
     </Filter>
@@ -204,9 +198,6 @@
     <ClCompile Include="Engine\Window\WindowsApp.cpp">
       <Filter>ソース ファイル\Engine\Window</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object\Object3D\Object3D.cpp">
-      <Filter>ソース ファイル\Engine\Object\Object3D</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Object\Camera\Camera.cpp">
       <Filter>ソース ファイル\Engine\Object\Camera</Filter>
     </ClCompile>
@@ -259,9 +250,6 @@
       <Filter>ソース ファイル\Engine\Component\DepthStencil</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object\Geometry\ObjModel.cpp">
-      <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Object\Geometry\Line.cpp">
       <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object\Geometry\Common\SpriteBase.cpp">
@@ -325,9 +313,6 @@
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
       <Filter>ヘッダー ファイル\Engine\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Object\Object3D\Object3D.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Object3D</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object\Camera\Camera.h">
       <Filter>ヘッダー ファイル\Engine\Object\Camera</Filter>
@@ -399,9 +384,6 @@
       <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object\Geometry\ObjModel.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Object\Geometry\Line.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object\Geometry\Common\SpriteBase.h">

@@ -14,7 +14,7 @@
 #include "TransformationMatrixData.h"
 
 //幾何学オブジェクトの共通
-class GeometryBase
+class GeometryBase : public Transform
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -50,6 +50,8 @@ private:
 	//行列リソース/ビュー
 	void CreateWVP();
 
+	void ApplyGlobalVariables();
+
 private:
 	//Instance
 	DirectXCommon* dxCommon = nullptr;
@@ -84,6 +86,8 @@ private:
 
 
 protected:
+	const char* name = "";
+
 	//頂点データ
 	VertexData* vertData_ = nullptr;
 	UINT vertNum_ = 4;
@@ -97,7 +101,6 @@ protected:
 	PrimitiveType primitiveType_ = PrimitiveType::TRIANGLE;		//描画方法
 
 	//パラメータ
-	Transform transform = {{0,0,0},{0,0,0},{1,1,1}};
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	bool isLightEnable = true;
 

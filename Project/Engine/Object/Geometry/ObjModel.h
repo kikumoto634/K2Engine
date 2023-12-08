@@ -9,8 +9,12 @@ public:
 
 public:
 	ObjModel(std::string filePath, Transform lTransform){
+		name = "cube";
+
 		filePath_ = filePath;
-		transform = lTransform;
+		translate = lTransform.translate;
+		rotation = lTransform.rotation;
+		scale = lTransform.scale;
 	}
 	void Update();
 

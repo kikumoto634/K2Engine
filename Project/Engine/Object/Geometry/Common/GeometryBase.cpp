@@ -8,6 +8,8 @@
 
 #include "LightingGroup.h"
 
+#include "GlobalVariables.h"
+
 void GeometryBase::Initialize(bool isIndexEnable)
 {
 	dxCommon = DirectXCommon::GetInstance();
@@ -31,12 +33,24 @@ void GeometryBase::Initialize(bool isIndexEnable)
 	CreateIndex();
 	CreateMaterial();
 	CreateWVP();
+
+#ifdef _DEBUG
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	//グループを追加
+	GlobalVariables::GetInstance()->CreateGroup(name);
+	globalVariables->AddItem(name, "0.translate", translate);
+	globalVariables->AddItem(name, "1.rotate", rotation);
+	globalVariables->AddItem(name, "2.scale", scale);
+#endif // _DEBUG
 }
 
 
 void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
 {
-	Matrix4x4 worldViewProjectionMatrix = transform.GetWorldMatrix() * viewProjectionMatrix;
+	//反映
+	ApplyGlobalVariables();
+
+	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * viewProjectionMatrix;
 	wvpData_->WVP = worldViewProjectionMatrix;
 	wvpData_->World = worldViewProjectionMatrix;
 
@@ -204,4 +218,14 @@ void GeometryBase::CreateWVP()
 	Matrix4x4 worldMatrix = worldMatrix.MakeIdentityMatrix();
 	wvpData_->WVP = worldMatrix;
 	wvpData_->World = worldMatrix;
+}
+
+void GeometryBase::ApplyGlobalVariables()
+{
+#ifdef _DEBUG
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	translate = globalVariables->GetVector3Value(name, "0.translate");
+	rotation = globalVariables->GetVector3Value(name, "1.rotate");
+	scale = globalVariables->GetVector3Value(name, "2.scale");
+#endif // _DEBUG
 }

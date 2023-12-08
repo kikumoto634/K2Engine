@@ -4,7 +4,6 @@
 
 #include "Geometry/Sphere.h"
 #include "Geometry/ObjModel.h"
-#include "Geometry/Line.h"
 #include "Geometry/Sprite2D.h"
 
 
@@ -35,9 +34,9 @@ private:
 
 	//Object3D* obj;
 
-	Sphere* obj;
+	//Sphere* obj;
 	ObjModel* obj2;
 	//Line* obj;
-	//Sprite2D* obj;
+	Sprite2D* obj;
 };
 

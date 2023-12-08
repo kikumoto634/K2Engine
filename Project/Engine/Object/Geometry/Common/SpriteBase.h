@@ -41,6 +41,8 @@ private:
 	//行列リソース/ビュー
 	void CreateWVP();
 
+	void ApplyGlobalVariables();
+
 private:
 	//Instance
 	DirectXCommon* dxCommon = nullptr;

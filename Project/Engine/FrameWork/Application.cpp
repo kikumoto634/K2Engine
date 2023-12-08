@@ -19,10 +19,10 @@ void Application::Initialize()
 
 	//obj = Object3D::Create();
 
-	 obj = Sphere::Create({{0,0,15},{0,0,0},{1,1,1}});
-	 obj2 = ObjModel::Create("cube", {{0,-2,15},{0,0,0},{5,0.5,5}});
+	//obj = Sphere::Create({{0,0,15},{0,0,0},{1,1,1}});
+	obj2 = ObjModel::Create("cube", {{0,-2,15},{0,0,0},{5,0.5,5}});
 	//obj = Line::Create();
-	//obj = Sprite2D::Create();
+	obj = Sprite2D::Create();
 }
 
 void Application::Update()
