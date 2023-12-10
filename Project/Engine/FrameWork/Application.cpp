@@ -20,20 +20,26 @@ void Application::Initialize()
 
 	//シーンオブジェクト
 	levelLoader_ = std::make_unique<LevelLoader>();
-	levelLoader_->Load("SampleLevels");
+	levelLoader_->Load("levelSample");
 	levelLoader_->Initialize();
 
-	player = std::make_unique<Player>("necromancer");
+	player = std::make_unique<Player>("axis");
+	player.get()->translate = {0,5,0};
+
+	sphere = Sphere::Create();
+	//sphere->scale = {0.5f,0.5f,0.5f};
 }
 
 void Application::Update()
 {
-	camera_->Update(player->translate, {0,3,-15});
-	light_->Update();
-
 	//シーンオブジェクト
 	levelLoader_->Update();
 	player->Update();
+
+	sphere->Update();
+
+	camera_->Update(player->translate);
+	light_->Update();
 }
 
 void Application::Draw()
@@ -41,4 +47,5 @@ void Application::Draw()
 	//シーンオブジェクト
 	levelLoader_->Draw(camera_->GetViewProjectionMatrix());
 	player->Draw(camera_->GetViewProjectionMatrix());
+	sphere->Draw(camera_->GetViewProjectionMatrix());
 }

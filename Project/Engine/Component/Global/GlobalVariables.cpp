@@ -55,6 +55,12 @@ void GlobalVariables::SaveFile(const std::string &groupName)
 			//float型の値を登録
 			root[groupName][itemName] = std::get<float>(item.value);
 		}
+		//Vector2型の値を保持していれば
+		else if(std::holds_alternative<Vector2>(item.value)){
+			//Vector3型の値を登録
+			Vector2 value = std::get<Vector2>(item.value);
+			root[groupName][itemName] = json::array({value.x, value.y});
+		}
 		//Vector3型の値を保持していれば
 		else if(std::holds_alternative<Vector3>(item.value)){
 			//Vector3型の値を登録
@@ -167,6 +173,12 @@ void GlobalVariables::LoadFile(const std::string &groupName)
 			float value = itItem->get<float>();
 			SetValue(groupName, itemName, value);
 		}
+		//Vector2型の値を保持していれば
+		else if(itItem->is_array() && itItem->size() == 2){
+			//Vector2型の値を登録
+			Vector2 value = {itItem->at(0), itItem->at(1)};
+			SetValue(groupName, itemName, value);
+		}
 		//Vector3型の値を保持していれば
 		else if(itItem->is_array() && itItem->size() == 3){
 			//Vector3型の値を登録
@@ -219,6 +231,11 @@ void GlobalVariables::Update()
 				float* ptr = std::get_if<float>(&item.value);
 				ImGui::DragFloat(itemName.c_str(), ptr, 0.05f);
 			}
+			//Vector2型の値を保持していれば
+			else if(std::holds_alternative<Vector2>(item.value)){
+				Vector2* ptr = std::get_if<Vector2>(&item.value);
+				ImGui::DragFloat2(itemName.c_str(), reinterpret_cast<float*>(ptr), 0.1f);
+			}
 			//Vector3型の値を保持していれば
 			else if(std::holds_alternative<Vector3>(item.value)){
 				Vector3* ptr = std::get_if<Vector3>(&item.value);
@@ -227,7 +244,7 @@ void GlobalVariables::Update()
 			//Vector4型の値を保持していれば
 			else if(std::holds_alternative<Vector4>(item.value)){
 				Vector4* ptr = std::get_if<Vector4>(&item.value);
-				ImGui::DragFloat3(itemName.c_str(), reinterpret_cast<float*>(ptr), 0.1f);
+				ImGui::DragFloat4(itemName.c_str(), reinterpret_cast<float*>(ptr), 0.1f);
 			}
 		}
 
@@ -260,6 +277,17 @@ void GlobalVariables::SetValue(const std::string &groupName, const std::string &
 }
 
 void GlobalVariables::SetValue(const std::string &groupName, const std::string &key, float value)
+{
+	//グループの参照を取得
+	Group& group = data_[groupName];
+	//新しい項目のdataを設定
+	Item newItem;
+	newItem.value = value;
+	//設定した項目をstd::mapに追加
+	group.items[key] = newItem;
+}
+
+void GlobalVariables::SetValue(const std::string &groupName, const std::string &key, const Vector2 &value)
 {
 	//グループの参照を取得
 	Group& group = data_[groupName];
@@ -306,6 +334,19 @@ void GlobalVariables::AddItem(const std::string &groupName, const std::string &k
 }
 
 void GlobalVariables::AddItem(const std::string &groupName, const std::string &key, float value)
+{
+	//指定のグループのアイテムを取得
+	auto itItem = data_[groupName].items.find(key);
+	
+	//dataないに登録されていない
+	if(itItem == data_[groupName].items.end()){
+		SetValue(groupName, key, value);
+		return;
+	}
+	return;
+}
+
+void GlobalVariables::AddItem(const std::string &groupName, const std::string &key, Vector2 value)
 {
 	//指定のグループのアイテムを取得
 	auto itItem = data_[groupName].items.find(key);
@@ -374,6 +415,21 @@ float GlobalVariables::GetFloatValue(const std::string &groupName, const std::st
 
 	//項目の参照を取得
 	return get<float>(group.items.at(key).value);
+}
+
+Vector2 GlobalVariables::GetVector2Value(const std::string &groupName, const std::string &key) const
+{
+	//指定のグループの有無
+	assert(data_.contains(groupName));
+
+	//グループ参照取得
+	const Group& group = data_.at(groupName);
+
+	//指定のキーの有無
+	assert(group.items.contains(key));
+
+	//項目の参照を取得
+	return get<Vector2>(group.items.at(key).value);
 }
 
 Vector3 GlobalVariables::GetVector3Value(const std::string &groupName, const std::string &key) const

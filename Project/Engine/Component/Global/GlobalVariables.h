@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 
+#include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
 
@@ -46,6 +47,8 @@ public:
 	void SetValue(const std::string& groupName, const std::string& key, int32_t value);
 	//値のセット(float)
 	void SetValue(const std::string& groupName, const std::string& key, float value);
+	//値のセット(Vector2)
+	void SetValue(const std::string& groupName, const std::string& key, const Vector2& value);
 	//値のセット(Vector3)
 	void SetValue(const std::string& groupName, const std::string& key, const Vector3& value);
 	//値のセット(Vector4)
@@ -55,6 +58,8 @@ public:
 	void AddItem(const std::string& groupName, const std::string& key, int32_t value);
 	//項目の追加(float)
 	void AddItem(const std::string& groupName, const std::string& key, float value);
+	//項目の追加(Vector2)
+	void AddItem(const std::string& groupName, const std::string& key, Vector2 value);
 	//項目の追加(Vector3)
 	void AddItem(const std::string& groupName, const std::string& key, Vector3 value);
 	//項目の追加(Vector4)
@@ -64,6 +69,7 @@ public:
 	//Getter
 	int32_t GetIntValue(const std::string& groupName, const std::string& key) const;
 	float GetFloatValue(const std::string& groupName, const std::string& key) const;
+	Vector2 GetVector2Value(const std::string& groupName, const std::string& key) const;
 	Vector3 GetVector3Value(const std::string& groupName, const std::string& key) const;
 	Vector4 GetVector4Value(const std::string& groupName, const std::string& key) const;
 
@@ -84,7 +90,7 @@ private:
 	//項目
 	struct Item{
 		//項目の値
-		std::variant<int32_t, float, Vector3, Vector4> value;
+		std::variant<int32_t, float, Vector2, Vector3, Vector4> value;
 	};
 
 	//グループ
