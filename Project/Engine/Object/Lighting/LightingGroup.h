@@ -44,7 +44,4 @@ private:
 
 	Vector4 lightColor_ = {1,1,1,1};
 	float lightIntensity = 1.0f;
-
-	Matrix4x4 view;
-	Matrix4x4 proj;
 };

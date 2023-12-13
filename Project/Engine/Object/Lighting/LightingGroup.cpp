@@ -27,18 +27,12 @@ void LightingGroup::Initialize()
 {
 	dxCommon = DirectXCommon::GetInstance();
 
-	view = view.Inverse(GetWorldMatrix());
-	proj = MakeOrthographicMatrix(0,0,
-		(float)WindowsApp::kWindowWidth_, (float)WindowsApp::kWindowHeight_,
-		0.1f, 1.f);
-
 	resource_ = CreateBufferResource(dxCommon->GetDevice(),sizeof(DirectionalLightData));
 
 	resource_->Map(0,nullptr, reinterpret_cast<void**>(&data_));
 
 	//平行光源
-	data_->direction = rotation;
-	data_->VP = view*proj;
+	data_->direction = {0,-1,0};
 	data_->color = lightColor_;
 	data_->intensity = lightIntensity;
 
@@ -50,7 +44,7 @@ void LightingGroup::Update()
 	ApplyGlobalVariablesUpdate();
 
 	//平行光源
-	data_->direction = DirectionalVector3FromDegrees(rotation);
+	data_->direction = {0,-1,0};
 	data_->color = lightColor_;
 	data_->intensity = lightIntensity;
 }
@@ -62,10 +56,9 @@ void LightingGroup::ApplyGlobalVariablesInitialize()
 	const char* name = "Light";
 	//グループを追加
 	GlobalVariables::GetInstance()->CreateGroup(name);
-	globalVariables->AddItem(name, "0.translate", translate);
-	globalVariables->AddItem(name, "1.rotate", rotation);
-	globalVariables->AddItem(name, "2.scale", scale);
-	globalVariables->AddItem(name, "3.color", lightColor_);
+	globalVariables->AddItem(name, "1.direction", rotation);
+	globalVariables->AddItem(name, "2.color", lightColor_);
+	globalVariables->AddItem(name, "3.intensity", lightIntensity);
 #endif // _DEBUG
 }
 
@@ -74,9 +67,8 @@ void LightingGroup::ApplyGlobalVariablesUpdate()
 #ifdef _DEBUG
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const char* name = "Light";
-	translate = globalVariables->GetVector3Value(name, "0.translate");
-	rotation = globalVariables->GetVector3Value(name, "1.rotate");
-	scale = globalVariables->GetVector3Value(name, "2.scale");
-	lightColor_ = globalVariables->GetVector4Value(name, "3.color");
+	rotation = globalVariables->GetVector3Value(name, "1.direction");
+	lightColor_ = globalVariables->GetVector4Value(name, "2.color");
+	lightIntensity = globalVariables->GetFloatValue(name, "3.intensity");
 #endif // _DEBUG
 }

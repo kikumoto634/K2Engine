@@ -9,6 +9,8 @@
 Player::Player(std::string filePath, Transform transform):
 	ObjModel(filePath, transform)
 {
+	//color_ = {0,0,0,1};
+
 	ObjModelLoad();
 	Initialize(false);
 	ObjModelVertexData();
@@ -27,7 +29,7 @@ void Player::Update()
 	Vector3 move = {
 		Input::GetInstance()->PadLStick().x,0.0f,Input::GetInstance()->PadLStick().y
 	};
-	move = move.normalize() * 1.0f;
+	//move = move.normalize() * 1.0f;
 
 	//カメラの方向へと動く
 	Matrix4x4 matRot;
@@ -40,9 +42,9 @@ void Player::Update()
 	if(move == Vector3{0,0,0}) return;
 
 	//回転
-	/*rotation.y = std::atan2(move.x, move.z);
+	rotation.y = std::atan2(move.x, move.z);
 	Vector3 velocityXZ = Vector3{move.x, 0, move.z};
-	rotation.x = std::atan2(-move.y, velocityXZ.length());*/
+	rotation.x = std::atan2(-move.y, velocityXZ.length());
 
 	//移動
 	translate +=  move;

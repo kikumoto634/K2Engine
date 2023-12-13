@@ -6,7 +6,6 @@
 //平行光源
 struct DirectionalLightData{
 	Vector4 color;
-	Matrix4x4 VP;
 	Vector3 direction;
 	float intensity;
 };

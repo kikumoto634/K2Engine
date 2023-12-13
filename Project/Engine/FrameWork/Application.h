@@ -39,6 +39,6 @@ private:
 	//シーンオブジェクト
 	std::unique_ptr<LevelLoader> levelLoader_;
 	std::unique_ptr<Player> player;
-	Sphere* sphere = nullptr;
+	ObjModel* box = nullptr;
 };
 

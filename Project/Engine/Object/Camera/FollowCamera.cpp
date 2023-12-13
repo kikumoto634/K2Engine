@@ -91,8 +91,8 @@ void FollowCamera::Rot()
 	rotation.x -= Input::GetInstance()->PadRStick().y * speed_;
 
 	//上限
-	rotation.x = max(rotation.x, RotMinMax.x * (3.141592f/180.f));
-	rotation.x = min(rotation.x, RotMinMax.y * (3.141592f/180.f));
+	rotation.x = max(rotation.x*(180.f/3.141592f), RotMinMax.x) * (3.141592f/180.f);
+	rotation.x = min(rotation.x*(180.f/3.141592f), RotMinMax.y) * (3.141592f/180.f);
 
 	//回転行列
 	Matrix4x4 matRot;
