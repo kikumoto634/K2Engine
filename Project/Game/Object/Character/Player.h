@@ -8,5 +8,8 @@ public:
 
 public:
 	void Update()override;
+
+private:
+	//float angle = 0.0f;
 };
 

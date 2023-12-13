@@ -1,5 +1,8 @@
 #include "MathUtility.h"
 #include "Vector4.h"
+#include "Easing.h"
+
+#include <cmath>
 
 Vector3 Multiplication(const Vector3 &v, const Matrix4x4 &m)
 {
@@ -13,4 +16,20 @@ Vector3 Multiplication(const Vector3 &v, const Matrix4x4 &m)
 
 	// 4次元ベクトルから3次元ベクトルに変換
     return Vector3{result.x / result.w, result.y / result.w, result.z / result.w}; 
+}
+
+float LerpShortAngle(float a, float b, float t)
+{
+	//角度差分
+	float diff = b - a;
+
+	//-2π~2π
+	float temp1 = std::fmod(diff, 360.f * (3.141592f/180.f));
+	//-1π~1π
+	float temp2 = std::fmod(diff, 180.f*(3.141592f/180.f));
+	
+	if(temp1 > temp2){
+		temp1 = temp2 - temp1;
+	}
+	return a + temp1*t;
 }
