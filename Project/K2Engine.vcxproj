@@ -116,7 +116,7 @@
       <ConformanceMode>false</ConformanceMode>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\Common;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\Application\Math;$(ProjectDir)Engine\Component\Application\Math\Matrix;$(ProjectDir)Engine\Component\Application\Math\Easing;$(ProjectDir)Engine\Component\Application\Math\Vector;$(ProjectDir)Engine\Component\Application\Lighting;$(ProjectDir)Engine\Component\Application\Input;$(ProjectDir)Engine\Component\Application\Loader;$(ProjectDir)Engine\Component\Buffer;$(ProjectDir)Engine\Component\DescriptorHeap;$(ProjectDir)Engine\Component\DepthStencil;$(ProjectDir)Engine\Component\Struct;$(ProjectDir)Engine\Component\Global;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\FrameWork;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;$(ProjectDir)Engine\Object\Lighting;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\Common;$(ProjectDir)Engine\Component\Application\Collision;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\Application\Math;$(ProjectDir)Engine\Component\Application\Math\Matrix;$(ProjectDir)Engine\Component\Application\Math\Easing;$(ProjectDir)Engine\Component\Application\Math\Vector;$(ProjectDir)Engine\Component\Application\Lighting;$(ProjectDir)Engine\Component\Application\Input;$(ProjectDir)Engine\Component\Application\Loader;$(ProjectDir)Engine\Component\Buffer;$(ProjectDir)Engine\Component\DescriptorHeap;$(ProjectDir)Engine\Component\DepthStencil;$(ProjectDir)Engine\Component\Struct;$(ProjectDir)Engine\Component\Global;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\FrameWork;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;$(ProjectDir)Engine\Object\Lighting;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
@@ -143,7 +143,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\Common;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\Application\Math;$(ProjectDir)Engine\Component\Application\Math\Matrix;$(ProjectDir)Engine\Component\Application\Math\Easing;$(ProjectDir)Engine\Component\Application\Math\Vector;$(ProjectDir)Engine\Component\Application\Lighting;$(ProjectDir)Engine\Component\Application\Input;$(ProjectDir)Engine\Component\Application\Loader;$(ProjectDir)Engine\Component\Buffer;$(ProjectDir)Engine\Component\DescriptorHeap;$(ProjectDir)Engine\Component\DepthStencil;$(ProjectDir)Engine\Component\Struct;$(ProjectDir)Engine\Component\Global;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\FrameWork;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;$(ProjectDir)Engine\Object\Lighting;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\Common;$(ProjectDir)Engine\Component\Application\Collision;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\Application\Math;$(ProjectDir)Engine\Component\Application\Math\Matrix;$(ProjectDir)Engine\Component\Application\Math\Easing;$(ProjectDir)Engine\Component\Application\Math\Vector;$(ProjectDir)Engine\Component\Application\Lighting;$(ProjectDir)Engine\Component\Application\Input;$(ProjectDir)Engine\Component\Application\Loader;$(ProjectDir)Engine\Component\Buffer;$(ProjectDir)Engine\Component\DescriptorHeap;$(ProjectDir)Engine\Component\DepthStencil;$(ProjectDir)Engine\Component\Struct;$(ProjectDir)Engine\Component\Global;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\FrameWork;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;$(ProjectDir)Engine\Object\Lighting;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -161,6 +161,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Common\DirectXCommon.cpp" />
+    <ClCompile Include="Engine\Component\Application\Collision\Collider\BaseCollider.cpp" />
+    <ClCompile Include="Engine\Component\Application\Collision\Collider\CollidersCheck.cpp" />
+    <ClCompile Include="Engine\Component\Application\Collision\CollisionManager.cpp" />
     <ClCompile Include="Engine\Component\Application\Input\Input.cpp" />
     <ClCompile Include="Engine\Component\Application\Loader\LevelLoader.cpp" />
     <ClCompile Include="Engine\Component\Application\Loader\ObjLoader.cpp" />
@@ -204,6 +207,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Common\DirectXCommon.h" />
+    <ClInclude Include="Engine\Component\Application\Collision\Collider\BaseCollider.h" />
+    <ClInclude Include="Engine\Component\Application\Collision\Collider\CollidersCheck.h" />
+    <ClInclude Include="Engine\Component\Application\Collision\Collider\Type\CollidersShapeType.h" />
+    <ClInclude Include="Engine\Component\Application\Collision\Collider\Type\Sphere-CollisionStruct.h" />
+    <ClInclude Include="Engine\Component\Application\Collision\CollisionInfo.h" />
+    <ClInclude Include="Engine\Component\Application\Collision\CollisionManager.h" />
     <ClInclude Include="Engine\Component\Application\Input\Input.h" />
     <ClInclude Include="Engine\Component\Application\Loader\LevelLoader.h" />
     <ClInclude Include="Engine\Component\Application\Loader\ObjLoader.h" />

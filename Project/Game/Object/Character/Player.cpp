@@ -24,42 +24,32 @@ void Player::Update()
 	ImGui::Text("Player - Pos X: %f, Y: %f, Z:%f", translate.x,translate.y,translate.z);
 	ImGui::Text("Player - Rot X: %f, Y: %f, Z:%f", rotation.x,rotation.y,rotation.z);
 #endif // _DEBUG
-	if(Input::GetInstance()->GetIsPadConnect()){
+	if(!Input::GetInstance()->GetIsPadConnect()) return;
 
-		const float threshold = 0.7f;
-		bool isMoving = false;
+	Vector3 move = {
+		Input::GetInstance()->PadLStick().x,0.0f,Input::GetInstance()->PadLStick().y
+	};
+	//move = move.normalize() * 1.0f;
 
-		Vector3 move = {
-			Input::GetInstance()->PadLStick().x,0.0f,Input::GetInstance()->PadLStick().y
-		};
-		if(move.length() > threshold){
-			isMoving = true;
-		}
+	//カメラの方向へと動く
+	Matrix4x4 matRot;
+	matRot = MakeIdentityMatrix();
+	matRot *= MakeRotationZMatrix(FollowCamera::GetInstance()->rotation.z);
+	matRot *= MakeRotationXMatrix(FollowCamera::GetInstance()->rotation.x);
+	matRot *= MakeRotationYMatrix(FollowCamera::GetInstance()->rotation.y);
+	move = Multiplication(move, matRot);
 
-		if(isMoving){
-			//移動
-			translate +=  move;
+	if(move == Vector3{0,0,0}) return;
 
-			//カメラの方向へと動く
-			Matrix4x4 matRot;
-			matRot = MakeIdentityMatrix();
-			matRot *= MakeRotationZMatrix(FollowCamera::GetInstance()->rotation.z);
-			matRot *= MakeRotationXMatrix(FollowCamera::GetInstance()->rotation.x);
-			matRot *= MakeRotationYMatrix(FollowCamera::GetInstance()->rotation.y);
-			move = Multiplication(move, matRot);
+	//回転
+	rotation.y = std::atan2(move.x, move.z);
+	Vector3 velocityXZ = Vector3{move.x, 0, move.z};
+	rotation.x = std::atan2(-move.y, velocityXZ.length());
 
-			//回転
-			//目標の角度補間
-			//angle = std::atan2(move.x, move.z);
-		}
-		/*else{
-			if(rotation.y > 360.f*(3.141592f/180.f)){
-			rotation.y -= 360.f*(3.141592f/180.f);
-			}
-			else if(rotation.y < -360.f*(3.141592f/180.f)){
-				rotation.y += 360.f*(3.141592f/180.f);
-			}
-		}*/
-	}
-	//rotation.y = LerpShortAngle(rotation.y, angle, 0.1f);
+	//移動
+	translate +=  move;
+}
+
+void Player::OnCollision()
+{
 }

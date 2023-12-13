@@ -33,6 +33,8 @@ public:
 	}
 	void Draw(Matrix4x4 viewProjectionMatrix);
 
+	virtual void OnCollision(const CollisionInfo& info){};
+
 protected:
 	//初期化
 	void Initialize(bool isIndexEnable = true);
