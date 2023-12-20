@@ -1,5 +1,5 @@
 #pragma once
-#include "Type/Sphere-CollisionStruct.h"
+#include "Type/Sphere_Collision.h"
 
 class CollidersCheck
 {
@@ -11,6 +11,6 @@ public:
 	/// <param name="sphere2">球2</param>
 	/// <param name="inter">接触点</param>
 	/// <returns>接触しているか</returns>
-	static bool CheckSphereToSphere(const Sphere_Collision& sphere1, const Sphere_Collision& sphere2, Vector3* inter = nullptr, Vector3* reject = nullptr);
+	static bool CheckSphereToSphere(const Sphere_ColliderStruct& sphere1, const Sphere_ColliderStruct& sphere2, Vector3* inter = nullptr, Vector3* reject = nullptr);
 };
 

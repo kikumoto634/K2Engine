@@ -10,6 +10,6 @@ public:
 public:
 	void Update()override;
 
-	void OnCollision() override;
+	void OnCollision(const CollisionInfo& info) override;
 };
 

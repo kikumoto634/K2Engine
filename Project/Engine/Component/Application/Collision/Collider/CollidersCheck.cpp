@@ -2,7 +2,7 @@
 #include "MathUtility.h"
 #include <cmath>
 
-bool CollidersCheck::CheckSphereToSphere(const Sphere_Collision &sphere1, const Sphere_Collision &sphere2, Vector3 *inter, Vector3* reject)
+bool CollidersCheck::CheckSphereToSphere(const Sphere_ColliderStruct &sphere1, const Sphere_ColliderStruct &sphere2, Vector3 *inter, Vector3* reject)
 {
 	// 中心点の距離の２乗 <= 半径の和の２乗　なら交差
 	float dist = Vector3(sphere1.center - sphere2.center).length();

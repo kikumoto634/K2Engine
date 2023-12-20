@@ -31,13 +31,13 @@ void CollisionManager::CheckAllCollisions()
 			//ともにSphere
 			if(colA->GetShapeType() == COLLISIONSHAPE_SPHERE && 
 				colB->GetShapeType() == COLLISIONSHAPE_SPHERE){
-				Sphere_Collision* SphereA = dynamic_cast<Sphere_Collision*>(colA);
-				Sphere_Collision* SphereB = dynamic_cast<Sphere_Collision*>(colB);
+				Sphere_ColliderStruct* SphereA = dynamic_cast<Sphere_ColliderStruct*>(colA);
+				Sphere_ColliderStruct* SphereB = dynamic_cast<Sphere_ColliderStruct*>(colB);
 
 				Vector3 inter;
 				if(CollidersCheck::CheckSphereToSphere(*SphereA, *SphereB, &inter)){
-					colA->OnCollision();
-					colB->OnCollision();
+					colA->OnCollision(CollisionInfo(colB->GetObjObject(), colB, inter));
+					colB->OnCollision(CollisionInfo(colA->GetObjObject(), colA, inter));
 				}
 			}
 		}

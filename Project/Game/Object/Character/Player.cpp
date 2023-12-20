@@ -50,6 +50,6 @@ void Player::Update()
 	translate +=  move;
 }
 
-void Player::OnCollision()
+void Player::OnCollision(const CollisionInfo &info)
 {
 }

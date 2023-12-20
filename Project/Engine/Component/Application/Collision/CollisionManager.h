@@ -19,6 +19,12 @@ private:
 	static CollisionManager* instance_;
 
 private:
+	CollisionManager() = default;
+	CollisionManager(const CollisionManager&) = delete;
+	~CollisionManager() = default;
+	CollisionManager& operator=(const CollisionManager&) = delete;
+
+private:
 	std::forward_list<BaseCollider*> colliders_;
 };
 

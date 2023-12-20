@@ -17,12 +17,6 @@ void GeometryBase::Initialize(bool isIndexEnable)
 	isIndexDataEnable_ = isIndexEnable;
 	texture_ = SpriteLoader::SearchTexture(texturePath_);
 
-	//描画方法
-	if(primitiveType_ == PrimitiveType::LINE){
-		pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
-		commandPrimitiveTopology = D3D_PRIMITIVE_TOPOLOGY_LINELIST;
-	}
-
 	//パイプライン
 	pipeline_ = new Pipeline();
 	//shadowPipeline_ = new ShadowPipeline();

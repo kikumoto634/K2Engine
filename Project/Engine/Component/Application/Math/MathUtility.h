@@ -16,5 +16,5 @@ const T Lerp(const T& start, const T&end, float t);
 template<class T>
 inline const T Lerp(const T &start, const T &end, float t)
 {
-	return a + b*t;
+	return start + end*t;
 }

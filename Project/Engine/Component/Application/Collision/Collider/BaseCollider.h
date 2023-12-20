@@ -1,24 +1,30 @@
 #pragma once
 #include "Type/CollidersShapeType.h"
+#include "Geometry/Common/GeometryBase.h"
 #include "CollisionInfo.h"
 
 class BaseCollider
 {
 public:
+	BaseCollider() = default;
+	virtual ~BaseCollider() = default;
+
+public:
+	virtual void Update() = 0;
+
 	void OnCollision(const CollisionInfo& info){
-		
+		objObject->OnCollision(info);
 	}
 
 	//Getter
-	float GetRadius()	{return radius;}
+	GeometryBase* GetObjObject()	{return objObject;}
 	CollidersShapeType GetShapeType()	{return shapeType;}
 
-
 	//Setter
-	void SetRadius(float r)	{radius = r;}
+	void SetObjObject(GeometryBase* obj)	{objObject = obj;}
 
-private:
-	float radius = 1.0f;
+protected:
+	GeometryBase* objObject = nullptr;
 	//形状タイプ
 	CollidersShapeType shapeType = SHAPE_UNKNOWN;
 	//属性

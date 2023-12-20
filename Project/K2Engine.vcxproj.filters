@@ -214,14 +214,14 @@
     <Filter Include="ヘッダー ファイル\Engine\Component\Application\Collision">
       <UniqueIdentifier>{3a2cbe2a-f3ae-46ba-bfc3-59061504d94f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Engine\Component\Application\Collision\Collider">
-      <UniqueIdentifier>{76ef2b44-e2f4-4928-9422-2eab31e09191}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Engine\Component\Application\Collision\Collider">
       <UniqueIdentifier>{3ec0aace-3391-4f25-a0b9-38699aefb3c2}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Engine\Component\Application\Collision\Collider\Type">
       <UniqueIdentifier>{36b1f0de-af7b-4e45-8110-e370de25acec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Application\Collision\Collider">
+      <UniqueIdentifier>{0215521f-fcce-4877-b4c5-357e34cfbaaa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -348,14 +348,14 @@
     <ClCompile Include="Engine\Object\Camera\FollowCamera.cpp">
       <Filter>ソース ファイル\Engine\Object\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Component\Application\Collision\Collider\BaseCollider.cpp">
-      <Filter>ソース ファイル\Engine\Component\Application\Collision\Collider</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Component\Application\Collision\CollisionManager.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Collision</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Component\Application\Collision\Collider\CollidersCheck.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Engine\Component\Application\Collision\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Collision\Collider\Type\Sphere_Collision.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Collision\Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -506,17 +506,17 @@
     <ClInclude Include="Engine\Component\Application\Collision\Collider\Type\CollidersShapeType.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collision\Collider\Type</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Collision\Collider\Type\Sphere-CollisionStruct.h">
+    <ClInclude Include="Engine\Component\Application\Collision\Collider\Type\Sphere_Collision.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collision\Collider\Type</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Component\Application\Collision\CollisionManager.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Collision\Collider\CollidersCheck.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Component\Application\Collision\CollisionInfo.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Collision\Collider\CollidersCheck.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Collision\Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

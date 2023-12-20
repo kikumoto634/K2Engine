@@ -3,6 +3,8 @@
 #include "WindowsApp.h"
 #include <imgui.h>
 
+#include "CollisionManager.h"
+
 Application *Application::Create()
 {
 	Application* instance = new Application();
@@ -41,6 +43,8 @@ void Application::Update()
 
 	camera_->Update(player->translate);
 	light_->Update();
+
+	CollisionManager::CheckAllCollisions();
 }
 
 void Application::Draw()

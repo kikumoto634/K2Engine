@@ -13,20 +13,14 @@
 #include "MaterialData.h"
 #include "TransformationMatrixData.h"
 
+#include "CollisionInfo.h"
+
 //幾何学オブジェクトの共通
 class GeometryBase : public Transform
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	template <class T> using vector = std::vector<T>;
-
-protected:
-	//描画タイプ
-	enum class PrimitiveType{
-		TRIANGLE,	//三角形
-		LINE		//ライン
-	};
-
 public:
 	~GeometryBase(){
 		delete pipeline_;
@@ -102,7 +96,6 @@ protected:
 	UINT indexNum_ = 4;
 
 	D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID;	//塗りつぶし
-	PrimitiveType primitiveType_ = PrimitiveType::TRIANGLE;		//描画方法
 
 	//パラメータ
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
