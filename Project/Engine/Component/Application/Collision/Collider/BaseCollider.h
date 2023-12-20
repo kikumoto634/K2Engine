@@ -1,33 +1,32 @@
 #pragma once
-#include "Type/CollidersShapeType.h"
-#include "Geometry/Common/GeometryBase.h"
-#include "CollisionInfo.h"
+#include "Vector3.h"
+#include "CollisionAttribute.h"
 
 class BaseCollider
 {
 public:
-	BaseCollider() = default;
-	virtual ~BaseCollider() = default;
-
-public:
-	virtual void Update() = 0;
-
-	void OnCollision(const CollisionInfo& info){
-		objObject->OnCollision(info);
-	}
+	virtual void OnCollision(){};
 
 	//Getter
-	GeometryBase* GetObjObject()	{return objObject;}
-	CollidersShapeType GetShapeType()	{return shapeType;}
+	Vector3 GetCenter()	{return center;}
+	float GetR()	{return radius;}
+	uint32_t GetCollisionAttribute()	{return collisionAttribute_;}
+	uint32_t GetCollisionMask()	{return collisionMask_;}
 
 	//Setter
-	void SetObjObject(GeometryBase* obj)	{objObject = obj;}
+	void SetCenter(Vector3 pos)	{center = pos;}
+	void SetR(float r)	{radius = r;}
+	void SetCollisionAttribute(uint32_t attribute)	{collisionAttribute_ = attribute;}
+	void SetCollisionMask(uint32_t mask)	{collisionMask_ = mask;}
 
-protected:
-	GeometryBase* objObject = nullptr;
-	//形状タイプ
-	CollidersShapeType shapeType = SHAPE_UNKNOWN;
-	//属性
-	unsigned short attribute = 0b1111111111111111;
+private:
+	Vector3 center = {0,0,0};
+	float radius = 1.0f;
+
+	//属性(my)
+	uint32_t collisionAttribute_ = kDefaultCollisionAttribute;
+	//マスク(衝突対象)
+	uint32_t collisionMask_ = kDefaultCollisionAttribute;
+
 };
 

@@ -1,6 +1,6 @@
 #pragma once
+#include <list>
 #include "Collider/BaseCollider.h"
-#include <forward_list>
 
 class CollisionManager
 {
@@ -8,23 +8,19 @@ public:
 	static CollisionManager* GetInstance();
 
 public:
+	void CollisionAllCheck();
 
-	//総当たりcheck
-	void CheckAllCollisions();
-
-	//総当たり用のコライダー追加
-	void AddCollider(BaseCollider* collider);
-
-private:
-	static CollisionManager* instance_;
+	void AddCollider(BaseCollider* col){
+		colliders.push_back(col);
+	}
 
 private:
-	CollisionManager() = default;
-	CollisionManager(const CollisionManager&) = delete;
-	~CollisionManager() = default;
-	CollisionManager& operator=(const CollisionManager&) = delete;
+	void CollisionPairCheck(BaseCollider* a, BaseCollider* b);
 
 private:
-	std::forward_list<BaseCollider*> colliders_;
+	static CollisionManager* instance;
+
+private:
+	std::list<BaseCollider*> colliders;
 };
 

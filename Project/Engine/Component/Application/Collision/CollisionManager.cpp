@@ -1,50 +1,39 @@
 #include "CollisionManager.h"
-#include "Collider/CollidersCheck.h"
 
-CollisionManager* CollisionManager::instance_ = nullptr;
+CollisionManager* CollisionManager::instance = nullptr;
+using namespace std;
 
 CollisionManager *CollisionManager::GetInstance()
 {
-	if(!instance_){
-		instance_ = new CollisionManager();
+	if(!instance){
+		instance = new CollisionManager();
 	}
-	return instance_;
+	return instance;
 }
 
-void CollisionManager::CheckAllCollisions()
+void CollisionManager::CollisionAllCheck()
 {
-	std::forward_list<BaseCollider*>::iterator itA;
-	std::forward_list<BaseCollider*>::iterator itB;
+	list<BaseCollider*>::iterator itrA = colliders.begin();
+	for(;itrA != colliders.end(); ++itrA){
+		BaseCollider* a = *itrA;
 
-	//総当たり
-	itA = colliders_.begin();
-	for(; itA != colliders_.end(); ++itA){
-		itB = itA;
-		++itB;
-		for(; itB != colliders_.end(); ++itB){
-			
-			//確認コライダー
-			BaseCollider* colA = *itA;
-			BaseCollider* colB = *itB;
+		list<BaseCollider*>::iterator itrB = itrA;
+		itrB++;
+		for(; itrB != colliders.end(); ++itrB){
+			BaseCollider* b = *itrB;
 
-			//タイプ確認
-			//ともにSphere
-			if(colA->GetShapeType() == COLLISIONSHAPE_SPHERE && 
-				colB->GetShapeType() == COLLISIONSHAPE_SPHERE){
-				Sphere_ColliderStruct* SphereA = dynamic_cast<Sphere_ColliderStruct*>(colA);
-				Sphere_ColliderStruct* SphereB = dynamic_cast<Sphere_ColliderStruct*>(colB);
-
-				Vector3 inter;
-				if(CollidersCheck::CheckSphereToSphere(*SphereA, *SphereB, &inter)){
-					colA->OnCollision(CollisionInfo(colB->GetObjObject(), colB, inter));
-					colB->OnCollision(CollisionInfo(colA->GetObjObject(), colA, inter));
-				}
-			}
+			CollisionPairCheck(a,b);
 		}
 	}
 }
 
-void CollisionManager::AddCollider(BaseCollider *collider)
+void CollisionManager::CollisionPairCheck(BaseCollider *a, BaseCollider *b)
 {
-	colliders_.push_front(collider);
+	if(a->GetCollisionAttribute() != b->GetCollisionMask() ||
+		b->GetCollisionAttribute() != a->GetCollisionMask()) return;
+
+	if(powf(b->GetCenter().x-a->GetCenter().x, 2)+powf(b->GetCenter().y-a->GetCenter().y, 2)+powf(b->GetCenter().z-a->GetCenter().z, 2) <= powf(a->GetR()+b->GetR(),2)){
+		a->OnCollision();
+		b->OnCollision();
+	}
 }

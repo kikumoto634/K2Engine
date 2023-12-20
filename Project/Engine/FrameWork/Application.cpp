@@ -3,8 +3,6 @@
 #include "WindowsApp.h"
 #include <imgui.h>
 
-#include "CollisionManager.h"
-
 Application *Application::Create()
 {
 	Application* instance = new Application();
@@ -21,16 +19,23 @@ void Application::Initialize()
 
 
 	//シーンオブジェクト
+	colliisonManager_ = CollisionManager::GetInstance();
+
 	levelLoader_ = std::make_unique<LevelLoader>();
 	levelLoader_->Load("levelSample");
 	levelLoader_->Initialize();
 
 	player = std::make_unique<Player>("cube");
 	player.get()->translate = {0,5,0};
+	player->SetCollisionAttribute(kPlayerCollisionAttribute);
+	//player->SetCollisionMask(kPlayerCollisionAttribute);
+	colliisonManager_->AddCollider(player.get());
 
 	box = ObjModel::Create("cube");
-	box->translate = {-2,5,0};
+	box->translate = {-2.1f,5,0};
 	box->scale = {0.5f,0.5f,0.5f};
+	box->SetCollisionMask(kPlayerCollisionAttribute);
+	colliisonManager_->AddCollider(box);
 }
 
 void Application::Update()
@@ -38,13 +43,18 @@ void Application::Update()
 	//シーンオブジェクト
 	levelLoader_->Update();
 	player->Update();
+	player->SetCenter(player->translate);
+	player->SetR(1.0f);
+
 
 	box->Update();
+	box->SetCenter(box->translate);
+	box->SetR(1.0f);
 
 	camera_->Update(player->translate);
 	light_->Update();
 
-	CollisionManager::CheckAllCollisions();
+	colliisonManager_->CollisionAllCheck();
 }
 
 void Application::Draw()

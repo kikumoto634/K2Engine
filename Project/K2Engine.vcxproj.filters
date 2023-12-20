@@ -348,14 +348,11 @@
     <ClCompile Include="Engine\Object\Camera\FollowCamera.cpp">
       <Filter>ソース ファイル\Engine\Object\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Collision\Collider\BaseCollider.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Collision\Collider</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Component\Application\Collision\CollisionManager.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Component\Application\Collision\Collider\CollidersCheck.cpp">
-      <Filter>ソース ファイル\Engine\Component\Application\Collision\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Component\Application\Collision\Collider\Type\Sphere_Collision.cpp">
-      <Filter>ソース ファイル\Engine\Component\Application\Collision\Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -503,20 +500,11 @@
     <ClInclude Include="Engine\Component\Application\Collision\Collider\BaseCollider.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collision\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Collision\Collider\Type\CollidersShapeType.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Application\Collision\Collider\Type</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Collision\Collider\Type\Sphere_Collision.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Application\Collision\Collider\Type</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Component\Application\Collision\CollisionManager.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Collision\CollisionInfo.h">
+    <ClInclude Include="Engine\Component\Application\Collision\CollisionAttribute.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Collision\Collider\CollidersCheck.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Application\Collision\Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

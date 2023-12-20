@@ -161,8 +161,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Common\DirectXCommon.cpp" />
-    <ClCompile Include="Engine\Component\Application\Collision\Collider\CollidersCheck.cpp" />
-    <ClCompile Include="Engine\Component\Application\Collision\Collider\Type\Sphere_Collision.cpp" />
+    <ClCompile Include="Engine\Component\Application\Collision\Collider\BaseCollider.cpp" />
     <ClCompile Include="Engine\Component\Application\Collision\CollisionManager.cpp" />
     <ClCompile Include="Engine\Component\Application\Input\Input.cpp" />
     <ClCompile Include="Engine\Component\Application\Loader\LevelLoader.cpp" />
@@ -208,10 +207,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   <ItemGroup>
     <ClInclude Include="Engine\Common\DirectXCommon.h" />
     <ClInclude Include="Engine\Component\Application\Collision\Collider\BaseCollider.h" />
-    <ClInclude Include="Engine\Component\Application\Collision\Collider\CollidersCheck.h" />
-    <ClInclude Include="Engine\Component\Application\Collision\Collider\Type\CollidersShapeType.h" />
-    <ClInclude Include="Engine\Component\Application\Collision\Collider\Type\Sphere_Collision.h" />
-    <ClInclude Include="Engine\Component\Application\Collision\CollisionInfo.h" />
+    <ClInclude Include="Engine\Component\Application\Collision\CollisionAttribute.h" />
     <ClInclude Include="Engine\Component\Application\Collision\CollisionManager.h" />
     <ClInclude Include="Engine\Component\Application\Input\Input.h" />
     <ClInclude Include="Engine\Component\Application\Loader\LevelLoader.h" />

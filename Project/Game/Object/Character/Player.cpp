@@ -50,6 +50,8 @@ void Player::Update()
 	translate +=  move;
 }
 
-void Player::OnCollision(const CollisionInfo &info)
+void Player::OnCollision()
 {
+	WindowsApp::Log("Hit\n");
 }
+

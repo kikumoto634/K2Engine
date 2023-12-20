@@ -13,8 +13,6 @@
 #include "MaterialData.h"
 #include "TransformationMatrixData.h"
 
-#include "CollisionInfo.h"
-
 //幾何学オブジェクトの共通
 class GeometryBase : public Transform
 {
@@ -26,8 +24,6 @@ public:
 		delete pipeline_;
 	}
 	void Draw(Matrix4x4 viewProjectionMatrix);
-
-	virtual void OnCollision(const CollisionInfo& info){};
 
 protected:
 	//初期化
