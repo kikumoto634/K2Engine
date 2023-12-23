@@ -22,6 +22,11 @@ public:
 	}
 	void Update();
 
+	//Getter/Setter
+	Vector3 GetCenterPos()	const override{
+		return translate;
+	};
+
 private:
 	void SphereVertexData();
 	void SphereIndexData();

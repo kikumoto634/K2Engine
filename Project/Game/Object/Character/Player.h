@@ -8,6 +8,14 @@ public:
 
 public:
 	void Update()override;
-	void OnCollision()override;
+	void OnCollision() override;
+
+	//Getter/Setter
+	Vector3 GetCenterPos()	const override{
+		return translate;
+	};
+
+private:
+	float velocity = 0.1f;
 };
 

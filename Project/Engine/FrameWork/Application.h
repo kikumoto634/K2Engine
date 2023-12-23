@@ -15,7 +15,6 @@
 #include "FollowCamera.h"
 
 #include "CollisionManager.h"
-#include "CollisionAttribute.h"
 
 class Application
 {
@@ -35,15 +34,17 @@ public:
 private:
 	void Initialize();
 
+	void CollisionCheck();
+
 private:
 	FollowCamera* camera_ = nullptr;
 	LightingGroup* light_ = nullptr;
 
 	//シーンオブジェクト
-	CollisionManager* colliisonManager_ = nullptr;
-
 	std::unique_ptr<LevelLoader> levelLoader_;
 	std::unique_ptr<Player> player;
 	ObjModel* box = nullptr;
+
+	std::unique_ptr<CollisionManager> collisionManager_;
 };
 

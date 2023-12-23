@@ -172,9 +172,6 @@
     <Filter Include="ヘッダー ファイル\Engine\Common">
       <UniqueIdentifier>{82a0485d-8d5f-4681-99ea-e13da9d77452}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Engine\Component\Application\Input">
-      <UniqueIdentifier>{e47d0fa4-305c-4f59-acfb-64babcd01710}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Engine\Component\Application\Input">
       <UniqueIdentifier>{5b619904-946e-488b-b15d-adb15eb154b0}</UniqueIdentifier>
     </Filter>
@@ -208,20 +205,14 @@
     <Filter Include="ヘッダー ファイル\Game\Object\Character">
       <UniqueIdentifier>{21e478e2-8c96-428b-97ef-e1a63cbfbfab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Engine\Component\Application\Collision">
-      <UniqueIdentifier>{17691de9-80e6-4894-ba4c-3d258dc86ab7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Component\Application\Collision">
+    <Filter Include="ヘッダー ファイル\Engine\Component\Application\Collider/Collision">
       <UniqueIdentifier>{3a2cbe2a-f3ae-46ba-bfc3-59061504d94f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Component\Application\Collision\Collider">
-      <UniqueIdentifier>{3ec0aace-3391-4f25-a0b9-38699aefb3c2}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Engine\Component\Application\Collider/Collision">
+      <UniqueIdentifier>{17691de9-80e6-4894-ba4c-3d258dc86ab7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Component\Application\Collision\Collider\Type">
-      <UniqueIdentifier>{36b1f0de-af7b-4e45-8110-e370de25acec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Engine\Component\Application\Collision\Collider">
-      <UniqueIdentifier>{0215521f-fcce-4877-b4c5-357e34cfbaaa}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Engine\Component\Application\Input">
+      <UniqueIdentifier>{e47d0fa4-305c-4f59-acfb-64babcd01710}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -348,11 +339,11 @@
     <ClCompile Include="Engine\Object\Camera\FollowCamera.cpp">
       <Filter>ソース ファイル\Engine\Object\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Component\Application\Collision\Collider\BaseCollider.cpp">
-      <Filter>ソース ファイル\Engine\Component\Application\Collision\Collider</Filter>
+    <ClCompile Include="Engine\Component\Application\Colliders\Collider.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Component\Application\Collision\CollisionManager.cpp">
-      <Filter>ソース ファイル\Engine\Component\Application\Collision</Filter>
+    <ClCompile Include="Engine\Component\Application\Colliders\CollisionManager.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -497,14 +488,11 @@
     <ClInclude Include="Engine\Object\Camera\FollowCamera.h">
       <Filter>ヘッダー ファイル\Engine\Object\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Collision\Collider\BaseCollider.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Application\Collision\Collider</Filter>
+    <ClInclude Include="Engine\Component\Application\Colliders\Collider.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Collision\CollisionManager.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Application\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Collision\CollisionAttribute.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Application\Collision</Filter>
+    <ClInclude Include="Engine\Component\Application\Colliders\CollisionManager.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

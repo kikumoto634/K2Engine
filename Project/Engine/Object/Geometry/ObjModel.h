@@ -1,9 +1,8 @@
 #pragma once
 #include "Common/GeometryBase.h"
 #include "ObjLoader.h"
-#include "Collider/BaseCollider.h"
 
-class ObjModel : public GeometryBase, public BaseCollider
+class ObjModel : public GeometryBase
 {
 public:
 	static ObjModel* Create(std::string filePath, Transform transform = {{0,0,0}, {0,0,0}, {1,1,1}});

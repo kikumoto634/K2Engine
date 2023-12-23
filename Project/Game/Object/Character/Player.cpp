@@ -47,11 +47,10 @@ void Player::Update()
 	rotation.x = std::atan2(-move.y, velocityXZ.length());
 
 	//移動
-	translate +=  move;
+	translate += move*velocity;
 }
 
 void Player::OnCollision()
 {
 	WindowsApp::Log("Hit\n");
 }
-

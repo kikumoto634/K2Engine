@@ -13,8 +13,10 @@
 #include "MaterialData.h"
 #include "TransformationMatrixData.h"
 
+#include "Collider.h"
+
 //幾何学オブジェクトの共通
-class GeometryBase : public Transform
+class GeometryBase : public Transform, public Collider
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -24,6 +26,9 @@ public:
 		delete pipeline_;
 	}
 	void Draw(Matrix4x4 viewProjectionMatrix);
+
+	//Getter/Setter
+	virtual Vector3 GetCenterPos() const override	{return translate;}
 
 protected:
 	//初期化
@@ -54,7 +59,6 @@ private:
 	Pipeline* pipeline_ = nullptr;
 
 	vector<D3D12_ROOT_PARAMETER> rootParameters_;			//ルートパラメータ
-	vector<D3D12_ROOT_PARAMETER> shadowRootParameters_;
 	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDesc_;		//インプットレイアウト
 	vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers_;		//サンプラー
 
