@@ -260,21 +260,21 @@ Vector2 Input::PadLStick()
 	float Y = padState_.Gamepad.sThumbLY;
 
 	//X
-	if(padState_.Gamepad.sThumbLX > 0){
+	if(padState_.Gamepad.sThumbLX > 0.1){
 		X -= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE - 1;
 		X /= StickMaxValue;
 	}
-	else if(padState_.Gamepad.sThumbLX < 0){
+	else if(padState_.Gamepad.sThumbLX < -0.1){
 		X += XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
 		X /= StickMaxValue;
 	}
 
 	//Y
-	if(padState_.Gamepad.sThumbLY > 0){
+	if(padState_.Gamepad.sThumbLY > 0.1){
 		Y -= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE - 1;
 		Y /= StickMaxValue;
 	}
-	else if(padState_.Gamepad.sThumbLY < 0){
+	else if(padState_.Gamepad.sThumbLY < -0.1){
 		Y += XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
 		Y /= StickMaxValue;
 	}

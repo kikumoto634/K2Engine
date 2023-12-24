@@ -25,10 +25,11 @@ void Application::Initialize()
 	levelLoader_->Initialize();
 
 	player = std::make_unique<Player>("cube");
-	player.get()->translate = {0,5,0};
+	player.get()->translate = {0,0,0};
+	player.get()->scale = {0.8f,0.8f,0.8f};
 
 	box = ObjModel::Create("cube");
-	box->translate = {-2.1f,5,0};
+	box->translate = {-5.f,0,0};
 	box->scale = {0.8f,0.8f,0.8f};
 
 	collisionManager_ = std::make_unique<CollisionManager>();

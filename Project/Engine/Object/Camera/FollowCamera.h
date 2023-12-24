@@ -50,6 +50,8 @@ private:
 	Vector2 RotMinMax = {-45.f,45.f};
 
 	Vector3 target_{};
+
+public:
 	Vector3 offset_ = {0,0,-10};
 };
 

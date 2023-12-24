@@ -25,7 +25,7 @@ public:
 	~GeometryBase(){
 		delete pipeline_;
 	}
-	void Draw(Matrix4x4 viewProjectionMatrix);
+	virtual void Draw(Matrix4x4 viewProjectionMatrix);
 
 	//Getter/Setter
 	Transform GetTransform() const {return {translate,rotation,scale};}
