@@ -163,6 +163,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Common\DirectXCommon.cpp" />
     <ClCompile Include="Engine\Component\Application\Colliders\Collider.cpp" />
     <ClCompile Include="Engine\Component\Application\Colliders\CollisionManager.cpp" />
+    <ClCompile Include="Engine\Component\Application\Colliders\Geometry\Common\GeometryBaseCollider.cpp" />
+    <ClCompile Include="Engine\Component\Application\Colliders\Geometry\SphereCollider.cpp" />
     <ClCompile Include="Engine\Component\Application\Input\Input.cpp" />
     <ClCompile Include="Engine\Component\Application\Loader\LevelLoader.cpp" />
     <ClCompile Include="Engine\Component\Application\Loader\ObjLoader.cpp" />
@@ -208,6 +210,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Common\DirectXCommon.h" />
     <ClInclude Include="Engine\Component\Application\Colliders\Collider.h" />
     <ClInclude Include="Engine\Component\Application\Colliders\CollisionManager.h" />
+    <ClInclude Include="Engine\Component\Application\Colliders\Geometry\Common\GeometryBaseCollider.h" />
+    <ClInclude Include="Engine\Component\Application\Colliders\Geometry\SphereCollider.h" />
     <ClInclude Include="Engine\Component\Application\Input\Input.h" />
     <ClInclude Include="Engine\Component\Application\Loader\LevelLoader.h" />
     <ClInclude Include="Engine\Component\Application\Loader\ObjLoader.h" />
@@ -256,6 +260,22 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\Object\Character\Player.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Resources\Shaders\Collider\Collider.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Collider\Collider.VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Texture.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>

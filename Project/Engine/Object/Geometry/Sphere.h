@@ -23,7 +23,7 @@ public:
 	void Update();
 
 	//Getter/Setter
-	Vector3 GetCenterPos()	const override{
+	Vector3 GetColliderCenterPos()	const override{
 		return translate;
 	};
 

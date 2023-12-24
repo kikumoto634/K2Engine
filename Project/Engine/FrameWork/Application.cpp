@@ -29,7 +29,7 @@ void Application::Initialize()
 
 	box = ObjModel::Create("cube");
 	box->translate = {-2.1f,5,0};
-	box->scale = {0.5f,0.5f,0.5f};
+	box->scale = {0.8f,0.8f,0.8f};
 
 	collisionManager_ = std::make_unique<CollisionManager>();
 }
@@ -55,6 +55,8 @@ void Application::Draw()
 	levelLoader_->Draw(camera_->GetViewProjectionMatrix());
 	player->Draw(camera_->GetViewProjectionMatrix());
 	box->Draw(camera_->GetViewProjectionMatrix());
+
+	collisionManager_->Draw(camera_->GetViewProjectionMatrix());
 }
 
 void Application::CollisionCheck()
@@ -64,5 +66,6 @@ void Application::CollisionCheck()
 	collisionManager_->AddCollider(player.get());
 	collisionManager_->AddCollider(box);
 
+	collisionManager_->Update();
 	collisionManager_->CheckAllCollisions();
 }

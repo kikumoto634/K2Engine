@@ -2,9 +2,13 @@
 #include <list>
 #include "Collider.h"
 
+#include "Geometry/Sphere.h"
+
 class CollisionManager
 {
 public:
+	void Update();
+	void Draw(Matrix4x4 viewProjectionMatrix);
 	//リストのクリア
 	void Reset(){
 		colliders_.clear();

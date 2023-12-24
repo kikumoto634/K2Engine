@@ -1,5 +1,19 @@
 #include "CollisionManager.h"
 
+void CollisionManager::Update()
+{
+	for(Collider* col : colliders_){
+		col->ColliderUpdate();
+	}
+}
+
+void CollisionManager::Draw(Matrix4x4 viewProjectionMatrix)
+{
+	for(Collider* col : colliders_){
+		col->ColliderDraw(col->GetColliderCenterPos(), viewProjectionMatrix);
+	}
+}
+
 void CollisionManager::CheckAllCollisions()
 {
 	using namespace std;
@@ -20,8 +34,8 @@ void CollisionManager::CheckAllCollisions()
 
 void CollisionManager::CheckCollisionPair(Collider *a, Collider *b)
 {
-	Vector3 colAPos = a->GetCenterPos();
-	Vector3 colBPos = b->GetCenterPos();
+	Vector3 colAPos = a->GetColliderCenterPos();
+	Vector3 colBPos = b->GetColliderCenterPos();
 	float distance = Vector3(colBPos-colAPos).length();
 
 	//Sphere to Sphere

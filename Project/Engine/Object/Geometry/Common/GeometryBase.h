@@ -28,7 +28,8 @@ public:
 	void Draw(Matrix4x4 viewProjectionMatrix);
 
 	//Getter/Setter
-	virtual Vector3 GetCenterPos() const override	{return translate;}
+	Transform GetTransform() const {return {translate,rotation,scale};}
+	virtual Vector3 GetColliderCenterPos() const override	{return translate;}
 
 protected:
 	//初期化

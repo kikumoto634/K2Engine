@@ -214,6 +214,21 @@
     <Filter Include="ソース ファイル\Engine\Component\Application\Input">
       <UniqueIdentifier>{e47d0fa4-305c-4f59-acfb-64babcd01710}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Application\Collider/Collision\Geometry">
+      <UniqueIdentifier>{ce57edd5-b67c-4b9a-acf0-f51eac179e38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Application\Collider/Collision\Geometry">
+      <UniqueIdentifier>{57e541f1-91a8-49a8-b6e8-a358a52a04c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common">
+      <UniqueIdentifier>{a8b90b37-2204-4793-8597-70617bfec0f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common">
+      <UniqueIdentifier>{bb1daa37-49cf-4818-8cc1-26b4e1842cab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Shader\Collider">
+      <UniqueIdentifier>{dae3f13e-b770-4308-b04c-57d855ec6d38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -344,6 +359,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Component\Application\Colliders\CollisionManager.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Colliders\Geometry\SphereCollider.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Colliders\Geometry\Common\GeometryBaseCollider.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -494,6 +515,12 @@
     <ClInclude Include="Engine\Component\Application\Colliders\CollisionManager.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Colliders\Geometry\SphereCollider.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Colliders\Geometry\Common\GeometryBaseCollider.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Texture.hlsl">
@@ -510,6 +537,12 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Sprite\Sprite.PS.Texture.hlsl">
       <Filter>リソース ファイル\Shader\Sprite</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Collider\Collider.VS.hlsl">
+      <Filter>リソース ファイル\Shader\Collider</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Collider\Collider.PS.hlsl">
+      <Filter>リソース ファイル\Shader\Collider</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
