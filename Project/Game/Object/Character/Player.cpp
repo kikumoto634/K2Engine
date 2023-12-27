@@ -88,14 +88,7 @@ void Player::BehaviorRootInitialize()
 }
 void Player::BehaviorRootUpdate()
 {
-	if(Input::GetInstance()->GetIsPadConnect()){
-		if(Input::GetInstance()->PadButtonPush(XINPUT_GAMEPAD_A)){
-			behaviorRequest_ = Behavior::Jump;
-		}
-		else if(Input::GetInstance()->PadButtonPush(XINPUT_GAMEPAD_B)){
-			behaviorRequest_ = Behavior::kAttack;
-		}
-	}
+	Input();
 
 	Move();
 }
@@ -107,15 +100,7 @@ void Player::BehaviorAttackInitialize()
 }
 void Player::BehaviorAttackUpdate()
 {
-	weaponAngle_ = Easing_Point2_EaseOutBounce(0.0f, 1.8f, Time_OneWay(weaponAnimFrame_, 1.0f));
-
-	weapon_->rotation.x = weaponAngle_;
-	weapon_->rotation.y = rotation.y;
-	weapon_->translate = translate;
-
-	if(weaponAnimFrame_ >= 1.f){
-		behaviorRequest_ = Behavior::kRoot;
-	}
+	Attack();
 }
 
 void Player::BehaviorJumpInitialize()
@@ -124,16 +109,21 @@ void Player::BehaviorJumpInitialize()
 }
 void Player::BehaviorJumpUpdate()
 {
-	translate += velocity;
-	Vector3 accelerationVector = {0, -kGravityAcceleration, 0};
-	velocity += accelerationVector;
-
-	if(translate.y <= 0.0f){
-		translate.y = 0.0f;
-		behaviorRequest_ = Behavior::kRoot;
-	}
+	Jump();
 }
 
+
+void Player::Input()
+{
+	if(Input::GetInstance()->GetIsPadConnect()){
+		if(Input::GetInstance()->PadButtonTrigger(XINPUT_GAMEPAD_A)){
+			behaviorRequest_ = Behavior::Jump;
+		}
+		else if(Input::GetInstance()->PadButtonTrigger(XINPUT_GAMEPAD_B)){
+			behaviorRequest_ = Behavior::kAttack;
+		}
+	}
+}
 
 void Player::Move()
 {
@@ -145,13 +135,16 @@ void Player::Move()
 	velocity = {
 		Input::GetInstance()->PadLStick().x,0.0f,Input::GetInstance()->PadLStick().y
 	};
-	velocity = velocity.normalize() * 1.0f;
+	velocity = velocity.normalize();
 
 	if(velocity.length() > threshold){
 		isMoving = true;
 	}
 
 	if(!isMoving) return;
+
+	velocity *= kMoveVelocity;
+
 	//カメラの方向へと動く
 	Matrix4x4 matRot;
 	matRot = MakeIdentityMatrix();
@@ -168,5 +161,30 @@ void Player::Move()
 	//rotation.x = std::atan2(-move.y, velocityXZ.length());
 
 	//移動
-	translate += velocity*kMoveVelocity;
+	translate += velocity;
+}
+
+void Player::Attack()
+{
+	weaponAngle_ = Easing_Point2_EaseOutBounce(0.0f, 1.8f, Time_OneWay(weaponAnimFrame_, 1.0f));
+
+	weapon_->rotation.x = weaponAngle_;
+	weapon_->rotation.y = rotation.y;
+	weapon_->translate = translate;
+
+	if(weaponAnimFrame_ >= 1.f){
+		behaviorRequest_ = Behavior::kRoot;
+	}
+}
+
+void Player::Jump()
+{
+	translate += velocity;
+	Vector3 accelerationVector = {0, -kGravityAcceleration, 0};
+	velocity += accelerationVector;
+
+	if(translate.y <= 0.0f){
+		translate.y = 0.0f;
+		behaviorRequest_ = Behavior::kRoot;
+	}
 }

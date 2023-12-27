@@ -36,7 +36,10 @@ private:
 	void BehaviorJumpUpdate();
 
 
+	void Input();
 	void Move();
+	void Attack();
+	void Jump();
 
 private:
 	const float kGravityAcceleration = 0.05f;
