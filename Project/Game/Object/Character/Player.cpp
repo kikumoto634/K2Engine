@@ -4,11 +4,12 @@
 #include "FollowCamera.h"
 #include <MathUtility.h>
 #include "Easing.h"
+#include "BlendSetting.h"
 
 #include <imgui.h>
 
 Player::Player(std::string filePath, Transform transform):
-	ObjModel(filePath, transform)
+	ObjModel(filePath, transform, BlendSetting::kBlendModeNormal)
 {
 	ObjModelLoad();
 	Initialize(false);
@@ -24,6 +25,7 @@ void Player::Update()
 #ifdef _DEBUG
 	ImGui::Text("Player - Pos X: %f, Y: %f, Z:%f", translate.x,translate.y,translate.z);
 	ImGui::Text("Player - Rot X: %f, Y: %f, Z:%f", rotation.x,rotation.y,rotation.z);
+	ImGui::ColorEdit4("Player - Color", &color_.x);
 #endif // _DEBUG
 
 	//状態遷移

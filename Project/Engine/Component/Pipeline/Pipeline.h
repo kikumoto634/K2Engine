@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "DirectXCommon.h"
+#include "BlendSetting.h"
 
 class Pipeline
 {
@@ -12,19 +13,19 @@ private:
 	template <class T> using vector = std::vector<T>;
 
 public:
+	~Pipeline(){
+		delete blendSetting;
+	}
+
 	void Create(
 		std::wstring vsPath, std::wstring psPath,			//シェーダパス
 		vector<D3D12_ROOT_PARAMETER> rootParameter,			//ルートパラメータ
 		vector<D3D12_STATIC_SAMPLER_DESC> staticSampler,	//サンプラー
 		vector<D3D12_INPUT_ELEMENT_DESC> inputLayoutDesc,	//インプットレイアウト
 		D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID,	//描画種類
-		D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE
+		D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE,
+		BlendSetting::BlendMode blendMode = BlendSetting::kBlendModeNormal
 	);
-
-public:
-
-	//Create
-	//ルートシグネチャ
 
 	//Getter
 	IDxcUtils* GetDxcUtils() {return dxcUtils_.Get();};
@@ -74,6 +75,7 @@ private:
 private:
 	HRESULT result{};
 	DirectXCommon* dxCommon_ = nullptr;
+	BlendSetting* blendSetting = nullptr;
 
 	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_SOLID;
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE primitiveTopology_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
@@ -108,6 +110,7 @@ private:
 	ComPtr<IDxcBlob> vertexShaderBlob_;
 	ComPtr<IDxcBlob> pixelShaderBlob_;
 	//ブレンドディスク		: PixelShaderからの出力を画面にどのように書き込むか設定する項目
+	BlendSetting::BlendMode blendMode_;
 	D3D12_RENDER_TARGET_BLEND_DESC blendDesc_{};
 	//ラスタライザ			: ラスタライザに対する処理
 	D3D12_RASTERIZER_DESC rasterizerDesc_{};

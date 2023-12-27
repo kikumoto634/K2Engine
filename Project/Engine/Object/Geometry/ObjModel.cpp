@@ -2,9 +2,9 @@
 #include <imgui.h>
 #include "SpriteLoader.h"
 
-ObjModel *ObjModel::Create(std::string filePath, Transform transform)
+ObjModel *ObjModel::Create(std::string filePath, Transform transform, BlendSetting::BlendMode mode)
 {
-	ObjModel *instance = new ObjModel(filePath, transform);
+	ObjModel *instance = new ObjModel(filePath, transform,mode);
 	instance->ObjModelLoad();
 	instance->Initialize(false);
 	instance->ObjModelVertexData();

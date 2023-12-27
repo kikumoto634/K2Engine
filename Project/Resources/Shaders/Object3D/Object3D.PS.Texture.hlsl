@@ -23,11 +23,24 @@ PixelShaderOutput main(VertexShaderOutput input)
     float4 textureColor = gTexture.Sample(gSampler, transformUV.xy); //サンプラー(絵)を基に、UVに応じたピクセルをTexture(ピクセル)に抽出
     
     PixelShaderOutput output;
+    
+
+    if (textureColor.a == 0.0f)
+    {
+        discard;
+    }
+    if (output.color.a == 0.0f)
+    {
+        discard;
+    }
+    
+
     if (gMaterial.enableLighting != 0)
     {
         float NdotL = dot(normalize(input.normal), -lightDirection);
         float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
-        output.color = (gMaterial.color * textureColor) * float4((lightColor.xyz * cos * lightIntensity),1.0f);
+        output.color.rgb = (gMaterial.color.rgb * textureColor.rgb) * (lightColor.xyz * cos * lightIntensity);
+        output.color.a = gMaterial.color.a * textureColor.a;
     }
     else
     {

@@ -32,6 +32,8 @@ void GeometryBase::Initialize(bool isIndexEnable)
 
 void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
 {
+	materialData_->color = color_;
+
 	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * viewProjectionMatrix;
 	wvpData_->WVP = worldViewProjectionMatrix;
 	wvpData_->World = worldViewProjectionMatrix;
@@ -152,7 +154,8 @@ void GeometryBase::PipelineStateInitialize()
 		staticSamplers_,
 		inputElementDesc_,
 		fillMode,
-		pipelinePrimitiveTopology
+		pipelinePrimitiveTopology,
+		blendMode
 	);
 }
 
@@ -186,7 +189,6 @@ void GeometryBase::CreateMaterial()
 	constResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(GeometryMaterial));
 
 	constResource_->Map(0,nullptr,reinterpret_cast<void**>(&materialData_));
-	materialData_->color = color_;
 	materialData_->enableLighting = isLightEnable;
 	materialData_->uvTransform = materialData_->uvTransform.MakeIdentityMatrix();
 }

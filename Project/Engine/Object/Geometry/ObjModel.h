@@ -5,16 +5,18 @@
 class ObjModel : public GeometryBase
 {
 public:
-	static ObjModel* Create(std::string filePath, Transform transform = {{0,0,0}, {0,0,0}, {1,1,1}});
+	static ObjModel* Create(std::string filePath, Transform transform = {{0,0,0}, {0,0,0}, {1,1,1}}, BlendSetting::BlendMode mode = BlendSetting::kBlendModeNormal);
 
 public:
-	ObjModel(std::string filePath, Transform lTransform){
+	ObjModel(std::string filePath, Transform lTransform, BlendSetting::BlendMode mode){
 		name = "cube";
 
 		filePath_ = filePath;
 		translate = lTransform.translate;
 		rotation = lTransform.rotation;
 		scale = lTransform.scale;
+
+		blendMode = mode;
 	}
 public:
 	virtual void Update(){};

@@ -183,6 +183,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Component\DescriptorHeap\DescriptorHeap.cpp" />
     <ClCompile Include="Engine\Component\Global\GlobalSetting.cpp" />
     <ClCompile Include="Engine\Component\Global\GlobalVariables.cpp" />
+    <ClCompile Include="Engine\Component\Pipeline\BlendSetting.cpp" />
     <ClCompile Include="Engine\Component\Pipeline\Pipeline.cpp" />
     <ClCompile Include="Engine\FrameWork\Application.cpp" />
     <ClCompile Include="Engine\FrameWork\FrameWork.cpp" />
@@ -230,6 +231,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Component\DescriptorHeap\DescriptorHeap.h" />
     <ClInclude Include="Engine\Component\Global\GlobalSetting.h" />
     <ClInclude Include="Engine\Component\Global\GlobalVariables.h" />
+    <ClInclude Include="Engine\Component\Pipeline\BlendSetting.h" />
     <ClInclude Include="Engine\Component\Pipeline\Pipeline.h" />
     <ClInclude Include="Engine\Component\Struct\DirectionalLightData.h" />
     <ClInclude Include="Engine\Component\Struct\MaterialData.h" />

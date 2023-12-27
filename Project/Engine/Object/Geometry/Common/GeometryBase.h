@@ -83,7 +83,6 @@ private:
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
 	D3D_PRIMITIVE_TOPOLOGY commandPrimitiveTopology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;				//コマンドリスト
 
-
 protected:
 	const char* name = "";
 
@@ -97,6 +96,8 @@ protected:
 	UINT indexNum_ = 4;
 
 	D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID;	//塗りつぶし
+
+	BlendSetting::BlendMode blendMode = BlendSetting::BlendMode::kBlendModeNormal;
 
 	//パラメータ
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
