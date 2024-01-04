@@ -27,6 +27,8 @@ public:
 		BlendSetting::BlendMode blendMode = BlendSetting::kBlendModeNormal
 	);
 
+	void DepthStencilSet(bool enable = true, D3D12_DEPTH_WRITE_MASK writeMask = D3D12_DEPTH_WRITE_MASK_ALL, D3D12_COMPARISON_FUNC func = D3D12_COMPARISON_FUNC_LESS_EQUAL);
+
 	//Getter
 	IDxcUtils* GetDxcUtils() {return dxcUtils_.Get();};
 	IDxcCompiler3* GetDxcCompiler()	{return dxcCompiler_.Get();}
@@ -38,6 +40,7 @@ public:
 	ID3D12PipelineState* GetGraphicsPipelineState()	{return graphicsPipelineState_.Get();}
 
 
+private:
 	//コンパイルシェーダー
 	static IDxcBlob* CompileShader(
 		//ComplierするShaderファイルパス
@@ -114,6 +117,9 @@ private:
 	D3D12_RENDER_TARGET_BLEND_DESC blendDesc_{};
 	//ラスタライザ			: ラスタライザに対する処理
 	D3D12_RASTERIZER_DESC rasterizerDesc_{};
+
+	//DSVStencil 深度設定
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc_;
 
 	//パイプラインステート
 	ComPtr<ID3D12PipelineState> graphicsPipelineState_;

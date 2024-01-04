@@ -30,7 +30,8 @@ public:
 	}
 
 	void Update();
-	void Draw();
+	void GeometryDraw();
+	void ParticleDraw();
 
 private:
 	void Initialize();

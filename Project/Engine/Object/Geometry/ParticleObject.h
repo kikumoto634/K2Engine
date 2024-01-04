@@ -1,5 +1,6 @@
 #pragma once
 #include "Common/ParticleBase.h"
+#include <random>
 
 class ParticleObject : public ParticleBase
 {
@@ -11,7 +12,7 @@ public:
 		vertNum_ = 4;
 		indexNum_ = 6;
 
-		kNumInstance_ = 10;
+		kNumMaxInstance_ = 10;
 	}
 	void Update();
 
@@ -20,6 +21,8 @@ private:
 
 	void VertexData();
 	void IndexData();
+
+	ParticleData MakeNewParticle(std::mt19937& randomEngine);
 
 private:
 	const float kDeltaTime_ = 1.0f/60.f;

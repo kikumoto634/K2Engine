@@ -57,7 +57,7 @@ void Application::Update()
 	CollisionCheck();
 }
 
-void Application::Draw()
+void Application::GeometryDraw()
 {
 	//シーンオブジェクト
 	levelLoader_->Draw(camera_->GetViewProjectionMatrix());
@@ -66,8 +66,12 @@ void Application::Draw()
 
 	collisionManager_->Draw(camera_->GetViewProjectionMatrix());
 
-	particle_->Draw(camera_->GetViewProjectionMatrix());
 	//sp_->Draw(camera_->GetViewMatrix());
+}
+
+void Application::ParticleDraw()
+{
+	particle_->Draw(camera_->GetViewProjectionMatrix());
 }
 
 void Application::CollisionCheck()

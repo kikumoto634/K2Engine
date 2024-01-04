@@ -81,8 +81,8 @@ void SpriteLoader::LoadTexture(DirectXCommon* dxCommon)
 		srvDesc.Texture2D.MipLevels = UINT(metaData.mipLevels);
 
 		//Heapのハンドル
-		tex.srvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + 2);
-		tex.srvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + 2);
+		tex.srvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + SRVOffset);
+		tex.srvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + SRVOffset);
 
 		//SRV生成
 		dxCommon->GetDevice()->CreateShaderResourceView(resources_[index_].Get(), &srvDesc, tex.srvHandleCPU_);
@@ -93,6 +93,7 @@ void SpriteLoader::LoadTexture(DirectXCommon* dxCommon)
 			(float)resources_[index_]->GetDesc().Width,
 			(float)resources_[index_]->GetDesc().Height
 		};
+		tex.index = index_;
 
 		textures_[index_] = tex;
 
@@ -125,8 +126,8 @@ void SpriteLoader::LoadTexture(DirectXCommon *dxCommon, std::string filePath)
 	srvDesc.Texture2D.MipLevels = UINT(metaData.mipLevels);
 
 	//Heapのハンドル
-	tex.srvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + 1);
-	tex.srvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + 1);
+	tex.srvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + SRVOffset);
+	tex.srvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + SRVOffset);
 
 	//SRV生成
 	dxCommon->GetDevice()->CreateShaderResourceView(resources_[index_].Get(), &srvDesc, tex.srvHandleCPU_);

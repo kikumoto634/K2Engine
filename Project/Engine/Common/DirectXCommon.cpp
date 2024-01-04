@@ -380,12 +380,6 @@ bool DirectXCommon::CreateDSV()
 		D3D12_CPU_DESCRIPTOR_HANDLE dsvHandleCPU = dsvDescriptorHeap_->GetCPUDescriptorHandleForHeapStart();
 		device_->CreateDepthStencilView(depthStencilResource, &dsvDesc, dsvHandleCPU);
 	}
-
-	//DepthStencilState設定
-	depthStencilDesc_.DepthEnable = true;	//Depthの機能を有効化
-	depthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;	//書き込みする
-	depthStencilDesc_.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;	//比較関数はLessEqual  つまり近ければ描画される
-
 	return true;
 }
 #pragma endregion

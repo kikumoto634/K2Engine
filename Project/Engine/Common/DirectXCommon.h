@@ -54,7 +54,6 @@ public:
 	DXGI_SWAP_CHAIN_DESC1 GetSwapChainDesc()	{return swapChainDesc;}
 
 	D3D12_RENDER_TARGET_VIEW_DESC GetRTVDesc()	{return rtvDesc;}
-	D3D12_DEPTH_STENCIL_DESC GetDSVDesc()		{return depthStencilDesc_;}
 
 	D3D12_VIEWPORT GetViewport()	{return viewport_;}
 	D3D12_RECT GetScissorRect()	{return scissorRect_;}
@@ -175,8 +174,6 @@ private:
 	ComPtr<ID3D12Resource> swapChainResources_[SwapChainNum];
 	//RTVは二つ生成するのでディスクリプタハンドルを2つ用意(スワップチェーン用)
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles_[SwapChainNum];
-	//DepthStencilの設定
-	D3D12_DEPTH_STENCIL_DESC depthStencilDesc_;
 
 
 	//フェンス

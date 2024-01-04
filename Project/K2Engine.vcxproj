@@ -239,6 +239,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Component\Struct\MaterialData.h" />
     <ClInclude Include="Engine\Component\Struct\ObjModelData.h" />
     <ClInclude Include="Engine\Component\Struct\ParticleData.h" />
+    <ClInclude Include="Engine\Component\Struct\ParticleForGPUData.h" />
     <ClInclude Include="Engine\Component\Struct\Texture.h" />
     <ClInclude Include="Engine\Component\Struct\TransformationMatrixData.h" />
     <ClInclude Include="Engine\Component\Struct\VertexData.h" />

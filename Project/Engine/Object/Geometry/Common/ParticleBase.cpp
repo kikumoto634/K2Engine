@@ -22,18 +22,24 @@ void ParticleBase::Initialize(bool isIndexEnable)
 	//リソース
 	CreateVertex();
 	CreateIndex();
-	CreateMaterial();
 	CreateWVP();
 }
 
 void ParticleBase::Draw(Matrix4x4 viewProjectionMatrix)
 {
-	materialData_->color = color_;
+	int numInstance = 0;	//描画すべきインスタンス
+	for(int i = 0; i < kNumMaxInstance_; i++){
+		if(particles_[i].lifeTime <= particles_[i].currentTime) continue;
 
-	for(int i = 0; i < kNumInstance_; i++){
 		Matrix4x4 worldViewProjectionMatrix = particles_[i].transform.GetWorldMatrix() * viewProjectionMatrix;
-		wvpData_[i].WVP = worldViewProjectionMatrix;
-		wvpData_[i].World = worldViewProjectionMatrix;
+		particleData_[numInstance].WVP = worldViewProjectionMatrix;
+		particleData_[numInstance].World = worldViewProjectionMatrix;
+
+		float alpha = 1.0f - (particles_[i].currentTime / particles_[i].lifeTime);
+		particleData_[numInstance].color = particles_[i].color;
+		particleData_[numInstance].color.w = alpha;
+
+		numInstance++;
 	}
 
 	//ルートシグネチャ設定 PSOに設定しいているが別途設定が必要
@@ -50,13 +56,11 @@ void ParticleBase::Draw(Matrix4x4 viewProjectionMatrix)
 	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(0, texture_.srvHandleGPU_);
 	//行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
 	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(1,instancingSrvHandleGPU_);
-	//マテリアルのconstBufferの場所を設定
-	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(2, constResource_->GetGPUVirtualAddress());
 
 	//描画
 	isIndexDataEnable_ ? 
-		dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,kNumInstance_,0,0,0) : 
-		dxCommon->GetCommandList()->DrawInstanced(vertNum_,kNumInstance_,0,0);
+		dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,numInstance,0,0,0) : 
+		dxCommon->GetCommandList()->DrawInstanced(vertNum_,numInstance,0,0);
 }
 
 
@@ -93,7 +97,7 @@ void ParticleBase::PipelineStateInitialize()
 	descriptorRangeForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 	//ルートパラメータ設定
-	rootParameters_.resize(3);
+	rootParameters_.resize(2);
 	//SRV(テクスチャ		シェーダでは各ピクセルのことをいう)
 	rootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//DescriptorTableに使用
 	rootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShaderで使用
@@ -104,11 +108,6 @@ void ParticleBase::PipelineStateInitialize()
 	rootParameters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;	//VertexShaderで使用
 	rootParameters_[1].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;
 	rootParameters_[1].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
-	//PS(色)
-	rootParameters_[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
-	rootParameters_[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShader使用
-	rootParameters_[2].Descriptor.ShaderRegister = 0;	//レジスタ番号 b1	
-
 
 	//Sampler設定(シェーダーのPS SamplerState　シェーダでは画像のことをいう)
 	staticSamplers_.resize(1);
@@ -123,7 +122,7 @@ void ParticleBase::PipelineStateInitialize()
 
 	
 	//インプットレイアウト設定(頂点データでシェーダ内に送るデータたちのセマンティック名)
-	inputElementDesc_.resize(3);
+	inputElementDesc_.resize(2);
 	inputElementDesc_[0].SemanticName = "POSITION";							//頂点シェーダーのセマンティック名
 	inputElementDesc_[0].SemanticIndex = 0;									//セマンティック番号
 	inputElementDesc_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;			//float4 型
@@ -137,14 +136,11 @@ void ParticleBase::PipelineStateInitialize()
 	inputElementDesc_[1].Format = DXGI_FORMAT_R32G32_FLOAT;					//float4 型
 	inputElementDesc_[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
-	inputElementDesc_[2].SemanticName = "NORMAL";
-	inputElementDesc_[2].SemanticIndex = 0;
-	inputElementDesc_[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	inputElementDesc_[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
-
 	//生成
 	std::wstring vs = WindowsApp::ConvertString(VSPath_);
 	std::wstring ps = WindowsApp::ConvertString(PSPath_);
+
+	pipeline_->DepthStencilSet(true, D3D12_DEPTH_WRITE_MASK_ZERO);
 	pipeline_->Create(
 		vs,
 		ps,
@@ -181,23 +177,15 @@ void ParticleBase::CreateIndex()
 	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
 }
 
-void ParticleBase::CreateMaterial()
-{
-	constResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(GeometryMaterial));
-
-	constResource_->Map(0,nullptr,reinterpret_cast<void**>(&materialData_));
-	materialData_->enableLighting = false;
-	materialData_->uvTransform = materialData_->uvTransform.MakeIdentityMatrix();
-}
-
 void ParticleBase::CreateWVP()
 {
-	wvpResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(TransformationMatrix)*kNumInstance_);
-	wvpResource_->Map(0, nullptr, reinterpret_cast<void**>(&wvpData_));
+	particleResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(ParticleForGPUData)*kNumMaxInstance_);
+	particleResource_->Map(0, nullptr, reinterpret_cast<void**>(&particleData_));
 	
-	for(int i = 0; i < kNumInstance_; i++){
-		wvpData_[i].WVP = MakeIdentityMatrix();
-		wvpData_[i].World = MakeIdentityMatrix();
+	for(int i = 0; i < kNumMaxInstance_; i++){
+		particleData_[i].WVP = MakeIdentityMatrix();
+		particleData_[i].World = MakeIdentityMatrix();
+		particleData_[i].color = {1,1,1,1};
 	}
 
 	//SRV作成
@@ -207,32 +195,32 @@ void ParticleBase::CreateWVP()
 	instancingSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
 	instancingSrvDesc.Buffer.FirstElement = 0;
 	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	instancingSrvDesc.Buffer.NumElements = kNumInstance_;
-	instancingSrvDesc.Buffer.StructureByteStride = sizeof(TransformationMatrix);
+	instancingSrvDesc.Buffer.NumElements = kNumMaxInstance_;
+	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPUData);
 	instancingSrvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), 1);
 	instancingSrvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), 1);
-	dxCommon->GetDevice()->CreateShaderResourceView(wvpResource_.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
+	dxCommon->GetDevice()->CreateShaderResourceView(particleResource_.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
 }
 
 
 void ParticleBase::ApplyGlobalVariablesInitialize()
 {
 #ifdef _DEBUG
-	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
-	//グループを追加
-	GlobalVariables::GetInstance()->CreateGroup(name_);
-	globalVariables->AddItem(name_, "0.translate", baseParticle_.transform.translate);
-	globalVariables->AddItem(name_, "1.rotate", baseParticle_.transform.rotation);
-	globalVariables->AddItem(name_, "2.scale", baseParticle_.transform.scale);
+	//GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	////グループを追加
+	//GlobalVariables::GetInstance()->CreateGroup(name_);
+	//globalVariables->AddItem(name_, "0.translate", baseParticle_.transform.translate);
+	//globalVariables->AddItem(name_, "1.rotate", baseParticle_.transform.rotation);
+	//globalVariables->AddItem(name_, "2.scale", baseParticle_.transform.scale);
 #endif // _DEBUG
 }
 
 void ParticleBase::ApplyGlobalVariablesUpdate()
 {
 #ifdef _DEBUG
-	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	/*GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	baseParticle_.transform.translate = globalVariables->GetVector3Value(name_, "0.translate");
 	baseParticle_.transform.rotation = globalVariables->GetVector3Value(name_, "1.rotate");
-	baseParticle_.transform.scale = globalVariables->GetVector3Value(name_, "2.scale");
+	baseParticle_.transform.scale = globalVariables->GetVector3Value(name_, "2.scale");*/
 #endif // _DEBUG
 }

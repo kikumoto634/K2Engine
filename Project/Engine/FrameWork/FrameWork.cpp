@@ -50,16 +50,16 @@ void FrameWork::Run()
 		app_->Update();
 
 
-		//描画前
 #ifdef _DEBUG
+
 		ImGuiManager::CreateCommand();
 #endif // _DEBUG
 		dxCommon_->PreDraw();
 
 		//描画
-		app_->Draw();
+		app_->GeometryDraw();
+		app_->ParticleDraw();
 
-		//描画後
 #ifdef _DEBUG
 		ImGuiManager::CommandsExcute(dxCommon_->GetCommandList());
 #endif // _DEBUG

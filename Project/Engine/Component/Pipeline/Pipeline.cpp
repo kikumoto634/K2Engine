@@ -55,6 +55,13 @@ void Pipeline::Create(
 	CreatePipelineStateObject();
 }
 
+void Pipeline::DepthStencilSet(bool enable, D3D12_DEPTH_WRITE_MASK writeMask, D3D12_COMPARISON_FUNC func)
+{
+	depthStencilDesc_.DepthEnable = enable;
+	depthStencilDesc_.DepthWriteMask = writeMask;
+	depthStencilDesc_.DepthFunc = func;
+}
+
 IDxcBlob *Pipeline::CompileShader(const std::wstring &filePath, const wchar_t *profile, IDxcUtils *dxcUtils, IDxcCompiler3 *dxcCompiler, IDxcIncludeHandler *includeHandler)
 {
 	HRESULT result{};
@@ -221,7 +228,7 @@ bool Pipeline::CreatePipelineStateObject()
 	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc_;
 
 	//DepthStencil
-	graphicsPipelineStateDesc.DepthStencilState = dxCommon_->GetDSVDesc();
+	graphicsPipelineStateDesc.DepthStencilState = depthStencilDesc_;
 	graphicsPipelineStateDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
 	//VS, PS Blob

@@ -9,8 +9,8 @@
 #include "Texture.h"
 #include "VertexData.h"
 #include "MaterialData.h"
-#include "TransformationMatrixData.h"
 #include "ParticleData.h"
+#include "ParticleForGPUData.h"
 
 class ParticleBase
 {
@@ -40,8 +40,6 @@ protected:
 	virtual void CreateVertex();
 	//インデックスリソース/ビュー
 	virtual void CreateIndex();
-	//定数リソース/ビュー
-	virtual void CreateMaterial();
 	//行列リソース/ビュー
 	virtual void CreateWVP();
 
@@ -66,11 +64,8 @@ protected:
 	ComPtr<ID3D12Resource> indexResource_;
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_;
 
-	ComPtr<ID3D12Resource> constResource_;		//定数
-	GeometryMaterial* materialData_ = nullptr;
-
-	ComPtr<ID3D12Resource> wvpResource_;		//行列
-	TransformationMatrix* wvpData_ = nullptr;
+	ComPtr<ID3D12Resource> particleResource_;		//行列
+	ParticleForGPUData* particleData_ = nullptr;
 
 	//描画方法
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
@@ -93,14 +88,11 @@ protected:
 
 	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_SOLID;	//塗りつぶし
 
-	BlendSetting::BlendMode blendMode_ = BlendSetting::BlendMode::kBlendModeNormal;
+	BlendSetting::BlendMode blendMode_ = BlendSetting::BlendMode::kBlendModeAdd;
 
 	//パラメータ
-	int kNumInstance_ = 10;
+	int kNumMaxInstance_ = 10;
 	vector<ParticleData> particles_;
-	ParticleData baseParticle_ = {{{0,0,0},{0,0,0},{1,1,1}}, {0,0,0}};
-
-	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 
 	std::string texturePath_ = "uvChecker.png";
 

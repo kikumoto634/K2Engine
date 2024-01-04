@@ -83,6 +83,8 @@ void GeometryBaseCollider::PipelineStateInitialize()
 	//生成
 	std::wstring vs = WindowsApp::ConvertString(VSPath_);
 	std::wstring ps = WindowsApp::ConvertString(PSPath_);
+
+	pipeline_->DepthStencilSet();
 	pipeline_->Create(
 		vs,
 		ps,
