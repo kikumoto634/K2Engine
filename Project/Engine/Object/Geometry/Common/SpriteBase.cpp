@@ -13,6 +13,7 @@ void SpriteBase::Initialize(bool isIndexEnable)
 	dxCommon = DirectXCommon::GetInstance();
 
 	texture_ = SpriteLoader::SearchTexture(texturePath_);
+	textureSize_ = texture_.size;
 
 	//パイプライン
 	pipeline_ = new Pipeline();
@@ -25,12 +26,10 @@ void SpriteBase::Initialize(bool isIndexEnable)
 	CreateWVP();
 }
 
-void SpriteBase::Draw(Matrix4x4 viewProjectionMatrix)
+void SpriteBase::Draw(Matrix4x4 viewMatrix)
 {
-	Matrix4x4 worldMatrixSprite = MakeAffineMatrix(scale, rotation, translate);
-	Matrix4x4 viewMatrixSprite = MakeIdentityMatrix();
 	Matrix4x4 projectionMatrixSprite = MakeOrthographicMatrix(0.0f,0.0f, (float)WindowsApp::kWindowWidth_,(float)WindowsApp::kWindowHeight_, 0.0f,100.0f);
-	Matrix4x4 worldViewProjectionMatrixSprite = worldMatrixSprite * (viewMatrixSprite*projectionMatrixSprite);
+	Matrix4x4 worldViewProjectionMatrixSprite = GetWorldMatrix() * (viewMatrix*projectionMatrixSprite);
 	wvpData_->WVP = worldViewProjectionMatrixSprite;
 	wvpData_->World = worldViewProjectionMatrixSprite;
 

@@ -22,7 +22,7 @@ public:
 	~SpriteBase(){
 		delete pipeline_;
 	}
-	void Draw(Matrix4x4 viewProjectionMatrix);
+	void Draw(Matrix4x4 viewMatrix);
 
 protected:
 	//初期化
@@ -81,6 +81,7 @@ protected:
 		{0.0f, 0.0f, 0.0f},
 		{1.0f, 1.0f, 1.0f},
 	};
+	Vector2 textureSize_{};
 
 	//頂点データ
 	VertexData* vertData_ = nullptr;

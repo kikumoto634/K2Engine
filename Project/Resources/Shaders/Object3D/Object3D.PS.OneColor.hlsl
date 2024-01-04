@@ -6,7 +6,7 @@ struct Material
     int enableLighting;
     float4x4 uvTransform;
 };
-ConstantBuffer<Material> gMaterial : register(b2);
+ConstantBuffer<Material> gMaterial : register(b1);
 
 
 struct PixelShaderOutput

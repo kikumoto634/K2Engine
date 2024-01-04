@@ -155,8 +155,6 @@ void Player::Move()
 	matRot *= MakeRotationYMatrix(FollowCamera::GetInstance()->rotation.y);
 	velocity = Multiplication(velocity, matRot);
 
-	if(velocity == Vector3{0,0,0}) return;
-
 	//回転
 	rotation.y = std::atan2(velocity.x, velocity.z);
 	//Vector3 velocityXZ = Vector3{move.x, 0, move.z};

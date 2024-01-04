@@ -229,6 +229,9 @@
     <Filter Include="リソース ファイル\Shader\Collider">
       <UniqueIdentifier>{dae3f13e-b770-4308-b04c-57d855ec6d38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shader\Particle">
+      <UniqueIdentifier>{6c0a51fd-82d2-4272-92c7-9bc5da95718e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -367,7 +370,13 @@
       <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Component\Pipeline\BlendSetting.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Engine\Component\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\ParticleObject.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\Common\ParticleBase.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -525,7 +534,13 @@
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Component\Pipeline\BlendSetting.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Engine\Component\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\ParticleObject.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Common\ParticleBase.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -550,6 +565,12 @@
     <FxCompile Include="Resources\Shaders\Collider\Collider.PS.hlsl">
       <Filter>リソース ファイル\Shader\Collider</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\Shaders\Particle\Particle.VS.hlsl">
+      <Filter>リソース ファイル\Shader\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Particle\Particle.PS.hlsl">
+      <Filter>リソース ファイル\Shader\Particle</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="External\imgui\LICENSE.txt">
@@ -562,6 +583,9 @@
     </None>
     <None Include="Resources\Shaders\Sprite\Sprite.hlsli">
       <Filter>リソース ファイル\Shader\Sprite</Filter>
+    </None>
+    <None Include="Resources\Shaders\Particle\Particle.hlsli">
+      <Filter>リソース ファイル\Shader\Particle</Filter>
     </None>
   </ItemGroup>
 </Project>

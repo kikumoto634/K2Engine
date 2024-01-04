@@ -43,16 +43,17 @@ private:
 	//パイプライン
 	void PipelineStateInitialize();
 
+protected:
 	//頂点リソース/ビュー
-	void CreateVertex();
+	virtual void CreateVertex();
 	//インデックスリソース/ビュー
-	void CreateIndex();
+	virtual void CreateIndex();
 	//定数リソース/ビュー
-	void CreateMaterial();
+	virtual void CreateMaterial();
 	//行列リソース/ビュー
-	void CreateWVP();
+	virtual void CreateWVP();
 
-private:
+protected:
 	//Instance
 	DirectXCommon* dxCommon = nullptr;
 

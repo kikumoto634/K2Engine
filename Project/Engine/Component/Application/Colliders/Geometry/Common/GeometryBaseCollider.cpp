@@ -54,10 +54,10 @@ void GeometryBaseCollider::PipelineStateInitialize()
 	//現在
 	//DescriptorHeap (Index / 対象名)
 	// 0 / ImGui
-	// 1~x / SRV(Texture)
-	// 2+x / CSV(ALL)
+	// 1~x / SRV(ParticleMatrix)
+	// 2~x / SRV(Texture)
 	// 3+x / CSV(VERTEX)
-	// 4+x / CSV(PIXEL)
+	// 3+x / CSV(VERTEX)
 	//ルートパラメータ設定
 	rootParameters_.resize(2);
 	//VS(行列)

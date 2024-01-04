@@ -13,6 +13,8 @@ public:
 
 		vertNum_ = 4;
 		indexNum_ = 6;
+		
+		texturePath_ = "uvChecker.png";
 	}
 	void Update();
 

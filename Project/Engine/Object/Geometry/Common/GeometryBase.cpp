@@ -19,7 +19,6 @@ void GeometryBase::Initialize(bool isIndexEnable)
 
 	//パイプライン
 	pipeline_ = new Pipeline();
-	//shadowPipeline_ = new ShadowPipeline();
 	PipelineStateInitialize();	//パイプライン初期化
 
 	//リソース
@@ -78,10 +77,11 @@ void GeometryBase::PipelineStateInitialize()
 	//現在
 	//DescriptorHeap (Index / 対象名)
 	// 0 / ImGui
-	// 1~x / SRV(Texture)
-	// 2+x / CSV(ALL)
-	// 3+x / CSV(VERTEX)
-	// 4+x / CSV(PIXEL)
+	// 1~x / SRV(ParticleMatrix)
+	// 2~x / SRV(Texture)
+	// 3+x / CSV(ALL)
+	// 4+x / CSV(VERTEX)
+	// 5+x / CSV(PIXEL)
 
 	//SRV(Texture)
 	D3D12_DESCRIPTOR_RANGE SRVDescriptorRange[1] = {};
@@ -104,12 +104,12 @@ void GeometryBase::PipelineStateInitialize()
 	//※RegisterとはShader上でのResource配置場所の情報　bというのは(ConstantBuffer)を意味
 	//VS(行列)
 	rootParameters_[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
-	rootParameters_[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//VertexShaderで使用
-	rootParameters_[2].Descriptor.ShaderRegister = 1;	//レジスタ番号 b1
+	rootParameters_[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;	//VertexShaderで使用
+	rootParameters_[2].Descriptor.ShaderRegister = 1;	//レジスタ番号 b0
 	//PS(色)
 	rootParameters_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
 	rootParameters_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShader使用
-	rootParameters_[3].Descriptor.ShaderRegister = 2;	//レジスタ番号 b1	
+	rootParameters_[3].Descriptor.ShaderRegister = 1;	//レジスタ番号 b1	
 
 
 	//Sampler設定(シェーダーのPS SamplerState　シェーダでは画像のことをいう)

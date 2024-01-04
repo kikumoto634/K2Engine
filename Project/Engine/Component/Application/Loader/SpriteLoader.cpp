@@ -81,15 +81,18 @@ void SpriteLoader::LoadTexture(DirectXCommon* dxCommon)
 		srvDesc.Texture2D.MipLevels = UINT(metaData.mipLevels);
 
 		//Heapのハンドル
-		tex.srvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + 1);
-		tex.srvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + 1);
+		tex.srvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + 2);
+		tex.srvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), index_ + 2);
 
 		//SRV生成
 		dxCommon->GetDevice()->CreateShaderResourceView(resources_[index_].Get(), &srvDesc, tex.srvHandleCPU_);
 
 		tex.name = str;
 		tex.filePath = fullPath;
-		tex.index = index_;
+		tex.size = {
+			(float)resources_[index_]->GetDesc().Width,
+			(float)resources_[index_]->GetDesc().Height
+		};
 
 		textures_[index_] = tex;
 
@@ -131,6 +134,8 @@ void SpriteLoader::LoadTexture(DirectXCommon *dxCommon, std::string filePath)
 	tex.name = filePath;
 	tex.filePath = fullPath;
 	tex.index = index_;
+
+	tex.size = {(float)metaData.width, (float)metaData.height};
 
 	textures_[index_] = tex;
 
@@ -177,7 +182,6 @@ ScratchImage SpriteLoader::Load(const std::string &filePath, DirectX::TexMetadat
 	}
 
 	metaData.format = MakeSRGB(metaData.format);
-
 	return image;
 }
 

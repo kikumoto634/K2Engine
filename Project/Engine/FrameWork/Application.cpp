@@ -30,10 +30,14 @@ void Application::Initialize()
 
 	box = ObjModel::Create("fence", {{0,0,0},{0,0,0},{1,1,1}}, BlendSetting::kBlendModeNone);
 	box->translate = {-5.f,0,0};
+	box->rotation = DegreesToRadians({0,180.f,0});
 	box->scale = {0.8f,0.8f,0.8f};
 
 
 	collisionManager_ = std::make_unique<CollisionManager>();
+
+	particle = ParticleObject::Create();
+	//sp_ = Sprite2D::Create();
 }
 
 void Application::Update()
@@ -44,6 +48,8 @@ void Application::Update()
 
 
 	box->Update();
+	particle->Update();
+	//sp_->Update();
 
 	camera_->Update(player->translate);
 	light_->Update();
@@ -59,6 +65,9 @@ void Application::Draw()
 	box->Draw(camera_->GetViewProjectionMatrix());
 
 	collisionManager_->Draw(camera_->GetViewProjectionMatrix());
+
+	particle->Draw(camera_->GetViewProjectionMatrix());
+	//sp_->Draw(camera_->GetViewMatrix());
 }
 
 void Application::CollisionCheck()

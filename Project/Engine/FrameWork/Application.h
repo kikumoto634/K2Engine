@@ -16,6 +16,8 @@
 
 #include "CollisionManager.h"
 
+#include "Geometry/ParticleObject.h"
+
 class Application
 {
 public:
@@ -23,9 +25,8 @@ public:
 
 public:
 	~Application(){
-
-		//シーンオブジェクト
-
+		delete camera_;
+		delete light_;
 	}
 
 	void Update();
@@ -46,5 +47,8 @@ private:
 	ObjModel* box = nullptr;
 
 	std::unique_ptr<CollisionManager> collisionManager_;
+
+	ParticleObject* particle = nullptr;
+	Sprite2D* sp_ = nullptr;
 };
 

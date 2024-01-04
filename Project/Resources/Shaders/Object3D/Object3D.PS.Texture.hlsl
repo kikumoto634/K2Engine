@@ -6,7 +6,7 @@ struct Material
     int enableLighting;
     float4x4 uvTransform;
 };
-ConstantBuffer<Material> gMaterial : register(b2);
+ConstantBuffer<Material> gMaterial : register(b1);
 
 
 Texture2D<float4> gTexture : register(t0); //SRVのレジスタ
