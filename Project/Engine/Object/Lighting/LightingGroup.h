@@ -43,5 +43,5 @@ private:
 	DirectionalLightData* data_ = nullptr;		//構造体
 
 	Vector4 lightColor_ = {1,1,1,1};
-	float lightIntensity = 1.0f;
+	float lightIntensity_ = 1.0f;
 };

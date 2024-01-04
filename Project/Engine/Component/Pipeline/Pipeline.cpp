@@ -120,14 +120,14 @@ IDxcBlob *Pipeline::CompileShader(const std::wstring &filePath, const wchar_t *p
 #pragma region レンダリングパイプラインステート関連
 bool Pipeline::CreateDXCCompiler()
 {
-	result = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils_));
-	assert(SUCCEEDED(result));
-	result = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler_));
-	assert(SUCCEEDED(result));
+	result_ = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils_));
+	assert(SUCCEEDED(result_));
+	result_ = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler_));
+	assert(SUCCEEDED(result_));
 
 	//現時点でのincludeはしないが、includeに対応するための設定を行う
-	result = dxcUtils_->CreateDefaultIncludeHandler(&includeHandler_);
-	assert(SUCCEEDED(result));
+	result_ = dxcUtils_->CreateDefaultIncludeHandler(&includeHandler_);
+	assert(SUCCEEDED(result_));
 
 	return true;
 }
@@ -152,16 +152,16 @@ bool Pipeline::CreateRootSignature()
 	//シリアライズとしてバイナリにする
 	ID3D10Blob* signatureBlob = nullptr;
 	ID3D10Blob* errorBlob = nullptr;
-	result = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
-	if(FAILED(result)){
+	result_ = D3D12SerializeRootSignature(&descriptionRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
+	if(FAILED(result_)){
 		WindowsApp::Log(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
 		assert(false);
 	}
 	
 	//バイナリをもとに作成
-	result = dxCommon_->GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
+	result_ = dxCommon_->GetDevice()->CreateRootSignature(0, signatureBlob->GetBufferPointer(),
 		signatureBlob->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
-	assert(SUCCEEDED(result));
+	assert(SUCCEEDED(result_));
 
 	return true;
 }
@@ -181,9 +181,9 @@ bool Pipeline::CreateBlendState()
 {
 	//PixelShaderからの出力を画面にどのように書き込むか設定する項目
 
-	blendSetting = BlendSetting::GetInstance();
-	blendSetting->BlendSet(blendMode_);
-	blendDesc_ = blendSetting->GetBlendDesc();
+	blendSetting_ = BlendSetting::GetInstance();
+	blendSetting_->BlendSet(blendMode_);
+	blendDesc_ = blendSetting_->GetBlendDesc();
 
 	return true;
 }
@@ -204,9 +204,9 @@ bool Pipeline::LoadShader()
 {
 	//シェーダの読み込み
 	vertexShaderBlob_ = CompileShader(VSpath_, VSVersion_, dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
-	assert(SUCCEEDED(result));
+	assert(SUCCEEDED(result_));
 	pixelShaderBlob_ = CompileShader(PSPath_, PSVersion_, dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
-	assert(SUCCEEDED(result));
+	assert(SUCCEEDED(result_));
 
 	return true;
 }
@@ -247,8 +247,8 @@ bool Pipeline::CreatePipelineStateObject()
 	graphicsPipelineStateDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 
 	//生成
-	result = dxCommon_->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicsPipelineState_));
-	assert(SUCCEEDED(result));
+	result_ = dxCommon_->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc, IID_PPV_ARGS(&graphicsPipelineState_));
+	assert(SUCCEEDED(result_));
 
 	return true;
 }

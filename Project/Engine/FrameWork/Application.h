@@ -43,12 +43,12 @@ private:
 
 	//シーンオブジェクト
 	std::unique_ptr<LevelLoader> levelLoader_;
-	std::unique_ptr<Player> player;
-	ObjModel* box = nullptr;
+	std::unique_ptr<Player> player_;
+	ObjModel* box_ = nullptr;
 
 	std::unique_ptr<CollisionManager> collisionManager_;
 
-	ParticleObject* particle = nullptr;
+	ParticleObject* particle_ = nullptr;
 	Sprite2D* sp_ = nullptr;
 };
 

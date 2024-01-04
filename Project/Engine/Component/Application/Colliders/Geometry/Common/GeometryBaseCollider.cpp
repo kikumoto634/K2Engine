@@ -28,7 +28,7 @@ void GeometryBaseCollider::Draw(Matrix4x4 viewProjectionMatrix)
 	dxCommon->GetCommandList()->IASetIndexBuffer(&indexBufferView_);		//IBV設定
 
 	//形状設定、PSOに設定しているのとは別
-	dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology);
+	dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology_);
 
 	//行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(0, wvpResource_->GetGPUVirtualAddress());
@@ -89,8 +89,8 @@ void GeometryBaseCollider::PipelineStateInitialize()
 		rootParameters_,
 		{},
 		inputElementDesc_,
-		fillMode,
-		pipelinePrimitiveTopology
+		fillMode_,
+		pipelinePrimitiveTopology_
 	);
 }
 

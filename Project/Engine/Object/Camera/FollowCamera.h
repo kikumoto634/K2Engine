@@ -40,14 +40,14 @@ private:
 	static FollowCamera* instance_;
 
 private:
-	Matrix4x4 viewMatrix;
-	Matrix4x4 projectionMatrix;
+	Matrix4x4 viewMatrix_;
+	Matrix4x4 projectionMatrix_;
 
-	Matrix4x4 viewProjectionMatrix;
+	Matrix4x4 viewProjectionMatrix_;
 
 	float aspect_ = 0.45f;
 	float speed_ = 0.01f;
-	Vector2 RotMinMax = {-45.f,45.f};
+	Vector2 RotMinMax_ = {-45.f,45.f};
 
 	Vector3 target_{};
 

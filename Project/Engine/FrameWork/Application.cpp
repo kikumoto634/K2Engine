@@ -24,19 +24,19 @@ void Application::Initialize()
 	levelLoader_->Load("levelSample");
 	levelLoader_->Initialize();
 
-	player = std::make_unique<Player>("cube");
-	player.get()->translate = {0,0,0};
-	player.get()->scale = {0.8f,0.8f,0.8f};
+	player_ = std::make_unique<Player>("cube");
+	player_.get()->translate = {0,0,0};
+	player_.get()->scale = {0.8f,0.8f,0.8f};
 
-	box = ObjModel::Create("fence", {{0,0,0},{0,0,0},{1,1,1}}, BlendSetting::kBlendModeNone);
-	box->translate = {-5.f,0,0};
-	box->rotation = DegreesToRadians({0,180.f,0});
-	box->scale = {0.8f,0.8f,0.8f};
+	box_ = ObjModel::Create("fence", {{0,0,0},{0,0,0},{1,1,1}}, BlendSetting::kBlendModeNone);
+	box_->translate = {-5.f,0,0};
+	box_->rotation = DegreesToRadians({0,180.f,0});
+	box_->scale = {0.8f,0.8f,0.8f};
 
 
 	collisionManager_ = std::make_unique<CollisionManager>();
 
-	particle = ParticleObject::Create();
+	particle_ = ParticleObject::Create();
 	//sp_ = Sprite2D::Create();
 }
 
@@ -44,14 +44,14 @@ void Application::Update()
 {
 	//シーンオブジェクト
 	levelLoader_->Update();
-	player->Update();
+	player_->Update();
 
 
-	box->Update();
-	particle->Update();
+	box_->Update();
+	particle_->Update();
 	//sp_->Update();
 
-	camera_->Update(player->translate);
+	camera_->Update(player_->translate);
 	light_->Update();
 
 	CollisionCheck();
@@ -61,12 +61,12 @@ void Application::Draw()
 {
 	//シーンオブジェクト
 	levelLoader_->Draw(camera_->GetViewProjectionMatrix());
-	player->Draw(camera_->GetViewProjectionMatrix());
-	box->Draw(camera_->GetViewProjectionMatrix());
+	player_->Draw(camera_->GetViewProjectionMatrix());
+	box_->Draw(camera_->GetViewProjectionMatrix());
 
 	collisionManager_->Draw(camera_->GetViewProjectionMatrix());
 
-	particle->Draw(camera_->GetViewProjectionMatrix());
+	particle_->Draw(camera_->GetViewProjectionMatrix());
 	//sp_->Draw(camera_->GetViewMatrix());
 }
 
@@ -74,8 +74,8 @@ void Application::CollisionCheck()
 {
 	collisionManager_->Reset();
 
-	collisionManager_->AddCollider(player.get());
-	collisionManager_->AddCollider(box);
+	collisionManager_->AddCollider(player_.get());
+	collisionManager_->AddCollider(box_);
 
 	collisionManager_->Update();
 	collisionManager_->CheckAllCollisions();

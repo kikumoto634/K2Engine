@@ -8,8 +8,8 @@ using namespace DirectX;
 using namespace Microsoft::WRL;
 using namespace std;
 
-string SpriteLoader::basePath = "Resources/";
-vector<string> SpriteLoader::files = {};
+string SpriteLoader::basePath_ = "Resources/";
+vector<string> SpriteLoader::files_ = {};
 
 array<ComPtr<ID3D12Resource>, SpriteLoader::kMaxSRVCount> SpriteLoader::resources_ = {};
 uint32_t SpriteLoader::index_ = 0;
@@ -20,7 +20,7 @@ std::vector<std::string> SpriteLoader::getImageName()
 {
 	HANDLE hFind;
 	WIN32_FIND_DATA win32d;
-	std::string dir_name = "./"+basePath;
+	std::string dir_name = "./"+basePath_;
 	std::vector<std::wstring> filaNames;
 
 	//.png, .jpgの拡張子のみ読み込む
@@ -60,14 +60,14 @@ void SpriteLoader::LoadTexture(DirectXCommon* dxCommon)
 		assert(0);
 	}
 
-	files = getImageName();
+	files_ = getImageName();
 
-	for(auto str : files){
+	for(auto str : files_){
 		Texture tex;
 		DirectX::TexMetadata metaData;
 		DirectX::ScratchImage mipImages;
 	
-		const string fullPath = basePath + str;
+		const string fullPath = basePath_ + str;
 
 		mipImages = Load(fullPath, metaData);
 		resources_[index_] = CreateTextureResource(dxCommon->GetDevice(), metaData);
@@ -111,7 +111,7 @@ void SpriteLoader::LoadTexture(DirectXCommon *dxCommon, std::string filePath)
 	DirectX::TexMetadata metaData;
 	DirectX::ScratchImage mipImages;
 	
-	const string fullPath = basePath + filePath;
+	const string fullPath = basePath_ + filePath;
 
 	mipImages = Load(fullPath, metaData);
 	resources_[index_] = CreateTextureResource(dxCommon->GetDevice(), metaData);

@@ -15,12 +15,12 @@ public:
 
 	//Getter/Setter
 	virtual Vector3 GetColliderCenterPos()	const = 0;
-	float GetRadius()	{return radius;}
+	float GetRadius()	{return radius_;}
 
-	void SetRadius(float r)	{radius = r;}
+	void SetRadius(float r)	{radius_ = r;}
 
 private:
-	GeometryBaseCollider* colliderModel = nullptr;
-	float radius = 1.0f;
+	GeometryBaseCollider* colliderModel_ = nullptr;
+	float radius_ = 1.0f;
 };
 

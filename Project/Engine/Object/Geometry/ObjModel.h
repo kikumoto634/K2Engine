@@ -9,14 +9,14 @@ public:
 
 public:
 	ObjModel(std::string filePath, Transform lTransform, BlendSetting::BlendMode mode){
-		name = "cube";
+		name_ = "cube";
 
 		filePath_ = filePath;
 		translate = lTransform.translate;
 		rotation = lTransform.rotation;
 		scale = lTransform.scale;
 
-		blendMode = mode;
+		blendMode_ = mode;
 	}
 public:
 	virtual void Update(){};

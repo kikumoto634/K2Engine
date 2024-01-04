@@ -7,15 +7,15 @@
 #define PI 3.14159265f
 
 
-const std::string LevelLoader::kDefaultBaseDirectory = "Resources/Levels/";
-const std::string LevelLoader::kExtension = ".json";
+const std::string LevelLoader::kDefaultBaseDirectory_ = "Resources/Levels/";
+const std::string LevelLoader::kExtension_ = ".json";
 
-LevelLoader::LevelData* LevelLoader::levelDatas = nullptr;
-std::vector<ObjModel*> LevelLoader::objects;
+LevelLoader::LevelData* LevelLoader::levelDatas_ = nullptr;
+std::vector<ObjModel*> LevelLoader::objects_;
 
 void LevelLoader::Load(const std::string &filename)
 {
-	const std::string fullpath = kDefaultBaseDirectory + filename + kExtension;
+	const std::string fullpath = kDefaultBaseDirectory_ + filename + kExtension_;
 
 	std::ifstream file{};
 
@@ -52,28 +52,28 @@ void LevelLoader::Load(const std::string &filename)
 		//種類ごとの処理
 		if(type.compare("MESH") == 0){
 			//要素追加
-			levelData->objects.emplace_back(LevelData::ObjectData{});
+			levelData->objects_.emplace_back(LevelData::ObjectData{});
 			//今追加した要素の参照を得る
-			LevelData::ObjectData& objectData = levelData->objects.back();
+			LevelData::ObjectData& objectData = levelData->objects_.back();
 
 			if(object.contains("file_name")){
 				//ファイル名
-				objectData.fileName = object["file_name"];
+				objectData.fileName_ = object["file_name"];
 
 				//トランスフォームのパラメータ読み込み
 				nlohmann::json& transform = object["transform"];
 				//平行移動
-				objectData.transform.translate.x = -(float)transform["translation"][0];
-				objectData.transform.translate.y = (float)transform["translation"][2];
-				objectData.transform.translate.z = -(float)transform["translation"][1];
+				objectData.transform_.translate.x = -(float)transform["translation"][0];
+				objectData.transform_.translate.y = (float)transform["translation"][2];
+				objectData.transform_.translate.z = -(float)transform["translation"][1];
 				//回転角
-				objectData.transform.rotation.x = (float)transform["rotation"][0]*(180.f/PI) - 90*(PI/180.f);
-				objectData.transform.rotation.y = (float)transform["rotation"][2]*(180.f/PI);
-				objectData.transform.rotation.z = (float)transform["rotation"][1]*(180.f/PI);
+				objectData.transform_.rotation.x = (float)transform["rotation"][0]*(180.f/PI) - 90*(PI/180.f);
+				objectData.transform_.rotation.y = (float)transform["rotation"][2]*(180.f/PI);
+				objectData.transform_.rotation.z = (float)transform["rotation"][1]*(180.f/PI);
 				//スケーリング
-				objectData.transform.scale.x = (float)transform["scaling"][0];
-				objectData.transform.scale.y = (float)transform["scaling"][1];
-				objectData.transform.scale.z = (float)transform["scaling"][2];
+				objectData.transform_.scale.x = (float)transform["scaling"][0];
+				objectData.transform_.scale.y = (float)transform["scaling"][1];
+				objectData.transform_.scale.z = (float)transform["scaling"][2];
 
 				//コライダーのパラメータ読み込み
 			}
@@ -87,23 +87,23 @@ void LevelLoader::Load(const std::string &filename)
 	}
 
 	//return levelData;
-	levelDatas = levelData;
+	levelDatas_ = levelData;
 }
 
 void LevelLoader::Initialize()
 {
 	//レベルデータからオブジェクトを生成
-	for(auto& objectData : levelDatas->objects){
-		ObjModel* model = ObjModel::Create(objectData.fileName, objectData.transform);
+	for(auto& objectData : levelDatas_->objects_){
+		ObjModel* model = ObjModel::Create(objectData.fileName_, objectData.transform_);
 		//配列に登録
-		objects.push_back(model);
+		objects_.push_back(model);
 	}
 }
 
 void LevelLoader::Update()
 {
 	//レベルデータからオブジェクトを更新
-	for(auto& obj : objects){
+	for(auto& obj : objects_){
 		obj->Update();
 	}
 }
@@ -111,7 +111,7 @@ void LevelLoader::Update()
 void LevelLoader::Draw(const Matrix4x4 &viewProjectionMatrix)
 {
 	//レベルデータからオブジェクトを更新
-	for(auto& obj : objects){
+	for(auto& obj : objects_){
 		obj->Draw(viewProjectionMatrix);
 	}
 }

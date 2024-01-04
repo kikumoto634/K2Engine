@@ -17,9 +17,9 @@ void Sprite2D::Update()
 	ImGui::DragFloat3("Rot", &rotation.x, 1.0f);
 	ImGui::DragFloat3("Scale", &scale.x, 1.0f);
 
-	ImGui::DragFloat2("UVTranslate", &uvTransformSprite.translate.x, 0.01f, -10.f, 10.f);
-	ImGui::DragFloat2("UVScale", &uvTransformSprite.scale.x, 0.01f,-10.f,10.f);
-	ImGui::SliderAngle("UVRotate", &uvTransformSprite.rotation.z);
+	ImGui::DragFloat2("UVTranslate", &uvTransformSprite_.translate.x, 0.01f, -10.f, 10.f);
+	ImGui::DragFloat2("UVScale", &uvTransformSprite_.scale.x, 0.01f,-10.f,10.f);
+	ImGui::SliderAngle("UVRotate", &uvTransformSprite_.rotation.z);
 }
 
 void Sprite2D::Sprite2DVertexData()

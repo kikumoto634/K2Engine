@@ -10,6 +10,7 @@
 #include "VertexData.h"
 #include "MaterialData.h"
 #include "TransformationMatrixData.h"
+#include "ParticleData.h"
 
 class ParticleBase
 {
@@ -72,11 +73,11 @@ protected:
 	TransformationMatrix* wvpData_ = nullptr;
 
 	//描画方法
-	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
-	D3D_PRIMITIVE_TOPOLOGY commandPrimitiveTopology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;				//コマンドリスト
+	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
+	D3D_PRIMITIVE_TOPOLOGY commandPrimitiveTopology_ = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;				//コマンドリスト
 
 protected:
-	const char* name = "";
+	const char* name_ = "";
 
 	//頂点データ
 	VertexData* vertData_ = nullptr;
@@ -87,17 +88,17 @@ protected:
 	uint32_t* indexData_ = nullptr;
 	UINT indexNum_ = 4;
 
-	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU;
-	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU;
+	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_;
+	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_;
 
-	D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID;	//塗りつぶし
+	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_SOLID;	//塗りつぶし
 
-	BlendSetting::BlendMode blendMode = BlendSetting::BlendMode::kBlendModeNormal;
+	BlendSetting::BlendMode blendMode_ = BlendSetting::BlendMode::kBlendModeNormal;
 
 	//パラメータ
-	int kNumInstance = 10;
-	vector<Transform> transforms;
-	Transform baseTransform = {{0,0,0},{0,0,0},{1,1,1}};
+	int kNumInstance_ = 10;
+	vector<ParticleData> particles_;
+	ParticleData baseParticle_ = {{{0,0,0},{0,0,0},{1,1,1}}, {0,0,0}};
 
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 

@@ -45,7 +45,7 @@ void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
 	if(isIndexDataEnable_)dxCommon->GetCommandList()->IASetIndexBuffer(&indexBufferView_);		//IBV設定
 
 	//形状設定、PSOに設定しているのとは別
-	dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology);
+	dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology_);
 
 
 	//SRV(テクスチャ)のDescriptorTableの先頭を設定 2はRootParamterのインデックスRootParamter[2]
@@ -153,9 +153,9 @@ void GeometryBase::PipelineStateInitialize()
 		rootParameters_,
 		staticSamplers_,
 		inputElementDesc_,
-		fillMode,
-		pipelinePrimitiveTopology,
-		blendMode
+		fillMode_,
+		pipelinePrimitiveTopology_,
+		blendMode_
 	);
 }
 
@@ -189,7 +189,7 @@ void GeometryBase::CreateMaterial()
 	constResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(GeometryMaterial));
 
 	constResource_->Map(0,nullptr,reinterpret_cast<void**>(&materialData_));
-	materialData_->enableLighting = isLightEnable;
+	materialData_->enableLighting = isLightEnable_;
 	materialData_->uvTransform = materialData_->uvTransform.MakeIdentityMatrix();
 }
 
@@ -209,10 +209,10 @@ void GeometryBase::ApplyGlobalVariablesInitialize()
 #ifdef _DEBUG
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	//グループを追加
-	GlobalVariables::GetInstance()->CreateGroup(name);
-	globalVariables->AddItem(name, "0.translate", translate);
-	globalVariables->AddItem(name, "1.rotate", rotation);
-	globalVariables->AddItem(name, "2.scale", scale);
+	GlobalVariables::GetInstance()->CreateGroup(name_);
+	globalVariables->AddItem(name_, "0.translate", translate);
+	globalVariables->AddItem(name_, "1.rotate", rotation);
+	globalVariables->AddItem(name_, "2.scale", scale);
 #endif // _DEBUG
 }
 
@@ -220,8 +220,8 @@ void GeometryBase::ApplyGlobalVariablesUpdate()
 {
 #ifdef _DEBUG
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
-	translate = globalVariables->GetVector3Value(name, "0.translate");
-	rotation = globalVariables->GetVector3Value(name, "1.rotate");
-	scale = globalVariables->GetVector3Value(name, "2.scale");
+	translate = globalVariables->GetVector3Value(name_, "0.translate");
+	rotation = globalVariables->GetVector3Value(name_, "1.rotate");
+	scale = globalVariables->GetVector3Value(name_, "2.scale");
 #endif // _DEBUG
 }

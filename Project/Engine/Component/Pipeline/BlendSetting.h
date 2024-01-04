@@ -40,12 +40,12 @@ private:
 	void Screen();
 
 private:
-	static BlendSetting* instance;
+	static BlendSetting* instance_;
 
 private:
 	//ブレンドディスク		: PixelShaderからの出力を画面にどのように書き込むか設定する項目
 	D3D12_RENDER_TARGET_BLEND_DESC blendDesc_{};
 
-	BlendMode blendMode = BlendMode::kBlendModeNormal;
+	BlendMode blendMode_ = BlendMode::kBlendModeNormal;
 };
 

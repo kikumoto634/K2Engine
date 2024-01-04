@@ -28,10 +28,10 @@ private:
 	static GlobalSetting* instance_;
 
 private:
-	const int isEnpty = 0b0000;
-	const int isTextureSetting = 0b0001;
+	const int isEnpty_ = 0b0000;
+	const int isTextureSetting_ = 0b0001;
 
 private:
-	int isSettingFlag = 0b0000;
+	int isSettingFlag_ = 0b0000;
 };
 

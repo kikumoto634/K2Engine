@@ -14,31 +14,29 @@ ParticleObject *ParticleObject::Create()
 
 void ParticleObject::Initialize(bool isIndexEnable)
 {
-	transforms.resize(kNumInstance);
+	particles_.resize(kNumInstance_);
 	ParticleBase::Initialize(isIndexEnable);
 
-	for(int i = 0; i < kNumInstance; i++){
-		transforms[i].scale = baseTransform.scale;
-		transforms[i].rotation = baseTransform.rotation;
-		transforms[i].translate = baseTransform.translate + Vector3{i*0.1f, i*0.1f, i*0.1f};
+	for(int i = 0; i < kNumInstance_; i++){
+		particles_[i].transform.scale = baseParticle_.transform.scale;
+		particles_[i].transform.rotation = baseParticle_.transform.rotation;
+		particles_[i].transform.translate = baseParticle_.transform.translate + Vector3{i*0.1f, i*0.1f, i*0.1f};
+
+		particles_[i].velocity = {0,1,0};
 	}
 }
 
 void ParticleObject::Update()
 {
 #ifdef _DEBUG
-	ImGui::DragFloat3("Particle - basePos", &baseTransform.translate.x, 0.1f);
-	ImGui::DragFloat3("Particle - baseRot", &baseTransform.rotation.x, 0.1f);
-	ImGui::DragFloat3("Particle - baseScale", &baseTransform.scale.x, 0.1f);
-
-	if(ImGui::Button("Particle - Update")){
-		for(int i = 0; i < kNumInstance; i++){
-			transforms[i].scale = baseTransform.scale;
-			transforms[i].rotation = baseTransform.rotation;
-			transforms[i].translate = baseTransform.translate + Vector3{i*0.1f, i*0.1f, i*0.1f};
-		}
-	}
+	ImGui::DragFloat3("Particle - basePos", &baseParticle_.transform.translate.x, 0.1f);
+	ImGui::DragFloat3("Particle - baseRot", &baseParticle_.transform.rotation.x, 0.1f);
+	ImGui::DragFloat3("Particle - baseScale", &baseParticle_.transform.scale.x, 0.1f);
 #endif // _DEBUG
+
+	for(int i = 0; i < kNumInstance_; i++){
+		particles_[i].transform.translate += particles_[i].velocity * kDeltaTime_;
+	}
 }
 
 void ParticleObject::VertexData()

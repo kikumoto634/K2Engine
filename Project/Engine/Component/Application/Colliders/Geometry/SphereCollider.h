@@ -8,8 +8,8 @@ public:
 
 public:
 	SphereCollider(){
-		vertNum_ = kSubdivision*kSubdivision*4;
-		indexNum_ = kSubdivision*kSubdivision*6;
+		vertNum_ = kSubdivision_*kSubdivision_*4;
+		indexNum_ = kSubdivision_*kSubdivision_*6;
 	}
 
 private:
@@ -18,6 +18,6 @@ private:
 
 private:
 	//球体分割数
-	const uint32_t kSubdivision = 16;
+	const uint32_t kSubdivision_ = 16;
 };
 

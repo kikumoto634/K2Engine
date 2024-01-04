@@ -24,8 +24,8 @@ public:
 		
 		va_list args;
 		va_start(args, message);
-		int w = vsnprintf(buffer, 256-1, message, args);
-		Log(buffer);
+		int w = vsnprintf(buffer_, 256-1, message, args);
+		Log(buffer_);
 		va_end(args);
 	}
 
@@ -48,7 +48,7 @@ private:
 	//インスタンス
 	static WindowsApp* instance_;
 	static wchar_t* titleName_;
-	static const int kBufferSize = 256;		//書式つき文字列展開用バッファサイズ
+	static const int kBufferSize_ = 256;		//書式つき文字列展開用バッファサイズ
 
 public:
 	//クライアント領域
@@ -56,13 +56,13 @@ public:
 	static int32_t kWindowHeight_;
 
 	// 書式付き文字列展開用バッファ
-	static char buffer[kBufferSize];
+	static char buffer_[kBufferSize_];
 
 private:
 	WNDCLASS wc_{};
 	RECT wrc_{};
 	HWND hwnd_ = nullptr;
 
-	MSG msg{};
+	MSG msg_{};
 };
 

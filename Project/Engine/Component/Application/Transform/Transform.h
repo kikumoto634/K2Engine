@@ -20,6 +20,6 @@ public:
 	Matrix4x4 GetWorldMatrix();
 
 private:
-	Matrix4x4 worldMatrix4x4;
+	Matrix4x4 worldMatrix4x4_;
 };
 

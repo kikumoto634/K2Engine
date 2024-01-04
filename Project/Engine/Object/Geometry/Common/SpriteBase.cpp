@@ -33,9 +33,9 @@ void SpriteBase::Draw(Matrix4x4 viewMatrix)
 	wvpData_->WVP = worldViewProjectionMatrixSprite;
 	wvpData_->World = worldViewProjectionMatrixSprite;
 
-	Matrix4x4 scaleSprite = MakeScaleMatrix(uvTransformSprite.scale);
-	Matrix4x4 rotZSprite = MakeRotationZMatrix(uvTransformSprite.rotation.z);
-	Matrix4x4 transSprite = MakeTranslateMatrix(uvTransformSprite.translate);
+	Matrix4x4 scaleSprite = MakeScaleMatrix(uvTransformSprite_.scale);
+	Matrix4x4 rotZSprite = MakeRotationZMatrix(uvTransformSprite_.rotation.z);
+	Matrix4x4 transSprite = MakeTranslateMatrix(uvTransformSprite_.translate);
 	Matrix4x4 uvTransformMatrix = scaleSprite;
 	uvTransformMatrix = uvTransformMatrix * rotZSprite;
 	uvTransformMatrix = uvTransformMatrix * transSprite;
@@ -49,7 +49,7 @@ void SpriteBase::Draw(Matrix4x4 viewMatrix)
 	dxCommon->GetCommandList()->IASetIndexBuffer(&indexBufferView_);		//IBV設定
 
 	//形状設定、PSOに設定しているのとは別
-	dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology);
+	dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology_);
 
 	//マテリアルのconstBufferの場所を設定
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(0, constResource_->GetGPUVirtualAddress());
@@ -137,8 +137,8 @@ void SpriteBase::PipelineStateInitialize()
 		rootParameters_,
 		staticSamplers_,
 		inputElementDesc_,
-		fillMode,
-		pipelinePrimitiveTopology
+		fillMode_,
+		pipelinePrimitiveTopology_
 	);
 }
 

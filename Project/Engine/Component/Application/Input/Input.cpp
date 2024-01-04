@@ -36,21 +36,21 @@ void Input::Initialize()
 		hInstance, 
 		DIRECTINPUT_VERSION, 
 		IID_IDirectInput8,
-		(void**)&directInput, 
+		(void**)&directInput_, 
 		nullptr
 	);
 	assert(SUCCEEDED(result));
 
 
 	//キーボードデバイスの生成 (GUID_Joystick (ジョイステック)、 GUID_SysMouse (マウス))
-	result = directInput->CreateDevice(
+	result = directInput_->CreateDevice(
 		GUID_SysKeyboard,
 		&keyboard_,
 		NULL
 	);
 	assert(SUCCEEDED(result));
 	//マウス
-	result = directInput->CreateDevice(
+	result = directInput_->CreateDevice(
 		GUID_SysMouse,
 		&mouse_,
 		NULL
@@ -85,7 +85,7 @@ void Input::Initialize()
 
 	//パッド
 	ZeroMemory(&padState_, sizeof(XINPUT_STATE));
-	ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
+	ZeroMemory(&vibration_, sizeof(XINPUT_VIBRATION));
 }
 
 void Input::Update()
@@ -119,13 +119,13 @@ void Input::PadUpdate()
 	padPreState_ = padState_;
 	DWORD result = XInputGetState(0, &padState_);
 	if(result == ERROR_SUCCESS){
-		isPadConnect = true;
+		isPadConnect_ = true;
 	}
 	else{
-		isPadConnect = false;
+		isPadConnect_ = false;
 	}
 
-	if(!isPadConnect) return;
+	if(!isPadConnect_) return;
 	//デッドゾーン
 	if(padState_.Gamepad.sThumbRX<XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE && padState_.Gamepad.sThumbRX>-XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE){
 		padState_.Gamepad.sThumbRX = 0;
@@ -141,16 +141,16 @@ void Input::PadUpdate()
 	}
 
 	//バイブレーション
-	if(isVibrationLeap){
-		vibrationValue = Easing_Point2_Linear<Vector2>({(float)VibrationMaxValue,(float)VibrationMaxValue}, {0,0}, Time_OneWay(vibrationTime, vibrationTimeMax));
+	if(isVibrationLeap_){
+		vibrationValue_ = Easing_Point2_Linear<Vector2>({(float)VibrationMaxValue_,(float)VibrationMaxValue_}, {0,0}, Time_OneWay(vibrationTime_, vibrationTimeMax_));
 
-		vibration.wLeftMotorSpeed = (int)vibrationValue.x;
-		vibration.wRightMotorSpeed = (int)vibrationValue.y;
-		XInputSetState(0, &vibration);
+		vibration_.wLeftMotorSpeed = (int)vibrationValue_.x;
+		vibration_.wRightMotorSpeed = (int)vibrationValue_.y;
+		XInputSetState(0, &vibration_);
 
-		if(vibrationTime >= 1.0f){
-			isVibrationLeap = false;
-			vibrationTime = 0;
+		if(vibrationTime_ >= 1.0f){
+			isVibrationLeap_ = false;
+			vibrationTime_ = 0;
 			PadVibrationStop();
 		}
 	}
@@ -219,7 +219,7 @@ const float Input::GetMouseWheel()
 
 bool Input::PadButtonPush(int keyNumber)
 {
-	if(!isPadConnect) return false;
+	if(!isPadConnect_) return false;
 	if(padState_.Gamepad.wButtons & keyNumber){
 		return true;
 	}
@@ -228,7 +228,7 @@ bool Input::PadButtonPush(int keyNumber)
 
 bool Input::PadButtonTrigger(int keyNumber)
 {
-	if(!isPadConnect) return false;
+	if(!isPadConnect_) return false;
 	if(padState_.Gamepad.wButtons & keyNumber && !(padPreState_.Gamepad.wButtons & keyNumber)){
 		return true;
 	}
@@ -237,7 +237,7 @@ bool Input::PadButtonTrigger(int keyNumber)
 
 bool Input::PadLeftTrigger(int Value)
 {
-	if(!isPadConnect) return false;
+	if(!isPadConnect_) return false;
 	if(padState_.Gamepad.bLeftTrigger > Value){
 		return true;
 	}
@@ -246,7 +246,7 @@ bool Input::PadLeftTrigger(int Value)
 
 bool Input::PadRightTrigger(int Value)
 {
-	if(!isPadConnect) return false;
+	if(!isPadConnect_) return false;
 	if(padState_.Gamepad.bRightTrigger > Value){
 		return true;
 	}
@@ -255,28 +255,28 @@ bool Input::PadRightTrigger(int Value)
 
 Vector2 Input::PadLStick()
 {
-	if(!isPadConnect) return Vector2();
+	if(!isPadConnect_) return Vector2();
 	float X = padState_.Gamepad.sThumbLX;
 	float Y = padState_.Gamepad.sThumbLY;
 
 	//X
 	if(padState_.Gamepad.sThumbLX > 0.1){
 		X -= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE - 1;
-		X /= StickMaxValue;
+		X /= StickMaxValue_;
 	}
 	else if(padState_.Gamepad.sThumbLX < -0.1){
 		X += XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
-		X /= StickMaxValue;
+		X /= StickMaxValue_;
 	}
 
 	//Y
 	if(padState_.Gamepad.sThumbLY > 0.1){
 		Y -= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE - 1;
-		Y /= StickMaxValue;
+		Y /= StickMaxValue_;
 	}
 	else if(padState_.Gamepad.sThumbLY < -0.1){
 		Y += XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
-		Y /= StickMaxValue;
+		Y /= StickMaxValue_;
 	}
 
 	return Vector2(X, Y);
@@ -284,28 +284,28 @@ Vector2 Input::PadLStick()
 
 Vector2 Input::PadRStick()
 {
-	if(!isPadConnect) return Vector2();
+	if(!isPadConnect_) return Vector2();
 	float X = padState_.Gamepad.sThumbRX;
 	float Y = padState_.Gamepad.sThumbRY;
 
 	//X
 	if(padState_.Gamepad.sThumbRX > 0){
 		X -= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE - 1;
-		X /= StickMaxValue;
+		X /= StickMaxValue_;
 	}
 	else if(padState_.Gamepad.sThumbRX < 0){
 		X += XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
-		X /= StickMaxValue;
+		X /= StickMaxValue_;
 	}
 
 	//Y
 	if(padState_.Gamepad.sThumbRY > 0){
 		Y -= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE - 1;
-		Y /= StickMaxValue;
+		Y /= StickMaxValue_;
 	}
 	else if(padState_.Gamepad.sThumbRY < 0){
 		Y += XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
-		Y /= StickMaxValue;
+		Y /= StickMaxValue_;
 	}
 
 	return Vector2(X, Y);
@@ -313,28 +313,28 @@ Vector2 Input::PadRStick()
 
 Vector2 Input::PadLStickPre()
 {
-	if(!isPadConnect) return Vector2();
+	if(!isPadConnect_) return Vector2();
 	float X = padPreState_.Gamepad.sThumbLX;
 	float Y = padPreState_.Gamepad.sThumbLY;
 
 	//X
 	if(padPreState_.Gamepad.sThumbLX > 0){
 		X -= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE - 1;
-		X /= StickMaxValue;
+		X /= StickMaxValue_;
 	}
 	else if(padPreState_.Gamepad.sThumbLX < 0){
 		X += XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
-		X /= StickMaxValue;
+		X /= StickMaxValue_;
 	}
 
 	//Y
 	if(padPreState_.Gamepad.sThumbLY > 0){
 		Y -= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE - 1;
-		Y /= StickMaxValue;
+		Y /= StickMaxValue_;
 	}
 	else if(padPreState_.Gamepad.sThumbLY < 0){
 		Y += XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
-		Y /= StickMaxValue;
+		Y /= StickMaxValue_;
 	}
 
 	return Vector2(X, Y);
@@ -342,28 +342,28 @@ Vector2 Input::PadLStickPre()
 
 Vector2 Input::PadRStickPre()
 {
-	if(!isPadConnect) return Vector2();
+	if(!isPadConnect_) return Vector2();
 	float X = padPreState_.Gamepad.sThumbRX;
 	float Y = padPreState_.Gamepad.sThumbRY;
 
 	//X
 	if(padPreState_.Gamepad.sThumbRX > 0){
 		X -= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE - 1;
-		X /= StickMaxValue;
+		X /= StickMaxValue_;
 	}
 	else if(padPreState_.Gamepad.sThumbRX < 0){
 		X += XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
-		X /= StickMaxValue;
+		X /= StickMaxValue_;
 	}
 
 	//Y
 	if(padPreState_.Gamepad.sThumbRY > 0){
 		Y -= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE - 1;
-		Y /= StickMaxValue;
+		Y /= StickMaxValue_;
 	}
 	else if(padPreState_.Gamepad.sThumbRY < 0){
 		Y += XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE;
-		Y /= StickMaxValue;
+		Y /= StickMaxValue_;
 	}
 
 	return Vector2(X, Y);
@@ -371,25 +371,25 @@ Vector2 Input::PadRStickPre()
 
 void Input::PadVibrationStart()
 {
-	if(!isPadConnect) return;
-	vibration.wLeftMotorSpeed = VibrationMaxValue;
-	vibration.wRightMotorSpeed = VibrationMaxValue;
-	XInputSetState(0, &vibration);
+	if(!isPadConnect_) return;
+	vibration_.wLeftMotorSpeed = VibrationMaxValue_;
+	vibration_.wRightMotorSpeed = VibrationMaxValue_;
+	XInputSetState(0, &vibration_);
 }
 
 void Input::PadVibrationStop()
 {
-	if(!isPadConnect) return;
-	vibration.wLeftMotorSpeed = 0;
-	vibration.wRightMotorSpeed = 0;
+	if(!isPadConnect_) return;
+	vibration_.wLeftMotorSpeed = 0;
+	vibration_.wRightMotorSpeed = 0;
 
-	XInputSetState(0, &vibration);
+	XInputSetState(0, &vibration_);
 }
 
 void Input::PadVibrationLeap(const float Second)
 {
-	if(!isPadConnect) return;
-	vibrationTimeMax = Second;
-	isVibrationLeap = true;
+	if(!isPadConnect_) return;
+	vibrationTimeMax_ = Second;
+	isVibrationLeap_ = true;
 }
 

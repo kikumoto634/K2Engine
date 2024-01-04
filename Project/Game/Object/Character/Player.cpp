@@ -17,7 +17,7 @@ Player::Player(std::string filePath, Transform transform):
 
 	weapon_ = ObjModel::Create("weapon");
 
-	name = "Player";
+	name_ = "Player";
 }
 
 void Player::Update()
@@ -86,7 +86,7 @@ void Player::OnCollision()
 
 void Player::BehaviorRootInitialize()
 {
-	velocity = {};
+	velocity_ = {};
 }
 void Player::BehaviorRootUpdate()
 {
@@ -107,7 +107,7 @@ void Player::BehaviorAttackUpdate()
 
 void Player::BehaviorJumpInitialize()
 {
-	velocity.y = kJumpVelocity;
+	velocity_.y = kJumpVelocity;
 }
 void Player::BehaviorJumpUpdate()
 {
@@ -134,18 +134,18 @@ void Player::Move()
 	const float threshold = 0.7f;
 	bool isMoving = false;
 
-	velocity = {
+	velocity_ = {
 		Input::GetInstance()->PadLStick().x,0.0f,Input::GetInstance()->PadLStick().y
 	};
-	velocity = velocity.normalize();
+	velocity_ = velocity_.normalize();
 
-	if(velocity.length() > threshold){
+	if(velocity_.length() > threshold){
 		isMoving = true;
 	}
 
 	if(!isMoving) return;
 
-	velocity *= kMoveVelocity;
+	velocity_ *= kMoveVelocity;
 
 	//カメラの方向へと動く
 	Matrix4x4 matRot;
@@ -153,15 +153,15 @@ void Player::Move()
 	//matRot *= MakeRotationZMatrix(FollowCamera::GetInstance()->rotation.z);
 	//matRot *= MakeRotationXMatrix(FollowCamera::GetInstance()->rotation.x);
 	matRot *= MakeRotationYMatrix(FollowCamera::GetInstance()->rotation.y);
-	velocity = Multiplication(velocity, matRot);
+	velocity_ = Multiplication(velocity_, matRot);
 
 	//回転
-	rotation.y = std::atan2(velocity.x, velocity.z);
+	rotation.y = std::atan2(velocity_.x, velocity_.z);
 	//Vector3 velocityXZ = Vector3{move.x, 0, move.z};
 	//rotation.x = std::atan2(-move.y, velocityXZ.length());
 
 	//移動
-	translate += velocity;
+	translate += velocity_;
 }
 
 void Player::Attack()
@@ -179,9 +179,9 @@ void Player::Attack()
 
 void Player::Jump()
 {
-	translate += velocity;
+	translate += velocity_;
 	Vector3 accelerationVector = {0, -kGravityAcceleration, 0};
-	velocity += accelerationVector;
+	velocity_ += accelerationVector;
 
 	if(translate.y <= 0.0f){
 		translate.y = 0.0f;

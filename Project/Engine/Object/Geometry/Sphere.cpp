@@ -26,9 +26,9 @@ void Sphere::SphereVertexData()
 	//PI円周率
 	const float pi = 3.14159265f;
 	//経度分割1つ分の角度 φ
-	const float kLonEvery = pi * 2.0f / (float)kSubdivision;
+	const float kLonEvery = pi * 2.0f / (float)kSubdivision_;
 	//緯度分割1つ分の角度 Θ
-	const float kLatEvert = pi / (float)kSubdivision;
+	const float kLatEvert = pi / (float)kSubdivision_;
 
 	//経度インデックス
 	uint32_t lonIndex = 0;
@@ -36,16 +36,16 @@ void Sphere::SphereVertexData()
 	uint32_t latIndex = 0;
 
 	//緯度の方向に分割
-	for(latIndex = 0; latIndex < kSubdivision; ++latIndex){
+	for(latIndex = 0; latIndex < kSubdivision_; ++latIndex){
 		float lat = -pi / 2.0f + kLatEvert * latIndex;	//Θ
 		//経度の方向に分割しながら絵を書く
-		for(lonIndex = 0; lonIndex < kSubdivision; ++lonIndex){
-			uint32_t start = (latIndex * kSubdivision + lonIndex) * 4;
+		for(lonIndex = 0; lonIndex < kSubdivision_; ++lonIndex){
+			uint32_t start = (latIndex * kSubdivision_ + lonIndex) * 4;
 			float lon = lonIndex * kLonEvery;	//φ
 
-			float u = (float)lonIndex / (float)kSubdivision;
-			float v = 1.0f - (float)latIndex / (float)kSubdivision;
-			float uvLength = 1.0f / (float)kSubdivision;
+			float u = (float)lonIndex / (float)kSubdivision_;
+			float v = 1.0f - (float)latIndex / (float)kSubdivision_;
+			float uvLength = 1.0f / (float)kSubdivision_;
 
 			//頂点データを入力
 			vertData_[start].position.x = cos(lat) * cos(lon);
@@ -97,10 +97,10 @@ void Sphere::SphereIndexData()
 {
 	uint32_t lonIndex = 0;
 	uint32_t latIndex = 0;
-	for(latIndex = 0; latIndex < kSubdivision; ++latIndex){
-		for(lonIndex = 0; lonIndex < kSubdivision; ++lonIndex){
-			uint32_t start = (latIndex * kSubdivision + lonIndex) * 6;
-			uint32_t vertStart = (latIndex * kSubdivision + lonIndex) * 4;
+	for(latIndex = 0; latIndex < kSubdivision_; ++latIndex){
+		for(lonIndex = 0; lonIndex < kSubdivision_; ++lonIndex){
+			uint32_t start = (latIndex * kSubdivision_ + lonIndex) * 6;
+			uint32_t vertStart = (latIndex * kSubdivision_ + lonIndex) * 4;
 
 			//インデックス
 			indexData_[start] = vertStart;		indexData_[start+1] = vertStart+1;	indexData_[start+2] = vertStart+2;

@@ -11,7 +11,7 @@ public:
 		vertNum_ = 4;
 		indexNum_ = 6;
 
-		kNumInstance = 10;
+		kNumInstance_ = 10;
 	}
 	void Update();
 
@@ -20,5 +20,8 @@ private:
 
 	void VertexData();
 	void IndexData();
+
+private:
+	const float kDeltaTime_ = 1.0f/60.f;
 };
 

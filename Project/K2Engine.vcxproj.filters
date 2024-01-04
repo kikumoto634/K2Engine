@@ -542,6 +542,9 @@
     <ClInclude Include="Engine\Object\Geometry\Common\ParticleBase.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\ParticleData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Texture.hlsl">

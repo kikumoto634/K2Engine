@@ -61,12 +61,12 @@ private:
 	Matrix4x4* wvpData_ = nullptr;
 
 	//描画方法
-	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
-	D3D_PRIMITIVE_TOPOLOGY commandPrimitiveTopology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;				//コマンドリスト
+	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
+	D3D_PRIMITIVE_TOPOLOGY commandPrimitiveTopology_ = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;				//コマンドリスト
 
 
 protected:
-	const char* name = "";
+	const char* name_ = "";
 
 	//頂点データ
 	Vector4* vertData_ = nullptr;
@@ -76,7 +76,7 @@ protected:
 	uint32_t* indexData_ = nullptr;
 	UINT indexNum_ = 4;
 
-	D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_WIREFRAME;	//塗りつぶし
+	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_WIREFRAME;	//塗りつぶし
 
 	//パラメータ
 	Vector4 color_ = {0.1f, 0.5f, 0.1f, 1.0f};

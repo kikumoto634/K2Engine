@@ -13,18 +13,18 @@ private:
 
 		struct ObjectData {
 			// ファイル名
-			std::string fileName;
+			std::string fileName_;
 			//トランスフォーム情報
-			Transform transform;
+			Transform transform_;
 		};
 
 		// オブジェクト配列
-		std::vector<ObjectData> objects;
+		std::vector<ObjectData> objects_;
 	};
 
 private:
-	static const std::string kDefaultBaseDirectory;
-	static const std::string kExtension;
+	static const std::string kDefaultBaseDirectory_;
+	static const std::string kExtension_;
 
 public:
 	static void Load(const std::string& filename);
@@ -34,7 +34,7 @@ public:
 	static void Draw(const Matrix4x4& viewProjectionMatrix);
 
 private:
-	static LevelData* levelDatas;
-	static std::vector<ObjModel*> objects;
+	static LevelData* levelDatas_;
+	static std::vector<ObjModel*> objects_;
 };
 

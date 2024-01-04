@@ -1,26 +1,26 @@
 #include "BlendSetting.h"
 
-BlendSetting* BlendSetting::instance = nullptr;
+BlendSetting* BlendSetting::instance_ = nullptr;
 
 BlendSetting *BlendSetting::GetInstance()
 {
-	if(!instance)
+	if(!instance_)
 	{
-		instance = new BlendSetting();
-		instance->BlendUpdate();
+		instance_ = new BlendSetting();
+		instance_->BlendUpdate();
 	}
-	return instance;
+	return instance_;
 }
 
 void BlendSetting::BlendSet(BlendMode mode)
 {
-	blendMode = mode;
+	blendMode_ = mode;
 	BlendUpdate();
 }
 
 void BlendSetting::BlendUpdate()
 {
-	switch (blendMode)
+	switch (blendMode_)
 	{
 	case BlendSetting::kBlendModeNone:
 		None();

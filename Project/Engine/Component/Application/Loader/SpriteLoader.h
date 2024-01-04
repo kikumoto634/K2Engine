@@ -39,9 +39,9 @@ private:
 	static void UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
 
 private:
-	static std::string basePath;
+	static std::string basePath_;
 	//フォルダ内の画像全て
-	static vector<std::string> files;
+	static vector<std::string> files_;
 
 	//テクスチャリソース
 	static std::array<ComPtr<ID3D12Resource>, kMaxSRVCount> resources_;

@@ -60,27 +60,27 @@ Matrix4x4 FollowCamera::GetViewMatrix()
 		cameraAxisX.z,cameraAxisY.z,cameraAxisZ.z,0,
 		x		 ,y		   ,z	     ,1
 	};
-	viewMatrix = matCameraRot;
+	viewMatrix_ = matCameraRot;
 
-	return viewMatrix;
+	return viewMatrix_;
 }
 
 Matrix4x4 FollowCamera::GetProjectionMatrix()
 {
-	projectionMatrix = 
+	projectionMatrix_ = 
 		MakePerspectiveFovMatrix(
 			aspect_,
 			(float)WindowsApp::kWindowWidth_/WindowsApp::kWindowHeight_,
 			0.1f,
 			1000.f
 		);
-	return projectionMatrix;
+	return projectionMatrix_;
 }
 
 Matrix4x4 FollowCamera::GetViewProjectionMatrix()
 {
-	viewProjectionMatrix = GetViewMatrix()*GetProjectionMatrix();
-	return viewProjectionMatrix;
+	viewProjectionMatrix_ = GetViewMatrix()*GetProjectionMatrix();
+	return viewProjectionMatrix_;
 }
 
 void FollowCamera::Rot()
@@ -91,8 +91,8 @@ void FollowCamera::Rot()
 	rotation.x -= Input::GetInstance()->PadRStick().y * speed_;
 
 	//上限
-	rotation.x = max(rotation.x*(180.f/3.141592f), RotMinMax.x) * (3.141592f/180.f);
-	rotation.x = min(rotation.x*(180.f/3.141592f), RotMinMax.y) * (3.141592f/180.f);
+	rotation.x = max(rotation.x*(180.f/3.141592f), RotMinMax_.x) * (3.141592f/180.f);
+	rotation.x = min(rotation.x*(180.f/3.141592f), RotMinMax_.y) * (3.141592f/180.f);
 
 	//回転行列
 	Matrix4x4 matRot;
@@ -119,7 +119,7 @@ void FollowCamera::ApplyGlobalVariablesInitialize()
 	globalVariables->AddItem(name, "0.aspect", aspect_);
 	globalVariables->AddItem(name, "1.RotSp", speed_);
 	globalVariables->AddItem(name, "2.offSet", offset_);
-	globalVariables->AddItem(name, "3.RotX Min,Max", RotMinMax);
+	globalVariables->AddItem(name, "3.RotX Min,Max", RotMinMax_);
 #endif // _DEBUG
 }
 
@@ -133,6 +133,6 @@ void FollowCamera::ApplyGlobalVariablesUpdate()
 	aspect_ = globalVariables->GetFloatValue(name, "0.aspect");
 	speed_ = globalVariables->GetFloatValue(name, "1.RotSp");
 	offset_ = globalVariables->GetVector3Value(name, "2.offSet");
-	RotMinMax = globalVariables->GetVector2Value(name, "3.RotX Min,Max");
+	RotMinMax_ = globalVariables->GetVector2Value(name, "3.RotX Min,Max");
 #endif // _DEBUG
 }

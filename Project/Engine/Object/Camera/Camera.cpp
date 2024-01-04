@@ -24,26 +24,26 @@ void Camera::Update()
 
 Matrix4x4 Camera::GetViewMatrix()
 {
-	viewMatrix = viewMatrix.Inverse(GetWorldMatrix());
-	return viewMatrix;
+	viewMatrix_ = viewMatrix_.Inverse(GetWorldMatrix());
+	return viewMatrix_;
 }
 
 Matrix4x4 Camera::GetProjectionMatrix()
 {
-	projectionMatrix = 
+	projectionMatrix_ = 
 		MakePerspectiveFovMatrix(
 			aspect_,
 			(float)WindowsApp::kWindowWidth_/(float)WindowsApp::kWindowHeight_,
 			0.1f,
 			1000.f
 		);
-	return projectionMatrix;
+	return projectionMatrix_;
 }
 
 Matrix4x4 Camera::GetViewProjectionMatrix()
 {
-	viewProjectionMatrix = GetViewMatrix()*GetProjectionMatrix();
-	return viewProjectionMatrix;
+	viewProjectionMatrix_ = GetViewMatrix()*GetProjectionMatrix();
+	return viewProjectionMatrix_;
 }
 
 void Camera::ApplyGlobalVariablesInitialize()

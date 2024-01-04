@@ -30,8 +30,8 @@ void ParticleBase::Draw(Matrix4x4 viewProjectionMatrix)
 {
 	materialData_->color = color_;
 
-	for(int i = 0; i < kNumInstance; i++){
-		Matrix4x4 worldViewProjectionMatrix = transforms[i].GetWorldMatrix() * viewProjectionMatrix;
+	for(int i = 0; i < kNumInstance_; i++){
+		Matrix4x4 worldViewProjectionMatrix = particles_[i].transform.GetWorldMatrix() * viewProjectionMatrix;
 		wvpData_[i].WVP = worldViewProjectionMatrix;
 		wvpData_[i].World = worldViewProjectionMatrix;
 	}
@@ -43,20 +43,20 @@ void ParticleBase::Draw(Matrix4x4 viewProjectionMatrix)
 	if(isIndexDataEnable_)dxCommon->GetCommandList()->IASetIndexBuffer(&indexBufferView_);		//IBV設定
 
 	//形状設定、PSOに設定しているのとは別
-	dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology);
+	dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology_);
 
 
 	//SRV(テクスチャ)のDescriptorTableの先頭を設定 2はRootParamterのインデックスRootParamter[2]
 	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(0, texture_.srvHandleGPU_);
 	//行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
-	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(1,instancingSrvHandleGPU);
+	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(1,instancingSrvHandleGPU_);
 	//マテリアルのconstBufferの場所を設定
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(2, constResource_->GetGPUVirtualAddress());
 
 	//描画
 	isIndexDataEnable_ ? 
-		dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,kNumInstance,0,0,0) : 
-		dxCommon->GetCommandList()->DrawInstanced(vertNum_,kNumInstance,0,0);
+		dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,kNumInstance_,0,0,0) : 
+		dxCommon->GetCommandList()->DrawInstanced(vertNum_,kNumInstance_,0,0);
 }
 
 
@@ -151,9 +151,9 @@ void ParticleBase::PipelineStateInitialize()
 		rootParameters_,
 		staticSamplers_,
 		inputElementDesc_,
-		fillMode,
-		pipelinePrimitiveTopology,
-		blendMode
+		fillMode_,
+		pipelinePrimitiveTopology_,
+		blendMode_
 	);
 }
 
@@ -192,10 +192,10 @@ void ParticleBase::CreateMaterial()
 
 void ParticleBase::CreateWVP()
 {
-	wvpResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(TransformationMatrix)*kNumInstance);
+	wvpResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(TransformationMatrix)*kNumInstance_);
 	wvpResource_->Map(0, nullptr, reinterpret_cast<void**>(&wvpData_));
 	
-	for(int i = 0; i < kNumInstance; i++){
+	for(int i = 0; i < kNumInstance_; i++){
 		wvpData_[i].WVP = MakeIdentityMatrix();
 		wvpData_[i].World = MakeIdentityMatrix();
 	}
@@ -207,11 +207,11 @@ void ParticleBase::CreateWVP()
 	instancingSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
 	instancingSrvDesc.Buffer.FirstElement = 0;
 	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	instancingSrvDesc.Buffer.NumElements = kNumInstance;
+	instancingSrvDesc.Buffer.NumElements = kNumInstance_;
 	instancingSrvDesc.Buffer.StructureByteStride = sizeof(TransformationMatrix);
-	instancingSrvHandleCPU = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), 1);
-	instancingSrvHandleGPU = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), 1);
-	dxCommon->GetDevice()->CreateShaderResourceView(wvpResource_.Get(), &instancingSrvDesc, instancingSrvHandleCPU);
+	instancingSrvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), 1);
+	instancingSrvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), 1);
+	dxCommon->GetDevice()->CreateShaderResourceView(wvpResource_.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
 }
 
 
@@ -220,10 +220,10 @@ void ParticleBase::ApplyGlobalVariablesInitialize()
 #ifdef _DEBUG
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	//グループを追加
-	GlobalVariables::GetInstance()->CreateGroup(name);
-	globalVariables->AddItem(name, "0.translate", baseTransform.translate);
-	globalVariables->AddItem(name, "1.rotate", baseTransform.rotation);
-	globalVariables->AddItem(name, "2.scale", baseTransform.scale);
+	GlobalVariables::GetInstance()->CreateGroup(name_);
+	globalVariables->AddItem(name_, "0.translate", baseParticle_.transform.translate);
+	globalVariables->AddItem(name_, "1.rotate", baseParticle_.transform.rotation);
+	globalVariables->AddItem(name_, "2.scale", baseParticle_.transform.scale);
 #endif // _DEBUG
 }
 
@@ -231,8 +231,8 @@ void ParticleBase::ApplyGlobalVariablesUpdate()
 {
 #ifdef _DEBUG
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
-	baseTransform.translate = globalVariables->GetVector3Value(name, "0.translate");
-	baseTransform.rotation = globalVariables->GetVector3Value(name, "1.rotate");
-	baseTransform.scale = globalVariables->GetVector3Value(name, "2.scale");
+	baseParticle_.transform.translate = globalVariables->GetVector3Value(name_, "0.translate");
+	baseParticle_.transform.rotation = globalVariables->GetVector3Value(name_, "1.rotate");
+	baseParticle_.transform.scale = globalVariables->GetVector3Value(name_, "2.scale");
 #endif // _DEBUG
 }

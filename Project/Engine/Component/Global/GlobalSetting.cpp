@@ -22,7 +22,7 @@ void GlobalSetting::Update()
 	ImGui::BeginMenuBar();
 
 	//テクスチャ
-	MenuBotton("LoadTex", isTextureSetting);
+	MenuBotton("LoadTex", isTextureSetting_);
 
 	ImGui::EndMenuBar();
 
@@ -36,17 +36,17 @@ void GlobalSetting::MenuBotton(std::string name, int flag)
 {
 	if(!ImGui::MenuItem(name.c_str())) return;
 
-	if(isSettingFlag & flag){
-		isSettingFlag = isEnpty;
+	if(isSettingFlag_ & flag){
+		isSettingFlag_ = isEnpty_;
 		return;
 	}
 
-	isSettingFlag |= flag;
+	isSettingFlag_ |= flag;
 }
 
 void GlobalSetting::LoadTextureDraw()
 {
-	if(!(isSettingFlag & isTextureSetting)) return;
+	if(!(isSettingFlag_ & isTextureSetting_)) return;
 
 	for(auto tex : SpriteLoader::GetTexture()){
 		if(tex.filePath == "") break;

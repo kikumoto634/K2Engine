@@ -3,14 +3,14 @@
 
 void Collider::ColliderUpdate()
 {
-	if(!colliderModel){
-		colliderModel = SphereCollider::Create();
-		colliderModel->scale = {radius, radius, radius};
+	if(!colliderModel_){
+		colliderModel_ = SphereCollider::Create();
+		colliderModel_->scale = {radius_, radius_, radius_};
 	}
 }
 
 void Collider::ColliderDraw(Vector3 pos, Matrix4x4 viewProjectionMatrix)
 {
-	colliderModel->translate = pos;
-	colliderModel->Draw(viewProjectionMatrix);
+	colliderModel_->translate = pos;
+	colliderModel_->Draw(viewProjectionMatrix);
 }

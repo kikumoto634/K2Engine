@@ -47,7 +47,7 @@ public:
 #pragma endregion
 
 #pragma region パッド
-	bool GetIsPadConnect()	{return isPadConnect;}
+	bool GetIsPadConnect()	{return isPadConnect_;}
 
 	//ボタン
 	bool PadButtonPush(int keyNumber);
@@ -94,7 +94,7 @@ private:
 	static Input* instance_;
 private:
 	WindowsApp* window;
-	IDirectInput8* directInput = nullptr;
+	IDirectInput8* directInput_ = nullptr;
 
 #pragma region キーボード
 	//キーボードデバイス
@@ -118,9 +118,9 @@ private:
 #pragma endregion
 
 #pragma region パッド
-	const float StickMaxValue = 24079;
+	const float StickMaxValue_ = 24079;
 
-	const int VibrationMaxValue = 65535;
+	const int VibrationMaxValue_ = 65535;
 
 	void PadUpdate();
 
@@ -128,13 +128,13 @@ private:
 	XINPUT_STATE padState_;
 	XINPUT_STATE padPreState_;
 
-	bool isPadConnect = false;
+	bool isPadConnect_ = false;
 
-	XINPUT_VIBRATION vibration;
-	bool isVibrationLeap = false;
-	Vector2 vibrationValue = {};
-	float vibrationTime = 0;
-	float vibrationTimeMax = 0;
+	XINPUT_VIBRATION vibration_;
+	bool isVibrationLeap_ = false;
+	Vector2 vibrationValue_ = {};
+	float vibrationTime_ = 0;
+	float vibrationTimeMax_ = 0;
 #pragma endregion
 };
 

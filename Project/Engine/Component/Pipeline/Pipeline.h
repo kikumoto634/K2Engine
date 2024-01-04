@@ -14,7 +14,7 @@ private:
 
 public:
 	~Pipeline(){
-		delete blendSetting;
+		delete blendSetting_;
 	}
 
 	void Create(
@@ -73,9 +73,9 @@ private:
 	static const std::wstring basePath_;
 
 private:
-	HRESULT result{};
+	HRESULT result_{};
 	DirectXCommon* dxCommon_ = nullptr;
-	BlendSetting* blendSetting = nullptr;
+	BlendSetting* blendSetting_ = nullptr;
 
 	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_SOLID;
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE primitiveTopology_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;

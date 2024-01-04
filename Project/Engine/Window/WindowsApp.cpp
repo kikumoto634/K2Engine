@@ -94,12 +94,12 @@ void WindowsApp::Initialize()
 
 bool WindowsApp::ProcessMessage()
 {
-	if(PeekMessage(&msg,nullptr,0,0,PM_REMOVE)){
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+	if(PeekMessage(&msg_,nullptr,0,0,PM_REMOVE)){
+		TranslateMessage(&msg_);
+		DispatchMessage(&msg_);
 	}
 
-	if(msg.message == WM_QUIT){
+	if(msg_.message == WM_QUIT){
 		return true;
 	}
 
