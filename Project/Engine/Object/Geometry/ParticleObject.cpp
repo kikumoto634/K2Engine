@@ -1,7 +1,7 @@
 #include "ParticleObject.h"
 #include <imgui.h>
-#include <LightingGroup.h>
-#include <BufferResource.h>a
+#include "LightingGroup.h"
+#include "BufferResource.h"
 
 ParticleObject *ParticleObject::Create()
 {
