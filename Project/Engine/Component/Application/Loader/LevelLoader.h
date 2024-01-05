@@ -31,7 +31,7 @@ public:
 
 	static void Initialize();
 	static void Update();
-	static void Draw(const Matrix4x4& viewProjectionMatrix);
+	static void Draw(Camera* camera);
 
 private:
 	static LevelData* levelDatas_;

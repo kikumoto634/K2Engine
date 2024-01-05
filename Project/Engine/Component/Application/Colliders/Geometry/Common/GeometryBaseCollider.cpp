@@ -15,9 +15,9 @@ void GeometryBaseCollider::Initialize(bool isIndexEnable)
 	CreateWVP();
 }
 
-void GeometryBaseCollider::Draw(Matrix4x4 viewProjectionMatrix)
+void GeometryBaseCollider::Draw(Camera* camera)
 {
-	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * viewProjectionMatrix;
+	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * camera->GetViewProjectionMatrix();
 	*wvpData_ = worldViewProjectionMatrix;
 
 

@@ -9,8 +9,8 @@ void Collider::ColliderUpdate()
 	}
 }
 
-void Collider::ColliderDraw(Vector3 pos, Matrix4x4 viewProjectionMatrix)
+void Collider::ColliderDraw(Vector3 pos, Camera* camera)
 {
 	colliderModel_->translate = pos;
-	colliderModel_->Draw(viewProjectionMatrix);
+	colliderModel_->Draw(camera);
 }

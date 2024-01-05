@@ -29,11 +29,11 @@ void GeometryBase::Initialize(bool isIndexEnable)
 }
 
 
-void GeometryBase::Draw(Matrix4x4 viewProjectionMatrix)
+void GeometryBase::Draw(Camera* camera)
 {
 	materialData_->color = color_;
 
-	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * viewProjectionMatrix;
+	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * camera->GetViewProjectionMatrix();
 	wvpData_->WVP = worldViewProjectionMatrix;
 	wvpData_->World = worldViewProjectionMatrix;
 

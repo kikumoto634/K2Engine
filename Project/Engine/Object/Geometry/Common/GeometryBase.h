@@ -14,6 +14,7 @@
 #include "TransformationMatrixData.h"
 
 #include "Collider.h"
+#include "Camera.h"
 
 //幾何学オブジェクトの共通
 class GeometryBase : public Transform, public Collider
@@ -25,7 +26,7 @@ public:
 	~GeometryBase(){
 		delete pipeline_;
 	}
-	virtual void Draw(Matrix4x4 viewProjectionMatrix);
+	virtual void Draw(Camera* camera);
 
 	//Getter/Setter
 	Transform GetTransform() const {return {translate,rotation,scale};}

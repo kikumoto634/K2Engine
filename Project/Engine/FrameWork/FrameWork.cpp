@@ -38,7 +38,7 @@ void FrameWork::Run()
 		//更新開始
 #ifdef _DEBUG
 		ImGuiManager::NewFrame();
-		//imgui_->ShowDemo();
+		imgui_->ShowDemo();
 
 		GlobalVariables::GetInstance()->Update();
 		GlobalSetting::GetInstance()->Update();
@@ -58,6 +58,7 @@ void FrameWork::Run()
 
 		//描画
 		app_->GeometryDraw();
+		app_->SpriteDraw();
 		app_->ParticleDraw();
 
 #ifdef _DEBUG

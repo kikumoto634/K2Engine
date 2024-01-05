@@ -6,6 +6,8 @@
 #include "Transform.h"
 #include "Pipeline.h"
 
+#include "Camera.h"
+
 #include "Texture.h"
 #include "VertexData.h"
 #include "MaterialData.h"
@@ -21,7 +23,7 @@ public:
 	~ParticleBase(){
 		delete pipeline_;
 	}
-	virtual void Draw(Matrix4x4 viewProjectionMatrix);
+	virtual void Draw(Camera* camera);
 
 protected:
 	//初期化
@@ -66,6 +68,8 @@ protected:
 
 	ComPtr<ID3D12Resource> particleResource_;		//行列
 	ParticleForGPUData* particleData_ = nullptr;
+	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_;
+	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_;
 
 	//描画方法
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
@@ -83,8 +87,10 @@ protected:
 	uint32_t* indexData_ = nullptr;
 	UINT indexNum_ = 4;
 
-	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_;
-	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_;
+	//ビルボード用
+	const char* billboardTypeName[3] = { "OFF", "ALL_AXIS", "Y_AXIS"};
+    bool billboardTypeEnable[3] = { true, false, false}; //
+	Matrix4x4 billboardMatrix_;
 
 	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_SOLID;	//塗りつぶし
 

@@ -67,15 +67,15 @@ void Player::Update()
 	}
 }
 
-void Player::Draw(Matrix4x4 viewProjectionMatrix)
+void Player::Draw(Camera* camera)
 {
 	switch (behavior_)
 	{
 	case Player::Behavior::kAttack:
-		weapon_->Draw(viewProjectionMatrix);
+		weapon_->Draw(camera);
 		break;
 	}
-	ObjModel::Draw(viewProjectionMatrix);
+	ObjModel::Draw(camera);
 }
 
 void Player::OnCollision()

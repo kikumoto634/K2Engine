@@ -1,5 +1,6 @@
 #pragma once
 #include "Transform.h"
+#include "Camera.h"
 
 class GeometryBaseCollider;
 
@@ -7,7 +8,7 @@ class Collider
 {
 public:
 	void ColliderUpdate();
-	void ColliderDraw(Vector3 pos, Matrix4x4 viewProjectionMatrix);
+	void ColliderDraw(Vector3 pos, Camera* camera);
 
 public:
 	virtual ~Collider() = default;

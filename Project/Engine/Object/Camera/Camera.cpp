@@ -3,10 +3,17 @@
 
 #include "GlobalVariables.h"
 
+Camera* Camera::instance_ = nullptr;
+
 Camera* Camera::Create(Transform transform)
 {
 	Camera* instance = new Camera(transform);
 	return instance;
+}
+
+Camera *Camera::GetInstance()
+{
+	return instance_;
 }
 
 Camera::Camera(Transform transform)
@@ -24,7 +31,27 @@ void Camera::Update()
 
 Matrix4x4 Camera::GetViewMatrix()
 {
-	viewMatrix_ = viewMatrix_.Inverse(GetWorldMatrix());
+	Vector3 eye = translate;
+	Vector3 lookAt = target_;
+	Vector3 up = {0,1,0};
+
+	Vector3 cameraAxisZ = Vector3(lookAt - eye).normalize();
+	Vector3 cameraAxisX = up.cross(cameraAxisZ).normalize();
+	Vector3 cameraAxisY = cameraAxisZ.cross(cameraAxisX);
+
+	float x = -cameraAxisX.dot(eye);
+	float y = -cameraAxisY.dot(eye);
+	float z = -cameraAxisZ.dot(eye);
+
+	Matrix4x4 matCameraRot = 
+	{
+		cameraAxisX.x,cameraAxisY.x,cameraAxisZ.x,0,
+		cameraAxisX.y,cameraAxisY.y,cameraAxisZ.y,0,
+		cameraAxisX.z,cameraAxisY.z,cameraAxisZ.z,0,
+		x		 ,y		   ,z	     ,1
+	};
+	viewMatrix_ = matCameraRot;
+
 	return viewMatrix_;
 }
 

@@ -31,15 +31,20 @@ void ParticleObject::Initialize(bool isIndexEnable)
 void ParticleObject::Update()
 {
 #ifdef _DEBUG
-	/*ImGui::DragFloat3("Particle - basePos", &baseParticle_.transform.translate.x, 0.1f);
-	ImGui::DragFloat3("Particle - baseRot", &baseParticle_.transform.rotation.x, 0.1f);
-	ImGui::DragFloat3("Particle - baseScale", &baseParticle_.transform.scale.x, 0.1f);*/
+	ImGui::Text("Particle - Pos X:%f, Y:%f. Z:%f", particles_[0].transform.translate.x,particles_[0].transform.translate.y,particles_[0].transform.translate.z);
+	ImGui::Text("Particle - Rot X:%f, Y:%f. Z:%f", particles_[0].transform.rotation.x,particles_[0].transform.rotation.y,particles_[0].transform.rotation.z);
+	for(int i = 0; i < 3; i++){
+		if(i > 0){ImGui::SameLine();}
+		ImGui::Checkbox(billboardTypeName[i], &billboardTypeEnable[i]);
+	}
 #endif // _DEBUG
 
-	for(int i = 0; i < kNumMaxInstance_; i++){
+	/*for(int i = 0; i < kNumMaxInstance_; i++){
+		if(particles_[i].lifeTime <= particles_[i].currentTime) continue;
 		particles_[i].transform.translate += particles_[i].velocity * kDeltaTime_;
+		particles_[i].transform.rotation.z += particles_[i].velocity.z * kDeltaTime_;
 		particles_[i].currentTime += kDeltaTime_;
-	}
+	}*/
 }
 
 void ParticleObject::VertexData()

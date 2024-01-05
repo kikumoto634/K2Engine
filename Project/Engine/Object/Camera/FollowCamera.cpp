@@ -36,51 +36,7 @@ void FollowCamera::Update(Vector3 target)
 	Rot();
 	Move();
 
-	ApplyGlobalVariablesUpdate();
-}
-
-Matrix4x4 FollowCamera::GetViewMatrix()
-{
-	Vector3 eye = translate;
-	Vector3 lookAt = target_;
-	Vector3 up = {0,1,0};
-
-	Vector3 cameraAxisZ = Vector3(lookAt - eye).normalize();
-	Vector3 cameraAxisX = up.cross(cameraAxisZ).normalize();
-	Vector3 cameraAxisY = cameraAxisZ.cross(cameraAxisX);
-
-	float x = -cameraAxisX.dot(eye);
-	float y = -cameraAxisY.dot(eye);
-	float z = -cameraAxisZ.dot(eye);
-
-	Matrix4x4 matCameraRot = 
-	{
-		cameraAxisX.x,cameraAxisY.x,cameraAxisZ.x,0,
-		cameraAxisX.y,cameraAxisY.y,cameraAxisZ.y,0,
-		cameraAxisX.z,cameraAxisY.z,cameraAxisZ.z,0,
-		x		 ,y		   ,z	     ,1
-	};
-	viewMatrix_ = matCameraRot;
-
-	return viewMatrix_;
-}
-
-Matrix4x4 FollowCamera::GetProjectionMatrix()
-{
-	projectionMatrix_ = 
-		MakePerspectiveFovMatrix(
-			aspect_,
-			(float)WindowsApp::kWindowWidth_/WindowsApp::kWindowHeight_,
-			0.1f,
-			1000.f
-		);
-	return projectionMatrix_;
-}
-
-Matrix4x4 FollowCamera::GetViewProjectionMatrix()
-{
-	viewProjectionMatrix_ = GetViewMatrix()*GetProjectionMatrix();
-	return viewProjectionMatrix_;
+	Camera::Update();
 }
 
 void FollowCamera::Rot()
@@ -128,8 +84,8 @@ void FollowCamera::ApplyGlobalVariablesUpdate()
 #ifdef _DEBUG
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const char* name = "Camera";
-	ImGui::Text("Pos X: %f, Y: %f, Z:%f", translate.x,translate.y,translate.z);
-	ImGui::Text("Rot X: %f, Y: %f, Z:%f", rotation.x,rotation.y,rotation.z);
+	ImGui::Text("Camera - Pos X: %f, Y: %f, Z:%f", translate.x,translate.y,translate.z);
+	ImGui::Text("Camera - Rot X: %f, Y: %f, Z:%f", rotation.x,rotation.y,rotation.z);
 	aspect_ = globalVariables->GetFloatValue(name, "0.aspect");
 	speed_ = globalVariables->GetFloatValue(name, "1.RotSp");
 	offset_ = globalVariables->GetVector3Value(name, "2.offSet");

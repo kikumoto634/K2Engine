@@ -31,6 +31,7 @@ public:
 
 	void Update();
 	void GeometryDraw();
+	void SpriteDraw();
 	void ParticleDraw();
 
 private:

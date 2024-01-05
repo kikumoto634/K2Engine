@@ -7,10 +7,10 @@ void CollisionManager::Update()
 	}
 }
 
-void CollisionManager::Draw(Matrix4x4 viewProjectionMatrix)
+void CollisionManager::Draw(Camera* camera)
 {
 	for(Collider* col : colliders_){
-		col->ColliderDraw(col->GetColliderCenterPos(), viewProjectionMatrix);
+		col->ColliderDraw(col->GetColliderCenterPos(), camera);
 	}
 }
 

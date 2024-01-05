@@ -8,6 +8,8 @@
 #include "GlobalVariables.h"
 #include "DescriptorHeap.h"
 
+#include "FollowCamera.h"
+
 void ParticleBase::Initialize(bool isIndexEnable)
 {
 	dxCommon = DirectXCommon::GetInstance();
@@ -23,15 +25,42 @@ void ParticleBase::Initialize(bool isIndexEnable)
 	CreateVertex();
 	CreateIndex();
 	CreateWVP();
+
+	billboardMatrix_ = MakeIdentityMatrix();
 }
 
-void ParticleBase::Draw(Matrix4x4 viewProjectionMatrix)
+void ParticleBase::Draw(Camera* camera)
 {
 	int numInstance = 0;	//描画すべきインスタンス
 	for(int i = 0; i < kNumMaxInstance_; i++){
 		if(particles_[i].lifeTime <= particles_[i].currentTime) continue;
 
-		Matrix4x4 worldViewProjectionMatrix = particles_[i].transform.GetWorldMatrix() * viewProjectionMatrix;
+		Matrix4x4 worldViewProjectionMatrix = MakeIdentityMatrix();
+		//ビルボードなし
+		if(billboardTypeEnable[0]){
+			worldViewProjectionMatrix = particles_[i].transform.GetWorldMatrix() * camera->GetViewProjectionMatrix();
+		}
+		//全方位ビルボード
+		else if(billboardTypeEnable[1]){
+			billboardMatrix_ = camera->GetWorldMatrix();
+			billboardMatrix_.m[3][0] = 0.0f;
+			billboardMatrix_.m[3][1] = 0.0f;
+			billboardMatrix_.m[3][2] = 0.0f;
+			
+			worldViewProjectionMatrix = particles_[i].transform.GetWorldMatrix() * billboardMatrix_ * camera->GetViewProjectionMatrix();
+		}
+		//Y軸ビルボード
+		else if(billboardTypeEnable[2]){
+			Matrix4x4 cameraMat = MakeAffineMatrix(camera->scale, {0,camera->rotation.y,camera->rotation.z}, camera->translate);
+
+			billboardMatrix_ = cameraMat;
+			billboardMatrix_.m[3][0] = 0.0f;
+			billboardMatrix_.m[3][1] = 0.0f;
+			billboardMatrix_.m[3][2] = 0.0f;
+			
+			worldViewProjectionMatrix = particles_[i].transform.GetWorldMatrix() * billboardMatrix_ * camera->GetViewProjectionMatrix();
+		}
+
 		particleData_[numInstance].WVP = worldViewProjectionMatrix;
 		particleData_[numInstance].World = worldViewProjectionMatrix;
 
@@ -176,7 +205,7 @@ void ParticleBase::CreateIndex()
 	//インデックスリソースにデータを書き込む
 	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
 }
-
+	
 void ParticleBase::CreateWVP()
 {
 	particleResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(ParticleForGPUData)*kNumMaxInstance_);

@@ -5,12 +5,13 @@ class Camera : public Transform
 {
 public:
 	static Camera* Create(Transform transform = {{0,0,-5}, {0,0,0}, {1,1,1}});
+	static Camera* GetInstance();
 
 public:
 	Camera() = default;
 	Camera(Transform transform);
 
-	void Update();
+	virtual void Update();
 
 	/// <summary>
 	/// カメラ行列
@@ -27,16 +28,21 @@ public:
 	/// </summary>
 	Matrix4x4 GetViewProjectionMatrix();
 
-private:
-	void ApplyGlobalVariablesInitialize();
-	void ApplyGlobalVariablesUpdate();
+protected:
+	virtual void ApplyGlobalVariablesInitialize();
+	virtual void ApplyGlobalVariablesUpdate();
 
 private:
+	static Camera* instance_;
+
+protected:
 	Matrix4x4 viewMatrix_;
 	Matrix4x4 projectionMatrix_;
 
 	Matrix4x4 viewProjectionMatrix_;
 
 	float aspect_ = 0.45f;
+
+	Vector3 target_{};
 };
 

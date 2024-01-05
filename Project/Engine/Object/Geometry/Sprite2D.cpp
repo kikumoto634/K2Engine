@@ -24,19 +24,19 @@ void Sprite2D::Update()
 
 void Sprite2D::Sprite2DVertexData()
 {
-	vertData_[0].position = {0.0f, textureSize_.y, 0.0f, 1.0f};		//左下
+	vertData_[0].position = {-textureSize_.x/2, textureSize_.y/2, 0.0f, 1.0f};		//左下
 	vertData_[0].texcoord = {0.0f, 1.0f};
 	vertData_[0].normal = {0.0f, 0.0f, -1.0f};
 
-	vertData_[1].position = {0.0f, 0.0f, 0.0f, 1.0f};		//左上
+	vertData_[1].position = {-textureSize_.x/2, -textureSize_.y/2, 0.0f, 1.0f};		//左上
 	vertData_[1].texcoord = {0.0f, 0.0f};
 	vertData_[1].normal = {0.0f, 0.0f, -1.0f};
 
-	vertData_[2].position = {textureSize_.x, textureSize_.y, 0.0f, 1.0f};	//右下
+	vertData_[2].position = {textureSize_.x/2, textureSize_.y/2, 0.0f, 1.0f};	//右下
 	vertData_[2].texcoord = {1.0f, 1.0f};
 	vertData_[2].normal = {0.0f, 0.0f, -1.0f};
 
-	vertData_[3].position = {textureSize_.x, 0.0f, 0.0f, 1.0f};		//右上
+	vertData_[3].position = {textureSize_.x/2, -textureSize_.y/2, 0.0f, 1.0f};		//右上
 	vertData_[3].texcoord = {1.0f, 0.0f};
 	vertData_[3].normal = {0.0f, 0.0f, -1.0f};
 }

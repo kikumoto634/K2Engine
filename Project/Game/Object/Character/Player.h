@@ -17,7 +17,7 @@ public:
 
 public:
 	void Update()override;
-	void Draw(Matrix4x4 viewProjectionMatrix) override;
+	void Draw(Camera* camera) override;
 	void OnCollision() override;
 
 	//Getter/Setter

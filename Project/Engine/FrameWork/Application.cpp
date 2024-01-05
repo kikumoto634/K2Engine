@@ -37,7 +37,7 @@ void Application::Initialize()
 	collisionManager_ = std::make_unique<CollisionManager>();
 
 	particle_ = ParticleObject::Create();
-	//sp_ = Sprite2D::Create();
+	sp_ = Sprite2D::Create();
 }
 
 void Application::Update()
@@ -49,7 +49,7 @@ void Application::Update()
 
 	box_->Update();
 	particle_->Update();
-	//sp_->Update();
+	sp_->Update();
 
 	camera_->Update(player_->translate);
 	light_->Update();
@@ -60,18 +60,21 @@ void Application::Update()
 void Application::GeometryDraw()
 {
 	//シーンオブジェクト
-	levelLoader_->Draw(camera_->GetViewProjectionMatrix());
-	player_->Draw(camera_->GetViewProjectionMatrix());
-	box_->Draw(camera_->GetViewProjectionMatrix());
+	levelLoader_->Draw(camera_);
+	player_->Draw(camera_);
+	box_->Draw(camera_);
 
-	collisionManager_->Draw(camera_->GetViewProjectionMatrix());
+	collisionManager_->Draw(camera_);
+}
 
-	//sp_->Draw(camera_->GetViewMatrix());
+void Application::SpriteDraw()
+{
+	sp_->Draw(camera_);
 }
 
 void Application::ParticleDraw()
 {
-	particle_->Draw(camera_->GetViewProjectionMatrix());
+	particle_->Draw(camera_);
 }
 
 void Application::CollisionCheck()

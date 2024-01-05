@@ -7,6 +7,7 @@
 #include "DirectXCommon.h"
 #include "Transform.h"
 #include "Texture.h"
+#include "Camera.h"
 
 #include "VertexData.h"
 #include "MaterialData.h"
@@ -22,7 +23,7 @@ public:
 	~SpriteBase(){
 		delete pipeline_;
 	}
-	void Draw(Matrix4x4 viewMatrix);
+	void Draw(Camera* camera);
 
 protected:
 	//初期化

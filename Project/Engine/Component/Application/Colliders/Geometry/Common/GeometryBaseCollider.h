@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "Pipeline.h"
 #include "DirectXCommon.h"
+#include "Camera.h"
 
 class GeometryBaseCollider : public Transform
 {
@@ -15,7 +16,7 @@ public:
 	~GeometryBaseCollider(){
 		delete pipeline_;
 	}
-	void Draw(Matrix4x4 viewProjectionMatrix);
+	void Draw(Camera* camera);
 
 	//Getter/Setter
 	Transform GetTransform() const {return {translate,rotation,scale};}

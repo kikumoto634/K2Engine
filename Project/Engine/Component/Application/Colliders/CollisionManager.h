@@ -8,7 +8,7 @@ class CollisionManager
 {
 public:
 	void Update();
-	void Draw(Matrix4x4 viewProjectionMatrix);
+	void Draw(Camera* camera);
 	//リストのクリア
 	void Reset(){
 		colliders_.clear();

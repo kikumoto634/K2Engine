@@ -26,20 +26,17 @@ void SpriteBase::Initialize(bool isIndexEnable)
 	CreateWVP();
 }
 
-void SpriteBase::Draw(Matrix4x4 viewMatrix)
+void SpriteBase::Draw(Camera* camera)
 {
+	Matrix4x4 viewProjMatrix = MakeIdentityMatrix();
 	Matrix4x4 projectionMatrixSprite = MakeOrthographicMatrix(0.0f,0.0f, (float)WindowsApp::kWindowWidth_,(float)WindowsApp::kWindowHeight_, 0.0f,100.0f);
-	Matrix4x4 worldViewProjectionMatrixSprite = GetWorldMatrix() * (viewMatrix*projectionMatrixSprite);
+	viewProjMatrix = projectionMatrixSprite;
+	
+	Matrix4x4 worldViewProjectionMatrixSprite = GetWorldMatrix() * viewProjMatrix;
 	wvpData_->WVP = worldViewProjectionMatrixSprite;
 	wvpData_->World = worldViewProjectionMatrixSprite;
 
-	Matrix4x4 scaleSprite = MakeScaleMatrix(uvTransformSprite_.scale);
-	Matrix4x4 rotZSprite = MakeRotationZMatrix(uvTransformSprite_.rotation.z);
-	Matrix4x4 transSprite = MakeTranslateMatrix(uvTransformSprite_.translate);
-	Matrix4x4 uvTransformMatrix = scaleSprite;
-	uvTransformMatrix = uvTransformMatrix * rotZSprite;
-	uvTransformMatrix = uvTransformMatrix * transSprite;
-	materialData_->uvTransform= uvTransformMatrix;
+	materialData_->uvTransform= MakeAffineMatrix(uvTransformSprite_.scale,uvTransformSprite_.rotation,uvTransformSprite_.translate);
 
 
 	//ルートシグネチャ設定 PSOに設定しいているが別途設定が必要

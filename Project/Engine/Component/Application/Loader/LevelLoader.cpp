@@ -108,10 +108,10 @@ void LevelLoader::Update()
 	}
 }
 
-void LevelLoader::Draw(const Matrix4x4 &viewProjectionMatrix)
+void LevelLoader::Draw(Camera* camera)
 {
 	//レベルデータからオブジェクトを更新
 	for(auto& obj : objects_){
-		obj->Draw(viewProjectionMatrix);
+		obj->Draw(camera);
 	}
 }
