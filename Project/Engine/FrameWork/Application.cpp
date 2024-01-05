@@ -45,11 +45,12 @@ void Application::Update()
 	//シーンオブジェクト
 	levelLoader_->Update();
 	player_->Update();
-
-
 	box_->Update();
-	particle_->Update();
+
 	sp_->Update();
+
+	particle_->Add(player_->translate);
+	particle_->Update();
 
 	camera_->Update(player_->translate);
 	light_->Update();

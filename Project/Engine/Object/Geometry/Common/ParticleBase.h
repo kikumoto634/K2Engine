@@ -2,6 +2,7 @@
 #include <wrl.h>
 #include <dxcapi.h>
 #include <vector>
+#include <list>
 
 #include "Transform.h"
 #include "Pipeline.h"
@@ -19,6 +20,7 @@ class ParticleBase
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	template <class T> using vector = std::vector<T>;
+	template <class T> using list = std::list<T>;
 public:
 	~ParticleBase(){
 		delete pipeline_;
@@ -97,8 +99,10 @@ protected:
 	BlendSetting::BlendMode blendMode_ = BlendSetting::BlendMode::kBlendModeAdd;
 
 	//パラメータ
-	int kNumMaxInstance_ = 10;
-	vector<ParticleData> particles_;
+	//最大数
+	int kNumMaxInstance_ = 100;
+	//パーセント変数
+	list<ParticleData> particles_;
 
 	std::string texturePath_ = "uvChecker.png";
 

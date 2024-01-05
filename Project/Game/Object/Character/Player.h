@@ -2,6 +2,7 @@
 #include <optional>
 
 #include "../Geometry/ObjModel.h"
+//#include "Geometry/ParticleObject.h"
 
 class Player : public ObjModel
 {
@@ -60,5 +61,8 @@ private:
 
 	//速度
 	Vector3 velocity_ = {};
+
+	//パーティクル
+	//ParticleObject* particle_ = nullptr;
 };
 

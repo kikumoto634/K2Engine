@@ -32,13 +32,13 @@ void ParticleBase::Initialize(bool isIndexEnable)
 void ParticleBase::Draw(Camera* camera)
 {
 	int numInstance = 0;	//描画すべきインスタンス
-	for(int i = 0; i < kNumMaxInstance_; i++){
-		if(particles_[i].lifeTime <= particles_[i].currentTime) continue;
+	using namespace std;
+	for(list<ParticleData>::iterator particleIterator = particles_.begin(); particleIterator != particles_.end();){
 
 		Matrix4x4 worldViewProjectionMatrix = MakeIdentityMatrix();
 		//ビルボードなし
 		if(billboardTypeEnable[0]){
-			worldViewProjectionMatrix = particles_[i].transform.GetWorldMatrix() * camera->GetViewProjectionMatrix();
+			worldViewProjectionMatrix = particleIterator->transform.GetWorldMatrix() * camera->GetViewProjectionMatrix();
 		}
 		//全方位ビルボード
 		else if(billboardTypeEnable[1]){
@@ -47,7 +47,7 @@ void ParticleBase::Draw(Camera* camera)
 			billboardMatrix_.m[3][1] = 0.0f;
 			billboardMatrix_.m[3][2] = 0.0f;
 			
-			worldViewProjectionMatrix = particles_[i].transform.GetWorldMatrix() * billboardMatrix_ * camera->GetViewProjectionMatrix();
+			worldViewProjectionMatrix = particleIterator->transform.GetWorldMatrix() * billboardMatrix_ * camera->GetViewProjectionMatrix();
 		}
 		//Y軸ビルボード
 		else if(billboardTypeEnable[2]){
@@ -58,17 +58,21 @@ void ParticleBase::Draw(Camera* camera)
 			billboardMatrix_.m[3][1] = 0.0f;
 			billboardMatrix_.m[3][2] = 0.0f;
 			
-			worldViewProjectionMatrix = particles_[i].transform.GetWorldMatrix() * billboardMatrix_ * camera->GetViewProjectionMatrix();
+			worldViewProjectionMatrix = particleIterator->transform.GetWorldMatrix() * billboardMatrix_ * camera->GetViewProjectionMatrix();
 		}
 
-		particleData_[numInstance].WVP = worldViewProjectionMatrix;
-		particleData_[numInstance].World = worldViewProjectionMatrix;
+		//最大数制御
+		if(numInstance < kNumMaxInstance_){
+			particleData_[numInstance].WVP = worldViewProjectionMatrix;
+			particleData_[numInstance].World = worldViewProjectionMatrix;
 
-		float alpha = 1.0f - (particles_[i].currentTime / particles_[i].lifeTime);
-		particleData_[numInstance].color = particles_[i].color;
-		particleData_[numInstance].color.w = alpha;
+			float alpha = 1.0f - (particleIterator->currentTime / particleIterator->lifeTime);
+			particleData_[numInstance].color = particleIterator->color;
+			particleData_[numInstance].color.w = alpha;
 
-		numInstance++;
+			++numInstance;
+		}
+		++particleIterator;
 	}
 
 	//ルートシグネチャ設定 PSOに設定しいているが別途設定が必要
