@@ -49,7 +49,8 @@ void Application::Update()
 
 	sp_->Update();
 
-	particle_->Add(player_->translate);
+	ImGui::DragFloat3("Particle - pos", &pos.x, 0.1f);
+	particle_->Add(pos);
 	particle_->Update();
 
 	camera_->Update(player_->translate);

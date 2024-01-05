@@ -52,5 +52,6 @@ private:
 
 	ParticleObject* particle_ = nullptr;
 	Sprite2D* sp_ = nullptr;
+	Vector3 pos;
 };
 

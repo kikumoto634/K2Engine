@@ -47,7 +47,8 @@ void ParticleBase::Draw(Camera* camera)
 			billboardMatrix_.m[3][1] = 0.0f;
 			billboardMatrix_.m[3][2] = 0.0f;
 			
-			worldViewProjectionMatrix = particleIterator->transform.GetWorldMatrix() * billboardMatrix_ * camera->GetViewProjectionMatrix();
+			Matrix4x4 worldMatrix = MakeScaleMatrix(particleIterator->transform.scale) * billboardMatrix_ * MakeTranslateMatrix(particleIterator->transform.translate);
+			worldViewProjectionMatrix = worldMatrix * camera->GetViewProjectionMatrix();
 		}
 		//Y軸ビルボード
 		else if(billboardTypeEnable[2]){
@@ -58,7 +59,8 @@ void ParticleBase::Draw(Camera* camera)
 			billboardMatrix_.m[3][1] = 0.0f;
 			billboardMatrix_.m[3][2] = 0.0f;
 			
-			worldViewProjectionMatrix = particleIterator->transform.GetWorldMatrix() * billboardMatrix_ * camera->GetViewProjectionMatrix();
+			Matrix4x4 worldMatrix = MakeScaleMatrix(particleIterator->transform.scale) * billboardMatrix_ * MakeTranslateMatrix(particleIterator->transform.translate);
+			worldViewProjectionMatrix = worldMatrix * camera->GetViewProjectionMatrix();
 		}
 
 		//最大数制御
