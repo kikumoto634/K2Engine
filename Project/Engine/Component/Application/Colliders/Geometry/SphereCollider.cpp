@@ -4,12 +4,12 @@ SphereCollider *SphereCollider::Create()
 {
 	SphereCollider* instance = new SphereCollider();
 	instance->Initialize();
-	instance->SphereVertexData();
-	instance->SphereIndexData();
+	instance->VertexData();
+	instance->IndexData();
 	return instance;
 }
 
-void SphereCollider::SphereVertexData()
+void SphereCollider::VertexData()
 {
 	//球体
 	//PI円周率
@@ -61,7 +61,7 @@ void SphereCollider::SphereVertexData()
 	}
 }
 
-void SphereCollider::SphereIndexData()
+void SphereCollider::IndexData()
 {
 	uint32_t lonIndex = 0;
 	uint32_t latIndex = 0;

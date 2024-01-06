@@ -24,7 +24,8 @@ public:
 		vector<D3D12_INPUT_ELEMENT_DESC> inputLayoutDesc,	//インプットレイアウト
 		D3D12_FILL_MODE fillMode = D3D12_FILL_MODE_SOLID,	//描画種類
 		D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE,
-		BlendSetting::BlendMode blendMode = BlendSetting::kBlendModeNormal
+		BlendSetting::BlendMode blendMode = BlendSetting::kBlendModeNormal,
+		D3D12_CULL_MODE cullingMode = D3D12_CULL_MODE_BACK
 	);
 
 	void DepthStencilSet(bool enable = true, D3D12_DEPTH_WRITE_MASK writeMask = D3D12_DEPTH_WRITE_MASK_ALL, D3D12_COMPARISON_FUNC func = D3D12_COMPARISON_FUNC_LESS_EQUAL);
@@ -120,6 +121,9 @@ private:
 
 	//DSVStencil 深度設定
 	D3D12_DEPTH_STENCIL_DESC depthStencilDesc_;
+
+	//カリング
+	D3D12_CULL_MODE cullingMode_ = D3D12_CULL_MODE_BACK;
 
 	//パイプラインステート
 	ComPtr<ID3D12PipelineState> graphicsPipelineState_;

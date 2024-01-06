@@ -1,5 +1,5 @@
 #pragma once
-#include "Geometry/Common/GeometryBaseCollider.h"
+#include "Common/GeometryBaseCollider.h"
 
 class SphereCollider : public GeometryBaseCollider
 {
@@ -13,8 +13,8 @@ public:
 	}
 
 private:
-	void SphereVertexData();
-	void SphereIndexData();
+	void VertexData();
+	void IndexData();
 
 private:
 	//球体分割数

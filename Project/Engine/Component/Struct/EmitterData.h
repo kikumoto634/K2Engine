@@ -1,5 +1,5 @@
 #pragma once
-struct Emitter{
+struct EmitterData{
 	Transform transform; // エミッタのTransform
 	Vector2 velocity;	//射出速度
 	uint32_t count;	//発生数

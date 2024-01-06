@@ -244,6 +244,21 @@
     <Filter Include="ヘッダー ファイル\Engine\Object\Particle\Common">
       <UniqueIdentifier>{56c576fb-4004-40cb-8c8c-d26b67fbda4b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shader\Particle\EmitterFrame">
+      <UniqueIdentifier>{aa9f908f-7358-4c8c-972a-a3fde38467a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Particle\EmitterFrame">
+      <UniqueIdentifier>{e62d9574-9854-423b-84fa-a7604be811d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Object\Particle\EmitterFrame">
+      <UniqueIdentifier>{4c526eca-39b1-4bee-9f88-b504e3e1751c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Common">
+      <UniqueIdentifier>{8e6b2992-bd31-4372-9b38-8448247c8780}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Object\Particle\EmitterFrame\Common">
+      <UniqueIdentifier>{4fdbcf88-c676-41a8-a23a-a7711d559922}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -392,6 +407,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Object\Particle\ParticleEmitterObject.cpp">
       <Filter>ソース ファイル\Engine\Object\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameBase.cpp">
+      <Filter>ソース ファイル\Engine\Object\Particle\EmitterFrame\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Particle\EmitterFrame\EmitterFrameSquare.cpp">
+      <Filter>ソース ファイル\Engine\Object\Particle\EmitterFrame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -572,6 +593,12 @@
     <ClInclude Include="Engine\Component\Struct\DescriptorData.h">
       <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameBase.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\EmitterFrame\EmitterFrameSquare.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle\EmitterFrame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Texture.hlsl">
@@ -600,6 +627,12 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Particle\Particle.PS.hlsl">
       <Filter>リソース ファイル\Shader\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Particle\Emitter\EmitterFrame.PS.hlsl">
+      <Filter>リソース ファイル\Shader\Particle\EmitterFrame</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Particle\Emitter\EmitterFrame.VS.hlsl">
+      <Filter>リソース ファイル\Shader\Particle\EmitterFrame</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

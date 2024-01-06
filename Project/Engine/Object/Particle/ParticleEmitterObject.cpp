@@ -18,6 +18,8 @@ void ParticleEmitterObject::Initialize(bool isIndexEnable)
 	emitter_.count = 3;
 	emitter_.frequency = 0.5f;
 	emitter_.frequencyTime = 0.0f;
+
+	frame_ = EmitterFrameSquare::Create();
 }
 
 void ParticleEmitterObject::Update()
@@ -28,8 +30,15 @@ void ParticleEmitterObject::Update()
 		if(i > 0){ImGui::SameLine();}
 		ImGui::Checkbox('EbillboardTypeName[i], &billboardTypeEnable[i]);
 	}*/
-	if(!particles_.empty())ImGui::DragFloat3("Emitter Pos", &particles_.front().transform.translate.x);
+	
+	ImGui::Text("Emitter");
+	ImGui::DragFloat3("Pos   - Emitter", &emitter_.transform.translate.x, 0.01f);
+	ImGui::DragFloat3("Rot   - Emitter", &emitter_.transform.rotation.x, 1.f);
+	ImGui::DragFloat3("Scale - Emitter", &emitter_.transform.scale.x, 0.01f);
 #endif // _DEBUG
+
+	frame_->Update(emitter_);
+	Add();
 
 	for(std::list<ParticleData>::iterator particleIterator = particles_.begin(); particleIterator != particles_.end();){
 		if(particleIterator->lifeTime <= particleIterator->currentTime) {
@@ -45,17 +54,39 @@ void ParticleEmitterObject::Update()
 	}
 }
 
-void ParticleEmitterObject::Add(const Vector3& translate)
+void ParticleEmitterObject::Draw(Camera *camera)
+{
+	frame_->Draw(camera);
+	ParticleBase::Draw(camera);
+}
+
+
+void ParticleEmitterObject::Add()
 {
 	//乱数生成器
 	std::random_device seedGenerator_;
 	std::mt19937 randomEngine(seedGenerator_());
 	emitter_.frequencyTime += kDeltaTime_;
 	if(emitter_.frequency <= emitter_.frequencyTime){
-		particles_.splice(particles_.end(), Emission(emitter_, randomEngine, translate));
+		particles_.splice(particles_.end(), Emission(emitter_, randomEngine, emitter_.transform.translate));
 		emitter_.frequencyTime -= emitter_.frequency;
 	}
 }
+
+void ParticleEmitterObject::Add(const Vector3& translate)
+{
+	emitter_.transform.translate = translate;
+
+	//乱数生成器
+	std::random_device seedGenerator_;
+	std::mt19937 randomEngine(seedGenerator_());
+	emitter_.frequencyTime += kDeltaTime_;
+	if(emitter_.frequency <= emitter_.frequencyTime){
+		particles_.splice(particles_.end(), Emission(emitter_, randomEngine, emitter_.transform.translate));
+		emitter_.frequencyTime -= emitter_.frequency;
+	}
+}
+
 
 void ParticleEmitterObject::VertexData()
 {
@@ -77,6 +108,7 @@ void ParticleEmitterObject::IndexData()
 	indexData_[0] = 0;	indexData_[1] = 1;	indexData_[2] = 2;
 	indexData_[3] = 0;	indexData_[4] = 3;	indexData_[5] = 1;
 }
+
 
 ParticleData ParticleEmitterObject::MakeNewParticle(std::mt19937 &randomEngine, const Vector3& translate)
 {
@@ -103,7 +135,7 @@ ParticleData ParticleEmitterObject::MakeNewParticle(std::mt19937 &randomEngine, 
 	return particle;
 }
 
-std::list<ParticleData> ParticleEmitterObject::Emission(const Emitter &emitter, std::mt19937 &randomEngine, const Vector3& translate)
+std::list<ParticleData> ParticleEmitterObject::Emission(const EmitterData &emitter, std::mt19937 &randomEngine, const Vector3& translate)
 {
 	std::list<ParticleData> particles;
 	for(uint32_t i = 0; i < emitter.count; i++){

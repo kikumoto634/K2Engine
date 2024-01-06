@@ -54,9 +54,7 @@ void Application::Update()
 	particle_->Update();
 	ImGui::DragFloat3("Particle - pos", &particlePos_.x, 0.1f);
 
-	emitter_->Add(emitterPos_);
 	emitter_->Update();
-	ImGui::DragFloat3("Emitter - pos", &emitterPos_.x, 0.1f);
 
 	camera_->Update(player_->translate);
 	light_->Update();

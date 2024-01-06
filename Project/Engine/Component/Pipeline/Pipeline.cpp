@@ -17,7 +17,8 @@ void Pipeline::Create(
 	vector<D3D12_INPUT_ELEMENT_DESC> inputLayoutDesc,
 	D3D12_FILL_MODE fillMode,
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology,
-	BlendSetting::BlendMode blendMode
+	BlendSetting::BlendMode blendMode,
+	D3D12_CULL_MODE cullingMode
 )
 {
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -44,6 +45,7 @@ void Pipeline::Create(
 
 	blendMode_ = blendMode;
 
+	cullingMode_ = cullingMode;
 
 	CreateDXCCompiler();
 
@@ -200,7 +202,7 @@ bool Pipeline::CreateRasterizerState()
 	//ラスタライザに対する処理
 
 	//裏面(時計回り)を表示しない
-	rasterizerDesc_.CullMode = D3D12_CULL_MODE_BACK;
+	rasterizerDesc_.CullMode = cullingMode_;
 	//三角形の中を塗りつぶす
 	rasterizerDesc_.FillMode = fillMode_;
 

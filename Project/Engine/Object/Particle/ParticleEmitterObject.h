@@ -1,6 +1,7 @@
 #pragma once
 #include "Common/ParticleBase.h"
 #include "EmitterData.h"
+#include "EmitterFrame/EmitterFrameSquare.h"
 
 class ParticleEmitterObject : public ParticleBase
 {
@@ -15,8 +16,10 @@ public:
 		//texturePath_ = "white1x1.png";
 	}
 	void Update() override;
+	void Draw(Camera* camera) override;
 
-	void Add(const Vector3& translate = {0,0,0}) override;
+	void Add();
+	void Add(const Vector3& translate);
 
 private:
 	void Initialize(bool isIndexEnable = true) override;
@@ -25,8 +28,9 @@ private:
 	void IndexData();
 
 	ParticleData MakeNewParticle(std::mt19937& randomEngine, const Vector3& translate) override;
-	std::list<ParticleData> Emission(const Emitter& emitter, std::mt19937& randomEngine, const Vector3& translate);
+	std::list<ParticleData> Emission(const EmitterData& emitter, std::mt19937& randomEngine, const Vector3& translate);
 
 private:
-	Emitter emitter_ = {{{0,0,0},{0,0,0},{1,1,1}},{-1,1},3,0.5f,0.0f};
+	EmitterData emitter_ = {{{0,0,0},{0,0,0},{1,1,1}},{-1,1},3,0.5f,0.0f};
+	EmitterFrameSquare* frame_ = nullptr;
 };
