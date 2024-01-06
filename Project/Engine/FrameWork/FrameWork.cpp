@@ -23,12 +23,13 @@ void FrameWork::Initialize()
 	GlobalVariables::GetInstance()->LoadFiles();
 #endif // _DEBUG
 
-	app_ = Application::Create();
-
 #ifdef _DEBUG
 	imgui_ = ImGuiManager::Create();
 	ImGuiManager::Initialize(win_->GetHWND(), dxCommon_);
 #endif // _DEBUG
+
+	app_ = Application::Create();
+
 }
 
 void FrameWork::Run()

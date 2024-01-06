@@ -9,6 +9,8 @@
 #include "WindowsApp.h"
 #include "Vector4.h"
 
+#include "DescriptorData.h"
+
 class DirectXCommon
 {
 private:
@@ -47,7 +49,7 @@ public:
 	ID3D12CommandQueue* GetCommandQueue()	{return commandQueue_.Get();}
 	ID3D12CommandAllocator*	GetCommandAllocator()	{return commandAllocator_.Get();}
 
-	ID3D12DescriptorHeap* GetSRVDescriptorHeap()	{return srvDescriptorHeap_.Get();}
+	DescriptorSRVData& GetSRVDescriptorHeap()	{return srvDescriptorHeap_;}
 
 	uint32_t GetDescriptorSizeSRV()	{return descriptorSizeSRV_;}
 
@@ -120,6 +122,9 @@ private:
 	//ダブルバッファ
 	static const int SwapChainNum = 2;
 
+	//SRV最大数
+	const int kSRVNumMax = 128;
+
 private:
 	HRESULT result = {};
 	WindowsApp* windows = nullptr;
@@ -156,11 +161,11 @@ private:
 	//ディスクリプタヒープとは、作業方法(View)の情報を格納する配列
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 	//RTVのディスクリプタヒープ(RTVのヒープは全体で一つだけ)
-	ComPtr<ID3D12DescriptorHeap> rtvDescriptorHeap_;
+	DescriptorRTVData rtvDescriptorHeap_;
 	//SRV : Resourceに対して見る作業をするもの(SRVのヒープは全体で一つだけ)
-	ComPtr<ID3D12DescriptorHeap> srvDescriptorHeap_;
+	DescriptorSRVData srvDescriptorHeap_;
 	//DSV用のディスクリプタヒープ	(DVSのヒープは全体に一つだけ)　
-	ComPtr<ID3D12DescriptorHeap> dsvDescriptorHeap_;
+	DescriptorDSVData dsvDescriptorHeap_;
 
 	//各ディスクリプタヒープサイズ
 	//RTV

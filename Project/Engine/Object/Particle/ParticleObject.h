@@ -14,12 +14,12 @@ public:
 		//texturePath_ = "white1x1.png";
 	}
 	//void Initialize(bool isIndexEnable = true);
-	void Update();
+	//void Update();
 
 	void Add(const Vector3& translate = {0,0,0}) override;
 
 private:
-	void Initialize(bool isIndexEnable = true) override;
+	//void Initialize(bool isIndexEnable = true) override;
 
 	void VertexData();
 	void IndexData();

@@ -15,10 +15,13 @@ void ImGuiManager::Initialize(HWND hwnd, DirectXCommon *dxCommon)
 		dxCommon->GetDevice(),
 		dxCommon->GetSwapChainDesc().BufferCount,
 		dxCommon->GetRTVDesc().Format,
-		dxCommon->GetSRVDescriptorHeap(),
-		dxCommon->GetSRVDescriptorHeap()->GetCPUDescriptorHandleForHeapStart(),
-		dxCommon->GetSRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart()
+		dxCommon->GetSRVDescriptorHeap().Heap.Get(),
+		dxCommon->GetSRVDescriptorHeap().Heap->GetCPUDescriptorHandleForHeapStart(),
+		dxCommon->GetSRVDescriptorHeap().Heap->GetGPUDescriptorHandleForHeapStart()
 	);
+
+	dxCommon->GetSRVDescriptorHeap().CPUFlags[0] = true;
+	dxCommon->GetSRVDescriptorHeap().GPUFlags[0] = true;
 }
 
 void ImGuiManager::NewFrame()

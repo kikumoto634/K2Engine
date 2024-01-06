@@ -3,7 +3,7 @@
 class Sprite2D : public SpriteBase
 {
 public:
-	static Sprite2D* Create(Transform transform = {{0,0,0}, {0,0,0}, {1,1,1}});
+	static Sprite2D* Create(Transform transform = {{100,100,0}, {0,0,0}, {1,1,1}});
 
 public:
 	Sprite2D(Transform transform){
@@ -14,7 +14,7 @@ public:
 		vertNum_ = 4;
 		indexNum_ = 6;
 		
-		texturePath_ = "monsterBall.png";
+		texturePath_ = "uvChecker.png";
 	}
 	void Update();
 

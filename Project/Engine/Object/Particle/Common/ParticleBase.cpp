@@ -278,8 +278,18 @@ void ParticleBase::CreateWVP()
 	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	instancingSrvDesc.Buffer.NumElements = kNumMaxInstance_;
 	instancingSrvDesc.Buffer.StructureByteStride = sizeof(ParticleForGPUData);
-	instancingSrvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), 1);
-	instancingSrvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV(), 1);
+
+	/* Index   /対象
+	*  00      /ImGui
+	* 
+	*  01
+	*  ≀       /Texture
+	*  09(X)
+	* 
+	*  10(X+1) /パーティクル行列
+	*/
+	instancingSrvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV());
+	instancingSrvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV());
 	dxCommon->GetDevice()->CreateShaderResourceView(particleResource_.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
 }
 

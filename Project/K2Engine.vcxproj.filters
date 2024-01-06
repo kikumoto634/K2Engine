@@ -569,6 +569,9 @@
     <ClInclude Include="Engine\Object\Particle\ParticleEmitterObject.h">
       <Filter>ヘッダー ファイル\Engine\Object\Particle</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\DescriptorData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Texture.hlsl">

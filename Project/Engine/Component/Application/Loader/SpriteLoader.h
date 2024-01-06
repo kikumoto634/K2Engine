@@ -15,8 +15,6 @@ private:
 public:
 	//テクスチャ最大保存枚数
 	static const size_t kMaxSRVCount = 2056;
-	//SRV保存先Offset
-	static const int SRVOffset = 2;
 
 public:
 	//フォルダ名から必要なテクスチャデータを確保
