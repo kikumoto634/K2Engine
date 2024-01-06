@@ -36,7 +36,7 @@ void Application::Initialize()
 	collisionManager_ = std::make_unique<CollisionManager>();
 
 	particle_ = ParticleObject::Create();
-	//emitter_ = ParticleObject::Create();
+	emitter_ = ParticleEmitterObject::Create();
 
 	sp_ = Sprite2D::Create();
 }
@@ -54,9 +54,9 @@ void Application::Update()
 	particle_->Update();
 	ImGui::DragFloat3("Particle - pos", &particlePos_.x, 0.1f);
 
-	/*emitter_->Add(emitterPos_);
+	emitter_->Add(emitterPos_);
 	emitter_->Update();
-	ImGui::DragFloat3("Emitter - pos", &emitterPos_.x, 0.1f);*/
+	ImGui::DragFloat3("Emitter - pos", &emitterPos_.x, 0.1f);
 
 	camera_->Update(player_->translate);
 	light_->Update();
@@ -82,7 +82,7 @@ void Application::SpriteDraw()
 void Application::ParticleDraw()
 {
 	particle_->Draw(camera_);
-	/*emitter_->Draw(camera_);*/
+	emitter_->Draw(camera_);
 }
 
 void Application::CollisionCheck()

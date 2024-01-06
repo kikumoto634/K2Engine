@@ -53,8 +53,8 @@ private:
 
 	ParticleObject* particle_ = nullptr;
 	Vector3 particlePos_ = {-5,0,0};
-	/*ParticleObject* emitter_ = nullptr;
-	Vector3 emitterPos_ = {5,0,0};*/
+	ParticleEmitterObject* emitter_ = nullptr;
+	Vector3 emitterPos_ = {5,0,0};
 
 	Sprite2D* sp_ = nullptr;
 };

@@ -10,11 +10,6 @@ ParticleObject *ParticleObject::Create()
 	return instance;
 }
 
-//void ParticleObject::Initialize(bool isIndexEnable)
-//{
-//	ParticleBase::Initialize(isIndexEnable);
-//}
-
 //void ParticleObject::Update()
 //{
 //#ifdef _DEBUG
