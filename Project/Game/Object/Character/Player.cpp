@@ -17,7 +17,7 @@ Player::Player(std::string filePath, Transform transform):
 
 	weapon_ = ObjModel::Create("weapon");
 
-	//particle_ = ParticleObject::Create();
+	particle_ = ParticleObject::Create();
 
 	name_ = "Player";
 }
@@ -68,7 +68,8 @@ void Player::Update()
 		break;
 	}
 
-	//particle_->Update();
+	particle_->Add(translate);
+	particle_->Update();
 }
 
 void Player::Draw(Camera* camera)
@@ -80,7 +81,7 @@ void Player::Draw(Camera* camera)
 		break;
 	}
 
-	//particle_->Draw(camera);
+	particle_->Draw(camera);
 	ObjModel::Draw(camera);
 }
 

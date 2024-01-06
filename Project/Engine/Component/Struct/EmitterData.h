@@ -1,0 +1,8 @@
+#pragma once
+struct Emitter{
+	Transform transform; // エミッタのTransform
+	Vector2 velocity;	//射出速度
+	uint32_t count;	//発生数
+	float frequency; //発生頻度
+	float frequencyTime; //頻度用時刻
+};

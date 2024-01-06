@@ -232,6 +232,18 @@
     <Filter Include="リソース ファイル\Shader\Particle">
       <UniqueIdentifier>{6c0a51fd-82d2-4272-92c7-9bc5da95718e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Engine\Object\Particle">
+      <UniqueIdentifier>{0567fb5f-5390-4c3e-80f1-3202bc747c33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Particle">
+      <UniqueIdentifier>{5ce92f1d-748d-4cb8-80fd-ecb1401f3d26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Object\Particle\Common">
+      <UniqueIdentifier>{b2a42f50-899b-4c62-a364-c15524071d5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Particle\Common">
+      <UniqueIdentifier>{56c576fb-4004-40cb-8c8c-d26b67fbda4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -372,11 +384,14 @@
     <ClCompile Include="Engine\Component\Pipeline\BlendSetting.cpp">
       <Filter>ソース ファイル\Engine\Component\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object\Geometry\ParticleObject.cpp">
-      <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
+    <ClCompile Include="Engine\Object\Particle\ParticleObject.cpp">
+      <Filter>ソース ファイル\Engine\Object\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object\Geometry\Common\ParticleBase.cpp">
-      <Filter>ソース ファイル\Engine\Object\Geometry\Common</Filter>
+    <ClCompile Include="Engine\Object\Particle\Common\ParticleBase.cpp">
+      <Filter>ソース ファイル\Engine\Object\Particle\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Particle\ParticleEmitterObject.cpp">
+      <Filter>ソース ファイル\Engine\Object\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -536,17 +551,23 @@
     <ClInclude Include="Engine\Component\Pipeline\BlendSetting.h">
       <Filter>ヘッダー ファイル\Engine\Component\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object\Geometry\ParticleObject.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Object\Geometry\Common\ParticleBase.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Component\Struct\ParticleData.h">
       <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Component\Struct\ParticleForGPUData.h">
       <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\ParticleObject.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\Common\ParticleBase.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\EmitterData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\ParticleEmitterObject.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

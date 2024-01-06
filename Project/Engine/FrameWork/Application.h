@@ -16,7 +16,8 @@
 
 #include "CollisionManager.h"
 
-#include "Geometry/ParticleObject.h"
+#include "Particle/ParticleObject.h"
+#include "Particle/ParticleEmitterObject.h"
 
 class Application
 {
@@ -51,7 +52,10 @@ private:
 	std::unique_ptr<CollisionManager> collisionManager_;
 
 	ParticleObject* particle_ = nullptr;
+	Vector3 particlePos_ = {-5,0,0};
+	/*ParticleObject* emitter_ = nullptr;
+	Vector3 emitterPos_ = {5,0,0};*/
+
 	Sprite2D* sp_ = nullptr;
-	Vector3 pos;
 };
 

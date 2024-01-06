@@ -15,6 +15,8 @@
 #include "ParticleData.h"
 #include "ParticleForGPUData.h"
 
+#include <random>
+
 class ParticleBase
 {
 private:
@@ -25,12 +27,15 @@ public:
 	~ParticleBase(){
 		delete pipeline_;
 	}
+	virtual void Update();
 	virtual void Draw(Camera* camera);
 
+	virtual void Add(const Vector3& translate = {0,0,0});
 protected:
 	//初期化
 	virtual void Initialize(bool isIndexEnable = true);
 
+	virtual ParticleData MakeNewParticle(std::mt19937 &randomEngine, const Vector3& translate);
 
 	virtual void ApplyGlobalVariablesInitialize();
 	virtual void ApplyGlobalVariablesUpdate();
@@ -41,11 +46,11 @@ private:
 
 protected:
 	//頂点リソース/ビュー
-	virtual void CreateVertex();
+	void CreateVertex();
 	//インデックスリソース/ビュー
-	virtual void CreateIndex();
+	void CreateIndex();
 	//行列リソース/ビュー
-	virtual void CreateWVP();
+	void CreateWVP();
 
 protected:
 	//Instance
@@ -101,8 +106,10 @@ protected:
 	//パラメータ
 	//最大数
 	int kNumMaxInstance_ = 100;
-	//パーセント変数
+	//パーティクル変数
 	list<ParticleData> particles_;
+
+	const float kDeltaTime_ = 1.0f/60.f;
 
 	std::string texturePath_ = "uvChecker.png";
 

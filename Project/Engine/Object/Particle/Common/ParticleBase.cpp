@@ -10,6 +10,8 @@
 
 #include "FollowCamera.h"
 
+using namespace std;
+
 void ParticleBase::Initialize(bool isIndexEnable)
 {
 	dxCommon = DirectXCommon::GetInstance();
@@ -29,10 +31,25 @@ void ParticleBase::Initialize(bool isIndexEnable)
 	billboardMatrix_ = MakeIdentityMatrix();
 }
 
+void ParticleBase::Update()
+{
+	for(list<ParticleData>::iterator particleIterator = particles_.begin(); particleIterator != particles_.end();){
+		if(particleIterator->lifeTime <= particleIterator->currentTime) {
+			particleIterator = particles_.erase(particleIterator);
+			continue;
+		}
+
+		particleIterator->transform.translate += particleIterator->velocity * kDeltaTime_;
+		particleIterator->transform.rotation.z += particleIterator->velocity.z * kDeltaTime_;
+		particleIterator->currentTime += kDeltaTime_;
+
+		++particleIterator;
+	}
+}
+
 void ParticleBase::Draw(Camera* camera)
 {
 	int numInstance = 0;	//描画すべきインスタンス
-	using namespace std;
 	for(list<ParticleData>::iterator particleIterator = particles_.begin(); particleIterator != particles_.end();){
 
 		Matrix4x4 worldViewProjectionMatrix = MakeIdentityMatrix();
@@ -96,6 +113,35 @@ void ParticleBase::Draw(Camera* camera)
 	isIndexDataEnable_ ? 
 		dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,numInstance,0,0,0) : 
 		dxCommon->GetCommandList()->DrawInstanced(vertNum_,numInstance,0,0);
+}
+
+void ParticleBase::Add(const Vector3 &translate)
+{
+	//乱数生成器
+	std::random_device seedGenerator_;
+	std::mt19937 randomEngine(seedGenerator_());
+	particles_.push_back(MakeNewParticle(randomEngine, translate));
+}
+
+ParticleData ParticleBase::MakeNewParticle(std::mt19937 &randomEngine, const Vector3& translate)
+{
+	std::uniform_real_distribution<float> distVelocity(0.0f, 1.0f);
+	std::uniform_real_distribution<float> distColor(0.0f,1.0f);
+	std::uniform_real_distribution<float> distTime(1.0f,3.0f);
+	ParticleData particle;
+
+	particle.transform.scale = {1,1,1};
+	particle.transform.rotation = {0,0,0};
+	particle.transform.translate = translate;
+
+	particle.velocity = {distVelocity(randomEngine),distVelocity(randomEngine),distVelocity(randomEngine)};
+
+	particle.color = {distColor(randomEngine),distColor(randomEngine),distColor(randomEngine), 1.0f};
+	
+	particle.lifeTime = distTime(randomEngine);
+	particle.currentTime = 0;
+
+	return particle;
 }
 
 
