@@ -23,3 +23,27 @@ Matrix4x4 Transform::GetWorldMatrix()
 
 	return worldMatrix4x4_;
 }
+
+Matrix4x4 Transform::GetScaleMatrix()
+{
+	Matrix4x4 matScale = MakeIdentityMatrix();
+	matScale = MakeScaleMatrix(scale);
+	return matScale;
+}
+
+Matrix4x4 Transform::GetRotMatrix()
+{
+	Matrix4x4 matRot = MakeIdentityMatrix();
+	matRot *= MakeRotationZMatrix(rotation.z);
+	matRot *= MakeRotationXMatrix(rotation.x);
+	matRot *= MakeRotationYMatrix(rotation.y);
+
+	return matRot;
+}
+
+Matrix4x4 Transform::GetTransMatrix()
+{
+	Matrix4x4 matTrans = MakeIdentityMatrix();
+	matTrans = MakeTranslateMatrix(translate);
+	return matTrans;
+}

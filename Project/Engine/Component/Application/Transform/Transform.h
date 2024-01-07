@@ -18,6 +18,9 @@ public:
 
 	//Getter
 	Matrix4x4 GetWorldMatrix();
+	Matrix4x4 GetScaleMatrix();
+	Matrix4x4 GetRotMatrix();
+	Matrix4x4 GetTransMatrix();
 
 private:
 	Matrix4x4 worldMatrix4x4_;

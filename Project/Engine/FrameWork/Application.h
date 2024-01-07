@@ -19,6 +19,11 @@
 #include "Particle/ParticleObject.h"
 #include "Particle/ParticleEmitterObject.h"
 
+
+#include "CollisionPrimitive.h"
+#include "CollisionCheck.h"
+#include "Input.h"
+
 class Application
 {
 public:
@@ -57,5 +62,10 @@ private:
 	Vector3 emitterPos_ = {5,0,0};
 
 	Sprite2D* sp_ = nullptr;
+
+
+	SphereCP sphere;
+	PlaneCP plane;
+	TriangleCP triangle;
 };
 

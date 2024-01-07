@@ -384,18 +384,6 @@
     <ClCompile Include="Engine\Object\Camera\FollowCamera.cpp">
       <Filter>ソース ファイル\Engine\Object\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Component\Application\Colliders\Collider.cpp">
-      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Component\Application\Colliders\CollisionManager.cpp">
-      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Component\Application\Colliders\Geometry\SphereCollider.cpp">
-      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Component\Application\Colliders\Geometry\Common\GeometryBaseCollider.cpp">
-      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Component\Pipeline\BlendSetting.cpp">
       <Filter>ソース ファイル\Engine\Component\Pipeline</Filter>
     </ClCompile>
@@ -413,6 +401,21 @@
     </ClCompile>
     <ClCompile Include="Engine\Object\Particle\EmitterFrame\EmitterFrameSquare.cpp">
       <Filter>ソース ファイル\Engine\Object\Particle\EmitterFrame</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Colliders_Collision\CollisionCheck.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Colliders_Collision\Collider.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Colliders_Collision\CollisionManager.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\SphereCollider.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\GeometryBaseCollider.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -557,18 +560,6 @@
     <ClInclude Include="Engine\Object\Camera\FollowCamera.h">
       <Filter>ヘッダー ファイル\Engine\Object\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Colliders\Collider.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Colliders\CollisionManager.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Colliders\Geometry\SphereCollider.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Colliders\Geometry\Common\GeometryBaseCollider.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Component\Pipeline\BlendSetting.h">
       <Filter>ヘッダー ファイル\Engine\Component\Pipeline</Filter>
     </ClInclude>
@@ -598,6 +589,30 @@
     </ClInclude>
     <ClInclude Include="Engine\Object\Particle\EmitterFrame\EmitterFrameSquare.h">
       <Filter>ヘッダー ファイル\Engine\Object\Particle\EmitterFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionCheck.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\Collider.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionConfig.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionManager.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionPrimitive.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionShapeTypa.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\SphereCollider.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\GeometryBaseCollider.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

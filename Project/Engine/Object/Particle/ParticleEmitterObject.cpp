@@ -1,5 +1,6 @@
 #include "ParticleEmitterObject.h"
 #include <imgui.h>
+#include "MathUtility.h"
 
 ParticleEmitterObject *ParticleEmitterObject::Create()
 {
@@ -15,7 +16,7 @@ void ParticleEmitterObject::Initialize(bool isIndexEnable)
 	ParticleBase::Initialize(isIndexEnable);
 
 	emitter_.velocity = {-1,1};
-	emitter_.count = 3;
+	emitter_.count = 1;
 	emitter_.frequency = 0.5f;
 	emitter_.frequencyTime = 0.0f;
 
@@ -25,20 +26,23 @@ void ParticleEmitterObject::Initialize(bool isIndexEnable)
 void ParticleEmitterObject::Update()
 {
 #ifdef _DEBUG
-	//ImGui::Text("Emitter");
-	/*for(int i = 0; i < 3; i++){
-		if(i > 0){ImGui::SameLine();}
-		ImGui::Checkbox('EbillboardTypeName[i], &billboardTypeEnable[i]);
-	}*/
-	
 	ImGui::Text("Emitter");
 	ImGui::DragFloat3("Pos   - Emitter", &emitter_.transform.translate.x, 0.01f);
 	ImGui::DragFloat3("Rot   - Emitter", &emitter_.transform.rotation.x, 1.f);
 	ImGui::DragFloat3("Scale - Emitter", &emitter_.transform.scale.x, 0.01f);
+	for(int i = 0; i < 3; i++){
+		if(i > 0){ImGui::SameLine();}
+
+		const char* str1 = "E ";
+		std::string strA = std::string(str1) + billboardTypeName[i];
+
+		ImGui::Checkbox(strA.c_str(), &billboardTypeEnable[i]);
+	}
+	ImGui::DragInt("count - Emitter", &emitter_.count, 1, 0,100);
+	
 #endif // _DEBUG
 
 	frame_->Update(emitter_);
-	Add();
 
 	for(std::list<ParticleData>::iterator particleIterator = particles_.begin(); particleIterator != particles_.end();){
 		if(particleIterator->lifeTime <= particleIterator->currentTime) {
@@ -119,11 +123,12 @@ ParticleData ParticleEmitterObject::MakeNewParticle(std::mt19937 &randomEngine, 
 	std::uniform_real_distribution<float> distVelocity(emitter_.velocity.x,emitter_.velocity.y);
 	std::uniform_real_distribution<float> distColor(0.0f,1.0f);
 	std::uniform_real_distribution<float> distTime(1.0f,3.0f);
+	
 	ParticleData particle;
 
 	particle.transform.scale = {1,1,1};
 	particle.transform.rotation = {0,0,0};
-	particle.transform.translate = translate + Vector3{distSizeX(randomEngine),distSizeY(randomEngine),distSizeZ(randomEngine)};
+	particle.transform.translate = translate + Multiplication(Vector3{distSizeX(randomEngine),distSizeY(randomEngine),distSizeZ(randomEngine)}, emitter_.transform.GetRotMatrix());
 
 	particle.velocity = {distVelocity(randomEngine),distVelocity(randomEngine),distVelocity(randomEngine)};
 
@@ -138,7 +143,7 @@ ParticleData ParticleEmitterObject::MakeNewParticle(std::mt19937 &randomEngine, 
 std::list<ParticleData> ParticleEmitterObject::Emission(const EmitterData &emitter, std::mt19937 &randomEngine, const Vector3& translate)
 {
 	std::list<ParticleData> particles;
-	for(uint32_t i = 0; i < emitter.count; i++){
+	for(int i = 0; i < emitter.count; i++){
 		particles.push_back(MakeNewParticle(randomEngine, translate));
 	}
 

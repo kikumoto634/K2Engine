@@ -10,19 +10,22 @@ ParticleObject *ParticleObject::Create()
 	return instance;
 }
 
-//void ParticleObject::Update()
-//{
-//#ifdef _DEBUG
-//	//ImGui::Text("Particle");
-//	/*for(int i = 0; i < 3; i++){
-//		if(i > 0){ImGui::SameLine();}
-//		ImGui::Checkbox(billboardTypeName[i], &billboardTypeEnable[i]);
-//	}*/
-//	if(!particles_.empty())ImGui::DragFloat3("Particle Pos", &particles_.front().transform.translate.x);
-//#endif // _DEBUG
-//
-//	//ParticleBase::Update();
-//}
+void ParticleObject::Update()
+{
+#ifdef _DEBUG
+	ImGui::Text("Particle");
+	for(int i = 0; i < 3; i++){
+		if(i > 0){ImGui::SameLine();}
+
+		const char* str1 = "P ";
+		std::string strA = std::string(str1) + billboardTypeName[i];
+
+		ImGui::Checkbox(strA.c_str(), &billboardTypeEnable[i]);
+	}
+#endif // _DEBUG
+
+	ParticleBase::Update();
+}
 
 void ParticleObject::Add(const Vector3& translate)
 {

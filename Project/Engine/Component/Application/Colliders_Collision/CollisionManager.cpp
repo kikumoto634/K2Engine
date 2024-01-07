@@ -38,6 +38,12 @@ void CollisionManager::CheckCollisionPair(Collider *a, Collider *b)
 	Vector3 colBPos = b->GetColliderCenterPos();
 	float distance = Vector3(colBPos-colAPos).length();
 
+	//衝突フィルタリング
+	if(a->GetCollisionAttribute() != b->GetCollisionMask() ||
+		b->GetCollisionAttribute() != a->GetCollisionMask()){
+		return;
+	}
+
 	//Sphere to Sphere
 	if(distance <= a->GetRadius() + b->GetRadius()){
 		a->OnCollision();
