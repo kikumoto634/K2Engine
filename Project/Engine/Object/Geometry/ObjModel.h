@@ -9,8 +9,6 @@ public:
 
 public:
 	ObjModel(std::string filePath, Transform lTransform, BlendSetting::BlendMode mode){
-		name_ = "cube";
-
 		filePath_ = filePath;
 		translate = lTransform.translate;
 		rotation = lTransform.rotation;

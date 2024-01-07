@@ -18,8 +18,6 @@ Player::Player(std::string filePath, Transform transform):
 	weapon_ = ObjModel::Create("weapon");
 
 	//particle_ = ParticleObject::Create();
-
-	name_ = "Player";
 }
 
 void Player::Update()
@@ -85,7 +83,7 @@ void Player::Draw(Camera* camera)
 	ObjModel::Draw(camera);
 }
 
-void Player::OnCollision()
+void Player::OnCollision(const CollisionInfo& info)
 {
 	WindowsApp::Log("Hit\n");
 	//particle_->Add();

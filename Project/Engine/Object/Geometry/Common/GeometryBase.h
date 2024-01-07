@@ -13,24 +13,29 @@
 #include "MaterialData.h"
 #include "TransformationMatrixData.h"
 
-#include "Collider.h"
 #include "Camera.h"
+#include "CollisionInfo.h"
+
+class Collider;
 
 //幾何学オブジェクトの共通
-class GeometryBase : public Transform, public Collider
+class GeometryBase : public Transform
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	template <class T> using vector = std::vector<T>;
 public:
-	~GeometryBase(){
-		delete pipeline_;
-	}
+	~GeometryBase();
+	virtual void Update();
 	virtual void Draw(Camera* camera);
+
+	virtual void OnCollision(const CollisionInfo& info){}
 
 	//Getter/Setter
 	Transform GetTransform() const {return {translate,rotation,scale};}
-	virtual Vector3 GetColliderCenterPos() const override	{return translate;}
+	Collider* GetCollider()	{return collider_;}
+
+	void SetCollider(Collider* collider);
 
 protected:
 	//初期化
@@ -86,7 +91,7 @@ protected:
 	D3D_PRIMITIVE_TOPOLOGY commandPrimitiveTopology_ = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;				//コマンドリスト
 
 protected:
-	const char* name_ = "";
+	const char* name = nullptr;
 
 	//頂点データ
 	VertexData* vertData_ = nullptr;
@@ -100,6 +105,9 @@ protected:
 	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_SOLID;	//塗りつぶし
 
 	BlendSetting::BlendMode blendMode_ = BlendSetting::BlendMode::kBlendModeNormal;
+
+	//コライダー
+	Collider* collider_ = nullptr;
 
 	//パラメータ
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};

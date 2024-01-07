@@ -1,12 +1,18 @@
 #include "SphereCollider.h"
 
-SphereCollider *SphereCollider::Create()
+SphereCollider *SphereCollider::Create(Vector3 offset, float radius)
 {
-	SphereCollider* instance = new SphereCollider();
+	SphereCollider* instance = new SphereCollider(offset, radius);
 	instance->Initialize();
 	instance->VertexData();
 	instance->IndexData();
 	return instance;
+}
+
+void SphereCollider::Update()
+{
+	SphereCP::center = translate + offset_;
+	SphereCP::radius = radius_;
 }
 
 void SphereCollider::VertexData()

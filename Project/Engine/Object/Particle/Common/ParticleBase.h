@@ -83,8 +83,6 @@ protected:
 	D3D_PRIMITIVE_TOPOLOGY commandPrimitiveTopology_ = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;				//コマンドリスト
 
 protected:
-	const char* name_ = "";
-
 	//頂点データ
 	VertexData* vertData_ = nullptr;
 	UINT vertNum_ = 4;

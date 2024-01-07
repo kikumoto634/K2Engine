@@ -614,6 +614,9 @@
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\GeometryBaseCollider.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionInfo.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Texture.hlsl">

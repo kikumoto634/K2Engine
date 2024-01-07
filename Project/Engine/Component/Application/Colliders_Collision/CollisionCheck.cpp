@@ -1,7 +1,8 @@
 #include "CollisionCheck.h"
 #include <cmath>
+#include <MathUtility.h>
 
-bool CollisionCheck::CheckSphereToSphere(const SphereCP &sphere, const PlaneCP &plane, Vector3 *inter)
+bool CollisionCheck::CheckSphere2Plane(const SphereCP &sphere, const PlaneCP &plane, Vector3 *inter)
 {
 	//球の中心と原点の距離
 	float dist = sphere.center.dot(plane.normal) - plane.distance;
@@ -121,6 +122,32 @@ bool CollisionCheck::CheckSphere2Triangle(const SphereCP &sphere, const Triangle
 		float dt = triangle.p0.dot(triangle.normal);
 		float rejectLen = dt - ds + sphere.radius;
 		*reject = triangle.normal * rejectLen;
+	}
+
+	return true;
+}
+
+bool CollisionCheck::CheckSphereToSphere(const SphereCP &sphere1, const SphereCP &sphere2, Vector3 *inter, Vector3 *reject)
+{
+	// 中心点の距離の２乗 <= 半径の和の２乗　なら交差
+	float dist = sqrtf(Vector3(sphere1.center - sphere2.center).length());
+
+	float radius = sphere1.radius + sphere2.radius;
+	radius *= radius;
+
+
+	if(dist > radius)	{return false;}
+
+	if(inter){
+		//Aの半径が0の時、座標はBの中心、Bの半径が0の時座標はAの中心となる
+		float t = sphere2.radius / (sphere1.radius + sphere2.radius);
+		*inter = Lerp(sphere1.center, sphere2.center, t);
+	}
+	//押し出すベクトルを計算
+	if(reject){
+		float rejectLen = sphere1.radius + sphere2.radius - sqrtf(dist);
+		*reject = Vector3(sphere1.center - sphere2.center).normalize();
+		*reject *= rejectLen;
 	}
 
 	return true;

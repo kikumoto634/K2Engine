@@ -218,6 +218,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\Collider.h" />
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionCheck.h" />
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionConfig.h" />
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionInfo.h" />
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionManager.h" />
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionPrimitive.h" />
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionShapeTypa.h" />

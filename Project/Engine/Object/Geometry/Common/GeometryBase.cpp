@@ -1,18 +1,27 @@
 #include "GeometryBase.h"
-
 #include "SpriteLoader.h"
 #include "DescriptorHeap.h"
-
 #include "BufferResource.h"
 #include "BufferView.h"
-
 #include "LightingGroup.h"
-
 #include "GlobalVariables.h"
+#include "Collider.h"
+#include "CollisionManager.h"
+
+GeometryBase::~GeometryBase()
+{
+	delete pipeline_;
+	if(collider_){
+		CollisionManager::GetInstance()->RemoveCollider(collider_);
+		delete collider_;
+	}
+}
 
 void GeometryBase::Initialize(bool isIndexEnable)
 {
 	dxCommon = DirectXCommon::GetInstance();
+
+	name = typeid(*this).name();
 
 	isIndexDataEnable_ = isIndexEnable;
 	texture_ = SpriteLoader::SearchTexture(texturePath_);
@@ -28,6 +37,12 @@ void GeometryBase::Initialize(bool isIndexEnable)
 	CreateWVP();
 }
 
+
+
+void GeometryBase::Update()
+{
+	if(collider_) collider_->Update();
+}
 
 void GeometryBase::Draw(Camera* camera)
 {
@@ -209,21 +224,30 @@ void GeometryBase::CreateWVP()
 void GeometryBase::ApplyGlobalVariablesInitialize()
 {
 #ifdef _DEBUG
-	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
-	//グループを追加
-	GlobalVariables::GetInstance()->CreateGroup(name_);
-	globalVariables->AddItem(name_, "0.translate", translate);
-	globalVariables->AddItem(name_, "1.rotate", rotation);
-	globalVariables->AddItem(name_, "2.scale", scale);
+	//GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	////グループを追加
+	//GlobalVariables::GetInstance()->CreateGroup(name_);
+	//globalVariables->AddItem(name_, "0.translate", translate);
+	//globalVariables->AddItem(name_, "1.rotate", rotation);
+	//globalVariables->AddItem(name_, "2.scale", scale);
 #endif // _DEBUG
 }
 
 void GeometryBase::ApplyGlobalVariablesUpdate()
 {
 #ifdef _DEBUG
-	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	/*GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	translate = globalVariables->GetVector3Value(name_, "0.translate");
 	rotation = globalVariables->GetVector3Value(name_, "1.rotate");
-	scale = globalVariables->GetVector3Value(name_, "2.scale");
+	scale = globalVariables->GetVector3Value(name_, "2.scale");*/
 #endif // _DEBUG
+}
+
+void GeometryBase::SetCollider(Collider *collider)
+{
+	collider->SetObjects(this);
+	collider_ = collider;
+
+	CollisionManager::GetInstance()->AddCollider(collider);
+	collider->Update();
 }

@@ -1,11 +1,12 @@
 #include "Collider.h"
 #include "Geometry/SphereCollider.h"
+#include "Geometry/Common/GeometryBase.h"
 
 void Collider::ColliderUpdate()
 {
 	if(!colliderModel_){
 		colliderModel_ = SphereCollider::Create();
-		colliderModel_->scale = {radius_, radius_, radius_};
+		colliderModel_->scale = object_->scale;
 	}
 }
 

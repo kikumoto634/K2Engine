@@ -19,12 +19,9 @@ public:
 public:
 	void Update()override;
 	void Draw(Camera* camera) override;
-	void OnCollision() override;
+	void OnCollision(const CollisionInfo& info) override;
 
 	//Getter/Setter
-	Vector3 GetColliderCenterPos()	const override{
-		return translate;
-	};
 
 private:
 	void BehaviorRootInitialize();

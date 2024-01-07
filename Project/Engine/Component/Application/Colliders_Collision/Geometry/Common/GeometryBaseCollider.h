@@ -67,8 +67,6 @@ private:
 
 
 protected:
-	const char* name_ = "";
-
 	//頂点データ
 	Vector4* vertData_ = nullptr;
 	UINT vertNum_ = 4;

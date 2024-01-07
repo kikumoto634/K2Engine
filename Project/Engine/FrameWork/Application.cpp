@@ -26,15 +26,17 @@ void Application::Initialize()
 	player_ = std::make_unique<Player>("cube");
 	player_.get()->translate = {0,0,0};
 	player_.get()->scale = {0.8f,0.8f,0.8f};
-	player_->SetCollisionAttribute(kCollisionAttributePlayer);
-	player_->SetCollisionMask(kCollisionAttributeEnemy);
+	player_->GetCollider()->SetCollisionAttribute(kCollisionAttributePlayer);
+	player_->GetCollider()->SetCollisionMask(kCollisionAttributeEnemy);
+	player_->GetCollider()->SetShapeType(COLLISIONSHAPE_SPHERE);
 
 	box_ = ObjModel::Create("fence", {{0,0,0},{0,0,0},{1,1,1}}, BlendSetting::kBlendModeNone);
 	box_->translate = {-5.f,0,0};
 	box_->rotation = DegreesToRadians({0,180.f,0});
 	box_->scale = {0.8f,0.8f,0.8f};
-	box_->SetCollisionAttribute(kCollisionAttributeEnemy);
-	box_->SetCollisionMask(kCollisionAttributePlayer);
+	box_->GetCollider()->SetCollisionAttribute(kCollisionAttributeEnemy);
+	box_->GetCollider()->SetCollisionMask(kCollisionAttributePlayer);
+	box_->GetCollider()->SetShapeType(COLLISIONSHAPE_SPHERE);
 
 	collisionManager_ = std::make_unique<CollisionManager>();
 
@@ -117,8 +119,8 @@ void Application::CollisionCheck()
 {
 	collisionManager_->Reset();
 
-	collisionManager_->AddCollider(player_.get());
-	collisionManager_->AddCollider(box_);
+	collisionManager_->AddCollider(player_->GetCollider());
+	collisionManager_->AddCollider(box_->GetCollider());
 
 	collisionManager_->Update();
 	collisionManager_->CheckAllCollisions();

@@ -7,8 +7,6 @@ public:
 
 public:
 	Sphere(Transform lTransform){
-		name_ = "Sphere";
-
 		translate = lTransform.translate;
 		rotation = lTransform.rotation;
 		scale = lTransform.scale;
@@ -22,10 +20,6 @@ public:
 	}
 	void Update();
 
-	//Getter/Setter
-	Vector3 GetColliderCenterPos()	const override{
-		return translate;
-	};
 
 private:
 	void SphereVertexData();
