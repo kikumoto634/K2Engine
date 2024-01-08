@@ -8,6 +8,8 @@
 
 #include <imgui.h>
 
+#include "Geometry/SphereCollider.h"
+
 Player::Player(std::string filePath, Transform transform):
 	ObjModel(filePath, transform, BlendSetting::kBlendModeNormal)
 {
@@ -18,6 +20,9 @@ Player::Player(std::string filePath, Transform transform):
 	weapon_ = ObjModel::Create("weapon");
 
 	//particle_ = ParticleObject::Create();
+
+	collider_ = SphereCollider::Create(this);
+	collider_->SetShapeType(COLLISIONSHAPE_SPHERE);
 }
 
 void Player::Update()
@@ -68,6 +73,7 @@ void Player::Update()
 
 	//particle_->Add(translate);
 	//particle_->Update();
+	ObjModel::Update();
 }
 
 void Player::Draw(Camera* camera)
@@ -83,12 +89,10 @@ void Player::Draw(Camera* camera)
 	ObjModel::Draw(camera);
 }
 
-void Player::OnCollision(const CollisionInfo& info)
+void Player::OnCollision(const CollisionInfo &info)
 {
 	WindowsApp::Log("Hit\n");
-	//particle_->Add();
 }
-
 
 void Player::BehaviorRootInitialize()
 {

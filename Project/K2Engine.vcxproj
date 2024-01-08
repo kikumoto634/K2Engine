@@ -161,10 +161,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Common\DirectXCommon.cpp" />
-    <ClCompile Include="Engine\Component\Application\Colliders_Collision\Collider.cpp" />
     <ClCompile Include="Engine\Component\Application\Colliders_Collision\CollisionCheck.cpp" />
-    <ClCompile Include="Engine\Component\Application\Colliders_Collision\CollisionManager.cpp" />
-    <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\GeometryBaseCollider.cpp" />
+    <ClCompile Include="Engine\Component\Application\Colliders_Collision\CollisionsManager.cpp" />
+    <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseCollider.cpp" />
+    <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseShapeCollider.cpp" />
     <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\SphereCollider.cpp" />
     <ClCompile Include="Engine\Component\Application\Input\Input.cpp" />
     <ClCompile Include="Engine\Component\Application\Loader\LevelLoader.cpp" />
@@ -215,14 +215,14 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Common\DirectXCommon.h" />
-    <ClInclude Include="Engine\Component\Application\Colliders_Collision\Collider.h" />
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionCheck.h" />
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionConfig.h" />
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionInfo.h" />
-    <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionManager.h" />
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionPrimitive.h" />
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionShapeTypa.h" />
-    <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\GeometryBaseCollider.h" />
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionsManager.h" />
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseCollider.h" />
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseShapeCollider.h" />
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\SphereCollider.h" />
     <ClInclude Include="Engine\Component\Application\Input\Input.h" />
     <ClInclude Include="Engine\Component\Application\Loader\LevelLoader.h" />

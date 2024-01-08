@@ -130,10 +130,9 @@ bool CollisionCheck::CheckSphere2Triangle(const SphereCP &sphere, const Triangle
 bool CollisionCheck::CheckSphereToSphere(const SphereCP &sphere1, const SphereCP &sphere2, Vector3 *inter, Vector3 *reject)
 {
 	// 中心点の距離の２乗 <= 半径の和の２乗　なら交差
-	float dist = sqrtf(Vector3(sphere1.center - sphere2.center).length());
+	float dist = (Vector3(sphere1.center - sphere2.center).length());
 
 	float radius = sphere1.radius + sphere2.radius;
-	radius *= radius;
 
 
 	if(dist > radius)	{return false;}

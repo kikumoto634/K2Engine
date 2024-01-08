@@ -1,12 +1,12 @@
 #pragma once
-#include "Common/GeometryBaseCollider.h"
-#include "Collider.h"
+#include "Geometry/Common/BaseCollider.h"
 #include "CollisionPrimitive.h"
+#include "Geometry/Common/BaseShapeCollider.h"
 
-class SphereCollider : public GeometryBaseCollider,public Collider, public SphereCP
+class SphereCollider :public BaseCollider, public SphereCP, public BaseShapeCollider
 {
 public:
-	static SphereCollider* Create(Vector3 offset = {0,0,0}, float radius = 1);
+	static SphereCollider* Create(GeometryBase* object, Vector3 offset = {0,0,0}, float radius = 1);
 
 public:
 	SphereCollider(Vector3 offset, float radius){
@@ -20,6 +20,7 @@ public:
 	}
 
 	void Update() override;
+	void ShapeDraw(Camera* camera) override;
 
 	//Getter/Setter
 	void SetRadius(float radius)	{radius_ = radius;}
@@ -29,7 +30,6 @@ private:
 	void IndexData();
 
 private:
-	//球体分割数
 	const uint32_t kSubdivision_ = 16;
 
 	Vector3 offset_;

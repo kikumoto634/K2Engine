@@ -16,8 +16,6 @@ public:
 
 		blendMode_ = mode;
 	}
-public:
-	virtual void Update(){};
 
 protected:
 	void ObjModelLoad();

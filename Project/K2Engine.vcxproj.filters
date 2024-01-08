@@ -402,19 +402,19 @@
     <ClCompile Include="Engine\Object\Particle\EmitterFrame\EmitterFrameSquare.cpp">
       <Filter>ソース ファイル\Engine\Object\Particle\EmitterFrame</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Colliders_Collision\CollisionsManager.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Component\Application\Colliders_Collision\CollisionCheck.cpp">
-      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Component\Application\Colliders_Collision\Collider.cpp">
-      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Component\Application\Colliders_Collision\CollisionManager.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\SphereCollider.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\GeometryBaseCollider.cpp">
+    <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseCollider.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseShapeCollider.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
     </ClCompile>
   </ItemGroup>
@@ -590,16 +590,19 @@
     <ClInclude Include="Engine\Object\Particle\EmitterFrame\EmitterFrameSquare.h">
       <Filter>ヘッダー ファイル\Engine\Object\Particle\EmitterFrame</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionsManager.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseCollider.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionCheck.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Colliders_Collision\Collider.h">
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionInfo.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionConfig.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionManager.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionPrimitive.h">
@@ -611,11 +614,8 @@
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\SphereCollider.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\GeometryBaseCollider.h">
+    <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseShapeCollider.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionInfo.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

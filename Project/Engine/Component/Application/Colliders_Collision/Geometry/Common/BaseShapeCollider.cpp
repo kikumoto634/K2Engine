@@ -1,8 +1,8 @@
-#include "GeometryBaseCollider.h"
+#include "BaseShapeCollider.h"
 #include <BufferResource.h>
 #include <BufferView.h>
 
-void GeometryBaseCollider::Initialize(bool isIndexEnable)
+void BaseShapeCollider::ShapeInitialize(bool isIndexEnable)
 {
 	dxCommon = DirectXCommon::GetInstance();
 
@@ -15,7 +15,7 @@ void GeometryBaseCollider::Initialize(bool isIndexEnable)
 	CreateWVP();
 }
 
-void GeometryBaseCollider::Draw(Camera* camera)
+void BaseShapeCollider::ShapeBaseDraw(Camera* camera)
 {
 	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * camera->GetViewProjectionMatrix();
 	*wvpData_ = worldViewProjectionMatrix;
@@ -41,7 +41,7 @@ void GeometryBaseCollider::Draw(Camera* camera)
 
 
 
-void GeometryBaseCollider::PipelineStateInitialize()
+void BaseShapeCollider::PipelineStateInitialize()
 {
 	//デスクリプタレンジ(SRV, CBVなどの情報をこれにまとめる)
 	//例 :														Shaderでは
@@ -96,7 +96,7 @@ void GeometryBaseCollider::PipelineStateInitialize()
 	);
 }
 
-void GeometryBaseCollider::CreateVertex()
+void BaseShapeCollider::CreateVertex()
 {
 	//リソース
 	vertexResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(Vector4)*vertNum_);
@@ -107,7 +107,7 @@ void GeometryBaseCollider::CreateVertex()
 	vertexResource_->Map(0,nullptr,reinterpret_cast<void**>(&vertData_));
 }
 
-void GeometryBaseCollider::CreateIndex()
+void BaseShapeCollider::CreateIndex()
 {
 	indexResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(uint32_t)*indexNum_);
 
@@ -117,7 +117,7 @@ void GeometryBaseCollider::CreateIndex()
 	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
 }
 
-void GeometryBaseCollider::CreateMaterial()
+void BaseShapeCollider::CreateMaterial()
 {
 	constResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(Vector4));
 
@@ -125,7 +125,7 @@ void GeometryBaseCollider::CreateMaterial()
 	*materialData_ = color_;
 }
 
-void GeometryBaseCollider::CreateWVP()
+void BaseShapeCollider::CreateWVP()
 {
 	wvpResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(Matrix4x4));
 

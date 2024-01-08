@@ -81,14 +81,14 @@ void FollowCamera::ApplyGlobalVariablesInitialize()
 
 void FollowCamera::ApplyGlobalVariablesUpdate()
 {
-#ifdef _DEBUG
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const char* name = "Camera";
+#ifdef _DEBUG
 	ImGui::Text("Camera - Pos X: %f, Y: %f, Z:%f", translate.x,translate.y,translate.z);
 	ImGui::Text("Camera - Rot X: %f, Y: %f, Z:%f", rotation.x,rotation.y,rotation.z);
+#endif // _DEBUG
 	aspect_ = globalVariables->GetFloatValue(name, "0.aspect");
 	speed_ = globalVariables->GetFloatValue(name, "1.RotSp");
 	offset_ = globalVariables->GetVector3Value(name, "2.offSet");
 	RotMinMax_ = globalVariables->GetVector2Value(name, "3.RotX Min,Max");
-#endif // _DEBUG
 }

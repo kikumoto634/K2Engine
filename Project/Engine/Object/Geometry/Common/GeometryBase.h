@@ -14,9 +14,8 @@
 #include "TransformationMatrixData.h"
 
 #include "Camera.h"
-#include "CollisionInfo.h"
 
-class Collider;
+#include "Geometry/Common/BaseCollider.h"
 
 //幾何学オブジェクトの共通
 class GeometryBase : public Transform
@@ -29,13 +28,11 @@ public:
 	virtual void Update();
 	virtual void Draw(Camera* camera);
 
-	virtual void OnCollision(const CollisionInfo& info){}
+	virtual void OnCollision(const CollisionInfo& info) {}
 
 	//Getter/Setter
 	Transform GetTransform() const {return {translate,rotation,scale};}
-	Collider* GetCollider()	{return collider_;}
-
-	void SetCollider(Collider* collider);
+	BaseCollider* GetCollider()	{return collider_;}
 
 protected:
 	//初期化
@@ -106,9 +103,6 @@ protected:
 
 	BlendSetting::BlendMode blendMode_ = BlendSetting::BlendMode::kBlendModeNormal;
 
-	//コライダー
-	Collider* collider_ = nullptr;
-
 	//パラメータ
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	bool isLightEnable_ = true;
@@ -117,5 +111,8 @@ protected:
 
 	std::string VSPath_ = "Object3D/Object3D.VS.hlsl";
 	std::string PSPath_ = "Object3D/Object3D.PS.Texture.hlsl";
+
+public:
+	BaseCollider* collider_ = nullptr;
 };
 

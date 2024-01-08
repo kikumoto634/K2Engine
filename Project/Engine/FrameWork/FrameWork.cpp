@@ -18,15 +18,11 @@ void FrameWork::Initialize()
 
 	input_ = Input::GetInstance();
 
-#ifdef _DEBUG
+
 	//グルーバル変数の読み込み
 	GlobalVariables::GetInstance()->LoadFiles();
-#endif // _DEBUG
-
-#ifdef _DEBUG
 	imgui_ = ImGuiManager::Create();
 	ImGuiManager::Initialize(win_->GetHWND(), dxCommon_);
-#endif // _DEBUG
 
 	app_ = Application::Create();
 
@@ -37,14 +33,14 @@ void FrameWork::Run()
 	while(win_->ProcessMessage() == 0){
 
 		//更新開始
-#ifdef _DEBUG
 		ImGuiManager::NewFrame();
+#ifdef _DEBUG
 		imgui_->ShowDemo();
 
-		GlobalVariables::GetInstance()->Update();
 		GlobalSetting::GetInstance()->Update();
 
 #endif // _DEBUG
+		GlobalVariables::GetInstance()->Update();
 
 		input_->Update();
 

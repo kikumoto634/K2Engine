@@ -5,16 +5,10 @@
 #include "BufferView.h"
 #include "LightingGroup.h"
 #include "GlobalVariables.h"
-#include "Collider.h"
-#include "CollisionManager.h"
 
 GeometryBase::~GeometryBase()
 {
 	delete pipeline_;
-	if(collider_){
-		CollisionManager::GetInstance()->RemoveCollider(collider_);
-		delete collider_;
-	}
 }
 
 void GeometryBase::Initialize(bool isIndexEnable)
@@ -41,7 +35,7 @@ void GeometryBase::Initialize(bool isIndexEnable)
 
 void GeometryBase::Update()
 {
-	if(collider_) collider_->Update();
+	if(collider_)collider_->Update();
 }
 
 void GeometryBase::Draw(Camera* camera)
@@ -76,6 +70,8 @@ void GeometryBase::Draw(Camera* camera)
 	isIndexDataEnable_ ? 
 		dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,1,0,0,0) : 
 		dxCommon->GetCommandList()->DrawInstanced(vertNum_,1,0,0);
+
+	if(collider_) collider_->ShapeDraw(camera);
 }
 
 
@@ -241,13 +237,4 @@ void GeometryBase::ApplyGlobalVariablesUpdate()
 	rotation = globalVariables->GetVector3Value(name_, "1.rotate");
 	scale = globalVariables->GetVector3Value(name_, "2.scale");*/
 #endif // _DEBUG
-}
-
-void GeometryBase::SetCollider(Collider *collider)
-{
-	collider->SetObjects(this);
-	collider_ = collider;
-
-	CollisionManager::GetInstance()->AddCollider(collider);
-	collider->Update();
 }

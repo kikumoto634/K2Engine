@@ -1,9 +1,11 @@
 #include "SphereCollider.h"
+#include "Geometry/Common/GeometryBase.h"
 
-SphereCollider *SphereCollider::Create(Vector3 offset, float radius)
+SphereCollider *SphereCollider::Create(GeometryBase* object, Vector3 offset, float radius)
 {
 	SphereCollider* instance = new SphereCollider(offset, radius);
-	instance->Initialize();
+	instance->Initialize(object);
+	instance->ShapeInitialize();
 	instance->VertexData();
 	instance->IndexData();
 	return instance;
@@ -11,8 +13,15 @@ SphereCollider *SphereCollider::Create(Vector3 offset, float radius)
 
 void SphereCollider::Update()
 {
-	SphereCP::center = translate + offset_;
+	SphereCP::center = GetGeometryBaseObject()->translate + offset_;
 	SphereCP::radius = radius_;
+
+	translate = GetGeometryBaseObject()->translate;
+}
+
+void SphereCollider::ShapeDraw(Camera *camera)
+{
+	BaseShapeCollider::ShapeBaseDraw(camera);
 }
 
 void SphereCollider::VertexData()

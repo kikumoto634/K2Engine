@@ -6,7 +6,6 @@
 #include "Geometry/ObjModel.h"
 #include "Geometry/Sprite2D.h"
 
-
 #include "SpriteLoader.h"
 
 //シーンオブジェクト
@@ -14,15 +13,10 @@
 #include "../../Game/Object/Character/Player.h"
 #include "FollowCamera.h"
 
-#include "CollisionManager.h"
-
 #include "Particle/ParticleObject.h"
 #include "Particle/ParticleEmitterObject.h"
 
-
-#include "CollisionPrimitive.h"
-#include "CollisionCheck.h"
-#include "Input.h"
+#include "CollisionsManager.h"
 
 class Application
 {
@@ -54,8 +48,6 @@ private:
 	std::unique_ptr<Player> player_;
 	ObjModel* box_ = nullptr;
 
-	std::unique_ptr<CollisionManager> collisionManager_;
-
 	ParticleObject* particle_ = nullptr;
 	Vector3 particlePos_ = {-5,0,0};
 	ParticleEmitterObject* emitter_ = nullptr;
@@ -63,9 +55,6 @@ private:
 
 	Sprite2D* sp_ = nullptr;
 
-
-	SphereCP sphere;
-	PlaneCP plane;
-	TriangleCP triangle;
+	CollisionsManager* collisionsManager = nullptr;
 };
 

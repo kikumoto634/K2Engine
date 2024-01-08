@@ -7,23 +7,23 @@
 #include "DirectXCommon.h"
 #include "Camera.h"
 
-class GeometryBaseCollider : public Transform
+class BaseShapeCollider : public Transform
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	template <class T> using vector = std::vector<T>;
 public:
-	~GeometryBaseCollider(){
+	~BaseShapeCollider(){
 		delete pipeline_;
 	}
-	void Draw(Camera* camera);
+	void ShapeBaseDraw(Camera* camera);
 
 	//Getter/Setter
 	Transform GetTransform() const {return {translate,rotation,scale};}
 
 protected:
 	//初期化
-	void Initialize(bool isIndexEnable = true);
+	void ShapeInitialize(bool isIndexEnable = true);
 
 private:
 	//パイプライン

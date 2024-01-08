@@ -12,6 +12,7 @@ Sprite2D *Sprite2D::Create(Transform transform)
 
 void Sprite2D::Update()
 {
+#ifdef _DEBUG
 	ImGui::Text("Sprite");
 	ImGui::DragFloat3("Pos", &translate.x, 1.0f);
 	ImGui::DragFloat3("Rot", &rotation.x, 1.0f);
@@ -20,6 +21,7 @@ void Sprite2D::Update()
 	ImGui::DragFloat2("UVTranslate", &uvTransformSprite_.translate.x, 0.01f, -10.f, 10.f);
 	ImGui::DragFloat2("UVScale", &uvTransformSprite_.scale.x, 0.01f,-10.f,10.f);
 	ImGui::SliderAngle("UVRotate", &uvTransformSprite_.rotation.z);
+#endif // _DEBUG
 }
 
 void Sprite2D::Sprite2DVertexData()

@@ -2,6 +2,7 @@
 
 #include "WindowsApp.h"
 #include <imgui.h>
+#include "Geometry/SphereCollider.h"
 
 Application *Application::Create()
 {
@@ -16,6 +17,7 @@ void Application::Initialize()
 	light_ = LightingGroup::Create();
 
 	SpriteLoader::LoadTexture(DirectXCommon::GetInstance());
+	collisionsManager = CollisionsManager::GetInstance();
 
 
 	//シーンオブジェクト
@@ -26,36 +28,21 @@ void Application::Initialize()
 	player_ = std::make_unique<Player>("cube");
 	player_.get()->translate = {0,0,0};
 	player_.get()->scale = {0.8f,0.8f,0.8f};
-	player_->GetCollider()->SetCollisionAttribute(kCollisionAttributePlayer);
-	player_->GetCollider()->SetCollisionMask(kCollisionAttributeEnemy);
-	player_->GetCollider()->SetShapeType(COLLISIONSHAPE_SPHERE);
+	collisionsManager->AddCollider(player_->GetCollider());
 
 	box_ = ObjModel::Create("fence", {{0,0,0},{0,0,0},{1,1,1}}, BlendSetting::kBlendModeNone);
 	box_->translate = {-5.f,0,0};
 	box_->rotation = DegreesToRadians({0,180.f,0});
 	box_->scale = {0.8f,0.8f,0.8f};
-	box_->GetCollider()->SetCollisionAttribute(kCollisionAttributeEnemy);
-	box_->GetCollider()->SetCollisionMask(kCollisionAttributePlayer);
-	box_->GetCollider()->SetShapeType(COLLISIONSHAPE_SPHERE);
-
-	collisionManager_ = std::make_unique<CollisionManager>();
+	box_->collider_ = SphereCollider::Create(box_);
+	box_->collider_->SetShapeType(COLLISIONSHAPE_SPHERE);
+	collisionsManager->AddCollider(box_->GetCollider());
 
 	particle_ = ParticleObject::Create();
 	emitter_ = ParticleEmitterObject::Create();
 
 	sp_ = Sprite2D::Create();
 
-
-	sphere.center = {0,2,0};
-	sphere.radius = 1.0f;
-
-	plane.normal = {0,1,0};
-	plane.distance = 0.0f;
-
-	triangle.p0 = {-1,0,-1};
-	triangle.p1 = {-1,0, 1};
-	triangle.p2 = { 1,0,-1};
-	triangle.normal = {0,1,0};
 }
 
 void Application::Update()
@@ -76,21 +63,6 @@ void Application::Update()
 	camera_->Update(player_->translate);
 	light_->Update();
 
-
-	if(Input::GetInstance()->Push(DIK_UP))			sphere.center += {0,0.01f,0};
-	else if(Input::GetInstance()->Push(DIK_DOWN))	sphere.center -= {0,0.01f,0};
-	if(Input::GetInstance()->Push(DIK_RIGHT))		sphere.center += {0.01f,0,0};
-	else if(Input::GetInstance()->Push(DIK_LEFT))	sphere.center -= {0.01f,0,0};
-	
-	ImGui::Text("\nSphere:(%f,%f,%f)", sphere.center.x,sphere.center.y,sphere.center.z);
-	Vector3 inter;
-	bool hit = CollisionCheck::CheckSphere2Triangle(sphere, triangle, &inter);
-	if(hit){
-		ImGui::Text("Hit");
-		ImGui::Text("Inter:(%f,%f,%f)", inter.x,inter.y,inter.z);
-	}
-
-
 	CollisionCheck();
 }
 
@@ -100,8 +72,6 @@ void Application::GeometryDraw()
 	levelLoader_->Draw(camera_);
 	player_->Draw(camera_);
 	box_->Draw(camera_);
-
-	collisionManager_->Draw(camera_);
 }
 
 void Application::SpriteDraw()
@@ -117,11 +87,5 @@ void Application::ParticleDraw()
 
 void Application::CollisionCheck()
 {
-	collisionManager_->Reset();
-
-	collisionManager_->AddCollider(player_->GetCollider());
-	collisionManager_->AddCollider(box_->GetCollider());
-
-	collisionManager_->Update();
-	collisionManager_->CheckAllCollisions();
+	collisionsManager->CheckAllCollisions();
 }

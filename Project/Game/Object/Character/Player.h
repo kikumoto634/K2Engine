@@ -2,7 +2,6 @@
 #include <optional>
 
 #include "../Geometry/ObjModel.h"
-//#include "Particle/ParticleObject.h"
 
 class Player : public ObjModel
 {
@@ -19,6 +18,7 @@ public:
 public:
 	void Update()override;
 	void Draw(Camera* camera) override;
+
 	void OnCollision(const CollisionInfo& info) override;
 
 	//Getter/Setter
