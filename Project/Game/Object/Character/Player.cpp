@@ -127,33 +127,25 @@ void Player::BehaviorJumpUpdate()
 
 void Player::Input()
 {
-	if(Input::GetInstance()->PadButtonTrigger(XINPUT_GAMEPAD_A) || Input::GetInstance()->MouseTrigger(1)){
+	if(Input::GetInstance()->PadButtonTrigger(XINPUT_GAMEPAD_A)){
 		behaviorRequest_ = Behavior::Jump;
 	}
-	else if(Input::GetInstance()->PadButtonTrigger(XINPUT_GAMEPAD_B) || Input::GetInstance()->MouseTrigger(0)){
+	else if(Input::GetInstance()->PadButtonTrigger(XINPUT_GAMEPAD_B)){
 		behaviorRequest_ = Behavior::kAttack;
 	}
 }
 
 void Player::Move()
 {
+	if(!Input::GetInstance()->GetIsPadConnect()) return;
 	const float threshold = 0.7f;
 	bool isMoving = false;
 
-	if(Input::GetInstance()->GetIsPadConnect()){
-		velocity_ = {
-			Input::GetInstance()->PadLStick().x,
-			0.0f,
-			Input::GetInstance()->PadLStick().y
-		};
-	}
-	else{
-		velocity_ = {
-			Input::GetInstance()->Push(DIK_A)*-1.0f + Input::GetInstance()->Push(DIK_D)*1.0f,
-			0.0f,
-			Input::GetInstance()->Push(DIK_S)*-1.0f + Input::GetInstance()->Push(DIK_W)*1.0f
-		};
-	}
+	velocity_ = {
+		Input::GetInstance()->PadLStick().x,
+		0.0f,
+		Input::GetInstance()->PadLStick().y
+	};
 	velocity_ = velocity_.normalize();
 
 	if(velocity_.length() > threshold){
