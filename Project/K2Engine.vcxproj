@@ -160,6 +160,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Common\ComputeCommon.cpp" />
     <ClCompile Include="Engine\Common\DirectXCommon.cpp" />
     <ClCompile Include="Engine\Component\Application\Colliders_Collision\CollisionCheck.cpp" />
     <ClCompile Include="Engine\Component\Application\Colliders_Collision\CollisionsManager.cpp" />
@@ -196,6 +197,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Object\Geometry\Sphere.cpp" />
     <ClCompile Include="Engine\Object\Geometry\Sprite2D.cpp" />
     <ClCompile Include="Engine\Object\Lighting\LightingGroup.cpp" />
+    <ClCompile Include="Engine\Object\Particle\Common\GPUParticleBase.cpp" />
     <ClCompile Include="Engine\Object\Particle\Common\ParticleBase.cpp" />
     <ClCompile Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameBase.cpp" />
     <ClCompile Include="Engine\Object\Particle\EmitterFrame\EmitterFrameSquare.cpp" />
@@ -214,6 +216,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Common\ComputeCommon.h" />
     <ClInclude Include="Engine\Common\DirectXCommon.h" />
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionCheck.h" />
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionConfig.h" />
@@ -264,6 +267,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Object\Geometry\Sphere.h" />
     <ClInclude Include="Engine\Object\Geometry\Sprite2D.h" />
     <ClInclude Include="Engine\Object\Lighting\LightingGroup.h" />
+    <ClInclude Include="Engine\Object\Particle\Common\GPUParticleBase.h" />
     <ClInclude Include="Engine\Object\Particle\Common\ParticleBase.h" />
     <ClInclude Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameBase.h" />
     <ClInclude Include="Engine\Object\Particle\EmitterFrame\EmitterFrameSquare.h" />
@@ -338,6 +342,16 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Particle\Particle.CS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">6.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Particle\Particle.PS.hlsl">

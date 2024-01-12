@@ -18,6 +18,8 @@
 
 #include "CollisionsManager.h"
 
+#include "Particle/Common/GPUParticleBase.h"
+
 class Application
 {
 public:
@@ -56,5 +58,8 @@ private:
 	Sprite2D* sp_ = nullptr;
 
 	CollisionsManager* collisionsManager = nullptr;
+
+
+	GPUParticleBase* gpu_ = nullptr;
 };
 

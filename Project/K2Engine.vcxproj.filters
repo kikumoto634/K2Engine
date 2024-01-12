@@ -417,6 +417,12 @@
     <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseShapeCollider.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Object\Particle\Common\GPUParticleBase.cpp">
+      <Filter>ソース ファイル\Engine\Object\Particle\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Common\ComputeCommon.cpp">
+      <Filter>ソース ファイル\Engine\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -617,6 +623,12 @@
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseShapeCollider.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\Common\GPUParticleBase.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Common\ComputeCommon.h">
+      <Filter>ヘッダー ファイル\Engine\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Texture.hlsl">
@@ -651,6 +663,9 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Particle\Emitter\EmitterFrame.VS.hlsl">
       <Filter>リソース ファイル\Shader\Particle\EmitterFrame</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Particle\Particle.CS.hlsl">
+      <Filter>リソース ファイル\Shader\Particle</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

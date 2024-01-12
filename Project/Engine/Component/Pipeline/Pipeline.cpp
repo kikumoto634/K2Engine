@@ -212,10 +212,14 @@ bool Pipeline::CreateRasterizerState()
 bool Pipeline::LoadShader()
 {
 	//シェーダの読み込み
-	vertexShaderBlob_ = CompileShader(VSpath_, VSVersion_, dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
-	assert(SUCCEEDED(result_));
-	pixelShaderBlob_ = CompileShader(PSPath_, PSVersion_, dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
-	assert(SUCCEEDED(result_));
+	vertexShaderBlob_ = CompileShader(
+		VSpath_, VSVersion_, 
+		dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()
+	);
+	pixelShaderBlob_ = CompileShader(
+		PSPath_, PSVersion_, 
+		dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get()
+	);
 
 	return true;
 }

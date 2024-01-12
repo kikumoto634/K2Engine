@@ -43,6 +43,8 @@ void Application::Initialize()
 
 	sp_ = Sprite2D::Create();
 
+
+	gpu_ = GPUParticleBase::Create();
 }
 
 void Application::Update()
@@ -72,6 +74,9 @@ void Application::GeometryDraw()
 	levelLoader_->Draw(camera_);
 	player_->Draw(camera_);
 	box_->Draw(camera_);
+
+
+	gpu_->Draw(camera_);
 }
 
 void Application::SpriteDraw()
