@@ -18,6 +18,8 @@
 
 #include "CollisionsManager.h"
 
+
+#include "ComputeCommon.h"
 #include "Particle/Common/GPUParticleBase.h"
 
 class Application
@@ -27,6 +29,7 @@ public:
 
 public:
 	~Application(){
+		delete compute;
 		delete camera_;
 		delete light_;
 	}
@@ -60,6 +63,7 @@ private:
 	CollisionsManager* collisionsManager = nullptr;
 
 
+	ComputeCommon* compute = nullptr;
 	GPUParticleBase* gpu_ = nullptr;
 };
 

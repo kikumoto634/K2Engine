@@ -44,6 +44,8 @@ void Application::Initialize()
 	sp_ = Sprite2D::Create();
 
 
+	compute = new ComputeCommon();
+	compute->Initialize();
 	gpu_ = GPUParticleBase::Create();
 }
 
@@ -76,6 +78,7 @@ void Application::GeometryDraw()
 	box_->Draw(camera_);
 
 
+	compute->Excution();
 	gpu_->Draw(camera_);
 }
 

@@ -1,6 +1,5 @@
 #pragma once
 #include "DirectXCommon.h"
-#include "Pipeline.h"
 
 //コンピュートシェーダ用
 class ComputeCommon
@@ -33,14 +32,13 @@ public:
 	ComPtr<ID3D12RootSignature> rootSignature_;
 	
 	//シェーダ
-	ComPtr<IDxcUtils> dxcUtils_;
-	ComPtr<IDxcCompiler3> dxcCompiler_;
-	ComPtr<IDxcIncludeHandler> includeHandler_;
-	ComPtr<IDxcBlob> computeShaderBlob_;
+	ComPtr<ID3DBlob> computeShaderBlob_;
 	
 	//パイプライン
 	ComPtr<ID3D12PipelineState> pipeline_;
 
+	//コマンドキュー
+	ComPtr<ID3D12CommandQueue> commandQueue_;
 	//コマンドアロケータ
 	ComPtr<ID3D12CommandAllocator> commandAllocator_;
 	//コマンドリスト

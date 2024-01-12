@@ -41,7 +41,7 @@ public:
 	ID3D12PipelineState* GetGraphicsPipelineState()	{return graphicsPipelineState_.Get();}
 
 
-public:
+private:
 	//コンパイルシェーダー
 	static IDxcBlob* CompileShader(
 		//ComplierするShaderファイルパス

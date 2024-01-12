@@ -1,9 +1,6 @@
 #include "ComputeCommon.h"
 #include <d3dcompiler.h>
-
 #include "DescriptorHeap.h"
-
-#pragma comment(lib, "dxcompiler.lib")
 
 // 確認用配列
 std::vector<float>test(256, 0);
@@ -29,32 +26,32 @@ void ComputeCommon::Initialize()
 
 void ComputeCommon::Excution()
 {
-	commandAllocator_->Reset();
-	commandList_->Reset(commandAllocator_.Get(), nullptr);
-
 	commandList_->SetComputeRootSignature(rootSignature_.Get());
 	commandList_->SetPipelineState(pipeline_.Get());
-	commandList_->SetDescriptorHeaps(1, &descriptorHeap_);
+	//描画用のDescriptorHeapの設定
+	ID3D12DescriptorHeap* descriptorHeaps[] = {descriptorHeap_.Get()};
+	commandList_->SetDescriptorHeaps(1, descriptorHeaps);
 
-	auto handle = descriptorHeap_->GetGPUDescriptorHandleForHeapStart();
+	D3D12_GPU_DESCRIPTOR_HANDLE handle = descriptorHeap_->GetGPUDescriptorHandleForHeapStart();
 	commandList_->SetComputeRootDescriptorTable(0, handle);
 
-	commandList_->Dispatch(test.size(), 1,1);
+	commandList_->Dispatch((UINT)test.size(), 1,1);
 	commandList_->Close();
 
-	ID3D12CommandList* com[] = {
-		commandList_.Get()
-	};
-
-	dxCommon->GetCommandQueue()->ExecuteCommandLists(1, com);
+	//GPUにコマンドリストの実行を行わせる
+	ID3D12CommandList* commandList[] = {commandList_.Get()};
+	commandQueue_->ExecuteCommandLists(1, commandList);
 
 	//Fence
 	fenceValue_++;
-	dxCommon->GetCommandQueue()->Signal(fence_.Get(), fenceValue_);
+	commandQueue_->Signal(fence_.Get(), fenceValue_);
 	if(fence_->GetCompletedValue() < fenceValue_){
 		fence_->SetEventOnCompletion(fenceValue_, fenceEvent_);
 		WaitForSingleObject(fenceEvent_, INFINITE);
 	}
+
+	commandAllocator_->Reset();
+	commandList_->Reset(commandAllocator_.Get(), nullptr);
 
 	test.assign((float*)data, (float*)data + test.size());
 }
@@ -63,22 +60,20 @@ void ComputeCommon::Excution()
 void ComputeCommon::CreateRootSignature()
 {
 	HRESULT result_{};
-	result_ = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils_));
-	assert(SUCCEEDED(result_));
-	result_ = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler_));
-	assert(SUCCEEDED(result_));
 
-	//現時点でのincludeはしないが、includeに対応するための設定を行う
-	result_ = dxcUtils_->CreateDefaultIncludeHandler(&includeHandler_);
-	assert(SUCCEEDED(result_));
-
-	computeShaderBlob_ = Pipeline::CompileShader(
+	result_ = D3DCompileFromFile(
 		L"Resources/Shaders/Particle/Particle.CS.hlsl",
-		L"cs_6_0",
-		dxcUtils_.Get(),
-		dxcCompiler_.Get(),
-		includeHandler_.Get()
+		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,
+		"main",
+		"cs_5_1",
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,
+		0,
+		&computeShaderBlob_,
+		nullptr
 	);
+	assert(SUCCEEDED(result_));
+
 
 	ID3DBlob* signature = nullptr;
 	result_ = D3DGetBlobPart(computeShaderBlob_->GetBufferPointer(),computeShaderBlob_->GetBufferSize(),
@@ -96,7 +91,7 @@ void ComputeCommon::CreateRootSignature()
 
 void ComputeCommon::CreatePipeline()
 {
-	D3D12_COMPUTE_PIPELINE_STATE_DESC desc;
+	D3D12_COMPUTE_PIPELINE_STATE_DESC desc{};
 	desc.CS.pShaderBytecode = computeShaderBlob_->GetBufferPointer();
 	desc.CS.BytecodeLength = computeShaderBlob_->GetBufferSize();
 	desc.Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
@@ -113,6 +108,15 @@ void ComputeCommon::CreatePipeline()
 void ComputeCommon::CreateCommand()
 {
 	HRESULT result_{};
+
+	D3D12_COMMAND_QUEUE_DESC commandQueueDesc{};
+	commandQueueDesc.Type = D3D12_COMMAND_LIST_TYPE_COMPUTE;
+	result_ = dxCommon->GetDevice()->CreateCommandQueue(
+		&commandQueueDesc, 
+		IID_PPV_ARGS(&commandQueue_)
+	);
+	assert(SUCCEEDED(result_));
+
 	result_ = dxCommon->GetDevice()->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_COMPUTE,
 		IID_PPV_ARGS(&commandAllocator_)
@@ -131,12 +135,14 @@ void ComputeCommon::CreateCommand()
 
 void ComputeCommon::CreateComputeDescriptorHeap()
 {
-	descriptorHeap_ = CreateDescriptorHeap(
-		dxCommon->GetDevice(),
-		D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
-		1,
-		true
-	);
+	D3D12_DESCRIPTOR_HEAP_DESC desc{};
+	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	desc.NodeMask = 0;
+	desc.NumDescriptors = 1;
+	desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+
+	HRESULT result_ = dxCommon->GetDevice()->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&descriptorHeap_));
+	assert(SUCCEEDED(result_));
 }
 
 void ComputeCommon::CreateResource()
@@ -176,7 +182,7 @@ void ComputeCommon::CreateUAV()
 	D3D12_UNORDERED_ACCESS_VIEW_DESC desc{};
 	desc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
 	desc.Format = DXGI_FORMAT_UNKNOWN;
-	desc.Buffer.NumElements = test.size();
+	desc.Buffer.NumElements = (UINT)test.size();
 	desc.Buffer.StructureByteStride = sizeof(float);
 
 	dxCommon->GetDevice()->CreateUnorderedAccessView(
