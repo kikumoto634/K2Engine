@@ -31,8 +31,7 @@ void ComputeCommon::Initialize()
 
 void ComputeCommon::Map(ID3D12Resource *resource)
 {
-	D3D12_RANGE range{0,1};
-	HRESULT result_ = resource->Map(0,&range,&data);
+	HRESULT result_ = resource->Map(0,nullptr,&data);
 }
 
 void ComputeCommon::Excution(std::vector<Sample> &value)

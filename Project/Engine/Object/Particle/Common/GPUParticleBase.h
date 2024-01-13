@@ -69,6 +69,7 @@ private:
 	Matrix4x4* wvpData_ = nullptr;
 
 	ComPtr<ID3D12Resource> computeResource_;
+	//受信用
 	vector<Sample> computeData_;
 
 	//描画方法

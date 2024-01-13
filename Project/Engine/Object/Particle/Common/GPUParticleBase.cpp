@@ -18,9 +18,6 @@ void GPUParticleBase::Initialize(bool isIndexEnable)
 	PipelineStateInitialize();
 
 	computeData_.resize(1);
-	computeData_[0].position = {0,5,0};
-	computeData_[0].valocity = 5;
-	computeData_[0].time = 0.0f;
 
 	CreateVertex();
 	CreateIndex();
