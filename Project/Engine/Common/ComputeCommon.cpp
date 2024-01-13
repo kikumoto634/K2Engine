@@ -35,7 +35,7 @@ void ComputeCommon::Map(ID3D12Resource *resource)
 	HRESULT result_ = resource->Map(0,&range,&data);
 }
 
-void ComputeCommon::Excution(std::vector<float> &value)
+void ComputeCommon::Excution(std::vector<Sample> &value)
 {
 	commandList_->SetComputeRootSignature(rootSignature_.Get());
 	commandList_->SetPipelineState(pipeline_.Get());
@@ -64,7 +64,7 @@ void ComputeCommon::Excution(std::vector<float> &value)
 	commandAllocator_->Reset();
 	commandList_->Reset(commandAllocator_.Get(), nullptr);
 
-	value.assign((float*)data, (float*)data + value.size());
+	value.assign((Sample*)data, (Sample*)data + value.size());
 }
 
 

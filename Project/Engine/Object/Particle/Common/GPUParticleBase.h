@@ -69,7 +69,7 @@ private:
 	Matrix4x4* wvpData_ = nullptr;
 
 	ComPtr<ID3D12Resource> computeResource_;
-	vector<float> computeData_;
+	vector<Sample> computeData_;
 
 	//描画方法
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン

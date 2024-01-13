@@ -22,17 +22,25 @@
                                   "space          = 0, "\
                                   "visibility     = SHADER_VISIBILITY_ALL)"
 
-RWStructuredBuffer<float> real : register(u0);
+struct Sample
+{
+    float3 poaition;
+    float velocity;
+    float time;
+};
+RWStructuredBuffer<Sample> real : register(u0);
 
 [RootSignature(RS)]
 [numthreads(1, 1, 1)]
 void main(uint3 gID : SV_GroupID)
 {
-    if (real[gID.x] > 5)
-    {
-        real[gID.x] = -5;
-    }
+    float3 center = { 0, 5, 0 };
+    float radius = 5.f;
+    float velocity = 5.0f;
     
     //共有データに配列番号が入る
-    real[gID.x] += 0.1f;
+    real[gID.x].velocity = velocity;
+    real[gID.x].time += (1 / 60.f) * real[gID.x].velocity;
+    real[gID.x].poaition = center;
+    real[gID.x].poaition.r = cos(real[gID.x].time) * radius;
 }

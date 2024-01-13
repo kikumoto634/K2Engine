@@ -1,6 +1,13 @@
 #pragma once
 #include "DirectXCommon.h"
 
+#include "Vector3.h"
+struct Sample{
+	Vector3 position;
+	float valocity;
+	float time;
+};
+
 //コンピュートシェーダ用
 class ComputeCommon
 {
@@ -15,10 +22,11 @@ public:
 	//更新設定
 	void Map(ID3D12Resource* resource);
 	//計算実行
-	void Excution(std::vector<float> &value);
+	void Excution(std::vector<Sample> &value);
 
 	//Getter
 	ID3D12DescriptorHeap* GetDescriptorHeap()	{return descriptorHeap_.Get();}
+
 
 private:
 	void CreateRootSignature();

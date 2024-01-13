@@ -18,6 +18,9 @@ void GPUParticleBase::Initialize(bool isIndexEnable)
 	PipelineStateInitialize();
 
 	computeData_.resize(1);
+	computeData_[0].position = {0,5,0};
+	computeData_[0].valocity = 5;
+	computeData_[0].time = 0.0f;
 
 	CreateVertex();
 	CreateIndex();
@@ -29,7 +32,7 @@ void GPUParticleBase::Initialize(bool isIndexEnable)
 void GPUParticleBase::Draw(Camera* camera)
 {
 	compute->Excution(computeData_);
-	transfrom_.translate.x = computeData_[0];
+	transfrom_.translate = computeData_[0].position;
 
 	Matrix4x4 worldViewProjectionMatrix = transfrom_.GetWorldMatrix() * camera->GetViewProjectionMatrix();
 	*wvpData_ = worldViewProjectionMatrix;
@@ -184,12 +187,12 @@ void GPUParticleBase::CreateCompute()
 	//リソース
 	computeResource_ = CreateComputeBufferResource(
 		dxCommon->GetDevice(),
-		(sizeof(float) * (computeData_.size()) + 0xff)&~0xff
+		(sizeof(Sample) * (computeData_.size()) + 0xff)&~0xff
 	);
 
 	//ビュー
 	D3D12_UNORDERED_ACCESS_VIEW_DESC desc{};
-	CreateComputreView(desc, (UINT)computeData_.size(), sizeof(float));
+	CreateComputreView(desc, (UINT)computeData_.size(), sizeof(Sample));
 
 	dxCommon->GetDevice()->CreateUnorderedAccessView(
 		computeResource_.Get(),
