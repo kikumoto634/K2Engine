@@ -667,6 +667,9 @@
     <FxCompile Include="Resources\Shaders\Particle\Particle.CS.hlsl">
       <Filter>リソース ファイル\Shader\Particle</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\Shaders\Particle\GPUParticle.VS.hlsl">
+      <Filter>リソース ファイル\Shader\Particle</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="External\imgui\LICENSE.txt">

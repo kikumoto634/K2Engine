@@ -1,6 +1,7 @@
 #include "GPUParticleBase.h"
 #include <BufferResource.h>
 #include <BufferView.h>
+#include <DescriptorHeap.h>
 
 GPUParticleBase *GPUParticleBase::Create()
 {
@@ -18,37 +19,50 @@ void GPUParticleBase::Initialize(bool isIndexEnable)
 	PipelineStateInitialize();
 
 	CreateVertex();
-	CreateIndex();
 	CreateMaterial();
 	CreateWVP();
 	CreateCompute();
+
+	for(int i = 0; i < kNumMaxInstance; i++){
+		Transform temp1;
+		transfrom_.push_back(temp1);
+	}
 }
 
 void GPUParticleBase::Draw(Camera* camera)
 {
 	compute->Excution(kNumMaxInstance, reinterpret_cast<void**>(&computeData_));
-	transfrom_.translate = computeData_[0].position;
 
-	Matrix4x4 worldViewProjectionMatrix = transfrom_.GetWorldMatrix() * camera->GetViewProjectionMatrix();
-	*wvpData_ = worldViewProjectionMatrix;
+	int numInstance = 0;	//描画すべきインスタンス
+	for(list<Transform>::iterator particleIterator = transfrom_.begin(); particleIterator != transfrom_.end();){
+		if(numInstance < kNumMaxInstance){
+			
+			particleIterator->translate = computeData_[numInstance].position;
+
+			Matrix4x4 worldViewProjectionMatrix = particleIterator->GetWorldMatrix() * camera->GetViewProjectionMatrix();
+			wvpData_[numInstance] = worldViewProjectionMatrix;
+
+			++numInstance;
+		}
+		++particleIterator;
+	}
 
 
 	//ルートシグネチャ設定 PSOに設定しいているが別途設定が必要
 	dxCommon->GetCommandList()->SetGraphicsRootSignature(pipeline_->GetRootSignature());
 	dxCommon->GetCommandList()->SetPipelineState(pipeline_->GetGraphicsPipelineState());	//PSO設定
 	dxCommon->GetCommandList()->IASetVertexBuffers(0,1,&vertexBufferView_);		//VBV設定
-	dxCommon->GetCommandList()->IASetIndexBuffer(&indexBufferView_);		//IBV設定
 
 	//形状設定、PSOに設定しているのとは別
 	dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology_);
 
 	//行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
-	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(0, wvpResource_->GetGPUVirtualAddress());
+	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(0, instancingSrvHandleGPU_);
 	//マテリアルのconstBufferの場所を設定
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, constResource_->GetGPUVirtualAddress());
 
 	//描画
-	dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,1,0,0,0);
+	dxCommon->GetCommandList()->DrawInstanced(vertNum_,numInstance,0,0);
 }
 
 
@@ -70,12 +84,21 @@ void GPUParticleBase::PipelineStateInitialize()
 	// 2~x / SRV(Texture)
 	// 3+x / CSV(VERTEX)
 	// 3+x / CSV(VERTEX)
+	
+	//SRV(InstancedID)
+	D3D12_DESCRIPTOR_RANGE descriptorRangeForInstancing[1] = {};
+	descriptorRangeForInstancing[0].BaseShaderRegister = 0;
+	descriptorRangeForInstancing[0].NumDescriptors = 1;
+	descriptorRangeForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRangeForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
 	//ルートパラメータ設定
 	rootParameters_.resize(2);
 	//VS(行列)
-	rootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
+	rootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;		//CBV
 	rootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;	//VertexShaderで使用
-	rootParameters_[0].Descriptor.ShaderRegister = 0;	//レジスタ番号 b0
+	rootParameters_[0].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;	//レジスタ番号 b0
+	rootParameters_[0].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
 	//PS(色)
 	rootParameters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
 	rootParameters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShader使用
@@ -120,43 +143,7 @@ void GPUParticleBase::CreateVertex()
 	//書き込むためのアドレス取得
 	vertexResource_->Map(0,nullptr,reinterpret_cast<void**>(&vertData_));
 
-	vertData_[0] = {-0.5f,-0.5f,-0.5f, 1.0f};
-	vertData_[1] = { 0.5f,-0.5f,-0.5f, 1.0f};
-	vertData_[2] = { 0.5f, 0.5f,-0.5f, 1.0f};
-	vertData_[3] = {-0.5f, 0.5f,-0.5f, 1.0f};
-
-	vertData_[4] = {-0.5f,-0.5f, 0.5f, 1.0f};
-	vertData_[5] = { 0.5f,-0.5f, 0.5f, 1.0f};
-	vertData_[6] = { 0.5f, 0.5f, 0.5f, 1.0f};
-	vertData_[7] = {-0.5f, 0.5f, 0.5f, 1.0f};
-}
-
-void GPUParticleBase::CreateIndex()
-{
-	indexResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(uint32_t)*indexNum_);
-
-	CreateBufferView(indexBufferView_, indexResource_.Get(), sizeof(uint32_t)*indexNum_);
-
-	//インデックスリソースにデータを書き込む
-	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
-
-	indexData_[0] = 3;	indexData_[1] = 2;	indexData_[2] = 1;
-	indexData_[3] = 0;	indexData_[4] = 3;	indexData_[5] = 1;
-	
-	indexData_[6] = 5;	indexData_[7] = 6;	indexData_[8] = 7;
-	indexData_[9] = 5;	indexData_[10] = 7;	indexData_[11] = 4;
-	
-	indexData_[12] = 7;	indexData_[13] = 3;	indexData_[14] = 0;
-	indexData_[15] = 0;	indexData_[16] = 4;	indexData_[17] = 7;
-	
-	indexData_[18] = 6;	indexData_[19] = 5;	indexData_[20] = 1;
-	indexData_[21] = 1;	indexData_[22] = 2;	indexData_[23] = 6;
-	
-	indexData_[24] = 6;	indexData_[25] = 2;	indexData_[26] = 3;
-	indexData_[27] = 3;	indexData_[28] = 7;	indexData_[29] = 6;
-
-	indexData_[30] = 0;	indexData_[31] = 1;	indexData_[32] = 5;
-	indexData_[33] = 5;	indexData_[34] = 4;	indexData_[35] = 0;
+	vertData_[0] = {0.0f,0.0f,0.0f, 1.0f};
 }
 
 void GPUParticleBase::CreateMaterial()
@@ -169,12 +156,27 @@ void GPUParticleBase::CreateMaterial()
 
 void GPUParticleBase::CreateWVP()
 {
-	wvpResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(Matrix4x4));
+	wvpResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(Matrix4x4)*kNumMaxInstance);
 
 	wvpResource_->Map(0, nullptr, reinterpret_cast<void**>(&wvpData_));
 	
-	Matrix4x4 worldMatrix = worldMatrix.MakeIdentityMatrix();
-	*wvpData_ = worldMatrix;
+	for(int i = 0; i < kNumMaxInstance; i++){
+		wvpData_[i] = MakeIdentityMatrix();
+	}
+
+	//SRV作成
+	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSrvDesc{};
+	instancingSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
+	instancingSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	instancingSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	instancingSrvDesc.Buffer.FirstElement = 0;
+	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	instancingSrvDesc.Buffer.NumElements = kNumMaxInstance;
+	instancingSrvDesc.Buffer.StructureByteStride = sizeof(Matrix4x4);
+
+	instancingSrvHandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV());
+	instancingSrvHandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV());
+	dxCommon->GetDevice()->CreateShaderResourceView(wvpResource_.Get(), &instancingSrvDesc, instancingSrvHandleCPU_);
 }
 
 void GPUParticleBase::CreateCompute()
@@ -199,8 +201,8 @@ void GPUParticleBase::CreateCompute()
 	computeResource_->Map(0,nullptr, reinterpret_cast<void**>(&computeData_));
 
 	for(int i = 0; i < kNumMaxInstance; i++){
-		computeData_[i].position = {0,5,0};
-		computeData_[i].velocity = 5.5f;
+		computeData_[i].position = {0, 5 - float(i*0.01f),0};
+		computeData_[i].velocity = 1.5f;
 		computeData_[i].time = 0.0f;
 	}
 }
