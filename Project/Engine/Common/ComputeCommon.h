@@ -4,7 +4,7 @@
 #include "Vector3.h"
 struct Sample{
 	Vector3 position;
-	float valocity;
+	float velocity;
 	float time;
 };
 
@@ -19,10 +19,8 @@ public:
 
 public:
 	void Initialize();
-	//更新設定
-	void Map(ID3D12Resource* resource);
 	//計算実行
-	void Excution(std::vector<Sample> &value);
+	Sample* Excution(int instanceNum, void* data);
 
 	//Getter
 	ID3D12DescriptorHeap* GetDescriptorHeap()	{return descriptorHeap_.Get();}
@@ -63,7 +61,7 @@ public:
 	//ComPtr<ID3D12Resource> resource_;
 
 	//送受信用データ
-	void* data;
+	//void* data;
 
 
 	ComPtr<ID3D12Fence> fence_;

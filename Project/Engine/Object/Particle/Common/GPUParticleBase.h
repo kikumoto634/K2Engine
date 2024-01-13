@@ -70,7 +70,7 @@ private:
 
 	ComPtr<ID3D12Resource> computeResource_;
 	//受信用
-	vector<Sample> computeData_;
+	Sample* computeData_ = nullptr;
 
 	//描画方法
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
@@ -89,6 +89,7 @@ protected:
 	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_WIREFRAME;	//塗りつぶし
 
 	//パラメータ
+	const int kNumMaxInstance = 1;
 	Transform transfrom_ = {{0,5,0},{0,0,0},{1,1,1}};
 	Vector4 color_ = {0.1f, 0.5f, 0.1f, 1.0f};
 

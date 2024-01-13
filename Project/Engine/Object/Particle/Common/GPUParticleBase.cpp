@@ -17,8 +17,6 @@ void GPUParticleBase::Initialize(bool isIndexEnable)
 	pipeline_ = new Pipeline();
 	PipelineStateInitialize();
 
-	computeData_.resize(1);
-
 	CreateVertex();
 	CreateIndex();
 	CreateMaterial();
@@ -28,7 +26,7 @@ void GPUParticleBase::Initialize(bool isIndexEnable)
 
 void GPUParticleBase::Draw(Camera* camera)
 {
-	compute->Excution(computeData_);
+	compute->Excution(kNumMaxInstance, reinterpret_cast<void**>(&computeData_));
 	transfrom_.translate = computeData_[0].position;
 
 	Matrix4x4 worldViewProjectionMatrix = transfrom_.GetWorldMatrix() * camera->GetViewProjectionMatrix();
@@ -184,12 +182,12 @@ void GPUParticleBase::CreateCompute()
 	//リソース
 	computeResource_ = CreateComputeBufferResource(
 		dxCommon->GetDevice(),
-		(sizeof(Sample) * (computeData_.size()) + 0xff)&~0xff
+		(sizeof(Sample) * kNumMaxInstance + 0xff)&~0xff
 	);
 
 	//ビュー
 	D3D12_UNORDERED_ACCESS_VIEW_DESC desc{};
-	CreateComputreView(desc, (UINT)computeData_.size(), sizeof(Sample));
+	CreateComputreView(desc, (UINT)kNumMaxInstance, sizeof(Sample));
 
 	dxCommon->GetDevice()->CreateUnorderedAccessView(
 		computeResource_.Get(),
@@ -198,5 +196,11 @@ void GPUParticleBase::CreateCompute()
 		compute->GetDescriptorHeap()->GetCPUDescriptorHandleForHeapStart()
 	);
 
-	compute->Map(computeResource_.Get());
+	computeResource_->Map(0,nullptr, reinterpret_cast<void**>(&computeData_));
+
+	for(int i = 0; i < kNumMaxInstance; i++){
+		computeData_[i].position = {0,5,0};
+		computeData_[i].velocity = 5.5f;
+		computeData_[i].time = 0.0f;
+	}
 }

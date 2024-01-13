@@ -29,12 +29,8 @@ void ComputeCommon::Initialize()
 	CreateFence();
 }
 
-void ComputeCommon::Map(ID3D12Resource *resource)
-{
-	HRESULT result_ = resource->Map(0,nullptr,&data);
-}
 
-void ComputeCommon::Excution(std::vector<Sample> &value)
+Sample* ComputeCommon::Excution(int instanceNum, void* data)
 {
 	commandList_->SetComputeRootSignature(rootSignature_.Get());
 	commandList_->SetPipelineState(pipeline_.Get());
@@ -45,7 +41,7 @@ void ComputeCommon::Excution(std::vector<Sample> &value)
 	D3D12_GPU_DESCRIPTOR_HANDLE handle = descriptorHeap_->GetGPUDescriptorHandleForHeapStart();
 	commandList_->SetComputeRootDescriptorTable(0, handle);
 
-	commandList_->Dispatch((UINT)value.size(), 1,1);
+	commandList_->Dispatch((UINT)instanceNum, 1,1);
 	commandList_->Close();
 
 	//GPUにコマンドリストの実行を行わせる
@@ -63,7 +59,7 @@ void ComputeCommon::Excution(std::vector<Sample> &value)
 	commandAllocator_->Reset();
 	commandList_->Reset(commandAllocator_.Get(), nullptr);
 
-	value.assign((Sample*)data, (Sample*)data + value.size());
+	return ((Sample*)data, (Sample*)data + instanceNum);
 }
 
 
