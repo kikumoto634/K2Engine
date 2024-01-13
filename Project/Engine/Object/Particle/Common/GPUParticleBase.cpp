@@ -2,6 +2,7 @@
 #include <BufferResource.h>
 #include <BufferView.h>
 #include <DescriptorHeap.h>
+#include <random>
 
 GPUParticleBase *GPUParticleBase::Create()
 {
@@ -200,8 +201,13 @@ void GPUParticleBase::CreateCompute()
 
 	computeResource_->Map(0,nullptr, reinterpret_cast<void**>(&computeData_));
 
+	//乱数生成器
+	std::random_device seedGenerator_;
+	std::mt19937 randomEngine(seedGenerator_());
 	for(int i = 0; i < kNumMaxInstance; i++){
-		computeData_[i].position = {0, 5 - float(i*0.01f),0};
+		std::uniform_real_distribution<float> distValue(-8,8);
+
+		computeData_[i].position = {0, distValue(randomEngine), distValue(randomEngine)};
 		computeData_[i].velocity = 1.5f;
 		computeData_[i].time = 0.0f;
 	}

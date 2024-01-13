@@ -34,9 +34,7 @@ RWStructuredBuffer<Sample> real : register(u0);
 [numthreads(1, 1, 1)]
 void main(uint3 gID : SV_GroupID)
 {
-    float radius = 5.f;
-    
     //共有データに配列番号が入る
     real[gID.x].time += (1 / 60.f) * real[gID.x].velocity;
-    real[gID.x].poaition.r = cos(real[gID.x].time) * radius;
+    real[gID.x].poaition.r += cos(real[gID.x].time);
 }
