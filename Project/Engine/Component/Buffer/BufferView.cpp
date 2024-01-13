@@ -19,3 +19,11 @@ void CreateBufferView(D3D12_INDEX_BUFFER_VIEW &view, ID3D12Resource *resource, U
 	//インデックスはuint32_tとする
 	view.Format = DXGI_FORMAT_R32_UINT;
 }
+
+void CreateComputreView(D3D12_UNORDERED_ACCESS_VIEW_DESC &view, UINT numElements, UINT structureByteStride)
+{
+	view.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+	view.Format = DXGI_FORMAT_UNKNOWN;
+	view.Buffer.NumElements = numElements;
+	view.Buffer.StructureByteStride = structureByteStride;
+}

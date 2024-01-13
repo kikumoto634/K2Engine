@@ -28,6 +28,11 @@ RWStructuredBuffer<float> real : register(u0);
 [numthreads(1, 1, 1)]
 void main(uint3 gID : SV_GroupID)
 {
+    if (real[gID.x] > 5)
+    {
+        real[gID.x] = -5;
+    }
+    
     //共有データに配列番号が入る
-    real[gID.x] = gID.x;
+    real[gID.x] += 0.1f;
 }

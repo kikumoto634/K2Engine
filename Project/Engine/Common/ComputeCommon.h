@@ -8,9 +8,17 @@ private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 public:
+	static ComputeCommon* GetInstance();
+
+public:
 	void Initialize();
+	//更新設定
+	void Map(ID3D12Resource* resource);
 	//計算実行
-	void Excution();
+	void Excution(std::vector<float> &value);
+
+	//Getter
+	ID3D12DescriptorHeap* GetDescriptorHeap()	{return descriptorHeap_.Get();}
 
 private:
 	void CreateRootSignature();
@@ -19,11 +27,8 @@ private:
 	void CreateCommand();
 
 	void CreateComputeDescriptorHeap();
-	void CreateResource();
-	void CreateUAV();
 
 	void CreateFence();
-
 
 public:
 	DirectXCommon* dxCommon = nullptr;
@@ -47,7 +52,7 @@ public:
 	//DescriptorHeap
 	ComPtr<ID3D12DescriptorHeap> descriptorHeap_;
 	//作成リソース
-	ComPtr<ID3D12Resource> resource_;
+	//ComPtr<ID3D12Resource> resource_;
 
 	//送受信用データ
 	void* data;

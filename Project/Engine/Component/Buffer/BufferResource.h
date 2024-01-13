@@ -17,3 +17,6 @@
 /// </summary>
 /// <param name="sizeInByte"> 使用するバイトサイズ </param>
 ID3D12Resource* CreateBufferResource(ID3D12Device* device, size_t sizeInByte);
+
+
+ID3D12Resource* CreateComputeBufferResource(ID3D12Device* device, size_t sizeInByte);

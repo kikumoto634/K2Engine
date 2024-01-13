@@ -12,18 +12,25 @@ GPUParticleBase *GPUParticleBase::Create()
 void GPUParticleBase::Initialize(bool isIndexEnable)
 {
 	dxCommon = DirectXCommon::GetInstance();
+	compute = ComputeCommon::GetInstance();
 
 	pipeline_ = new Pipeline();
 	PipelineStateInitialize();
+
+	computeData_.resize(1);
 
 	CreateVertex();
 	CreateIndex();
 	CreateMaterial();
 	CreateWVP();
+	CreateCompute();
 }
 
 void GPUParticleBase::Draw(Camera* camera)
 {
+	compute->Excution(computeData_);
+	transfrom_.translate.x = computeData_[0];
+
 	Matrix4x4 worldViewProjectionMatrix = transfrom_.GetWorldMatrix() * camera->GetViewProjectionMatrix();
 	*wvpData_ = worldViewProjectionMatrix;
 
@@ -170,4 +177,26 @@ void GPUParticleBase::CreateWVP()
 	
 	Matrix4x4 worldMatrix = worldMatrix.MakeIdentityMatrix();
 	*wvpData_ = worldMatrix;
+}
+
+void GPUParticleBase::CreateCompute()
+{
+	//リソース
+	computeResource_ = CreateComputeBufferResource(
+		dxCommon->GetDevice(),
+		(sizeof(float) * (computeData_.size()) + 0xff)&~0xff
+	);
+
+	//ビュー
+	D3D12_UNORDERED_ACCESS_VIEW_DESC desc{};
+	CreateComputreView(desc, (UINT)computeData_.size(), sizeof(float));
+
+	dxCommon->GetDevice()->CreateUnorderedAccessView(
+		computeResource_.Get(),
+		nullptr,
+		&desc,
+		compute->GetDescriptorHeap()->GetCPUDescriptorHandleForHeapStart()
+	);
+
+	compute->Map(computeResource_.Get());
 }

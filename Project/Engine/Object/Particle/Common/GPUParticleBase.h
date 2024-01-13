@@ -8,6 +8,8 @@
 #include "Camera.h"
 
 
+#include "ComputeCommon.h"
+
 //コンピュートシェーダを使用するうえで
 /*
 * DirectXCommonでCompute用のやつを用意する?
@@ -27,8 +29,6 @@ public:
 	void Initialize(bool isIndexEnable = true);
 	void Draw(Camera* camera);
 
-	//初期化
-
 private:
 	//パイプライン
 	void PipelineStateInitialize();
@@ -41,10 +41,13 @@ private:
 	void CreateMaterial();
 	//行列リソース/ビュー
 	void CreateWVP();
+	//コンピュートリソース/ビュー
+	void CreateCompute();
 
 private:
 	//Instance
 	DirectXCommon* dxCommon = nullptr;
+	ComputeCommon* compute = nullptr;
 
 	//パイプライン関係
 	Pipeline* pipeline_ = nullptr;
@@ -64,6 +67,9 @@ private:
 
 	ComPtr<ID3D12Resource> wvpResource_;		//行列
 	Matrix4x4* wvpData_ = nullptr;
+
+	ComPtr<ID3D12Resource> computeResource_;
+	vector<float> computeData_;
 
 	//描画方法
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
