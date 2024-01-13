@@ -4,8 +4,7 @@
 #include "Vector3.h"
 struct Sample{
 	Vector3 position;
-	float velocity;
-	float time;
+	Vector3 velocity;
 };
 
 //コンピュートシェーダ用

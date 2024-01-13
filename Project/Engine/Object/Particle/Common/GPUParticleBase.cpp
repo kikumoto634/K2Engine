@@ -129,7 +129,7 @@ void GPUParticleBase::PipelineStateInitialize()
 		inputElementDesc_,
 		fillMode_,
 		pipelinePrimitiveTopology_,
-		BlendSetting::kBlendModeNormal,
+		BlendSetting::kBlendModeAdd,
 		D3D12_CULL_MODE_NONE
 	);
 }
@@ -204,11 +204,11 @@ void GPUParticleBase::CreateCompute()
 	//乱数生成器
 	std::random_device seedGenerator_;
 	std::mt19937 randomEngine(seedGenerator_());
+	std::uniform_real_distribution<float> distValue(-3,3);
+	std::uniform_real_distribution<float> distVelo(-1,1);
 	for(int i = 0; i < kNumMaxInstance; i++){
-		std::uniform_real_distribution<float> distValue(-8,8);
 
-		computeData_[i].position = {0, distValue(randomEngine), distValue(randomEngine)};
-		computeData_[i].velocity = 1.5f;
-		computeData_[i].time = 0.0f;
+		computeData_[i].position = {distValue(randomEngine), distValue(randomEngine), distValue(randomEngine)};
+		computeData_[i].velocity = {distVelo(randomEngine),distVelo(randomEngine),distVelo(randomEngine)};
 	}
 }

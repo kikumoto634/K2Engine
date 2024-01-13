@@ -29,7 +29,7 @@ ID3D12Resource *CreateBufferResource(ID3D12Device* device, size_t sizeInByte)
 	return resource;
 }
 
-ID3D12Resource *CreateComputeBufferResource(ID3D12Device *device, size_t sizeInByte)
+ID3D12Resource *CreateComputeBufferResource(ID3D12Device *device, size_t sizeInByte, D3D12_HEAP_TYPE heapType)
 {
 	ID3D12Resource* resource = nullptr;
 
@@ -37,7 +37,7 @@ ID3D12Resource *CreateComputeBufferResource(ID3D12Device *device, size_t sizeInB
 	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
 	prop.CreationNodeMask = 1;
 	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
-	prop.Type = D3D12_HEAP_TYPE_CUSTOM;
+	prop.Type = heapType;
 	prop.VisibleNodeMask = 1;
 	
 	D3D12_RESOURCE_DESC desc{};

@@ -25,8 +25,7 @@
 struct Sample
 {
     float3 poaition;
-    float velocity;
-    float time;
+    float3 velocity;
 };
 RWStructuredBuffer<Sample> real : register(u0);
 
@@ -34,7 +33,20 @@ RWStructuredBuffer<Sample> real : register(u0);
 [numthreads(1, 1, 1)]
 void main(uint3 gID : SV_GroupID)
 {
-    //共有データに配列番号が入る
-    real[gID.x].time += (1 / 60.f) * real[gID.x].velocity;
-    real[gID.x].poaition.r += cos(real[gID.x].time);
+    if (real[gID.x].poaition.r > 3.0f || real[gID.x].poaition.r < -3.0f)
+    {
+        real[gID.x].velocity.r *= -1.0f;
+    }
+    if (real[gID.x].poaition.g > 3.0f || real[gID.x].poaition.g < -3.0f)
+    {
+        real[gID.x].velocity.g *= -1.0f;
+    }
+    if (real[gID.x].poaition.b > 3.0f || real[gID.x].poaition.b < -3.0f)
+    {
+        real[gID.x].velocity.b *= -1.0f;
+    }
+    
+    real[gID.x].poaition.r += real[gID.x].velocity.r;
+    real[gID.x].poaition.g += real[gID.x].velocity.g;
+    real[gID.x].poaition.b += real[gID.x].velocity.b;
 }
