@@ -37,7 +37,7 @@ void main(uint3 gID : SV_GroupID)
     {
         real[gID.x].velocity.r *= -1.0f;
     }
-    if (real[gID.x].poaition.g > 3.0f || real[gID.x].poaition.g < -3.0f)
+    if (real[gID.x].poaition.g > 8.0f || real[gID.x].poaition.g < 2.0f)
     {
         real[gID.x].velocity.g *= -1.0f;
     }

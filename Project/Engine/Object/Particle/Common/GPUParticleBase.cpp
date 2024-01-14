@@ -208,7 +208,7 @@ void GPUParticleBase::CreateCompute()
 	std::uniform_real_distribution<float> distVelo(-1,1);
 	for(int i = 0; i < kNumMaxInstance; i++){
 
-		computeData_[i].position = {distValue(randomEngine), distValue(randomEngine), distValue(randomEngine)};
+		computeData_[i].position = {distValue(randomEngine), distValue(randomEngine) + 5, distValue(randomEngine)};
 		computeData_[i].velocity = {distVelo(randomEngine),distVelo(randomEngine),distVelo(randomEngine)};
 	}
 }

@@ -21,9 +21,9 @@ void Application::Initialize()
 
 
 	////シーンオブジェクト
-	//levelLoader_ = std::make_unique<LevelLoader>();
-	//levelLoader_->Load("levelSample");
-	//levelLoader_->Initialize();
+	levelLoader_ = std::make_unique<LevelLoader>();
+	levelLoader_->Load("levelSample");
+	levelLoader_->Initialize();
 
 	//player_ = std::make_unique<Player>("cube");
 	//player_.get()->translate = {0,0,0};
@@ -49,8 +49,8 @@ void Application::Initialize()
 void Application::Update()
 {
 	//シーンオブジェクト
-	/*levelLoader_->Update();
-	player_->Update();
+	levelLoader_->Update();
+	/*player_->Update();
 	box_->Update();
 
 	sp_->Update();
@@ -70,8 +70,8 @@ void Application::Update()
 void Application::GeometryDraw()
 {
 	//シーンオブジェクト
-	/*levelLoader_->Draw(camera_);
-	player_->Draw(camera_);
+	levelLoader_->Draw(camera_);
+	/*player_->Draw(camera_);
 	box_->Draw(camera_);*/
 
 	gpu_->Draw(camera_);
