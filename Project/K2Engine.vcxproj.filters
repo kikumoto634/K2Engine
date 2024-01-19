@@ -423,6 +423,9 @@
     <ClCompile Include="Engine\Common\ComputeCommon.cpp">
       <Filter>ソース ファイル\Engine\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Common\ShadowMapCommon.cpp">
+      <Filter>ソース ファイル\Engine\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -627,6 +630,9 @@
       <Filter>ヘッダー ファイル\Engine\Object\Particle\Common</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Common\ComputeCommon.h">
+      <Filter>ヘッダー ファイル\Engine\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Common\ShadowMapCommon.h">
       <Filter>ヘッダー ファイル\Engine\Common</Filter>
     </ClInclude>
   </ItemGroup>

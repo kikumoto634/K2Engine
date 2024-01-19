@@ -30,7 +30,7 @@ void Application::Initialize()
 	//player_.get()->scale = {0.8f,0.8f,0.8f};
 	//collisionsManager->AddCollider(player_->GetCollider());
 
-	//box_ = ObjModel::Create("fence", {{0,0,0},{0,0,0},{1,1,1}}, BlendSetting::kBlendModeNone);
+	box_ = ObjModel::Create("cube", {{0,5,-5},{0,0,0},{1,1,1}}, BlendSetting::kBlendModeNone);
 	//box_->translate = {-5.f,0,0};
 	//box_->rotation = DegreesToRadians({0,180.f,0});
 	//box_->scale = {0.8f,0.8f,0.8f};
@@ -50,8 +50,8 @@ void Application::Update()
 {
 	//シーンオブジェクト
 	levelLoader_->Update();
-	/*player_->Update();
 	box_->Update();
+	/*player_->Update();
 
 	sp_->Update();
 
@@ -71,8 +71,8 @@ void Application::GeometryDraw()
 {
 	//シーンオブジェクト
 	levelLoader_->Draw(camera_);
-	/*player_->Draw(camera_);
-	box_->Draw(camera_);*/
+	box_->Draw(camera_);
+	/*player_->Draw(camera_);*/
 
 	gpu_->Draw(camera_);
 }
