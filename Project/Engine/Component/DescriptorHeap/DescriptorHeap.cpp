@@ -52,6 +52,24 @@ D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(DescriptorRTVData& descriptor
     return handleCPU;
 }
 
+D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(DescriptorDSVData &descriptorHeap, uint32_t descriptorSize)
+{
+    //ディスクリプタの先頭アドレスを取得
+    D3D12_CPU_DESCRIPTOR_HANDLE handleCPU = descriptorHeap.Heap->GetCPUDescriptorHandleForHeapStart();
+    uint32_t index = 0;
+    for(int i = 0; i < descriptorHeap.CPUFlags.size(); i++){
+        if(!descriptorHeap.CPUFlags[i]){
+            index = i;
+            break;
+        }
+    }
+
+    descriptorHeap.CPUFlags[index] = true;
+    handleCPU.ptr += (descriptorSize * index);
+
+    return handleCPU;
+}
+
 
 D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(DescriptorSRVData& descriptorHeap, uint32_t descriptorSize)
 {

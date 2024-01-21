@@ -332,7 +332,7 @@ bool DirectXCommon::CreateSRVDescriptorHeap()
 
 bool DirectXCommon::CreateDSVDescriptorHeap()
 {
-	 descriptorSizeDSV_ = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+	descriptorSizeDSV_ = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
 
 	//DSB用のヒープでディスクリプタの数は1		DSVはShaderないで降れるものではないので、ShaderVisible = false
 	dsvDescriptorHeap_.Heap = CreateDescriptorHeap(device_.Get(), D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 1, false);
