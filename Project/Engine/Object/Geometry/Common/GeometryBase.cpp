@@ -20,6 +20,35 @@ void GeometryBase::Initialize(bool isIndexEnable)
 	isIndexDataEnable_ = isIndexEnable;
 	texture_ = SpriteLoader::SearchTexture(texturePath_);
 
+	//深度情報のデバック用
+	//テクスチャ用のデスクリプタヒープ
+	dhTextureHandle_ = dxCommon->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	dhTexture_.Heap = CreateDescriptorHeap(dxCommon->GetDevice(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 2, true);
+	dhTexture_.CPUFlags.resize(2);
+	dhTexture_.CPUFlags.assign(dhTexture_.CPUFlags.size(), false);
+	dhTexture_.GPUFlags.resize(2);
+	dhTexture_.GPUFlags.assign(dhTexture_.GPUFlags.size(), false);
+
+	//シェーダリソースビュー作成
+	D3D12_SHADER_RESOURCE_VIEW_DESC viewDesc{};
+	viewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	viewDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	viewDesc.Texture2D.MipLevels = 1;
+	viewDesc.Texture2D.MostDetailedMip = 0;
+	viewDesc.Texture2D.PlaneSlice = 0;
+	viewDesc.Texture2D.ResourceMinLODClamp = 0.0F;
+	viewDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+
+	//一つ目はデバック
+	D3D12_CPU_DESCRIPTOR_HANDLE textureDsvHandleCPU = GetCPUDescriptorHandle(dhTexture_, dhTextureHandle_);
+	dxCommon->GetDevice()->CreateShaderResourceView(dhTextureResource_.Get(), &viewDesc, textureDsvHandleCPU);
+
+	//二つ目はCommonへ
+	viewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	textureDsvHandleCPU = GetCPUDescriptorHandle(dhTexture_, dhTextureHandle_);
+	dxCommon->GetDevice()->CreateShaderResourceView(shadowCommon->GetShadowResource(), &viewDesc, textureDsvHandleCPU);
+
+
 	//パイプライン
 	pipeline_ = new Pipeline();
 	PipelineStateInitialize();	//パイプライン初期化
