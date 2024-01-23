@@ -14,7 +14,7 @@ FrameWork *FrameWork::Create()
 void FrameWork::Initialize()
 {
 	win_ = WindowsApp::Create(L"K2Engine", 1280, 720);
-	dxCommon_ = DirectXCommon::Create();
+	dxCommon_ = DirectXCommon::Create({0,0,0,1});
 
 	input_ = Input::GetInstance();
 

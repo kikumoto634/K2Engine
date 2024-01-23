@@ -3,7 +3,7 @@
 #include <dxgi1_6.h>
 #include <dxgidebug.h>
 #include <cassert>
-
+#include <chrono>
 #include <wrl.h>
 
 #include "WindowsApp.h"
@@ -125,7 +125,13 @@ private:
 	static float clearColor_[4];
 	//ダブルバッファ
 	static const int SwapChainNum = 2;
+	
+public:
+	//FPS
+	static double fps_;
+	static float fixedFpsValue_;
 
+private:
 	//SRV最大数
 	const int kSRVNumMax = 128;
 

@@ -1,5 +1,5 @@
 #include "DirectXCommon.h"
-
+#include <thread>
 #include <d3dx12.h>
 #include "DescriptorHeap.h"
 #include "DepthStencil.h"
@@ -10,6 +10,9 @@
 
 DirectXCommon* DirectXCommon::instance_ = nullptr;
 float DirectXCommon::clearColor_[4] = {0.1f, 0.25f, 0.5f, 1.0f};
+
+double DirectXCommon::fps_ = 0.0f;
+float DirectXCommon::fixedFpsValue_ = 120.0f;
 
 DirectXCommon *DirectXCommon::GetInstance()
 {
@@ -448,9 +451,9 @@ void DirectXCommon::InitializeFixFPS()
 void DirectXCommon::UpdateFixFPS()
 {
 	//1/60Just
-	const std::chrono::microseconds kMinTime(uint64_t(1000000.0f/60.f));
+	const std::chrono::microseconds kMinTime(uint64_t(1000000.0f/fixedFpsValue_));
 	//1/60LittleShort
-	const std::chrono::microseconds kMinCheckTime(uint64_t(100000.0f/65.f));
+	const std::chrono::microseconds kMinCheckTime(uint64_t(100000.0f/fixedFpsValue_ + 5.0f));
 
 	//現在時刻
 	std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
@@ -463,6 +466,11 @@ void DirectXCommon::UpdateFixFPS()
 			std::this_thread::sleep_for(std::chrono::microseconds(1));
 		}
 	}
+
+	//fps
+	double frameDurationSeconds = static_cast<double>(elapsed.count())/1e6;
+	fps_ = 1.0 / frameDurationSeconds;
+
 	//現在時刻
 	reference_ = std::chrono::steady_clock::now();
 }

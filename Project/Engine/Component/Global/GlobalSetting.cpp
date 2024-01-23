@@ -23,11 +23,14 @@ void GlobalSetting::Update()
 
 	//テクスチャ
 	MenuBotton("LoadTex", isTextureSetting_);
+	//FPS
+	MenuBotton("FPS", isFpsSetting);
 
 	ImGui::EndMenuBar();
 
 	//確認一覧
 	LoadTextureDraw();
+	FpsDraw();
 
 	ImGui::End();
 }
@@ -35,11 +38,7 @@ void GlobalSetting::Update()
 void GlobalSetting::MenuBotton(std::string name, int flag)
 {
 	if(!ImGui::MenuItem(name.c_str())) return;
-
-	if(isSettingFlag_ & flag){
-		isSettingFlag_ = isEnpty_;
-		return;
-	}
+	isSettingFlag_ = isEnpty_;
 
 	isSettingFlag_ |= flag;
 }
@@ -52,4 +51,11 @@ void GlobalSetting::LoadTextureDraw()
 		if(tex.filePath == "") break;
 		ImGui::Text("%d: %s", tex.index, tex.filePath.c_str());
 	}
+}
+
+void GlobalSetting::FpsDraw()
+{
+	if(!(isSettingFlag_ & isFpsSetting)) return;
+
+	ImGui::Text("FPS : %lf", DirectXCommon::fps_);
 }

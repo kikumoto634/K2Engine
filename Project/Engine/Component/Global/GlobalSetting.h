@@ -22,7 +22,8 @@ private:
 
 	//テクスチャ表示
 	void LoadTextureDraw();
-
+	//FPS表示
+	void FpsDraw();
 
 private:
 	static GlobalSetting* instance_;
@@ -30,6 +31,7 @@ private:
 private:
 	const int isEnpty_ = 0b0000;
 	const int isTextureSetting_ = 0b0001;
+	const int isFpsSetting = 0b0010;
 
 private:
 	int isSettingFlag_ = 0b0000;
