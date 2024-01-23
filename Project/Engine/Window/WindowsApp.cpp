@@ -9,6 +9,8 @@ WindowsApp* WindowsApp::instance_ = nullptr;
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+#pragma comment(lib, "winmm.lib")
+
 LRESULT WindowsApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	if(ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam)){
@@ -52,6 +54,8 @@ WindowsApp *WindowsApp::Create(wchar_t* titleName, int32_t width, int32_t height
 void WindowsApp::Initialize()
 {
 	CoInitializeEx(0, COINIT_MULTITHREADED);
+	//システムタイマーの精度
+	timeBeginPeriod(1);
 
 	//ウィンドウプロシージャ
 	wc_.lpfnWndProc = WindowProc;

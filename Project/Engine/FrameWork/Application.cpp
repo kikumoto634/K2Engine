@@ -64,6 +64,8 @@ void Application::Update()
 	camera_->Update({0,0,0});
 	light_->Update();
 
+	ImGui::Text("FPS : %lf", DirectXCommon::fps_);
+
 	CollisionCheck();
 }
 

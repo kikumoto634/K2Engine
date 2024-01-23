@@ -34,6 +34,8 @@ void DirectXCommon::Initialize()
 {
 	windows = WindowsApp::GetInstance();
 
+	InitializeFixFPS();
+
 	//デバック
 	CreateDebugLayer();
 
@@ -130,6 +132,8 @@ void DirectXCommon::PostDraw()
 		//イベント待機
 		WaitForSingleObject(fenceEvent_, INFINITE);
 	}
+
+	UpdateFixFPS();
 
 	//次のフレーム用のコマンドリスト用意
 	result = commandAllocator_.Get()->Reset();
@@ -435,3 +439,30 @@ bool DirectXCommon::CreateScissor()
 	return true;
 }
 #pragma endregion
+
+void DirectXCommon::InitializeFixFPS()
+{
+	//現在時刻
+	reference_ = std::chrono::steady_clock::now();
+}
+void DirectXCommon::UpdateFixFPS()
+{
+	//1/60Just
+	const std::chrono::microseconds kMinTime(uint64_t(1000000.0f/60.f));
+	//1/60LittleShort
+	const std::chrono::microseconds kMinCheckTime(uint64_t(100000.0f/65.f));
+
+	//現在時刻
+	std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+	//前回時刻との差
+	std::chrono::microseconds elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - reference_);
+
+	//1/60立っていない場合
+	if(elapsed < kMinCheckTime){
+		while(std::chrono::steady_clock::now() - reference_ < kMinTime){
+			std::this_thread::sleep_for(std::chrono::microseconds(1));
+		}
+	}
+	//現在時刻
+	reference_ = std::chrono::steady_clock::now();
+}

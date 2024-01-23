@@ -114,6 +114,10 @@ private:
 	bool CreateScissor();
 #pragma endregion
 
+
+	void InitializeFixFPS();
+	void UpdateFixFPS();
+
 private:
 	//リソースチェック用
 	static D3DResourceLeakChacker leakCheck;
@@ -191,5 +195,8 @@ private:
 	D3D12_VIEWPORT viewport_{};
 	//シザー矩形
 	D3D12_RECT scissorRect_{};
+
+
+	std::chrono::steady_clock::time_point reference_;
 };
 
