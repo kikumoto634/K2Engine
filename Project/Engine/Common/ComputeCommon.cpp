@@ -30,7 +30,7 @@ void ComputeCommon::Initialize()
 }
 
 
-Sample* ComputeCommon::Excution(int instanceNum, void* data)
+ComputeData* ComputeCommon::Excution(int instanceNum, void* data)
 {
 	commandList_->SetComputeRootSignature(rootSignature_.Get());
 	commandList_->SetPipelineState(pipeline_.Get());
@@ -59,7 +59,7 @@ Sample* ComputeCommon::Excution(int instanceNum, void* data)
 	commandAllocator_->Reset();
 	commandList_->Reset(commandAllocator_.Get(), nullptr);
 
-	return ((Sample*)data, (Sample*)data + instanceNum);
+	return ((ComputeData*)data, (ComputeData*)data + instanceNum);
 }
 
 

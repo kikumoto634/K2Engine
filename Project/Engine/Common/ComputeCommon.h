@@ -2,7 +2,7 @@
 #include "DirectXCommon.h"
 
 #include "Vector3.h"
-struct Sample{
+struct ComputeData{
 	Vector3 position;
 	Vector3 velocity;
 };
@@ -19,7 +19,7 @@ public:
 public:
 	void Initialize();
 	//計算実行
-	Sample* Excution(int instanceNum, void* data);
+	ComputeData* Excution(int instanceNum, void* data);
 
 	//Getter
 	ID3D12DescriptorHeap* GetDescriptorHeap()	{return descriptorHeap_.Get();}

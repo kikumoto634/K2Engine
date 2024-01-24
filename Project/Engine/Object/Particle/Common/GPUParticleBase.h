@@ -22,6 +22,15 @@ private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	template <class T> using vector = std::vector<T>;
 	template <class T> using list = std::list<T>;
+
+private:
+	struct DrawCommand{
+		UINT vertexCountPerInstance;
+		UINT instanceCount;
+		UINT startVertexLocation;
+		UINT startInstanceLocation;
+	};
+
 public:
 	static GPUParticleBase* Create();
 
@@ -67,9 +76,18 @@ private:
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_;
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_;
 
+	//コンピュート
 	ComPtr<ID3D12Resource> computeResource_;
 	//受信用
-	Sample* computeData_ = nullptr;
+	ComputeData* computeData_ = nullptr;
+
+
+	//コマンドシグネチャ
+	ComPtr<ID3D12CommandSignature> commandSignature_;
+	//インダイレクトコマンドバッファ
+	ComPtr<ID3D12Resource> indirectCommandResource_;
+	vector<DrawCommand> drawCommands;
+
 
 	//描画方法
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;	//パイプライン
@@ -84,7 +102,7 @@ protected:
 	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_WIREFRAME;	//塗りつぶし
 
 	//パラメータ
-	const int kNumMaxInstance = 10000;
+	const int kNumMaxInstance = 1;
 	list<Transform> transfrom_;
 	Vector4 color_ = {0.1f, 0.5f, 0.1f, 1.0f};
 
