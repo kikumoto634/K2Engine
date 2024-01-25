@@ -359,3 +359,7 @@ DirectXGame/imgui.ini
 
 # DirectXTex Compiled Shaders
 **/DirectXTex/Shaders/Compiled/
+/Project/ExecuteIndirect.cpp
+/Project/ExecuteIndirect.h
+/Project/Resources/Shaders/Execute.PS.hlsl
+/Project/Resources/Shaders/Execute.VS.hlsl
