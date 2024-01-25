@@ -3,6 +3,7 @@
 #include "BufferView.h"
 
 #include <d3dx12.h>
+#include <random>
 
 ExecuteIndirect::~ExecuteIndirect()
 {
@@ -31,14 +32,14 @@ void ExecuteIndirect::Initialize()
 
 	
 	//コマンドバッファ(サイズは使用するリソース 頂点(Vector4*3))
-	commandBuffer_ = CreateBufferResource(dxCommon->GetDevice(), (sizeof(Vector4)*3) * kCommandNum);
+	commandBuffer_ = CreateBufferResource(dxCommon->GetDevice(), (sizeof(Vector4)*vertNum) * kCommandNum);
 
 	//コマンドバッファのマップ
 	IndirectCommand* mapIndirectCommamdData = nullptr;
 	commandBuffer_->Map(0,nullptr, reinterpret_cast<void**>(&mapIndirectCommamdData));
 
 	for(UINT i = 0; i < kCommandNum; ++i){
-		mapIndirectCommamdData[i].drawArguments.VertexCountPerInstance = 3;
+		mapIndirectCommamdData[i].drawArguments.VertexCountPerInstance = vertNum;
 		mapIndirectCommamdData[i].drawArguments.InstanceCount = kInstanceNum;
 		mapIndirectCommamdData[i].drawArguments.StartVertexLocation = 0;
 		mapIndirectCommamdData[i].drawArguments.StartInstanceLocation = 0;
@@ -59,7 +60,7 @@ void ExecuteIndirect::Draw(Camera* camera)
 	dxCommon->GetCommandList()->IASetVertexBuffers(0,1,&vertexBufferView_);		//VBV設定
 
 	//形状設定、PSOに設定しているのとは別
-	dxCommon->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	dxCommon->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
 
 	//描画
 	//dxCommon->GetCommandList()->DrawInstanced(3,1,0,0);
@@ -100,25 +101,31 @@ void ExecuteIndirect::CreatePipeline()
 		ps,
 		rootParameters_,
 		{},
-		inputElementDesc_
+		inputElementDesc_,
+		D3D12_FILL_MODE_SOLID,
+		D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT
 	);
 }
 
 void ExecuteIndirect::CreateVertex()
 {
 	//リソース
-	vertexResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(Vector4)*3);
+	vertexResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(Vector4)*vertNum);
 	//ビュー
-	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(Vector4)*3, sizeof(Vector4));
+	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(Vector4)*vertNum, sizeof(Vector4));
 
 	//頂点リソースにデータを書き込む
 	//書き込むためのアドレス取得
 	vertexResource_->Map(0,nullptr,reinterpret_cast<void**>(&vertData_));
 
-	vertData_[0] = {-0.1f, -0.1f, 0.0f, 1.0f};
-	vertData_[1] = {+0.0f, +0.1f, 0.0f, 1.0f};
-	vertData_[2] = {+0.1f, -0.1f, 0.0f, 1.0f};
 
+	std::random_device seedGenerator_;
+	std::mt19937 randomEngine(seedGenerator_());
+	std::uniform_real_distribution<float> distValue(-0.5f,0.5f);
+	//vertData_[0] = {distValue(randomEngine), distValue(randomEngine), 0.0f, 1.0f};
+	vertData_[0] = {-0.8f, -0.1f, 0.0f, 1.0f};
+	//vertData_[1] = {+0.0f, +0.1f, 0.0f, 1.0f};
+	//vertData_[2] = {+0.1f, -0.1f, 0.0f, 1.0f};
 }
 
 void ExecuteIndirect::CreateMaterial()

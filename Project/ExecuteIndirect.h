@@ -44,6 +44,7 @@ private:
 	ComPtr<ID3D12Resource> vertexResource_;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 	Vector4* vertData_ = nullptr;
+	const uint32_t vertNum = 1;
 
 	ComPtr<ID3D12Resource> materialResource_;
 	Vector4* materialData_ = nullptr;
