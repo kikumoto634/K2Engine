@@ -29,48 +29,25 @@ void GPUParticleBase::Initialize(bool isIndexEnable)
 		transfrom_.push_back(temp1);
 	}
 
-
-	//コマンドシグネチャ
-	D3D12_INDIRECT_ARGUMENT_DESC argumentDesc[3] = {};
-	argumentDesc[0].Type = D3D12_INDIRECT_ARGUMENT_TYPE_CONSTANT_BUFFER_VIEW;
-	argumentDesc[0].ConstantBufferView.RootParameterIndex = 0;
-	argumentDesc[1].Type = D3D12_INDIRECT_ARGUMENT_TYPE_CONSTANT_BUFFER_VIEW;
-	argumentDesc[1].ConstantBufferView.RootParameterIndex = 1;
-	argumentDesc[2].Type = D3D12_INDIRECT_ARGUMENT_TYPE_DRAW;
-
-	D3D12_COMMAND_SIGNATURE_DESC commandSignatureDesc = {};
-	commandSignatureDesc.pArgumentDescs = argumentDesc;
-	commandSignatureDesc.NumArgumentDescs = _countof(argumentDesc);
-	commandSignatureDesc.ByteStride = sizeof(ComputeData) + sizeof(Vector4) + sizeof(Matrix4x4);
-
-	dxCommon->GetDevice()->CreateCommandSignature(&commandSignatureDesc, pipeline_->GetRootSignature(), IID_PPV_ARGS(&commandSignature_));
-
-	//インダイレクトコマンドバッファ
-	DrawCommand command;
-	command.vertexCountPerInstance = vertNum_;
-	command.instanceCount = kNumMaxInstance;
-	command.startInstanceLocation = 0;
-	command.vertexCountPerInstance = 0;
-	drawCommands.push_back(command);
 }
 
 void GPUParticleBase::Draw(Camera* camera)
 {
-	//compute->Excution(kNumMaxInstance, reinterpret_cast<void**>(&computeData_));
+	compute->Excution(kNumMaxInstance, reinterpret_cast<void**>(&computeData_));
 
-	//int numInstance = 0;	//描画すべきインスタンス
-	//for(list<Transform>::iterator particleIterator = transfrom_.begin(); particleIterator != transfrom_.end();){
-	//	if(numInstance < kNumMaxInstance){
-	//		
-	//		particleIterator->translate = computeData_[numInstance].position;
+	int numInstance = 0;	//描画すべきインスタンス
+	for(list<Transform>::iterator particleIterator = transfrom_.begin(); particleIterator != transfrom_.end();){
+		if(numInstance < kNumMaxInstance){
+			
+			particleIterator->translate = computeData_[numInstance].position;
 
-	//		Matrix4x4 worldViewProjectionMatrix = particleIterator->GetWorldMatrix() * camera->GetViewProjectionMatrix();
-	//		wvpData_[numInstance] = worldViewProjectionMatrix;
+			Matrix4x4 worldViewProjectionMatrix = particleIterator->GetWorldMatrix() * camera->GetViewProjectionMatrix();
+			wvpData_[numInstance] = worldViewProjectionMatrix;
 
-	//		++numInstance;
-	//	}
-	//	++particleIterator;
-	//}
+			++numInstance;
+		}
+		++particleIterator;
+	}
 
 
 	//ルートシグネチャ設定 PSOに設定しいているが別途設定が必要
@@ -78,25 +55,16 @@ void GPUParticleBase::Draw(Camera* camera)
 	dxCommon->GetCommandList()->SetPipelineState(pipeline_->GetGraphicsPipelineState());	//PSO設定
 	dxCommon->GetCommandList()->IASetVertexBuffers(0,1,&vertexBufferView_);		//VBV設定
 
-	////形状設定、PSOに設定しているのとは別
+	//形状設定、PSOに設定しているのとは別
 	dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology_);
 
-	////行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
-	//dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(0, instancingSrvHandleGPU_);
-	////マテリアルのconstBufferの場所を設定
-	//dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, constResource_->GetGPUVirtualAddress());
+	//行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
+	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(0, instancingSrvHandleGPU_);
+	//マテリアルのconstBufferの場所を設定
+	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, constResource_->GetGPUVirtualAddress());
 
-	////描画
-	//dxCommon->GetCommandList()->DrawInstanced(vertNum_,numInstance,0,0);
-
-	dxCommon->GetCommandList()->ExecuteIndirect(
-		commandSignature_.Get(),	//コマンドシグネチャ
-		kNumMaxInstance,	//描画個数
-		indirectCommandResource_.Get(),	//描画コマンドが格納されたバッファへのポインタ(drawInstancedで使用される情報が格納される)
-		0,	//描画コマンド データのオフセット
-		nullptr,
-		0
-	);
+	//描画
+	dxCommon->GetCommandList()->DrawInstanced(vertNum_,numInstance,0,0);
 }
 
 

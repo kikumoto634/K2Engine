@@ -20,6 +20,8 @@
 
 #include "Particle/Common/GPUParticleBase.h"
 
+#include "../../ExecuteIndirect.h"
+
 class Application
 {
 public:
@@ -27,6 +29,8 @@ public:
 
 public:
 	~Application(){
+		delete temp;
+
 		delete camera_;
 		delete light_;
 	}
@@ -59,6 +63,8 @@ private:
 
 	CollisionsManager* collisionsManager = nullptr;*/
 
-	GPUParticleBase* gpu_ = nullptr;
+	//GPUParticleBase* gpu_ = nullptr;
+
+	ExecuteIndirect* temp = nullptr;
 };
 

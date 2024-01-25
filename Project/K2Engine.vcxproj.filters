@@ -426,6 +426,9 @@
     <ClCompile Include="Engine\Common\ShadowMapCommon.cpp">
       <Filter>ソース ファイル\Engine\Common</Filter>
     </ClCompile>
+    <ClCompile Include="ExecuteIndirect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -635,6 +638,9 @@
     <ClInclude Include="Engine\Common\ShadowMapCommon.h">
       <Filter>ヘッダー ファイル\Engine\Common</Filter>
     </ClInclude>
+    <ClInclude Include="ExecuteIndirect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Texture.hlsl">
@@ -675,6 +681,12 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Particle\GPUParticle.VS.hlsl">
       <Filter>リソース ファイル\Shader\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Execute.VS.hlsl">
+      <Filter>リソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Execute.PS.hlsl">
+      <Filter>リソース ファイル\Shader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
