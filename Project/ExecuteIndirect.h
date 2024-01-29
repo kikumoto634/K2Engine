@@ -55,13 +55,11 @@ private:
 
 	ComPtr<ID3D12Resource> wvpResource_;
 	Matrix4x4* wvpData_ = nullptr;
-	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvhandleCPU_;
-	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvhandleGPU_;
 
 	//コマンド個数(10万)
-	const UINT kCommandNum = 1;
+	const UINT kCommandNum = 2;
 	//インスタンス数(10万)
-	const UINT kInstanceNum = 100;
+	const UINT kInstanceNum = 2;
 
 	//座標
 	vector<Transform> transform;

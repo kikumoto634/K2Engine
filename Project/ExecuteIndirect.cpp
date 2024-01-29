@@ -37,7 +37,7 @@ void ExecuteIndirect::Initialize()
 	argumentDescs[0].Type = D3D12_INDIRECT_ARGUMENT_TYPE_CONSTANT_BUFFER_VIEW;
 	argumentDescs[0].ConstantBufferView.RootParameterIndex = 0;
 	//行列コマンド
-	argumentDescs[1].Type = D3D12_INDIRECT_ARGUMENT_TYPE_SHADER_RESOURCE_VIEW;
+	argumentDescs[1].Type = D3D12_INDIRECT_ARGUMENT_TYPE_CONSTANT_BUFFER_VIEW;
 	argumentDescs[1].ShaderResourceView.RootParameterIndex = 1;
 	//描画コマンド
 	argumentDescs[2].Type = D3D12_INDIRECT_ARGUMENT_TYPE_DRAW;
@@ -103,7 +103,7 @@ void ExecuteIndirect::Draw(Camera* camera)
 	//色
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
 	//行列
-	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(1,instancingSrvhandleGPU_);
+	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1,wvpResource_->GetGPUVirtualAddress());
 
 	//描画
 	//dxCommon->GetCommandList()->DrawInstanced(3,1,0,0);
@@ -122,13 +122,6 @@ void ExecuteIndirect::CreatePipeline()
 {
 	pipeline_ = new Pipeline();
 
-	//SRV(行列)
-	D3D12_DESCRIPTOR_RANGE descriptorRangeForInstancing[1] = {};
-	descriptorRangeForInstancing[0].BaseShaderRegister = 0;
-	descriptorRangeForInstancing[0].NumDescriptors = 1;
-	descriptorRangeForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-	descriptorRangeForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-
 	//ルートパラメータ
 	rootParameters_.resize(2);
 	//色
@@ -136,10 +129,9 @@ void ExecuteIndirect::CreatePipeline()
 	rootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParameters_[0].Descriptor.ShaderRegister = 0;
 	//行列
-	rootParameters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-	rootParameters_[1].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;
-	rootParameters_[1].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
+	rootParameters_[1].Descriptor.ShaderRegister = 0;
 
 	//インプットレイアウト
 	inputElementDesc_.resize(1);
@@ -207,18 +199,4 @@ void ExecuteIndirect::CreateWVP()
 	for(int i = 0; i < (int)kInstanceNum; i++){
 		wvpData_[i] = MakeIdentityMatrix();
 	}
-
-	//SRV作成
-	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSrvDesc{};
-	instancingSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
-	instancingSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	instancingSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
-	instancingSrvDesc.Buffer.FirstElement = 0;
-	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	instancingSrvDesc.Buffer.NumElements = kInstanceNum;
-	instancingSrvDesc.Buffer.StructureByteStride = sizeof(Matrix4x4);
-
-	instancingSrvhandleCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV());
-	instancingSrvhandleGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV());
-	dxCommon->GetDevice()->CreateShaderResourceView(wvpResource_.Get(), &instancingSrvDesc, instancingSrvhandleCPU_);
 }
