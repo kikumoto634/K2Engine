@@ -63,7 +63,7 @@ private:
 
 	CollisionsManager* collisionsManager = nullptr;*/
 
-	//GPUParticleBase* gpu_ = nullptr;
+	GPUParticleBase* gpu_ = nullptr;
 
 	ExecuteIndirect* temp = nullptr;
 };

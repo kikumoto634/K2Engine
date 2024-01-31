@@ -19,7 +19,7 @@ public:
 public:
 	void Initialize();
 	//計算実行
-	ComputeData* Excution(int instanceNum, void* data);
+	void Excution(int instanceNum);
 
 	//Getter
 	ID3D12DescriptorHeap* GetDescriptorHeap()	{return descriptorHeap_.Get();}

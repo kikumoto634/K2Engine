@@ -33,7 +33,7 @@ void GPUParticleBase::Initialize(bool isIndexEnable)
 
 void GPUParticleBase::Draw(Camera* camera)
 {
-	compute->Excution(kNumMaxInstance, reinterpret_cast<void**>(&computeData_));
+	compute->Excution(kNumMaxInstance);
 
 	int numInstance = 0;	//描画すべきインスタンス
 	for(list<Transform>::iterator particleIterator = transfrom_.begin(); particleIterator != transfrom_.end();){
@@ -193,6 +193,7 @@ void GPUParticleBase::CreateCompute()
 	D3D12_UNORDERED_ACCESS_VIEW_DESC desc{};
 	CreateComputreView(desc, (UINT)kNumMaxInstance, sizeof(ComputeData));
 
+	//ここでResourceとコンピュートシェーダに渡すヒープを紐図ける
 	dxCommon->GetDevice()->CreateUnorderedAccessView(
 		computeResource_.Get(),
 		nullptr,

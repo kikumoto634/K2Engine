@@ -43,7 +43,7 @@ void Application::Initialize()
 
 	//sp_ = Sprite2D::Create();
 
-	//gpu_ = GPUParticleBase::Create();
+	gpu_ = GPUParticleBase::Create();
 
 	temp = new ExecuteIndirect;
 	temp->Initialize();
@@ -79,7 +79,7 @@ void Application::GeometryDraw()
 	//box_->Draw(camera_);
 	/*player_->Draw(camera_);*/
 
-	//gpu_->Draw(camera_);
+	gpu_->Draw(camera_);
 
 	temp->Draw(camera_);
 }
