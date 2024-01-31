@@ -2,7 +2,7 @@ struct ParticleForGPU
 {
     float4x4 WVP;
 };
-StructuredBuffer<ParticleForGPU> gParticleForGPU : register(t0);
+ConstantBuffer<ParticleForGPU> gParticleForGPU : register(b0);
 
 struct VertexShaderOutput
 {
@@ -14,9 +14,21 @@ struct VertexShaderInput
     float4 position : POSITION0;
 };
 
-VertexShaderOutput main(VertexShaderInput input, uint instanceId : SV_InstanceID)
+float GetRandomNumber(float2 texCoord, int Seed)
+{
+    return frac(sin(dot(texCoord.xy, float2(12.9898, 78.233)) + Seed) * 43758.5453);
+}
+
+VertexShaderOutput main(VertexShaderInput input)
 {
     VertexShaderOutput output;
-    output.position = mul(input.position, gParticleForGPU[instanceId].WVP);
+    float value = GetRandomNumber(input.position.xy, 10);
+    
+    float4 pos = input.position;
+    pos.x += value * 10;
+    pos.y += value * 10;
+    //pos.z += value * 100;
+    //pos.w += value * 100;
+    output.position = mul(pos, gParticleForGPU[].WVP);
     return output;
 }
