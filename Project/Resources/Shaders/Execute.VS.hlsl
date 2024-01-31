@@ -29,6 +29,6 @@ VertexShaderOutput main(VertexShaderInput input)
     pos.y += value * 10;
     //pos.z += value * 100;
     //pos.w += value * 100;
-    output.position = mul(pos, gParticleForGPU[].WVP);
+    output.position = mul(pos, gParticleForGPU.WVP);
     return output;
 }
