@@ -1,5 +1,5 @@
 #include "SphereCollider.h"
-#include "Geometry/Common/GeometryBase.h"
+#include "Geometry/Base/GeometryBase.h"
 
 SphereCollider *SphereCollider::Create(GeometryBase* object, Vector3 offset, float radius)
 {

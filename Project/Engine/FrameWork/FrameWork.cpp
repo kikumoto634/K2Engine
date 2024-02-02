@@ -24,6 +24,8 @@ void FrameWork::Initialize()
 	imgui_ = ImGuiManager::Create();
 	ImGuiManager::Initialize(win_->GetHWND(), dxCommon_);
 
+	SpriteCommon::GetInstance();
+
 	app_ = Application::Create();
 
 }

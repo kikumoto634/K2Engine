@@ -97,12 +97,6 @@
     <Filter Include="ヘッダー ファイル\Engine\Object\Geometry">
       <UniqueIdentifier>{06fa412f-dd6c-4d99-acd8-62b00ffe2ca4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Object\Geometry\Common">
-      <UniqueIdentifier>{192d63f6-bdd2-43ac-9ebd-666b0a49637b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Engine\Object\Geometry\Common">
-      <UniqueIdentifier>{6ead54d5-d0f5-4794-a399-f64b19a2b995}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Engine\Window">
       <UniqueIdentifier>{150de01b-89c4-47a0-854b-615b5619e4b4}</UniqueIdentifier>
     </Filter>
@@ -259,6 +253,18 @@
     <Filter Include="ソース ファイル\Engine\Object\Particle\EmitterFrame\Common">
       <UniqueIdentifier>{4fdbcf88-c676-41a8-a23a-a7711d559922}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Engine\Object\Geometry\Base">
+      <UniqueIdentifier>{6ead54d5-d0f5-4794-a399-f64b19a2b995}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Geometry\Base">
+      <UniqueIdentifier>{192d63f6-bdd2-43ac-9ebd-666b0a49637b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Geometry\Common">
+      <UniqueIdentifier>{1ebec280-f54f-41d8-821a-adee2a3d82dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Object\Geometry\Common">
+      <UniqueIdentifier>{d84d16e7-f254-4bb9-bcfd-2213d64f848e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -306,9 +312,6 @@
     <ClCompile Include="Engine\Object\Geometry\Sphere.cpp">
       <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object\Geometry\Common\GeometryBase.cpp">
-      <Filter>ソース ファイル\Engine\Object\Geometry\Common</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Component\Buffer\BufferView.cpp">
       <Filter>ソース ファイル\Engine\Component\Buffer</Filter>
     </ClCompile>
@@ -320,9 +323,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Object\Geometry\ObjModel.cpp">
       <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Object\Geometry\Common\SpriteBase.cpp">
-      <Filter>ソース ファイル\Engine\Object\Geometry\Common</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object\Geometry\Sprite2D.cpp">
       <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
@@ -426,6 +426,15 @@
     <ClCompile Include="Engine\Common\ShadowMapCommon.cpp">
       <Filter>ソース ファイル\Engine\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\Base\GeometryBase.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\Base\SpriteBase.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\Common\SpriteCommon.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -473,9 +482,6 @@
     <ClInclude Include="Engine\Object\Geometry\Sphere.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object\Geometry\Common\GeometryBase.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Component\Buffer\BufferView.h">
       <Filter>ヘッダー ファイル\Engine\Component\Buffer</Filter>
     </ClInclude>
@@ -502,9 +508,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Object\Geometry\ObjModel.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Object\Geometry\Common\SpriteBase.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object\Geometry\Sprite2D.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
@@ -634,6 +637,15 @@
     </ClInclude>
     <ClInclude Include="Engine\Common\ShadowMapCommon.h">
       <Filter>ヘッダー ファイル\Engine\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Base\SpriteBase.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Base\GeometryBase.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Common\SpriteCommon.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

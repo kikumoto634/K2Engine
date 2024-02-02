@@ -1,5 +1,5 @@
 #pragma once
-#include "Common/GeometryBase.h"
+#include "Base/GeometryBase.h"
 class Sphere : public GeometryBase
 {
 public:

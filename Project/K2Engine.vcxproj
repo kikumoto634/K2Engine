@@ -192,8 +192,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\FrameWork\FrameWork.cpp" />
     <ClCompile Include="Engine\Object\Camera\Camera.cpp" />
     <ClCompile Include="Engine\Object\Camera\FollowCamera.cpp" />
-    <ClCompile Include="Engine\Object\Geometry\Common\GeometryBase.cpp" />
-    <ClCompile Include="Engine\Object\Geometry\Common\SpriteBase.cpp" />
+    <ClCompile Include="Engine\Object\Geometry\Base\GeometryBase.cpp" />
+    <ClCompile Include="Engine\Object\Geometry\Base\SpriteBase.cpp" />
+    <ClCompile Include="Engine\Object\Geometry\Common\SpriteCommon.cpp" />
     <ClCompile Include="Engine\Object\Geometry\ObjModel.cpp" />
     <ClCompile Include="Engine\Object\Geometry\Sphere.cpp" />
     <ClCompile Include="Engine\Object\Geometry\Sprite2D.cpp" />
@@ -263,8 +264,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\FrameWork\FrameWork.h" />
     <ClInclude Include="Engine\Object\Camera\Camera.h" />
     <ClInclude Include="Engine\Object\Camera\FollowCamera.h" />
-    <ClInclude Include="Engine\Object\Geometry\Common\GeometryBase.h" />
-    <ClInclude Include="Engine\Object\Geometry\Common\SpriteBase.h" />
+    <ClInclude Include="Engine\Object\Geometry\Base\GeometryBase.h" />
+    <ClInclude Include="Engine\Object\Geometry\Base\SpriteBase.h" />
+    <ClInclude Include="Engine\Object\Geometry\Common\SpriteCommon.h" />
     <ClInclude Include="Engine\Object\Geometry\ObjModel.h" />
     <ClInclude Include="Engine\Object\Geometry\Sphere.h" />
     <ClInclude Include="Engine\Object\Geometry\Sprite2D.h" />

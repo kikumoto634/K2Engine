@@ -1,5 +1,5 @@
 #pragma once
-#include "Common/SpriteBase.h"
+#include "Base/SpriteBase.h"
 class Sprite2D : public SpriteBase
 {
 public:

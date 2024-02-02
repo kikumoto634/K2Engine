@@ -8,6 +8,8 @@
 
 #include "../Tool/ImGui/ImGuiManager.h"
 
+#include "Geometry/Common/SpriteCommon.h"
+
 class FrameWork
 {
 public:
@@ -15,6 +17,7 @@ public:
 
 public:
 	~FrameWork(){
+		SpriteCommon::Finalize();
 		delete imgui_;
 		delete app_;
 		DirectXCommon::Finalize();

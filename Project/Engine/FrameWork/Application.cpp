@@ -41,7 +41,7 @@ void Application::Initialize()
 	//particle_ = ParticleObject::Create();
 	//emitter_ = ParticleEmitterObject::Create();
 
-	//sp_ = Sprite2D::Create();
+	sp_ = Sprite2D::Create();
 
 	//gpu_ = GPUParticleBase::Create();
 }
@@ -53,11 +53,11 @@ void Application::Update()
 	ImGui::DragFloat3("rot", &box_->rotation.x, 0.01f);
 	ImGui::DragFloat3("scale", &box_->scale.x, 0.01f);
 	box_->Update();
+	sp_->Update();
 	//player_->Update();
 
-	/*sp_->Update();
 
-	particle_->Add(particlePos_);
+	/*particle_->Add(particlePos_);
 	particle_->Update();
 
 	emitter_->Add(emitterPos_);
@@ -81,7 +81,7 @@ void Application::GeometryDraw()
 
 void Application::SpriteDraw()
 {
-	//sp_->Draw(camera_);
+	sp_->Draw(camera_);
 }
 
 void Application::ParticleDraw()

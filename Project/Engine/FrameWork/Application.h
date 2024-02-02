@@ -48,6 +48,7 @@ private:
 	//シーンオブジェクト
 	//std::unique_ptr<LevelLoader> levelLoader_;
 	ObjModel* box_ = nullptr;
+	Sprite2D* sp_ = nullptr;
 	//std::unique_ptr<Player> player_;
 
 	/*ParticleObject* particle_ = nullptr;
@@ -55,7 +56,6 @@ private:
 	ParticleEmitterObject* emitter_ = nullptr;
 	Vector3 emitterPos_ = {5,0,0};
 
-	Sprite2D* sp_ = nullptr;
 
 	CollisionsManager* collisionsManager = nullptr;*/
 

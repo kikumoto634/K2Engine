@@ -31,14 +31,14 @@ public:
 	void DepthStencilSet(bool enable = true, D3D12_DEPTH_WRITE_MASK writeMask = D3D12_DEPTH_WRITE_MASK_ALL, D3D12_COMPARISON_FUNC func = D3D12_COMPARISON_FUNC_LESS_EQUAL);
 
 	//Getter
-	IDxcUtils* GetDxcUtils() {return dxcUtils_.Get();};
-	IDxcCompiler3* GetDxcCompiler()	{return dxcCompiler_.Get();}
-	IDxcIncludeHandler* GetIncludeHandler()	{return includeHandler_.Get();}
-	D3D12_INPUT_LAYOUT_DESC  GetInputLayout()	{return inputLayoutDesc_;}
+	const IDxcUtils* GetDxcUtils() {return dxcUtils_.Get();};
+	const IDxcCompiler3* GetDxcCompiler()	{return dxcCompiler_.Get();}
+	const IDxcIncludeHandler* GetIncludeHandler()	{return includeHandler_.Get();}
+	const D3D12_INPUT_LAYOUT_DESC  GetInputLayout()	{return inputLayoutDesc_;}
 
 
-	ID3D12RootSignature* GetRootSignature()	{return rootSignature_.Get();}
-	ID3D12PipelineState* GetGraphicsPipelineState()	{return graphicsPipelineState_.Get();}
+	ID3D12RootSignature* GetRootSignature()	const {return rootSignature_.Get();}
+	ID3D12PipelineState* GetGraphicsPipelineState() const	{return graphicsPipelineState_.Get();}
 
 
 private:
