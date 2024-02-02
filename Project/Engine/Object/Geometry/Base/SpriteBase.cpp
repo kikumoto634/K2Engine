@@ -1,14 +1,14 @@
 #include "SpriteBase.h"
 
+#include "Camera.h"
 #include "SpriteLoader.h"
-#include "DescriptorHeap.h"
 
+#include "DescriptorHeap.h"
 #include "BufferResource.h"
 #include "BufferView.h"
-
 #include "GlobalVariables.h"
 
-void SpriteBase::Initialize(bool isIndexEnable)
+void SpriteBase::Initialize()
 {
 	dxCommon = DirectXCommon::GetInstance();
 
@@ -20,6 +20,8 @@ void SpriteBase::Initialize(bool isIndexEnable)
 	CreateIndex();
 	CreateMaterial();
 	CreateWVP();
+
+	isPipelineCreateCheck = PipelineCreate();
 }
 
 void SpriteBase::Draw(Camera* camera)
@@ -35,14 +37,26 @@ void SpriteBase::Draw(Camera* camera)
 	materialData_->uvTransform= MakeAffineMatrix(uvTransformSprite_.scale,uvTransformSprite_.rotation,uvTransformSprite_.translate);
 
 
-	//ルートシグネチャ設定 PSOに設定しいているが別途設定が必要
-	dxCommon->GetCommandList()->SetGraphicsRootSignature(SpriteCommon::GetInstance()->GetPipeline()->GetRootSignature());
-	dxCommon->GetCommandList()->SetPipelineState(SpriteCommon::GetInstance()->GetPipeline()->GetGraphicsPipelineState());	//PSO設定
 	dxCommon->GetCommandList()->IASetVertexBuffers(0,1,&vertexBufferView_);		//VBV設定
 	dxCommon->GetCommandList()->IASetIndexBuffer(&indexBufferView_);		//IBV設定
-
+	
+	//ルートシグネチャ設定 PSOに設定しいているが別途設定が必要
+	dxCommon->GetCommandList()->SetGraphicsRootSignature(
+		isPipelineCreateCheck ? 
+		pipelineDatas.pipeline_->GetRootSignature() :
+		SpriteCommon::GetInstance()->GetPipeline()->GetRootSignature()
+	);
+	dxCommon->GetCommandList()->SetPipelineState(
+		isPipelineCreateCheck ? 
+		pipelineDatas.pipeline_->GetGraphicsPipelineState() :
+		SpriteCommon::GetInstance()->GetPipeline()->GetGraphicsPipelineState()
+	);	//PSO設定
 	//形状設定、PSOに設定しているのとは別
-	dxCommon->GetCommandList()->IASetPrimitiveTopology(SpriteCommon::GetInstance()->GetTopology());
+	dxCommon->GetCommandList()->IASetPrimitiveTopology(
+		isPipelineCreateCheck ? 
+		pipelineDatas.commandPrimitiveTopology_ :
+		SpriteCommon::GetInstance()->GetTopology()
+	);
 
 	//マテリアルのconstBufferの場所を設定
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(0, constResource_->GetGPUVirtualAddress());
@@ -58,15 +72,15 @@ void SpriteBase::Draw(Camera* camera)
 
 void SpriteBase::CreateVertex()
 {
-	vertexResource_ = CreateBufferResource(dxCommon->GetDevice() ,sizeof(VertexData)*4);
-	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*4, sizeof(VertexData));
+	vertexResource_ = CreateBufferResource(dxCommon->GetDevice() ,sizeof(VertexData)*vertNum_);
+	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*vertNum_, sizeof(VertexData));
 	vertexResource_->Map(0,nullptr,reinterpret_cast<void**>(&vertData_));
 }
 
 void SpriteBase::CreateIndex()
 {
-	indexResource_ = CreateBufferResource(dxCommon->GetDevice() ,sizeof(uint32_t)*6);
-	CreateBufferView(indexBufferView_, indexResource_.Get(), sizeof(uint32_t)*6);
+	indexResource_ = CreateBufferResource(dxCommon->GetDevice() ,sizeof(uint32_t)*indexNum_);
+	CreateBufferView(indexBufferView_, indexResource_.Get(), sizeof(uint32_t)*indexNum_);
 	//インデックスリソースにデータを書き込む
 	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
 }
@@ -88,6 +102,7 @@ void SpriteBase::CreateWVP()
 	wvpData_->WVP = worldMatrixSprite;
 	wvpData_->World = worldMatrixSprite;
 }
+
 
 void SpriteBase::ApplyGlobalVariablesInitialize()
 {

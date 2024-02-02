@@ -265,6 +265,15 @@
     <Filter Include="ソース ファイル\Engine\Object\Geometry\Common">
       <UniqueIdentifier>{d84d16e7-f254-4bb9-bcfd-2213d64f848e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Struct\Geometry">
+      <UniqueIdentifier>{133cd538-c79a-4be0-9dc0-f0db55515e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Struct\Particle">
+      <UniqueIdentifier>{0223ea69-54f8-4737-85e4-82221b4fda6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Struct\Light">
+      <UniqueIdentifier>{8fd5e520-aaf1-408e-9dab-de93303ab02e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -491,21 +500,6 @@
     <ClInclude Include="Engine\Component\DepthStencil\DepthStencil.h">
       <Filter>ヘッダー ファイル\Engine\Component\DepthStencil</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\VertexData.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\MaterialData.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\TransformationMatrixData.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\DirectionalLightData.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\ObjModelData.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Object\Geometry\ObjModel.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
     </ClInclude>
@@ -535,9 +529,6 @@
     </ClInclude>
     <ClInclude Include="Engine\FrameWork\Application.h">
       <Filter>ヘッダー ファイル\Engine\FrameWork</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\Texture.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Component\Application\Math\MathUtility.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Math\Utility</Filter>
@@ -575,20 +566,11 @@
     <ClInclude Include="Engine\Component\Pipeline\BlendSetting.h">
       <Filter>ヘッダー ファイル\Engine\Component\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\ParticleData.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\ParticleForGPUData.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Object\Particle\ParticleObject.h">
       <Filter>ヘッダー ファイル\Engine\Object\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object\Particle\Common\ParticleBase.h">
       <Filter>ヘッダー ファイル\Engine\Object\Particle\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\EmitterData.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object\Particle\ParticleEmitterObject.h">
       <Filter>ヘッダー ファイル\Engine\Object\Particle</Filter>
@@ -646,6 +628,36 @@
     </ClInclude>
     <ClInclude Include="Engine\Object\Geometry\Common\SpriteCommon.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\MaterialData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\ObjModelData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\Texture.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\TransformationMatrixData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\VertexData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\LightsData\DirectionalLightData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\ParticleDatas\EmitterData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\ParticleDatas\ParticleData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\ParticleDatas\ParticleForGPUData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\PipelineDatas.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

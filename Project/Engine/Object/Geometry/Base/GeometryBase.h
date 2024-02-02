@@ -7,11 +7,11 @@
 
 #include "DirectXCommon.h"
 #include "Transform.h"
-#include "Texture.h"
+#include "GeometryDatas/Texture.h"
 
-#include "VertexData.h"
-#include "MaterialData.h"
-#include "TransformationMatrixData.h"
+#include "GeometryDatas/VertexData.h"
+#include "GeometryDatas/MaterialData.h"
+#include "GeometryDatas/TransformationMatrixData.h"
 
 #include "Camera.h"
 

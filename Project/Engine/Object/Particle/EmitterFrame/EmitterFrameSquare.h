@@ -1,6 +1,7 @@
 #pragma once
 #include "Common/EmitterFrameBase.h"
-#include "EmitterData.h"
+
+#include "ParticleDatas/EmitterData.h"
 
 class EmitterFrameSquare : public EmitterFrameBase
 {

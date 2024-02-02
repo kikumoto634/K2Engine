@@ -9,11 +9,11 @@
 
 #include "Camera.h"
 
-#include "Texture.h"
-#include "VertexData.h"
-#include "MaterialData.h"
-#include "ParticleData.h"
-#include "ParticleForGPUData.h"
+#include "GeometryDatas/Texture.h"
+#include "GeometryDatas/VertexData.h"
+#include "GeometryDatas/MaterialData.h"
+#include "ParticleDatas/ParticleData.h"
+#include "ParticleDatas/ParticleForGPUData.h"
 
 #include <random>
 

@@ -1,9 +1,9 @@
 #include "Sprite2D.h"
 #include <imgui.h>
 
-Sprite2D *Sprite2D::Create(Transform transform)
+Sprite2D *Sprite2D::Create(std::string texturePath_, Transform transform)
 {
-	Sprite2D* instance = new Sprite2D(transform);
+	Sprite2D* instance = new Sprite2D(texturePath_, transform);
 	instance->Initialize();
 	instance->Sprite2DVertexData();
 	instance->Sprite2DIndexData();
@@ -47,4 +47,9 @@ void Sprite2D::Sprite2DIndexData()
 {
 	indexData_[0] = 0;	indexData_[1] = 1;	indexData_[2] = 2;
 	indexData_[3] = 1;	indexData_[4] = 3;	indexData_[5] = 2;
+}
+
+bool Sprite2D::PipelineCreate()
+{
+	return false;
 }

@@ -3,8 +3,9 @@
 #include <d3d12.h>
 
 #include "DirectXCommon.h"
-#include "DirectionalLightData.h"
+
 #include "Transform.h"
+#include "LightsData/DirectionalLightData.h"
 
 class LightingGroup : Transform
 {

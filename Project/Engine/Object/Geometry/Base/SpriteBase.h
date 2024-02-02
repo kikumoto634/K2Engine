@@ -1,31 +1,25 @@
 #pragma once
-#include <wrl.h>
-
-#include "DirectXCommon.h"
 #include "Geometry/Common/SpriteCommon.h"
 
 #include "Transform.h"
-#include "Texture.h"
-#include "Camera.h"
+#include "GeometryDatas/Texture.h"
+#include "GeometryDatas/VertexData.h"
+#include "GeometryDatas/MaterialData.h"
+#include "GeometryDatas/TransformationMatrixData.h"
 
-#include "VertexData.h"
-#include "MaterialData.h"
-#include "TransformationMatrixData.h"
-
+class Camera;
 class SpriteBase : public Transform
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	template <class T> using vector = std::vector<T>;
 
 public:
 	~SpriteBase(){}
 	void Draw(Camera* camera);
 
-
 protected:
 	//初期化
-	void Initialize(bool isIndexEnable = true);
+	void Initialize();
 
 	void ApplyGlobalVariablesInitialize();
 	void ApplyGlobalVariablesUpdate();
@@ -39,6 +33,9 @@ private:
 	void CreateMaterial();
 	//行列リソース/ビュー
 	void CreateWVP();
+
+	//パイプラインを新規作成したい場合、生成後、trueを返却する(呼び出しは不要)
+	virtual bool PipelineCreate(){return false;}
 	
 
 private:
@@ -79,9 +76,11 @@ protected:
 
 	//パラメータ
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
-	std::string texturePath_ = "white1x1.png";
+	std::string texturePath_;
 
 	
 	//共有処理を変更する場合の設定
+	bool isPipelineCreateCheck = false;
+	PipelineDatas pipelineDatas;
 };
 

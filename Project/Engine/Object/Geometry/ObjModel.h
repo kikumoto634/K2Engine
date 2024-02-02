@@ -1,5 +1,6 @@
 #pragma once
 #include "Base/GeometryBase.h"
+
 #include "ObjLoader.h"
 
 class ObjModel : public GeometryBase

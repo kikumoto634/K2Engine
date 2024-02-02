@@ -1,9 +1,9 @@
 #pragma once
 #include <wrl.h>
 #include <dxcapi.h>
-#include <vector>
 
 #include "DirectXCommon.h"
+
 #include "BlendSetting.h"
 
 class Pipeline
