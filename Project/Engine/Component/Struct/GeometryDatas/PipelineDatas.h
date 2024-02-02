@@ -22,6 +22,6 @@ struct PipelineDatas{
 
 	BlendSetting::BlendMode blendMode = BlendSetting::kBlendModeNormal;	//ブレンド
 
-	std::string VSPath_ = "Sprite/Sprite.VS.hlsl";
-	std::string PSPath_ = "Sprite/Sprite.PS.Texture.hlsl";
+	std::string VSPath_;
+	std::string PSPath_;
 };

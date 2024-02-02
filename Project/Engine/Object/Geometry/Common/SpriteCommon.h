@@ -36,12 +36,40 @@ private:
 public:
 	SpriteCommon(const SpriteCommon& obj) = delete;
 	SpriteCommon operator=(const SpriteCommon& obj) = delete;
-
-
+	
 private:
 	static SpriteCommon* instance_;
 
+	//定数
+	const int RootParamsNum = 3;
+	const int StaticSamplesNum = 1;
+	const int InputLayoutsNum = 3;
+
+	//Path
+	const std::string VSPath = "Sprite/Sprite.VS.hlsl";
+	const std::string PSPath = "Sprite/Sprite.PS.Texture.hlsl";
+	
+	//各要素の種類
+	enum TextureDescripotrRange{
+		SRV_TEXTURE_RANGE
+	};
+	enum StaticSamples{
+		PIXEL_TEXTURE_SAMPLER
+	};
+	enum InputLayouts{
+		POSITION,
+		UV,
+		NORMAL
+	};
+public:
+	enum RootParams{
+		CBV_PIXEL_MATERIAL,
+		CBV_VERTEX_WVP,
+		DESCRIPTOR_PIXEL_TEXTURE
+	};
+
 private:
+	//パイプライン作成用構造体
 	PipelineDatas datas;
 };
 
