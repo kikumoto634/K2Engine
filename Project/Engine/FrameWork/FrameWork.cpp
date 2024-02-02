@@ -15,6 +15,7 @@ void FrameWork::Initialize()
 {
 	win_ = WindowsApp::Create(L"K2Engine", 1280, 720);
 	dxCommon_ = DirectXCommon::Create({0,0,0,1});
+	shadow_ = ShadowMapCommon::GetInstance();
 
 	input_ = Input::GetInstance();
 

@@ -8,6 +8,8 @@
 
 #include "../Tool/ImGui/ImGuiManager.h"
 
+#include "ShadowMapCommon.h"
+
 class FrameWork
 {
 public:
@@ -29,6 +31,7 @@ private:
 private:
 	WindowsApp* win_ = nullptr;
 	DirectXCommon* dxCommon_ = nullptr;
+	ShadowMapCommon* shadow_ = nullptr;
 
 	Input* input_ = nullptr;
 

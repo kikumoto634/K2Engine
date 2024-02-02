@@ -46,8 +46,8 @@ private:
 	LightingGroup* light_ = nullptr;
 
 	//シーンオブジェクト
-	//std::unique_ptr<LevelLoader> levelLoader_;
-	//ObjModel* box_ = nullptr;
+	std::unique_ptr<LevelLoader> levelLoader_;
+	ObjModel* box_ = nullptr;
 	/*std::unique_ptr<Player> player_;
 
 	ParticleObject* particle_ = nullptr;
