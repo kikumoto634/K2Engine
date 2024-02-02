@@ -114,12 +114,6 @@ protected:
 	std::string VSPath_ = "Object3D/Object3D.VS.hlsl";
 	std::string PSPath_ = "Object3D/Object3D.PS.Texture.hlsl";
 
-	//深度情報デバック用テクスチャのデスクリプタヒープ
-	ShadowMapCommon* shadowCommon;
-	DescriptorDSVData dhTexture_;
-	ComPtr<ID3D12Resource> dhTextureResource_;
-	uint32_t dhTextureHandle_;
-
 public:
 	BaseCollider* collider_ = nullptr;
 };

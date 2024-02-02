@@ -13,7 +13,7 @@ Application *Application::Create()
 
 void Application::Initialize()
 {
-	camera_ = FollowCamera::Create();
+	camera_ = FollowCamera::Create({{0,0,0},{0,0,0},{1,1,1}});
 	light_ = LightingGroup::Create();
 
 	SpriteLoader::LoadTexture(DirectXCommon::GetInstance());
@@ -30,7 +30,7 @@ void Application::Initialize()
 	//player_.get()->scale = {0.8f,0.8f,0.8f};
 	//collisionsManager->AddCollider(player_->GetCollider());
 
-	//box_ = ObjModel::Create("cube", {{0,5,-5},{0,0,0},{1,1,1}}, BlendSetting::kBlendModeNone);
+	box_ = ObjModel::Create("cube", {{0,0,0},{0,0,0},{1,1,1}}, BlendSetting::kBlendModeNone);
 	//box_->translate = {-5.f,0,0};
 	//box_->rotation = DegreesToRadians({0,180.f,0});
 	//box_->scale = {0.8f,0.8f,0.8f};
@@ -43,17 +43,19 @@ void Application::Initialize()
 
 	//sp_ = Sprite2D::Create();
 
-	gpu_ = GPUParticleBase::Create();
+	//gpu_ = GPUParticleBase::Create();
 }
 
 void Application::Update()
 {
 	//シーンオブジェクト
 	//levelLoader_->Update();
-	//box_->Update();
-	/*player_->Update();
+	ImGui::DragFloat3("rot", &box_->rotation.x, 0.01f);
+	ImGui::DragFloat3("scale", &box_->scale.x, 0.01f);
+	box_->Update();
+	//player_->Update();
 
-	sp_->Update();
+	/*sp_->Update();
 
 	particle_->Add(particlePos_);
 	particle_->Update();
@@ -61,7 +63,7 @@ void Application::Update()
 	emitter_->Add(emitterPos_);
 	emitter_->Update();*/
 
-	camera_->Update({0,0,0});
+	camera_->Update(box_->translate);
 	light_->Update();
 
 	CollisionCheck();
@@ -71,10 +73,10 @@ void Application::GeometryDraw()
 {
 	//シーンオブジェクト
 	//levelLoader_->Draw(camera_);
-	//box_->Draw(camera_);
-	/*player_->Draw(camera_);*/
+	box_->Draw(camera_);
+	//player_->Draw(camera_);
 
-	gpu_->Draw(camera_);
+	//gpu_->Draw(camera_);
 }
 
 void Application::SpriteDraw()
