@@ -14,15 +14,18 @@ private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 public:
-	~SpriteBase(){}
 	void Draw(Camera* camera);
 
 protected:
 	//初期化
 	void Initialize();
 
+	//グローバル設定
 	void ApplyGlobalVariablesInitialize();
 	void ApplyGlobalVariablesUpdate();
+
+	//パイプラインを新規作成したい場合、生成後、trueを返却する(呼び出しは不要)
+	virtual bool PipelineCreate(){return false;}
 
 private:
 	//頂点リソース/ビュー
@@ -33,10 +36,6 @@ private:
 	void CreateMaterial();
 	//行列リソース/ビュー
 	void CreateWVP();
-
-	//パイプラインを新規作成したい場合、生成後、trueを返却する(呼び出しは不要)
-	virtual bool PipelineCreate(){return false;}
-	
 
 private:
 	//Instance

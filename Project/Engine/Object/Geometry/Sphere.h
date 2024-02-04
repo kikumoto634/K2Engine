@@ -16,7 +16,7 @@ public:
 
 		texturePath_ = "monsterBall.png";
 
-		PSPath_ = "Object3D/Object3D.PS.Texture.hlsl";
+		//PSPath_ = "Object3D/Object3D.PS.Texture.hlsl";
 	}
 	void Update();
 

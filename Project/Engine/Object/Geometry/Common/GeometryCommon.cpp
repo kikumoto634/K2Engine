@@ -1,55 +1,55 @@
-#include "SpriteCommon.h"
+#include "GeometryCommon.h"
 
-using namespace std;
+GeometryCommon* GeometryCommon::instance_ = nullptr;
 
-SpriteCommon* SpriteCommon::instance_ = nullptr;
-
-SpriteCommon *SpriteCommon::GetInstance()
+GeometryCommon *GeometryCommon::GetInstance()
 {
 	if(!instance_){
-		instance_ = new SpriteCommon;
+		instance_ = new GeometryCommon();
 		instance_->Initialize();
 	}
+
 	return instance_;
 }
 
-void SpriteCommon::Finalize()
+void GeometryCommon::Finalize()
 {
 	if(instance_){
 		delete instance_;
 	}
 }
 
-
-
-void SpriteCommon::Initialize()
+void GeometryCommon::Initialize()
 {
-	datas.pipeline_ = make_unique<Pipeline>();
+	datas.pipeline_ = std::make_unique<Pipeline>();
 
 	//SRV(Texture)
-	D3D12_DESCRIPTOR_RANGE descriptorRange[1] = {};
-	descriptorRange[SRV_TEXTURE_RANGE].BaseShaderRegister = 0;	//0から開始
-	descriptorRange[SRV_TEXTURE_RANGE].NumDescriptors = 1;	//数は1
-	descriptorRange[SRV_TEXTURE_RANGE].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;	
-	descriptorRange[SRV_TEXTURE_RANGE].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-
+	D3D12_DESCRIPTOR_RANGE SRVDescriptorRange[1] = {};
+	SRVDescriptorRange[SRV_TEXTURE_RANGE].BaseShaderRegister = 0;	//0から開始
+	SRVDescriptorRange[SRV_TEXTURE_RANGE].NumDescriptors = 1;	//数は1
+	SRVDescriptorRange[SRV_TEXTURE_RANGE].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	SRVDescriptorRange[SRV_TEXTURE_RANGE].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 	//ルートパラメータ設定
 	std::vector<D3D12_ROOT_PARAMETER> rootParameters;
 	rootParameters.resize(RootParamsNum);
 
-	rootParameters[CBV_PIXEL_MATERIAL].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-	rootParameters[CBV_PIXEL_MATERIAL].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-	rootParameters[CBV_PIXEL_MATERIAL].Descriptor.ShaderRegister = 0;
+	rootParameters[DESCRIPTOR_PIXEL_TEXTURE].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[DESCRIPTOR_PIXEL_TEXTURE].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[DESCRIPTOR_PIXEL_TEXTURE].DescriptorTable.pDescriptorRanges = SRVDescriptorRange;
+	rootParameters[DESCRIPTOR_PIXEL_TEXTURE].DescriptorTable.NumDescriptorRanges = _countof(SRVDescriptorRange);
+
+	rootParameters[CBV_ALL_LIGHT].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[CBV_ALL_LIGHT].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	rootParameters[CBV_ALL_LIGHT].Descriptor.ShaderRegister = 0;
 
 	rootParameters[CBV_VERTEX_WVP].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameters[CBV_VERTEX_WVP].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-	rootParameters[CBV_VERTEX_WVP].Descriptor.ShaderRegister = 0;
+	rootParameters[CBV_VERTEX_WVP].Descriptor.ShaderRegister = 1;
 
-	rootParameters[DESCRIPTOR_PIXEL_TEXTURE].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-	rootParameters[DESCRIPTOR_PIXEL_TEXTURE].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-	rootParameters[DESCRIPTOR_PIXEL_TEXTURE].DescriptorTable.pDescriptorRanges = descriptorRange;	
-	rootParameters[DESCRIPTOR_PIXEL_TEXTURE].DescriptorTable.NumDescriptorRanges = _countof(descriptorRange);
+	rootParameters[CBV_PIXEL_MATERIAL].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[CBV_PIXEL_MATERIAL].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[CBV_PIXEL_MATERIAL].Descriptor.ShaderRegister = 1;
 
 
 	//Sampler設定(シェーダーのPS SamplerState　シェーダでは画像のことをいう)
@@ -68,7 +68,6 @@ void SpriteCommon::Initialize()
 	//インプットレイアウト設定(頂点データでシェーダ内に送るデータたちのセマンティック名)
 	std::vector<D3D12_INPUT_ELEMENT_DESC> inputElementDesc;
 	inputElementDesc.resize(InputLayoutsNum);
-
 	inputElementDesc[POSITION].SemanticName = "POSITION";
 	inputElementDesc[POSITION].SemanticIndex = 0;
 	inputElementDesc[POSITION].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;

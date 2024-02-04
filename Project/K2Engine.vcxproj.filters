@@ -444,6 +444,9 @@
     <ClCompile Include="Engine\Object\Geometry\Common\SpriteCommon.cpp">
       <Filter>ソース ファイル\Engine\Object\Geometry\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\Common\GeometryCommon.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -658,6 +661,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Component\Struct\GeometryDatas\PipelineDatas.h">
       <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Common\GeometryCommon.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
