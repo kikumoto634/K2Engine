@@ -41,6 +41,9 @@ protected:
 	virtual void ApplyGlobalVariablesInitialize();
 	virtual void ApplyGlobalVariablesUpdate();
 
+	//パイプラインを新規作成したい場合、生成後、trueを返却する(呼び出しは不要)
+	virtual bool PipelineCreate(){return false;}
+
 public:
 	//コライダー
 	BaseCollider* collider_ = nullptr;
@@ -68,6 +71,10 @@ protected:
 	bool isLightEnable_ = true;
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	std::string texturePath_ = "uvChecker.png";
+
+	//共有処理を変更する場合の設定
+	bool isPipelineCreateCheck = false;
+	PipelineDatas pipelineDatas;
 
 private:
 	//Instance

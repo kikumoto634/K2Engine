@@ -22,6 +22,8 @@ protected:
 	void ObjModelLoad();
 	void ObjModelVertexData();
 
+	bool PipelineCreate() override;
+
 private:
 	std::string filePath_;
 

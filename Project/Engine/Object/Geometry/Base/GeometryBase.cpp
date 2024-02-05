@@ -23,6 +23,8 @@ void GeometryBase::Initialize(bool isIndexEnable)
 	CreateIndex();
 	CreateMaterial();
 	CreateWVP();
+
+	isPipelineCreateCheck = PipelineCreate();
 }
 
 void GeometryBase::Update()
@@ -43,12 +45,18 @@ void GeometryBase::Draw(Camera* camera)
 
 	//Pipeline関連
 	dxCommon->GetCommandList()->SetGraphicsRootSignature(
+		isPipelineCreateCheck ? 
+		pipelineDatas.pipeline_->GetRootSignature() :
 		GeometryCommon::GetInstance()->GetPipeline()->GetRootSignature()
 	);
 	dxCommon->GetCommandList()->SetPipelineState(
+		isPipelineCreateCheck ? 
+		pipelineDatas.pipeline_->GetGraphicsPipelineState() :
 		GeometryCommon::GetInstance()->GetPipeline()->GetGraphicsPipelineState()
 	);
 	dxCommon->GetCommandList()->IASetPrimitiveTopology(
+		isPipelineCreateCheck ? 
+		pipelineDatas.commandPrimitiveTopology_ :
 		GeometryCommon::GetInstance()->GetTopology()
 	);
 
