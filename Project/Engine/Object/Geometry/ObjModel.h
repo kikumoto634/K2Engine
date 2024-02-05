@@ -15,7 +15,7 @@ public:
 		rotation = lTransform.rotation;
 		scale = lTransform.scale;
 
-		//blendMode_ = mode;
+		pipelineDatas.blendMode = mode;
 	}
 
 protected:

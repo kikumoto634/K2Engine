@@ -30,7 +30,8 @@ void ObjModel::ObjModelVertexData()
 
 bool ObjModel::PipelineCreate()
 {
-	pipelineDatas.pipeline_ = std::make_unique<Pipeline>();
+#pragma region サンプル
+	/*pipelineDatas.pipeline_ = std::make_unique<Pipeline>();
 
 	//SRV(Texture)
 	D3D12_DESCRIPTOR_RANGE SRVDescriptorRange[1] = {};
@@ -120,5 +121,7 @@ bool ObjModel::PipelineCreate()
 		pipelineDatas.cullingMode
 	);
 
-	return true;
+	return true;*/
+#pragma endregion
+	return false;
 }

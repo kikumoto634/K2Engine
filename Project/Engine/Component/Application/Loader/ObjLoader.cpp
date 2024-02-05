@@ -30,6 +30,7 @@ ObjModelData LoadObjFile(const std::string &fileName)
         //・ vt    : 頂点UV
         //・ vn    : 頂点法線
         //・ g     : 面
+        //・ f     : 面情報(インデックス)
         //・ mtlib : テクスチャ
         ///
 
