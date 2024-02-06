@@ -21,7 +21,6 @@ public:
 protected:
 	void ObjModelLoad();
 	void ObjModelVertexData();
-	void ObjModelIndexData();
 
 	bool PipelineCreate() override;
 

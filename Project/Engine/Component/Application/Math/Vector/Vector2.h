@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 class Vector2
 {
 public:
@@ -17,6 +17,8 @@ public:
 	Vector2 operator-= (const Vector2& v);
 	Vector2 operator*= (float s);
 	Vector2 operator/= (float s);
+
+	bool operator==(const Vector2& v);
 
 public:
 	float x;

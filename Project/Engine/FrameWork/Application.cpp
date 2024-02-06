@@ -30,7 +30,7 @@ void Application::Initialize()
 	//player_.get()->scale = {0.8f,0.8f,0.8f};
 	//collisionsManager->AddCollider(player_->GetCollider());
 
-	box_ = ObjModel::Create("cube", {{0,0,0},{0,0,0},{1,1,1}}, BlendSetting::kBlendModeNone);
+	box_ = ObjModel::Create("monkey", {{0,0,0},{0,0,0},{1,1,1}}, BlendSetting::kBlendModeNone);
 	//box_->translate = {-5.f,0,0};
 	//box_->rotation = DegreesToRadians({0,180.f,0});
 	//box_->scale = {0.8f,0.8f,0.8f};

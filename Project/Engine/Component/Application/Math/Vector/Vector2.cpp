@@ -75,6 +75,14 @@ Vector2 Vector2::operator/=(float s)
 	return *this;
 }
 
+bool Vector2::operator==(const Vector2 &v)
+{
+	if(x==v.x&&y==v.y){
+		return true;
+	}
+	return false;
+}
+
 const Vector2 operator+(const Vector2 &v1, const Vector2 &v2)
 {
 	Vector2 temp(v1);
