@@ -6,8 +6,9 @@ ObjModel *ObjModel::Create(std::string filePath, Transform transform, BlendSetti
 {
 	ObjModel *instance = new ObjModel(filePath, transform,mode);
 	instance->ObjModelLoad();
-	instance->Initialize(false);
+	instance->Initialize(true);
 	instance->ObjModelVertexData();
+	instance->ObjModelIndexData();
 	return instance;
 }
 
@@ -17,6 +18,8 @@ void ObjModel::ObjModelLoad()
 	modelData_ = LoadObjFile(filePath_);
 	//頂点数決め
 	vertNum_ = (UINT)modelData_.vertices.size();
+	//インデックス
+	if(isIndexDataEnable_)indexNum_ = (UINT)modelData_.indices.size();
 	//画像パス
 	texturePath_ = modelData_.material.textureFilePath;
 	SpriteLoader::LoadTexture(DirectXCommon::GetInstance(), texturePath_);
@@ -26,6 +29,13 @@ void ObjModel::ObjModelVertexData()
 {
 	//データ送信
 	std::memcpy(vertData_, modelData_.vertices.data(), sizeof(VertexData) * vertNum_);
+}
+
+void ObjModel::ObjModelIndexData()
+{
+	if(!isIndexDataEnable_) return;
+	//データ送信
+	std::memcpy(indexData_, modelData_.indices.data(), sizeof(uint32_t) * indexNum_);
 }
 
 bool ObjModel::PipelineCreate()

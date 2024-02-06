@@ -9,5 +9,6 @@ struct ObjMaterialData{
 
 struct ObjModelData{
 	std::vector<VertexData> vertices;
+	std::vector<uint32_t> indices;
 	ObjMaterialData material;
 };

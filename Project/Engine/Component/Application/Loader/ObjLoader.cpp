@@ -15,6 +15,8 @@ ObjModelData LoadObjFile(const std::string &fileName)
 
     string line;   //一行読み取りライン
 
+    uint32_t indexCount = 0;
+
     //Open
     string fullPath = "Resources/ObjModels/" + fileName + "/" + fileName + ".obj";
     ifstream file(fullPath);
@@ -80,8 +82,37 @@ ObjModelData LoadObjFile(const std::string &fileName)
                 luv.y = 1.0f - luv.y;
 
                 triangle[faceVertex] = {lpos, luv, lnor};
+
+
+                //インデックス
+                /*if(indexCount< 3)          modelData.indices.push_back(elementIndices[0] - 1);
+
+                else if(indexCount%3 == 0) {
+                    modelData.indices.push_back(elementIndices[0] - 1);
+                }
+                else if(indexCount%3 == 1) {
+                    modelData.indices.push_back(elementIndices[0]);
+                }
+                else if(indexCount%3 == 2) {
+                    modelData.indices.push_back(elementIndices[0] - 2);
+                }*/
+
+                // 0,1,2    //前左下
+                // 1,3,2    //前右上　
+                
+                // 5,4,7    
+                // 4,6,7
+                // 4,0,6
+                // 0,2,6
+                // 1,5,3
+                // 5,7,3
+                // 1,0,5
+                // 0,4,5
+                // 2,3,6
+                // 3,7,6
             }
 
+            indexCount++;
             //頂点を逆順で登録することで、周り順を逆にする
             modelData.vertices.push_back(triangle[2]);
             modelData.vertices.push_back(triangle[1]);
@@ -95,6 +126,8 @@ ObjModelData LoadObjFile(const std::string &fileName)
             modelData.material = LoadObjMaterialTemplateFile(fileName, materialFileName);
         }
     }
+
+    file.close();
     return modelData;
 }
 
