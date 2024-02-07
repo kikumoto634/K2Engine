@@ -56,10 +56,12 @@ PixelShaderOutput main(VertexShaderOutput input)
         //ReflectLight
         float3 reflectLight = reflect(dir, normalize(input.normal));
         
+        //EyeVector + direction 
+        float3 halfVector = normalize(-dir + toEye);
         //Condition Light from Eye
-        float RdotE = dot(reflectLight, toEye);
+        float NDotH = dot(normalize(input.normal), halfVector);
         //ReflectdPower
-        float specularPow = pow(saturate(RdotE), gMaterial.shininess);
+        float specularPow = pow(saturate(NDotH), gMaterial.shininess);
 
         
         float3 diffuse =
