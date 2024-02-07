@@ -665,6 +665,9 @@
     <ClInclude Include="Engine\Object\Geometry\Common\GeometryCommon.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\CameraForGPUData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Texture.hlsl">
