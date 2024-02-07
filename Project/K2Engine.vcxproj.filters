@@ -725,5 +725,8 @@
     <None Include="Resources\Shaders\Particle\Particle.hlsli">
       <Filter>リソース ファイル\Shader\Particle</Filter>
     </None>
+    <None Include="Resources\GlovalVariables\Light.json">
+      <Filter>リソース ファイル</Filter>
+    </None>
   </ItemGroup>
 </Project>

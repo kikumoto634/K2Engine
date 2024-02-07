@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Geometry/Common/BaseCollider.h"
 
 #include "Geometry/Common/GeometryCommon.h"
@@ -8,6 +8,7 @@
 #include "GeometryDatas/VertexData.h"
 #include "GeometryDatas/MaterialData.h"
 #include "GeometryDatas/TransformationMatrixData.h"
+#include "GeometryDatas/CameraForGPUData.h"
 
 
 class Camera;
@@ -36,6 +37,7 @@ protected:
 	virtual void CreateIndex();
 	virtual void CreateMaterial();
 	virtual void CreateWVP();
+	virtual void CreateCamera();
 
 	//グローバル設定
 	virtual void ApplyGlobalVariablesInitialize();
@@ -66,6 +68,7 @@ protected:
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_;
 	GeometryMaterial* materialData_ = nullptr;
 	TransformationMatrix* wvpData_ = nullptr;
+	CameraForGPUData* cameraData_ = nullptr;
 
 	//設定項目
 	bool isLightEnable_ = true;
@@ -85,5 +88,6 @@ private:
 	ComPtr<ID3D12Resource> indexResource_;
 	ComPtr<ID3D12Resource> materialResource_;
 	ComPtr<ID3D12Resource> wvpResource_;
+	ComPtr<ID3D12Resource> cameraResource_;
 };
 

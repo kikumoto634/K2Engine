@@ -12,7 +12,6 @@ class LightingGroup : Transform
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-
 public:
 	static LightingGroup* Create();
 	static LightingGroup* GetInstance();
@@ -27,6 +26,7 @@ public:
 
 	//Getter
 	ID3D12Resource* GetResource()	{return resource_.Get();}
+	float GetSpecularPower()		{return specularPower;}
 
 private:
 	LightingGroup() = default;  // デフォルトコンストラクタ
@@ -43,6 +43,10 @@ private:
 	ComPtr<ID3D12Resource> resource_;	//リソース
 	DirectionalLightData* data_ = nullptr;		//構造体
 
+	//色
 	Vector4 lightColor_ = {1,1,1,1};
+	//全体輝度
 	float lightIntensity_ = 1.0f;
+	//鏡面強度
+	float specularPower = 20.0f;
 };

@@ -44,12 +44,16 @@ void GeometryCommon::Initialize()
 	rootParameters[CBV_ALL_LIGHT].Descriptor.ShaderRegister = 0;
 
 	rootParameters[CBV_VERTEX_WVP].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-	rootParameters[CBV_VERTEX_WVP].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	rootParameters[CBV_VERTEX_WVP].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 	rootParameters[CBV_VERTEX_WVP].Descriptor.ShaderRegister = 1;
 
 	rootParameters[CBV_PIXEL_MATERIAL].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameters[CBV_PIXEL_MATERIAL].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-	rootParameters[CBV_PIXEL_MATERIAL].Descriptor.ShaderRegister = 1;
+	rootParameters[CBV_PIXEL_MATERIAL].Descriptor.ShaderRegister = 2;
+
+	rootParameters[CBV_PIXEL_CAMERA].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[CBV_PIXEL_CAMERA].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[CBV_PIXEL_CAMERA].Descriptor.ShaderRegister = 3;
 
 
 	//Sampler設定(シェーダーのPS SamplerState　シェーダでは画像のことをいう)

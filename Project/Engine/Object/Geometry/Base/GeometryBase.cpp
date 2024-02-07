@@ -23,6 +23,7 @@ void GeometryBase::Initialize(bool isIndexEnable)
 	CreateIndex();
 	CreateMaterial();
 	CreateWVP();
+	CreateCamera();
 
 	isPipelineCreateCheck = PipelineCreate();
 }
@@ -35,9 +36,14 @@ void GeometryBase::Update()
 void GeometryBase::Draw(Camera* camera)
 {
 	materialData_->color = color_;
+	materialData_->shininess = LightingGroup::GetInstance()->GetSpecularPower();
+
 	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * camera->GetViewProjectionMatrix();
 	wvpData_->WVP = worldViewProjectionMatrix;
 	wvpData_->World = worldViewProjectionMatrix;
+
+	cameraData_->worldPosition = camera->translate;
+
 
 	//頂点関連
 	dxCommon->GetCommandList()->IASetVertexBuffers(0,1,&vertexBufferView_);		//VBV設定
@@ -76,6 +82,10 @@ void GeometryBase::Draw(Camera* camera)
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(
 		GeometryCommon::CBV_PIXEL_MATERIAL,
 		materialResource_->GetGPUVirtualAddress()
+	);
+	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(
+		GeometryCommon::CBV_PIXEL_CAMERA,
+		cameraResource_->GetGPUVirtualAddress()
 	);
 
 	//描画
@@ -117,6 +127,7 @@ void GeometryBase::CreateMaterial()
 	materialResource_->Map(0,nullptr,reinterpret_cast<void**>(&materialData_));
 	materialData_->enableLighting = isLightEnable_;
 	materialData_->uvTransform = materialData_->uvTransform.MakeIdentityMatrix();
+	materialData_->shininess = LightingGroup::GetInstance()->GetSpecularPower();
 }
 
 void GeometryBase::CreateWVP()
@@ -128,6 +139,15 @@ void GeometryBase::CreateWVP()
 	Matrix4x4 worldMatrix = worldMatrix.MakeIdentityMatrix();
 	wvpData_->WVP = worldMatrix;
 	wvpData_->World = worldMatrix;
+}
+
+void GeometryBase::CreateCamera()
+{
+	cameraResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(CameraForGPUData));
+
+	cameraResource_->Map(0, nullptr, reinterpret_cast<void**>(&cameraData_));
+	
+	cameraData_->worldPosition = {0,0,0};
 }
 
 void GeometryBase::ApplyGlobalVariablesInitialize()

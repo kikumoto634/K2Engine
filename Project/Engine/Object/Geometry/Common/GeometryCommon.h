@@ -27,7 +27,7 @@ private:
 	static GeometryCommon* instance_;
 
 	//定数
-	const int RootParamsNum = 4;
+	const int RootParamsNum = 5;
 	const int StaticSamplesNum = 1;
 	const int InputLayoutsNum = 3;
 
@@ -52,7 +52,8 @@ public:
 		DESCRIPTOR_PIXEL_TEXTURE,
 		CBV_ALL_LIGHT,
 		CBV_VERTEX_WVP,
-		CBV_PIXEL_MATERIAL
+		CBV_PIXEL_MATERIAL,
+		CBV_PIXEL_CAMERA
 	};
 
 private:
