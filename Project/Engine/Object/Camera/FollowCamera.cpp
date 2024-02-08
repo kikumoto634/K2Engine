@@ -1,5 +1,5 @@
 #include "FollowCamera.h"
-#include "Input.h"
+#include "InputManager.h"
 #include "MathUtility.h"
 #include "WindowsApp.h"
 
@@ -41,10 +41,10 @@ void FollowCamera::Update(Vector3 target)
 
 void FollowCamera::Rot()
 {
-	if(!Input::GetInstance()->GetIsPadConnect()) return;
+	if(!InputManager::GetInstance()->GetIsPadConnect()) return;
 	
-	rotation.y += Input::GetInstance()->PadRStick().x * speed_;
-	rotation.x -= Input::GetInstance()->PadRStick().y * speed_;
+	rotation.y += InputManager::GetInstance()->PadRStick().x * speed_;
+	rotation.x -= InputManager::GetInstance()->PadRStick().y * speed_;
 
 	//上限
 	rotation.x = max(rotation.x*(180.f/3.141592f), RotMinMax_.x) * (3.141592f/180.f);

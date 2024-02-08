@@ -13,12 +13,12 @@ const int KeyNum = 256;
 //パッド
 #include <Xinput.h>
 
-class Input
+class InputManager
 {
 public:
-	~Input();
+	~InputManager();
 
-	static Input* GetInstance();
+	static InputManager* GetInstance();
 
 	//初期化
 	void Initialize();
@@ -91,7 +91,7 @@ public:
 #pragma endregion
 
 private:
-	static Input* instance_;
+	static InputManager* instance_;
 private:
 	WindowsApp* window;
 	IDirectInput8* directInput_ = nullptr;

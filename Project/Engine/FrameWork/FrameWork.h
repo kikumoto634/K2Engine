@@ -2,7 +2,7 @@
 #include "WindowsApp.h"
 #include "DirectXCommon.h"
 
-#include "Input.h"
+#include "InputManager.h"
 
 #include "Application.h"
 
@@ -39,7 +39,7 @@ private:
 	WindowsApp* win_ = nullptr;
 	DirectXCommon* dxCommon_ = nullptr;
 
-	Input* input_ = nullptr;
+	InputManager* input_ = nullptr;
 
 	Application* app_ = nullptr;
 

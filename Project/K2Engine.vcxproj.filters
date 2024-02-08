@@ -390,7 +390,7 @@
     <ClCompile Include="Engine\Common\DirectXCommon.cpp">
       <Filter>ソース ファイル\Engine\Common</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Component\Application\Input\Input.cpp">
+    <ClCompile Include="Engine\Component\Application\Input\InputManager.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Component\Application\Loader\LevelLoader.cpp">
@@ -578,7 +578,7 @@
     <ClInclude Include="Engine\Common\DirectXCommon.h">
       <Filter>ヘッダー ファイル\Engine\Common</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Input\Input.h">
+    <ClInclude Include="Engine\Component\Application\Input\InputManager.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Input</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Component\Application\Math\Easing\Easing.h">
@@ -707,14 +707,14 @@
     <ClInclude Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameCommon.h">
       <Filter>ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Common</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\GeometryDatas\CameraForGPUData.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Scene\SceneManager.h">
       <Filter>ヘッダー ファイル\Engine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Scene\BaseScene.h">
       <Filter>ヘッダー ファイル\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\CameraForGPUData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

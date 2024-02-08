@@ -1,29 +1,29 @@
-#include "Input.h"
+#include "InputManager.h"
 #include "Easing.h"
 #include <cassert>
 
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "xinput.lib")
 
-Input* Input::instance_ = nullptr;
+InputManager* InputManager::instance_ = nullptr;
 
 
-Input::~Input()
+InputManager::~InputManager()
 {
 	PadVibrationStop();
 	delete instance_;
 }
 
-Input *Input::GetInstance()
+InputManager *InputManager::GetInstance()
 {
 	if(!instance_){
-		instance_ = new Input();
+		instance_ = new InputManager();
 		instance_->Initialize();
 	}
 	return instance_;
 }
 
-void Input::Initialize()
+void InputManager::Initialize()
 {
 	HRESULT result;
 
@@ -88,7 +88,7 @@ void Input::Initialize()
 	ZeroMemory(&vibration_, sizeof(XINPUT_VIBRATION));
 }
 
-void Input::Update()
+void InputManager::Update()
 {
 	HRESULT result;
 
@@ -114,7 +114,7 @@ void Input::Update()
 	PadUpdate();
 }
 
-void Input::PadUpdate()
+void InputManager::PadUpdate()
 {
 	padPreState_ = padState_;
 	DWORD result = XInputGetState(0, &padState_);
@@ -157,7 +157,7 @@ void Input::PadUpdate()
 }
 
 
-bool Input::Push(int keyNumber)
+bool InputManager::Push(int keyNumber)
 {
 	if(keyNumber < 0x00) return false;
 	if(keyNumber > 0xff) return false;
@@ -169,7 +169,7 @@ bool Input::Push(int keyNumber)
 	return false;
 }
 
-bool Input::Trigger(int keyNumber)
+bool InputManager::Trigger(int keyNumber)
 {
 	if(keyNumber < 0x00) return false;
 	if(keyNumber > 0xff) return false;
@@ -182,7 +182,7 @@ bool Input::Trigger(int keyNumber)
 }
 
 
-bool Input::MousePush(int keyNumber)
+bool InputManager::MousePush(int keyNumber)
 {
 	if(mouseKey_.rgbButtons[keyNumber] & (MOUSE_ON_VALUE)){
 		return true;
@@ -190,7 +190,7 @@ bool Input::MousePush(int keyNumber)
 	return false;
 }
 
-bool Input::MouseTrigger(int keyNumber)
+bool InputManager::MouseTrigger(int keyNumber)
 {
 	if((mouseKey_.rgbButtons[keyNumber] & (MOUSE_ON_VALUE)) && !(mousePreKey_.rgbButtons[keyNumber] & (MOUSE_ON_VALUE))){
 		return true;
@@ -198,7 +198,7 @@ bool Input::MouseTrigger(int keyNumber)
 	return false;
 }
 
-const Vector2 Input::GetMousePos()
+const Vector2 InputManager::GetMousePos()
 {
 	POINT p;
 	GetCursorPos(&p);
@@ -206,18 +206,18 @@ const Vector2 Input::GetMousePos()
 	return Vector2{(float)p.x,(float)p.y};
 }
 
-const Vector2 Input::GetMouseVelocity()
+const Vector2 InputManager::GetMouseVelocity()
 {
 	return Vector2((float)mouseKey_.lX, (float)mouseKey_.lY);
 }
 
-const float Input::GetMouseWheel()
+const float InputManager::GetMouseWheel()
 {
 	return (float)mouseKey_.lZ;
 }
 
 
-bool Input::PadButtonPush(int keyNumber)
+bool InputManager::PadButtonPush(int keyNumber)
 {
 	if(!isPadConnect_) return false;
 	if(padState_.Gamepad.wButtons & keyNumber){
@@ -226,7 +226,7 @@ bool Input::PadButtonPush(int keyNumber)
 	return false;
 }
 
-bool Input::PadButtonTrigger(int keyNumber)
+bool InputManager::PadButtonTrigger(int keyNumber)
 {
 	if(!isPadConnect_) return false;
 	if(padState_.Gamepad.wButtons & keyNumber && !(padPreState_.Gamepad.wButtons & keyNumber)){
@@ -235,7 +235,7 @@ bool Input::PadButtonTrigger(int keyNumber)
 	return false;
 }
 
-bool Input::PadLeftTrigger(int Value)
+bool InputManager::PadLeftTrigger(int Value)
 {
 	if(!isPadConnect_) return false;
 	if(padState_.Gamepad.bLeftTrigger > Value){
@@ -244,7 +244,7 @@ bool Input::PadLeftTrigger(int Value)
 	return false;
 }
 
-bool Input::PadRightTrigger(int Value)
+bool InputManager::PadRightTrigger(int Value)
 {
 	if(!isPadConnect_) return false;
 	if(padState_.Gamepad.bRightTrigger > Value){
@@ -253,7 +253,7 @@ bool Input::PadRightTrigger(int Value)
 	return false;
 }
 
-Vector2 Input::PadLStick()
+Vector2 InputManager::PadLStick()
 {
 	if(!isPadConnect_) return Vector2();
 	float X = padState_.Gamepad.sThumbLX;
@@ -282,7 +282,7 @@ Vector2 Input::PadLStick()
 	return Vector2(X, Y);
 }
 
-Vector2 Input::PadRStick()
+Vector2 InputManager::PadRStick()
 {
 	if(!isPadConnect_) return Vector2();
 	float X = padState_.Gamepad.sThumbRX;
@@ -311,7 +311,7 @@ Vector2 Input::PadRStick()
 	return Vector2(X, Y);
 }
 
-Vector2 Input::PadLStickPre()
+Vector2 InputManager::PadLStickPre()
 {
 	if(!isPadConnect_) return Vector2();
 	float X = padPreState_.Gamepad.sThumbLX;
@@ -340,7 +340,7 @@ Vector2 Input::PadLStickPre()
 	return Vector2(X, Y);
 }
 
-Vector2 Input::PadRStickPre()
+Vector2 InputManager::PadRStickPre()
 {
 	if(!isPadConnect_) return Vector2();
 	float X = padPreState_.Gamepad.sThumbRX;
@@ -369,7 +369,7 @@ Vector2 Input::PadRStickPre()
 	return Vector2(X, Y);
 }
 
-void Input::PadVibrationStart()
+void InputManager::PadVibrationStart()
 {
 	if(!isPadConnect_) return;
 	vibration_.wLeftMotorSpeed = VibrationMaxValue_;
@@ -377,7 +377,7 @@ void Input::PadVibrationStart()
 	XInputSetState(0, &vibration_);
 }
 
-void Input::PadVibrationStop()
+void InputManager::PadVibrationStop()
 {
 	if(!isPadConnect_) return;
 	vibration_.wLeftMotorSpeed = 0;
@@ -386,7 +386,7 @@ void Input::PadVibrationStop()
 	XInputSetState(0, &vibration_);
 }
 
-void Input::PadVibrationLeap(const float Second)
+void InputManager::PadVibrationLeap(const float Second)
 {
 	if(!isPadConnect_) return;
 	vibrationTimeMax_ = Second;

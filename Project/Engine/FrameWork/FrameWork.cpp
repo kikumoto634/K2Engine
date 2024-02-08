@@ -16,7 +16,7 @@ void FrameWork::Initialize()
 	win_ = WindowsApp::Create(L"K2Engine", 1280, 720);
 	dxCommon_ = DirectXCommon::Create({0.25,0.5,0.25,1});
 
-	input_ = Input::GetInstance();
+	input_ = InputManager::GetInstance();
 
 
 	//グルーバル変数の読み込み
