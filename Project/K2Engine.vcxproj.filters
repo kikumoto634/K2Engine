@@ -271,14 +271,20 @@
     <Filter Include="ヘッダー ファイル\Engine\Object\Particle\EmitterFrame">
       <UniqueIdentifier>{e62d9574-9854-423b-84fa-a7604be811d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Common">
-      <UniqueIdentifier>{8e6b2992-bd31-4372-9b38-8448247c8780}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Engine\Object\Particle\EmitterFrame">
       <UniqueIdentifier>{4c526eca-39b1-4bee-9f88-b504e3e1751c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Engine\Object\Particle\EmitterFrame\Common">
+    <Filter Include="ソース ファイル\Engine\Object\Particle\EmitterFrame\Base">
       <UniqueIdentifier>{4fdbcf88-c676-41a8-a23a-a7711d559922}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Base">
+      <UniqueIdentifier>{8e6b2992-bd31-4372-9b38-8448247c8780}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Object\Particle\EmitterFrame\Common">
+      <UniqueIdentifier>{7429aed4-fc28-45c5-b351-0ed6ff9e5dc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Common">
+      <UniqueIdentifier>{cd8ed018-8bed-4615-ab70-f793e35d564b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -408,9 +414,6 @@
     <ClCompile Include="Engine\Object\Particle\ParticleEmitterObject.cpp">
       <Filter>ソース ファイル\Engine\Object\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameBase.cpp">
-      <Filter>ソース ファイル\Engine\Object\Particle\EmitterFrame\Common</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Object\Particle\EmitterFrame\EmitterFrameSquare.cpp">
       <Filter>ソース ファイル\Engine\Object\Particle\EmitterFrame</Filter>
     </ClCompile>
@@ -458,6 +461,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Object\Particle\Common\ParticleCommon.cpp">
       <Filter>ソース ファイル\Engine\Object\Particle\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Particle\EmitterFrame\Base\EmitterFrameBase.cpp">
+      <Filter>ソース ファイル\Engine\Object\Particle\EmitterFrame\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameCommon.cpp">
+      <Filter>ソース ファイル\Engine\Object\Particle\EmitterFrame\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -590,12 +599,6 @@
     <ClInclude Include="Engine\Component\Struct\DescriptorData.h">
       <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameBase.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Object\Particle\EmitterFrame\EmitterFrameSquare.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Particle\EmitterFrame</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionsManager.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
     </ClInclude>
@@ -682,6 +685,15 @@
     </ClInclude>
     <ClInclude Include="Engine\Object\Particle\Common\ParticleCommon.h">
       <Filter>ヘッダー ファイル\Engine\Object\Particle\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\EmitterFrame\Base\EmitterFrameBase.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\EmitterFrame\EmitterFrameSquare.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle\EmitterFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameCommon.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -39,7 +39,7 @@ void Application::Initialize()
 	//collisionsManager->AddCollider(box_->GetCollider());
 
 	particle_ = ParticleObject::Create();
-	//emitter_ = ParticleEmitterObject::Create();
+	emitter_ = ParticleEmitterObject::Create();
 
 	sp_ = Sprite2D::Create();
 
@@ -60,8 +60,8 @@ void Application::Update()
 	particle_->Add(particlePos_);
 	particle_->Update();
 
-	/*emitter_->Add(emitterPos_);
-	emitter_->Update();*/
+	emitter_->Add(emitterPos_);
+	emitter_->Update();
 
 	camera_->Update(box_->translate);
 	light_->Update();
@@ -87,7 +87,7 @@ void Application::SpriteDraw()
 void Application::ParticleDraw()
 {
 	particle_->Draw(camera_);
-	//emitter_->Draw(camera_);
+	emitter_->Draw(camera_);
 }
 
 void Application::CollisionCheck()

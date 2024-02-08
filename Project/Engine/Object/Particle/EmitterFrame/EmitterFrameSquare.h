@@ -1,5 +1,5 @@
 #pragma once
-#include "Common/EmitterFrameBase.h"
+#include "Base/EmitterFrameBase.h"
 
 #include "ParticleDatas/EmitterData.h"
 
