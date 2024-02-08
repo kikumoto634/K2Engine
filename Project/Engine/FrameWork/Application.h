@@ -18,7 +18,7 @@
 
 #include "CollisionsManager.h"
 
-#include "Particle/Common/GPUParticleBase.h"
+#include "Particle/Base/GPUParticleBase.h"
 
 class Application
 {

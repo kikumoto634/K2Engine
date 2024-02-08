@@ -25,16 +25,11 @@ private:
 public:
 	static GPUParticleBase* Create();
 
-	~GPUParticleBase(){
-		delete pipeline_;
-	}
+	~GPUParticleBase(){}
 	void Initialize(bool isIndexEnable = true);
 	void Draw(Camera* camera);
 
 private:
-	//パイプライン
-	void PipelineStateInitialize();
-
 	//頂点リソース/ビュー
 	void CreateVertex();
 	//定数リソース/ビュー
@@ -48,12 +43,6 @@ private:
 	//Instance
 	DirectXCommon* dxCommon = nullptr;
 	ComputeCommon* compute = nullptr;
-
-	//パイプライン関係
-	Pipeline* pipeline_ = nullptr;
-
-	vector<D3D12_ROOT_PARAMETER> rootParameters_;			//ルートパラメータ
-	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDesc_;		//インプットレイアウト
 
 	//リソース関係
 	ComPtr<ID3D12Resource> vertexResource_;		//頂点
@@ -71,24 +60,13 @@ private:
 	//受信用
 	Sample* computeData_ = nullptr;
 
-	//描画方法
-	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;	//パイプライン
-	D3D_PRIMITIVE_TOPOLOGY commandPrimitiveTopology_ = D3D_PRIMITIVE_TOPOLOGY_POINTLIST;				//コマンドリスト
-
-
 protected:
 	//頂点データ
 	Vector4* vertData_ = nullptr;
 	UINT vertNum_ = 1;
 
-	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_WIREFRAME;	//塗りつぶし
-
 	//パラメータ
 	const int kNumMaxInstance = 10000;
 	list<Transform> transfrom_;
-	Vector4 color_ = {0.1f, 0.5f, 0.1f, 1.0f};
-
-
-	std::string VSPath_ = "Particle/GPUParticle.VS.hlsl";
-	std::string PSPath_ = "Particle/Emitter/EmitterFrame.PS.hlsl";
+	Vector4 color_ = {0.0f, 0.0f, 1.0f, 1.0f};
 };
