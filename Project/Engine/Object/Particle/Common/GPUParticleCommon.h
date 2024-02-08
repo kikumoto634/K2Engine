@@ -8,8 +8,6 @@ public:
 	static GPUParticleCommon* GetInstance();
 	static void Finalize();
 	
-	void Draw(DirectXCommon* dxCommon);
-
 	//Getter
 	Pipeline* GetPipeline() const	{return datas.pipeline_.get();}
 	D3D_PRIMITIVE_TOPOLOGY GetTopology() const {return datas.commandPrimitiveTopology_;}

@@ -87,10 +87,3 @@ void GPUParticleCommon::Initialize()
 		datas.cullingMode
 	);
 }
-
-void GPUParticleCommon::Draw(DirectXCommon* dxCommon)
-{
-	dxCommon->GetCommandList()->SetGraphicsRootSignature(datas.pipeline_->GetRootSignature());
-	dxCommon->GetCommandList()->SetPipelineState(datas.pipeline_->GetGraphicsPipelineState());
-	dxCommon->GetCommandList()->IASetPrimitiveTopology(datas.commandPrimitiveTopology_);
-}

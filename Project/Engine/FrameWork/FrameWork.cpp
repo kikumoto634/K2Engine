@@ -25,6 +25,8 @@ void FrameWork::Initialize()
 	ImGuiManager::Initialize(win_->GetHWND(), dxCommon_);
 
 	SpriteCommon::GetInstance();
+	GeometryCommon::GetInstance();
+	GPUParticleCommon::GetInstance();
 
 	app_ = Application::Create();
 

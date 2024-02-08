@@ -1,9 +1,14 @@
 #include "GPUParticleBase.h"
-#include <BufferResource.h>
-#include <BufferView.h>
-#include <DescriptorHeap.h>
+
 #include <random>
+
+#include "Camera.h"
+
 #include "Particle/Common/GPUParticleCommon.h"
+#include "BufferResource.h"
+#include "BufferView.h"
+#include "DescriptorHeap.h"
+
 
 GPUParticleBase *GPUParticleBase::Create()
 {
@@ -50,14 +55,25 @@ void GPUParticleBase::Draw(Camera* camera)
 	dxCommon->GetCommandList()->IASetVertexBuffers(0,1,&vertexBufferView_);		//VBV設定
 
 	//Pipeline関連
-	//dxCommon->GetCommandList()->SetGraphicsRootSignature(pipeline_->GetRootSignature());
-	//dxCommon->GetCommandList()->SetPipelineState(pipeline_->GetGraphicsPipelineState());	//PSO設定
-	//dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology_);
-	GPUParticleCommon::GetInstance()->Draw(dxCommon);
+	dxCommon->GetCommandList()->SetGraphicsRootSignature(
+		GPUParticleCommon::GetInstance()->GetPipeline()->GetRootSignature()
+	);
+	dxCommon->GetCommandList()->SetPipelineState(
+		GPUParticleCommon::GetInstance()->GetPipeline()->GetGraphicsPipelineState()
+	);
+	dxCommon->GetCommandList()->IASetPrimitiveTopology(
+		GPUParticleCommon::GetInstance()->GetTopology()
+	);
 
 	//RootParams
-	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(0, instancingSrvHandleGPU_);
-	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, constResource_->GetGPUVirtualAddress());
+	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(
+		GPUParticleCommon::DESCRIPTOR_VERTEX_WVP, 
+		instancingSrvHandleGPU_
+	);
+	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(
+		GPUParticleCommon::CBV_PIXEL_MATERIAL, 
+		constResource_->GetGPUVirtualAddress()
+	);
 
 	//描画
 	dxCommon->GetCommandList()->DrawInstanced(vertNum_,numInstance,0,0);

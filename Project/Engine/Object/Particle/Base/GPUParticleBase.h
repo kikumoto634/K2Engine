@@ -3,19 +3,19 @@
 #include <vector>
 #include <list>
 
-#include "Transform.h"
 #include "Pipeline.h"
 #include "DirectXCommon.h"
-#include "Camera.h"
-
-
 #include "ComputeCommon.h"
+
+#include "Transform.h"
+
 
 //コンピュートシェーダを使用するうえで
 /*
 * DirectXCommonでCompute用のやつを用意する?
 */
 
+class Camera;
 class GPUParticleBase
 {
 private:
