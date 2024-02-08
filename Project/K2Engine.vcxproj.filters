@@ -286,6 +286,12 @@
     <Filter Include="ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Common">
       <UniqueIdentifier>{cd8ed018-8bed-4615-ab70-f793e35d564b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Scene">
+      <UniqueIdentifier>{1ec9c4cd-4007-4138-9de4-10f9aeedf011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Scene">
+      <UniqueIdentifier>{046245cf-2b48-49f5-a140-3cc8274cd75f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -467,6 +473,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameCommon.cpp">
       <Filter>ソース ファイル\Engine\Object\Particle\EmitterFrame\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\SceneManager.cpp">
+      <Filter>ソース ファイル\Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\BaseScene.cpp">
+      <Filter>ソース ファイル\Engine\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -695,6 +707,15 @@
     <ClInclude Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameCommon.h">
       <Filter>ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Common</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\CameraForGPUData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\SceneManager.h">
+      <Filter>ヘッダー ファイル\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\BaseScene.h">
+      <Filter>ヘッダー ファイル\Engine\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3D\Object3D.PS.Texture.hlsl">
@@ -752,5 +773,6 @@
     <None Include="Resources\Shaders\Particle\Particle.hlsli">
       <Filter>リソース ファイル\Shader\Particle</Filter>
     </None>
+    <None Include="Resources\GlovalVariables\Light.json" />
   </ItemGroup>
 </Project>
