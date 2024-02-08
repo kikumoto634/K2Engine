@@ -2,6 +2,10 @@
 #include "Easing.h"
 #include <cassert>
 
+#include "WindowsApp.h"
+
+#include "KeyboardInput.h"
+
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "xinput.lib")
 
@@ -29,6 +33,8 @@ void InputManager::Initialize()
 
 	window = WindowsApp::GetInstance();
 
+	keyboard_ = KeyboardInput::GetInstance();
+
 	///DirectInPut
 	//初期化 (他入力方法追加でもこのオブジェクトは一つのみ)
 	HINSTANCE hInstance = GetModuleHandle(nullptr);
@@ -42,13 +48,8 @@ void InputManager::Initialize()
 	assert(SUCCEEDED(result));
 
 
-	//キーボードデバイスの生成 (GUID_Joystick (ジョイステック)、 GUID_SysMouse (マウス))
-	result = directInput_->CreateDevice(
-		GUID_SysKeyboard,
-		&keyboard_,
-		NULL
-	);
-	assert(SUCCEEDED(result));
+	keyboard_->Initialize(directInput_);
+
 	//マウス
 	result = directInput_->CreateDevice(
 		GUID_SysMouse,
@@ -58,23 +59,11 @@ void InputManager::Initialize()
 	assert(SUCCEEDED(result));
 
 
-	//入力データ形式のセット (入力デバイスの種類によって、あらかじめ何種類か用意する)
-	result = keyboard_->SetDataFormat(&c_dfDIKeyboard);	//標準形式
-	assert(SUCCEEDED(result));
+
 	//マウス
 	result = mouse_->SetDataFormat(&c_dfDIMouse);
 	assert(SUCCEEDED(result));
-
-
-	//排他的制御レベルのセット
-	//DISCL_FOREGROUND		画面が手前にある場合のみ入力を受け付ける
-	//DISCL_NONEXCLUSIVE	デバイスをこのアプリだけで専有しない
-	//DISCL_NOWINKEY		Windowsキーを無効にする
-	result = keyboard_->SetCooperativeLevel(
-		window->GetHWND(),
-		DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY
-	);
-	assert(SUCCEEDED(result));
+	
 	//マウス
 	result = mouse_->SetCooperativeLevel(
 		window->GetHWND(),
@@ -92,21 +81,18 @@ void InputManager::Update()
 {
 	HRESULT result;
 
+	keyboard_->Update();
+
 	//動作開始
-	result = keyboard_->Acquire();
 	result = mouse_->Acquire();
 	result = mouse_->Poll();
 	//assert(SUCCEEDED(result));
 
 	//前回のキー入力情報コピー
-	for(int i = 0; i <KeyNum; i++){
-		prekey_[i] = key_[i];
-	}
 	mousePreKey_ = mouseKey_;
 
 
 	//状態取得
-	result = keyboard_->GetDeviceState(sizeof(key_), key_); 
 	//assert(SUCCEEDED(result));
 	result = mouse_->GetDeviceState(sizeof(mouseKey_), &mouseKey_);
 
@@ -155,32 +141,6 @@ void InputManager::PadUpdate()
 		}
 	}
 }
-
-
-bool InputManager::Push(int keyNumber)
-{
-	if(keyNumber < 0x00) return false;
-	if(keyNumber > 0xff) return false;
-
-	if(key_[keyNumber])
-	{
-		return true;
-	}
-	return false;
-}
-
-bool InputManager::Trigger(int keyNumber)
-{
-	if(keyNumber < 0x00) return false;
-	if(keyNumber > 0xff) return false;
-
-	if(key_[keyNumber] && !prekey_[keyNumber])
-	{
-		return true;
-	}
-	return false;
-}
-
 
 bool InputManager::MousePush(int keyNumber)
 {

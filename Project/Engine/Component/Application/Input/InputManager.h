@@ -1,11 +1,8 @@
 #pragma once
 #include "Vector2.h"
-#include "WindowsApp.h"
 
-//キーボード入力
 #define DIRECTINPUT_VERSION 0x0800	//DirectInputのバージョン指定
 #include <dinput.h>
-const int KeyNum = 256;
 
 //マウス
 #define MOUSE_ON_VALUE 0x80
@@ -13,6 +10,9 @@ const int KeyNum = 256;
 //パッド
 #include <Xinput.h>
 
+class KeyboardInput;
+
+class WindowsApp;
 class InputManager
 {
 public:
@@ -25,11 +25,6 @@ public:
 
 	//更新
 	void Update();
-
-#pragma region キーボード入力
-	bool Push(int keyNumber);
-	bool Trigger(int keyNumber);
-#pragma endregion
 
 #pragma region マウス入力
 	/// <summary>
@@ -93,18 +88,11 @@ public:
 private:
 	static InputManager* instance_;
 private:
-	WindowsApp* window;
+	WindowsApp* window = nullptr;
+
+	KeyboardInput* keyboard_ = nullptr;
+
 	IDirectInput8* directInput_ = nullptr;
-
-#pragma region キーボード
-	//キーボードデバイス
-	IDirectInputDevice8* keyboard_ = nullptr;
-	//キー情報
-	BYTE key_[KeyNum] = {};
-	//前フレームキー情報
-	BYTE prekey_[KeyNum] = {};
-#pragma endregion
-
 
 #pragma region マウス
 	//マウスデバイス

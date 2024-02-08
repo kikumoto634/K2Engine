@@ -169,6 +169,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseShapeCollider.cpp" />
     <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\SphereCollider.cpp" />
     <ClCompile Include="Engine\Component\Application\Input\InputManager.cpp" />
+    <ClCompile Include="Engine\Component\Application\Input\KeyboardInput.cpp" />
     <ClCompile Include="Engine\Component\Application\Loader\LevelLoader.cpp" />
     <ClCompile Include="Engine\Component\Application\Loader\ObjLoader.cpp" />
     <ClCompile Include="Engine\Component\Application\Loader\SpriteLoader.cpp" />
@@ -237,6 +238,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseShapeCollider.h" />
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\SphereCollider.h" />
     <ClInclude Include="Engine\Component\Application\Input\InputManager.h" />
+    <ClInclude Include="Engine\Component\Application\Input\KeyboardInput.h" />
     <ClInclude Include="Engine\Component\Application\Loader\LevelLoader.h" />
     <ClInclude Include="Engine\Component\Application\Loader\ObjLoader.h" />
     <ClInclude Include="Engine\Component\Application\Loader\SpriteLoader.h" />
