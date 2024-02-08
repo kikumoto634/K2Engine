@@ -5,7 +5,6 @@
 
 #include "Vector2.h"
 
-class WindowsApp;
 class GamePadInput
 {
 public:
