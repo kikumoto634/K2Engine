@@ -483,6 +483,9 @@
     <ClCompile Include="Engine\Component\Application\Input\KeyboardInput.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Input\GamePadInput.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -720,6 +723,9 @@
       <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Component\Application\Input\KeyboardInput.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Input\GamePadInput.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Input</Filter>
     </ClInclude>
   </ItemGroup>

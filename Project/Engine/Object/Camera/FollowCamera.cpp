@@ -6,6 +6,8 @@
 #include "GlobalVariables.h"
 #include <imgui.h>
 
+#include "GamePadInput.h"
+
 FollowCamera* FollowCamera::instance_ = nullptr;
 
 FollowCamera *FollowCamera::Create(Transform transform)
@@ -41,10 +43,10 @@ void FollowCamera::Update(Vector3 target)
 
 void FollowCamera::Rot()
 {
-	if(!InputManager::GetInstance()->GetIsPadConnect()) return;
+	if(!GamePadInput::GetInstance()->GetIsConnect()) return;
 	
-	rotation.y += InputManager::GetInstance()->PadRStick().x * speed_;
-	rotation.x -= InputManager::GetInstance()->PadRStick().y * speed_;
+	rotation.y += GamePadInput::GetInstance()->RightStick().x * speed_;
+	rotation.x -= GamePadInput::GetInstance()->RightStick().y * speed_;
 
 	//上限
 	rotation.x = max(rotation.x*(180.f/3.141592f), RotMinMax_.x) * (3.141592f/180.f);
