@@ -1,7 +1,6 @@
 #pragma once
 #include "GeometryDatas/PipelineDatas.h"
 
-class DirectXCommon;
 class GPUParticleCommon
 {
 public:

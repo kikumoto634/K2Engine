@@ -456,6 +456,9 @@
     <ClCompile Include="Engine\Object\Particle\Common\GPUParticleCommon.cpp">
       <Filter>ソース ファイル\Engine\Object\Particle\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Object\Particle\Common\ParticleCommon.cpp">
+      <Filter>ソース ファイル\Engine\Object\Particle\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -675,6 +678,9 @@
       <Filter>ヘッダー ファイル\Engine\Object\Particle\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object\Particle\Common\GPUParticleCommon.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\Common\ParticleCommon.h">
       <Filter>ヘッダー ファイル\Engine\Object\Particle\Common</Filter>
     </ClInclude>
   </ItemGroup>

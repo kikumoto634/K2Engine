@@ -38,7 +38,7 @@ void Application::Initialize()
 	//box_->collider_->SetShapeType(COLLISIONSHAPE_SPHERE);
 	//collisionsManager->AddCollider(box_->GetCollider());
 
-	//particle_ = ParticleObject::Create();
+	particle_ = ParticleObject::Create();
 	//emitter_ = ParticleEmitterObject::Create();
 
 	sp_ = Sprite2D::Create();
@@ -57,10 +57,10 @@ void Application::Update()
 	//player_->Update();
 
 
-	/*particle_->Add(particlePos_);
+	particle_->Add(particlePos_);
 	particle_->Update();
 
-	emitter_->Add(emitterPos_);
+	/*emitter_->Add(emitterPos_);
 	emitter_->Update();*/
 
 	camera_->Update(box_->translate);
@@ -86,8 +86,8 @@ void Application::SpriteDraw()
 
 void Application::ParticleDraw()
 {
-	/*particle_->Draw(camera_);
-	emitter_->Draw(camera_);*/
+	particle_->Draw(camera_);
+	//emitter_->Draw(camera_);
 }
 
 void Application::CollisionCheck()

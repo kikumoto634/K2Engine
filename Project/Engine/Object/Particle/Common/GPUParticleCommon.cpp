@@ -1,7 +1,5 @@
 #include "GPUParticleCommon.h"
 
-#include "DirectXCommon.h"
-
 GPUParticleCommon* GPUParticleCommon::instance_ = nullptr;
 
 GPUParticleCommon *GPUParticleCommon::GetInstance()

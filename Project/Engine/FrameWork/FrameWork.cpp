@@ -26,6 +26,7 @@ void FrameWork::Initialize()
 
 	SpriteCommon::GetInstance();
 	GeometryCommon::GetInstance();
+	ParticleCommon::GetInstance();
 	GPUParticleCommon::GetInstance();
 
 	app_ = Application::Create();
