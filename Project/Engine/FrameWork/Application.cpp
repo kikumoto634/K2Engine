@@ -41,7 +41,7 @@ void Application::Initialize()
 	particle_ = ParticleObject::Create();
 	emitter_ = ParticleEmitterObject::Create();
 
-	sp_ = Sprite2D::Create();
+	sp_ = Sprite2D::Create("uvChecker.png");
 
 	gpu_ = GPUParticleBase::Create();
 }

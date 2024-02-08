@@ -46,6 +46,7 @@ private:
 	LightingGroup* light_ = nullptr;
 
 	//シーンオブジェクト
+	
 	//std::unique_ptr<LevelLoader> levelLoader_;
 	ObjModel* box_ = nullptr;
 	Sprite2D* sp_ = nullptr;

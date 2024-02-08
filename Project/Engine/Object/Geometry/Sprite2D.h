@@ -3,7 +3,7 @@
 class Sprite2D : public SpriteBase
 {
 public:
-	static Sprite2D* Create(std::string texturePath_ = "uvChecker.png" ,Transform transform = {{100,100,0}, {0,0,0}, {1,1,1}});
+	static Sprite2D* Create(std::string texturePath_,Transform transform = {{100,100,0}, {0,0,0}, {1,1,1}});
 
 public:
 	Sprite2D(std::string texturePath, Transform transform){
