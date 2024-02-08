@@ -1,14 +1,11 @@
 #include "BlendSetting.h"
 
-BlendSetting* BlendSetting::instance_ = nullptr;
 
-BlendSetting *BlendSetting::GetInstance()
+BlendSetting *BlendSetting::Create()
 {
-	if(!instance_)
-	{
-		instance_ = new BlendSetting();
-		instance_->BlendUpdate();
-	}
+
+	BlendSetting* instance_ = new BlendSetting();
+	instance_->BlendUpdate();
 	return instance_;
 }
 

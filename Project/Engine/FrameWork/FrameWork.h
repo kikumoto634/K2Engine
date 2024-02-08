@@ -9,6 +9,9 @@
 #include "../Tool/ImGui/ImGuiManager.h"
 
 #include "Geometry/Common/SpriteCommon.h"
+#include "Geometry/Common/GeometryCommon.h"
+#include "Particle/Common/ParticleCommon.h"
+#include "Particle/Common/GPUParticleCommon.h"
 
 class FrameWork
 {
@@ -17,6 +20,9 @@ public:
 
 public:
 	~FrameWork(){
+		GPUParticleCommon::Finalize();
+		ParticleCommon::Finalize();
+		GeometryCommon::Finalize();
 		SpriteCommon::Finalize();
 		delete imgui_;
 		delete app_;

@@ -1,7 +1,7 @@
 #pragma once
 #include "EmitterFrame/EmitterFrameSquare.h"
 
-#include "Common/ParticleBase.h"
+#include "Base/ParticleBase.h"
 
 #include "ParticleDatas/EmitterData.h"
 

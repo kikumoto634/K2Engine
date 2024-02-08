@@ -18,7 +18,7 @@
 
 #include "CollisionsManager.h"
 
-#include "Particle/Common/GPUParticleBase.h"
+#include "Particle/Base/GPUParticleBase.h"
 
 class Application
 {
@@ -49,15 +49,14 @@ private:
 	//std::unique_ptr<LevelLoader> levelLoader_;
 	ObjModel* box_ = nullptr;
 	Sprite2D* sp_ = nullptr;
-	//std::unique_ptr<Player> player_;
-
-	/*ParticleObject* particle_ = nullptr;
+	ParticleObject* particle_ = nullptr;
 	Vector3 particlePos_ = {-5,0,0};
-	ParticleEmitterObject* emitter_ = nullptr;
+	
 	Vector3 emitterPos_ = {5,0,0};
-
-
-	CollisionsManager* collisionsManager = nullptr;*/
+	ParticleEmitterObject* emitter_ = nullptr;
+	
+	//std::unique_ptr<Player> player_;
+	//CollisionsManager* collisionsManager = nullptr;*/
 
 	GPUParticleBase* gpu_ = nullptr;
 };

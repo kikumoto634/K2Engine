@@ -13,19 +13,12 @@ private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	template <class T> using vector = std::vector<T>;
 public:
-	~EmitterFrameBase(){
-		delete pipeline_;
-	}
+	~EmitterFrameBase(){};
 	void Draw(Camera* camera);
 
 protected:
 	//初期化
 	void Initialize(bool isIndexEnable = true);
-
-private:
-	//パイプライン
-	void PipelineStateInitialize();
-
 	//頂点リソース/ビュー
 	void CreateVertex();
 	//インデックスリソース/ビュー
@@ -38,12 +31,6 @@ private:
 private:
 	//Instance
 	DirectXCommon* dxCommon = nullptr;
-
-	//パイプライン関係
-	Pipeline* pipeline_ = nullptr;
-
-	vector<D3D12_ROOT_PARAMETER> rootParameters_;			//ルートパラメータ
-	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDesc_;		//インプットレイアウト
 
 	//リソース関係
 	ComPtr<ID3D12Resource> vertexResource_;		//頂点
@@ -58,11 +45,6 @@ private:
 	ComPtr<ID3D12Resource> wvpResource_;		//行列
 	Matrix4x4* wvpData_ = nullptr;
 
-	//描画方法
-	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
-	D3D_PRIMITIVE_TOPOLOGY commandPrimitiveTopology_ = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;				//コマンドリスト
-
-
 protected:
 	//頂点データ
 	Vector4* vertData_ = nullptr;
@@ -72,12 +54,6 @@ protected:
 	uint32_t* indexData_ = nullptr;
 	UINT indexNum_ = 4;
 
-	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_WIREFRAME;	//塗りつぶし
-
 	//パラメータ
 	Vector4 color_ = {0.1f, 0.5f, 0.1f, 1.0f};
-
-
-	std::string VSPath_ = "Particle/Emitter/EmitterFrame.VS.hlsl";
-	std::string PSPath_ = "Particle/Emitter/EmitterFrame.PS.hlsl";
 };
