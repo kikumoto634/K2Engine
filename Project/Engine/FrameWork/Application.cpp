@@ -18,16 +18,28 @@ void Application::Initialize()
 
 	SpriteLoader::LoadTexture(DirectXCommon::GetInstance());
 
-	////シーンオブジェクト
+	//シーンオブジェクト
+	for(int i = 0; i < CreateNum; i++){
+		for(int j = 0; j < 7; j++){
+			Transform trans = {{(float)(j*32) - 100, -5, (float)(i*32)},{},{1,1,1}};
+			ObjModel* obj = ObjModel::Create("cube",trans);
+			obj_.emplace_back(obj);
+		}
+	}
 }
 
 void Application::Update()
 {
-
+	for(ObjModel* v : obj_){
+		v->Update();
+	}
 }
 
 void Application::GeometryDraw()
 {
+	for(ObjModel* v : obj_){
+		v->Draw(camera_);
+	}
 }
 
 void Application::SpriteDraw()

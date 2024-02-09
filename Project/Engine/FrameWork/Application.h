@@ -46,6 +46,7 @@ private:
 	LightingGroup* light_ = nullptr;
 
 	//シーンオブジェクト
-	
+	const int CreateNum = 10;
+	std::vector<ObjModel*> obj_;
 };
 
