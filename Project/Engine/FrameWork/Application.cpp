@@ -23,7 +23,7 @@ void Application::Initialize()
 		for(int j = 0; j < 7; j++){
 			Transform trans = {{(float)(j*32) - 100, -5, (float)(i*32)},{},{1,1,1}};
 			ObjModel* obj = ObjModel::Create("cube",trans);
-			obj_.emplace_back(obj);
+			obj_.push_back(obj);
 		}
 	}
 }

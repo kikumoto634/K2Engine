@@ -29,6 +29,10 @@ public:
 	~Application(){
 		delete camera_;
 		delete light_;
+
+		for(ObjModel* v : obj_){
+			delete v;
+		}
 	}
 
 	void Update();
