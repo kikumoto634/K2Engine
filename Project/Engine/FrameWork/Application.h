@@ -20,6 +20,9 @@
 
 #include "Particle/Base/GPUParticleBase.h"
 
+#include "SceneManager.h"
+#include "BaseScene.h"
+
 class Application
 {
 public:
@@ -60,5 +63,8 @@ private:
 	//CollisionsManager* collisionsManager = nullptr;*/
 
 	GPUParticleBase* gpu_ = nullptr;
+
+	SceneManager* sceneManager_ = nullptr;
+	BaseScene* scene_ = nullptr;
 };
 

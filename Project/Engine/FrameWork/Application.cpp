@@ -44,6 +44,10 @@ void Application::Initialize()
 	sp_ = Sprite2D::Create("uvChecker.png");
 
 	gpu_ = GPUParticleBase::Create();
+
+	sceneManager_ = SceneManager::GetInstance();
+	scene_ = new BaseScene;
+	sceneManager_->Initialize(scene_);
 }
 
 void Application::Update()
@@ -67,6 +71,8 @@ void Application::Update()
 	light_->Update();
 
 	CollisionCheck();
+
+	sceneManager_->Update();
 }
 
 void Application::GeometryDraw()
@@ -77,6 +83,8 @@ void Application::GeometryDraw()
 	//player_->Draw(camera_);
 
 	gpu_->Draw(camera_);
+
+	sceneManager_->Draw();
 }
 
 void Application::SpriteDraw()
