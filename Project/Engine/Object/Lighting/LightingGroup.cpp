@@ -65,12 +65,10 @@ void LightingGroup::ApplyGlobalVariablesInitialize()
 
 void LightingGroup::ApplyGlobalVariablesUpdate()
 {
-#ifdef _DEBUG
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const char* name = "Light";
 	rotation = globalVariables->GetVector3Value(name, "1.direction");
 	lightColor_ = globalVariables->GetVector4Value(name, "2.color");
 	lightIntensity_ = globalVariables->GetFloatValue(name, "3.LightIntensity");
 	specularPower = globalVariables->GetFloatValue(name, "4.SpecularIntensity");
-#endif // _DEBUG
 }
