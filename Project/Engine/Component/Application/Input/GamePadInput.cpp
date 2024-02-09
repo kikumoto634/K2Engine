@@ -39,6 +39,7 @@ void GamePadInput::Update()
 	}
 	else{
 		isConnect_ = false;
+		return;
 	}
 
 	StickUpdate();
