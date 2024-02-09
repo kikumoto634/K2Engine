@@ -48,7 +48,7 @@ void MouseInput::Update()
 {
 	HRESULT result{};
 	result = mouse_->Acquire();
-	assert(SUCCEEDED(result));
+	if(FAILED(result)) return;
 	result = mouse_->Poll();
 	assert(SUCCEEDED(result));
 

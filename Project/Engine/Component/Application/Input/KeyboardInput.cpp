@@ -52,7 +52,7 @@ void KeyboardInput::Update()
 {
 	HRESULT result{};
 	result = keyboard_->Acquire();
-	assert(SUCCEEDED(result));
+	if(FAILED(result)) return;
 
 	for(int i = 0; i < KeyNum_; i++){
 		preKey_[i] = key_[i];
