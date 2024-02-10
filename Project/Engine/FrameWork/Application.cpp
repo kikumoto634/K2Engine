@@ -16,29 +16,43 @@ void Application::Initialize()
 	camera_ = FollowCamera::Create({{0,0,0},{0,0,0},{1,1,1}});
 	light_ = LightingGroup::Create();
 
-	SpriteLoader::LoadTexture(DirectXCommon::GetInstance());
+	SpriteLoader::LoadTexture(DirectXCommon::GetInstance());;
+	
+	int Num = NumX*NumY*NumZ;
+	model_.resize(Num);
+	int index = 0;
 
-	//シーンオブジェクト
-	for(int i = 0; i < CreateNum; i++){
-		for(int j = 0; j < 7; j++){
-			Transform trans = {{(float)(j*32) - 100, -5, (float)(i*32)},{},{1,1,1}};
-			ObjModel* obj = ObjModel::Create("cube",trans);
-			obj_.push_back(obj);
+#pragma omp parallel for
+	for(int j = 0; j < NumZ; j++){
+		for(int i = 0; i < NumY; i++){
+			for(int k = 0; k < NumX; k++){
+
+				Vector3 pos = {(float)-5+(k*1), (float)-5+(i*1), (float)(j*1)};
+
+				ObjModel* temp = ObjModel::Create("cube", {pos,{0,0,0},{0.2f,0.2f,0.2f}}, BlendSetting::kBlendModeNone);
+				model_[index++] = temp;
+			}
 		}
 	}
 }
 
 void Application::Update()
 {
-	for(ObjModel* v : obj_){
-		v->Update();
+	//シーンオブジェクト
+	ImGui::Text("ObjNum : %d", NumX*NumY*NumZ);
+
+	for(auto it = model_.begin(); it != model_.end(); ++it) {
+		(*it)->Update();
 	}
+
+	camera_->Update({0,0,0});
+	light_->Update();
 }
 
 void Application::GeometryDraw()
 {
-	for(ObjModel* v : obj_){
-		v->Draw(camera_);
+	for(auto it = model_.begin(); it != model_.end(); ++it) {
+		(*it)->Draw(camera_);
 	}
 }
 

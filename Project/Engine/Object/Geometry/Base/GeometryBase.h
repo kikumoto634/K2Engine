@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Geometry/Common/BaseCollider.h"
 
 #include "Geometry/Common/GeometryCommon.h"

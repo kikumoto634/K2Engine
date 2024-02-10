@@ -120,6 +120,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -145,6 +146,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\Common;$(ProjectDir)Engine\Component\Application\Colliders_Collision;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\Application\Math;$(ProjectDir)Engine\Component\Application\Math\Matrix;$(ProjectDir)Engine\Component\Application\Math\Easing;$(ProjectDir)Engine\Component\Application\Math\Vector;$(ProjectDir)Engine\Component\Application\Lighting;$(ProjectDir)Engine\Component\Application\Input;$(ProjectDir)Engine\Component\Application\Particle;$(ProjectDir)Engine\Component\Application\Loader;$(ProjectDir)Engine\Component\Buffer;$(ProjectDir)Engine\Component\DescriptorHeap;$(ProjectDir)Engine\Component\DepthStencil;$(ProjectDir)Engine\Component\Struct;$(ProjectDir)Engine\Component\Global;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\FrameWork;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;$(ProjectDir)Engine\Object\Lighting;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -419,6 +421,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <Text Include="External\imgui\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\GlovalVariables\Camera.json" />
     <None Include="Resources\GlovalVariables\Light.json" />
     <None Include="Resources\Shaders\Object3D\Object3D.hlsli" />
     <None Include="Resources\Shaders\Particle\Particle.hlsli" />

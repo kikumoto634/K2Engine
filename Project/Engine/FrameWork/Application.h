@@ -30,7 +30,7 @@ public:
 		delete camera_;
 		delete light_;
 
-		for(ObjModel* v : obj_){
+		for(ObjModel* v : model_){
 			delete v;
 		}
 	}
@@ -50,7 +50,9 @@ private:
 	LightingGroup* light_ = nullptr;
 
 	//シーンオブジェクト
-	const int CreateNum = 10;
-	std::vector<ObjModel*> obj_;
+	const int NumX = 10;
+	const int NumY = 10;
+	const int NumZ = 10;
+	std::vector<ObjModel*> model_;
 };
 

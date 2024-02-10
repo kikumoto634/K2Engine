@@ -487,7 +487,7 @@
       <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Component\Application\Input\MouseInput.cpp">
-      <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -791,6 +791,11 @@
     <None Include="Resources\Shaders\Particle\Particle.hlsli">
       <Filter>リソース ファイル\Shader\Particle</Filter>
     </None>
-    <None Include="Resources\GlovalVariables\Light.json" />
+    <None Include="Resources\GlovalVariables\Camera.json">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Resources\GlovalVariables\Light.json">
+      <Filter>リソース ファイル</Filter>
+    </None>
   </ItemGroup>
 </Project>
