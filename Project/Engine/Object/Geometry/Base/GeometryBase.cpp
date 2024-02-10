@@ -35,14 +35,18 @@ void GeometryBase::Update()
 
 void GeometryBase::Draw(Camera* camera)
 {
-	materialData_->color = color_;
-	materialData_->shininess = LightingGroup::GetInstance()->GetSpecularPower();
+	if(materialData_->color != color_ || materialData_->shininess != LightingGroup::GetInstance()->GetSpecularPower()){
+		materialData_->color = color_;
+		materialData_->shininess = LightingGroup::GetInstance()->GetSpecularPower();
+	}
 
 	Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * camera->GetViewProjectionMatrix();
-	wvpData_->WVP = worldViewProjectionMatrix;
-	wvpData_->World = worldViewProjectionMatrix;
+	if(wvpData_->WVP != worldViewProjectionMatrix || cameraData_->worldPosition != camera->translate){
+		wvpData_->WVP = worldViewProjectionMatrix;
+		wvpData_->World = GetWorldMatrix();
 
-	cameraData_->worldPosition = camera->translate;
+		cameraData_->worldPosition = camera->translate;
+	}
 
 
 	//頂点関連

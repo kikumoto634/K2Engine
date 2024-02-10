@@ -22,7 +22,6 @@ void Application::Initialize()
 	model_.resize(Num);
 	int index = 0;
 
-#pragma omp parallel for
 	for(int j = 0; j < NumZ; j++){
 		for(int i = 0; i < NumY; i++){
 			for(int k = 0; k < NumX; k++){
