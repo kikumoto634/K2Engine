@@ -50,6 +50,7 @@ void Application::Update()
 
 void Application::GeometryDraw()
 {
+	GeometryCommon::GetInstance()->Draw();
 	for(auto it = model_.begin(); it != model_.end(); ++it) {
 		(*it)->Draw(camera_);
 	}

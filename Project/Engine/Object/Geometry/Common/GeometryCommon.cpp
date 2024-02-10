@@ -7,6 +7,7 @@ GeometryCommon *GeometryCommon::GetInstance()
 	if(!instance_){
 		instance_ = new GeometryCommon();
 		instance_->Initialize();
+		instance_->dxCommon = DirectXCommon::GetInstance();
 	}
 
 	return instance_;
@@ -17,6 +18,20 @@ void GeometryCommon::Finalize()
 	if(instance_){
 		delete instance_;
 	}
+}
+
+void GeometryCommon::Draw()
+{
+	//Pipeline関連
+	dxCommon->GetCommandList()->SetGraphicsRootSignature(
+		GetPipeline()->GetRootSignature()
+	);
+	dxCommon->GetCommandList()->SetPipelineState(
+		GetPipeline()->GetGraphicsPipelineState()
+	);
+	dxCommon->GetCommandList()->IASetPrimitiveTopology(
+		GetTopology()
+	);
 }
 
 void GeometryCommon::Initialize()

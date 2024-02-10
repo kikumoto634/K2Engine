@@ -2,11 +2,14 @@
 
 #include "GeometryDatas/PipelineDatas.h"
 
+class DirectXCommon;
 class GeometryCommon
 {
 public:
 	static GeometryCommon* GetInstance();
 	static void Finalize();
+
+	void Draw();
 
 	//Getter
 	Pipeline* GetPipeline() const	{return datas.pipeline_.get();}
@@ -57,6 +60,8 @@ public:
 	};
 
 private:
+	DirectXCommon* dxCommon = nullptr;
+
 	//パイプライン作成用構造体
 	PipelineDatas datas;
 };

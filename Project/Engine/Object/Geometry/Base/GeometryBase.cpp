@@ -54,7 +54,7 @@ void GeometryBase::Draw(Camera* camera)
 	if(isIndexDataEnable_)dxCommon->GetCommandList()->IASetIndexBuffer(&indexBufferView_);		//IBV設定
 
 	//Pipeline関連
-	dxCommon->GetCommandList()->SetGraphicsRootSignature(
+	/*dxCommon->GetCommandList()->SetGraphicsRootSignature(
 		isPipelineCreateCheck ? 
 		pipelineDatas.pipeline_->GetRootSignature() :
 		GeometryCommon::GetInstance()->GetPipeline()->GetRootSignature()
@@ -68,7 +68,7 @@ void GeometryBase::Draw(Camera* camera)
 		isPipelineCreateCheck ? 
 		pipelineDatas.commandPrimitiveTopology_ :
 		GeometryCommon::GetInstance()->GetTopology()
-	);
+	);*/
 
 	//RootParams
 	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(
