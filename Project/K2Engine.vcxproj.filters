@@ -489,6 +489,15 @@
     <ClCompile Include="Engine\Component\Application\Input\MouseInput.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCommon.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="TestObj.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -731,8 +740,17 @@
     <ClInclude Include="Engine\Component\Application\Input\GamePadInput.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Input\MouseInput.h">
+    <ClInclude Include="Test.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCommon.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TestObj.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Input\MouseInput.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -775,6 +793,12 @@
     <FxCompile Include="Resources\Shaders\Particle\GPUParticle.VS.hlsl">
       <Filter>リソース ファイル\Shader\Particle</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\Shaders\TestPS.hlsl">
+      <Filter>リソース ファイル\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\TestVS.hlsl">
+      <Filter>リソース ファイル\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="External\imgui\LICENSE.txt">
@@ -796,6 +820,9 @@
     </None>
     <None Include="Resources\GlovalVariables\Light.json">
       <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Resources\Shaders\Test.hlsli">
+      <Filter>リソース ファイル\Shader</Filter>
     </None>
   </ItemGroup>
 </Project>

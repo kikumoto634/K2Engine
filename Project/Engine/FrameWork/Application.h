@@ -19,6 +19,7 @@
 #include "CollisionsManager.h"
 
 #include "Particle/Base/GPUParticleBase.h"
+#include "../../TestObj.h"
 
 class Application
 {
@@ -30,7 +31,11 @@ public:
 		delete camera_;
 		delete light_;
 
-		for(ObjModel* v : model_){
+		/*for(ObjModel* v : model_){
+			delete v;
+		}*/
+
+		for(TestObj* v : testModel_){
 			delete v;
 		}
 	}
@@ -54,5 +59,6 @@ private:
 	const int NumY = 10;
 	const int NumZ = 10;
 	std::vector<ObjModel*> model_;
+	std::vector<TestObj*> testModel_;
 };
 

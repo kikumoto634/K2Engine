@@ -133,7 +133,8 @@ public:
 
 private:
 	//SRV最大数
-	const int kSRVNumMax = 128;
+	//const int kSRVNumMax = 128;
+	const int kSRVNumMax = 16394;
 
 private:
 	HRESULT result = {};
