@@ -11,9 +11,9 @@ public:
 public:
 	TestObj(std::string filePath, Transform lTransform, BlendSetting::BlendMode mode){
 		filePath_ = filePath;
-		translate = lTransform.translate;
+		/*translate = lTransform.translate;
 		rotation = lTransform.rotation;
-		scale = lTransform.scale;
+		scale = lTransform.scale;*/
 	}
 
 protected:

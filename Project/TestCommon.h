@@ -42,13 +42,13 @@ private:
 	enum TextureDescripotrRange{
 		SRV_TEXTURE_RANGE
 	};
-	//行列
-	enum WVPDescripotrRange{
-		SRV_WVP_RANGE
-	};
 	//マテリアル
 	enum MaterialDescriptorRange{
-		SRV_MATERIAL_RANGE
+		SRV_MATERIAL_RANGE = 1
+	};
+	//行列
+	enum WVPDescripotrRange{
+		SRV_WVP_RANGE = 2
 	};
 
 	enum StaticSamples{
@@ -63,8 +63,8 @@ public:
 	enum RootParams{
 		DESCRIPTOR_PIXEL_TEXTURE,
 		CBV_ALL_LIGHT,
-		DESCRIPTOR_VERTEX_WVP,
 		DESCRIPTOR_PIXEL_MATERIAL,
+		DESCRIPTOR_VERTEX_WVP,
 		CBV_PIXEL_CAMERA
 	};
 

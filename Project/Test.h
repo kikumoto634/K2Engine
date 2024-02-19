@@ -11,7 +11,7 @@
 
 class Camera;
 //幾何学オブジェクトの共通
-class Test : public Transform
+class Test
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -21,7 +21,7 @@ public:
 	virtual void Draw(Camera* camera);
 
 	//Getter/Setter
-	Transform GetTransform() const {return {translate,rotation,scale};}
+	//Transform GetTransform() const {return {translate,rotation,scale};}
 protected:
 	//初期化
 	void Initialize(bool isIndexEnable = true);
@@ -74,8 +74,10 @@ private:
 	ComPtr<ID3D12Resource> cameraResource_;
 
 	//インスタンシング描画用データ構造
-	//const int kNumMaxInstance_ = 10000;
-	const int kNumMaxInstance_ = 1000;
+	int X = 10;
+	int Y = 10;
+	int Z = 29;
+	const int kNumMaxInstance_ = X*Y*Z;
 	std::vector<Transform> trans;
 
 	//インスタンシング描画用ハンドル

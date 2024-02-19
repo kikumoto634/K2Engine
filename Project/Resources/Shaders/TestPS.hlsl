@@ -9,6 +9,7 @@ struct Material
 {
     float4 color;
     int enableLighting;
+    float pad1[3];
     float4x4 uvTransform;
     float shininess;
 };

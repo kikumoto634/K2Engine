@@ -18,9 +18,8 @@ void Application::Initialize()
 
 	SpriteLoader::LoadTexture(DirectXCommon::GetInstance());;
 	
-	//int Num = NumX*NumY*NumZ;
+	int Num = NumX*NumY*NumZ;
 	//model_.resize(Num);
-	testModel_.resize(1);
 	int index = 0;
 
 	/*for(int j = 0; j < NumZ; j++){
@@ -35,30 +34,25 @@ void Application::Initialize()
 		}
 	}*/
 
-	for(int j = 0; j < 1; j++){
-		//for(int i = 0; i < 0; i++){
-			//for(int k = 0; k < 0; k++){
+	//testModel_= TestObj::Create("cube");
 
-				Vector3 pos = {(float)-5+(0*1), (float)-5+(0*1), (float)(j*1)};
-
-				TestObj* temp = TestObj::Create("cube", {pos,{0,0,0},{0.2f,0.2f,0.2f}}, BlendSetting::kBlendModeNone);
-				testModel_[index++] = temp;
-			//}
-		//}
-	}
+	move = ObjModel::Create("cube", {{0,0,-5.f},{},{0.5f,0.5f,0.5f}});
 }
 
 void Application::Update()
 {
 	//シーンオブジェクト
-	ImGui::Text("ObjNum : %d", NumX*NumY*NumZ);
+	/*ImGui::Text("ObjNum : %d", NumX*NumY*NumZ);*/
 
 	/*for(auto it = model_.begin(); it != model_.end(); ++it) {
 		(*it)->Update();
 	}*/
-	for(auto it = testModel_.begin(); it != testModel_.end(); ++it) {
-		(*it)->Update();
-	}
+	//testModel_->Update();
+
+
+	move->translate = {cosf(time_), sinf(time_), -5};
+	move->Update();
+	time_ += 0.1f;
 
 	camera_->Update({0,0,0});
 	light_->Update();
@@ -71,10 +65,11 @@ void Application::GeometryDraw()
 		(*it)->Draw(camera_);
 	}*/
 
-	TestCommon::GetInstance()->Draw();
-	for(auto it = testModel_.begin(); it != testModel_.end(); ++it) {
-		(*it)->Draw(camera_);
-	}
+	//TestCommon::GetInstance()->Draw();
+	//testModel_->Draw(camera_);
+
+	GeometryCommon::GetInstance()->Draw();
+	move->Draw(camera_);
 }
 
 void Application::SpriteDraw()

@@ -31,13 +31,13 @@ public:
 		delete camera_;
 		delete light_;
 
+		delete move;
+
 		/*for(ObjModel* v : model_){
 			delete v;
 		}*/
 
-		for(TestObj* v : testModel_){
-			delete v;
-		}
+		delete testModel_;
 	}
 
 	void Update();
@@ -59,6 +59,9 @@ private:
 	const int NumY = 1;
 	const int NumZ = 1;
 	std::vector<ObjModel*> model_;
-	std::vector<TestObj*> testModel_;
+	TestObj* testModel_;
+
+	ObjModel* move= nullptr;
+	float time_ = 0.0f;
 };
 

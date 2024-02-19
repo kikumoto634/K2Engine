@@ -5,7 +5,7 @@ struct WVP
     float4x4 WVP;
     float4x4 World;
 };
-StructuredBuffer<WVP> gWVP : register(t0);
+StructuredBuffer<WVP> gWVP : register(t2);
 
 VertexShaderOutput main(VertexShaderInput input, uint instanceId : SV_InstanceID)
 {

@@ -9,6 +9,8 @@
 #include "BufferView.h"
 #include "GlobalVariables.h"
 
+#include "imgui.h"
+
 void Test::Initialize(bool isIndexEnable)
 {
 	dxCommon = DirectXCommon::GetInstance();
@@ -17,6 +19,16 @@ void Test::Initialize(bool isIndexEnable)
 
 	isIndexDataEnable_ = isIndexEnable;
 	texture_ = SpriteLoader::SearchTexture(texturePath_);
+
+	for(int j = 0; j < Z; j++){
+		for(int i = 0; i < Y; i++){
+			for(int k = 0; k < X; k++){
+
+				Vector3 pos = {(float)-5+(k*1), (float)-5+(i*1), (float)(j*1)};
+				trans.push_back({{pos},{},{0.2f,0.2f,0.2f}});
+			}
+		}
+	}
 
 	//リソース
 	CreateVertex();
@@ -28,21 +40,21 @@ void Test::Initialize(bool isIndexEnable)
 
 void Test::Update()
 {
-
+	ImGui::Text("ObjNum : %d", kNumMaxInstance_);
 }
 
 void Test::Draw(Camera* camera)
 {
-	for(int i = 0; i < kNumMaxInstance_; i++){
+	for(int i = 0; i < trans.size(); i++){
 		if(materialData_[i].color != color_ || materialData_[i].shininess != LightingGroup::GetInstance()->GetSpecularPower()){
 			materialData_[i].color = color_;
 			materialData_[i].shininess = LightingGroup::GetInstance()->GetSpecularPower();
 		}
 
-		Matrix4x4 worldViewProjectionMatrix = GetWorldMatrix() * camera->GetViewProjectionMatrix();
+		Matrix4x4 worldViewProjectionMatrix = trans[i].GetWorldMatrix() * camera->GetViewProjectionMatrix();
 		if(wvpData_[i].WVP != worldViewProjectionMatrix || cameraData_[i].worldPosition != camera->translate){
 			wvpData_[i].WVP = worldViewProjectionMatrix;
-			wvpData_[i].World = GetWorldMatrix();
+			wvpData_[i].World = trans[i].GetWorldMatrix();
 
 			cameraData_[i].worldPosition = camera->translate;
 		}
@@ -62,12 +74,12 @@ void Test::Draw(Camera* camera)
 		LightingGroup::GetInstance()->GetResource()->GetGPUVirtualAddress()
 	);
 	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(
-		TestCommon::DESCRIPTOR_VERTEX_WVP,
-		wvpInstancingGPU_
-	);
-	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(
 		TestCommon::DESCRIPTOR_PIXEL_MATERIAL,
 		materialInstancingGPU_
+	);
+	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(
+		TestCommon::DESCRIPTOR_VERTEX_WVP,
+		wvpInstancingGPU_
 	);
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(
 		TestCommon::CBV_PIXEL_CAMERA,
@@ -76,8 +88,8 @@ void Test::Draw(Camera* camera)
 
 	//描画
 	isIndexDataEnable_ ? 
-		dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,1,0,0,0) : 
-		dxCommon->GetCommandList()->DrawInstanced(vertNum_,1,0,0);
+		dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,(UINT)trans.size(),0,0,0) : 
+		dxCommon->GetCommandList()->DrawInstanced(vertNum_,(UINT)trans.size(),0,0);
 }
 
 void Test::CreateVertex()
