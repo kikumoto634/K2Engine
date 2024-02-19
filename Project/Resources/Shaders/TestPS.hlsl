@@ -1,5 +1,10 @@
 #include "Test.hlsli"
 
+
+
+Texture2D<float4> gTexture : register(t0); //SRVのレジスタ
+SamplerState gSampler : register(s0); //Samplerレジスタ
+
 struct Material
 {
     float4 color;
@@ -7,18 +12,14 @@ struct Material
     float4x4 uvTransform;
     float shininess;
 };
-ConstantBuffer<Material> gMaterial : register(b2);
+StructuredBuffer<Material> gMaterial : register(t1);
 
 //カメラ
 struct Camera
 {
     float3 worldPosition;
 };
-ConstantBuffer<Camera> gCamera : register(b3);
-
-
-Texture2D<float4> gTexture : register(t0); //SRVのレジスタ
-SamplerState gSampler : register(s0); //Samplerレジスタ
+ConstantBuffer<Camera> gCamera : register(b1);
 
 struct PixelShaderOutput
 {
@@ -27,7 +28,7 @@ struct PixelShaderOutput
 
 PixelShaderOutput main(VertexShaderOutput input)
 {
-    float4 transformUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
+    float4 transformUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial[input.SV_InstanceID].uvTransform);
     float4 textureColor = gTexture.Sample(gSampler, transformUV.xy); //サンプラー(絵)を基に、UVに応じたピクセルをTexture(ピクセル)に抽出
     
     PixelShaderOutput output;
@@ -42,7 +43,7 @@ PixelShaderOutput main(VertexShaderOutput input)
     }
     
 
-    if (gMaterial.enableLighting != 0)
+    if (gMaterial[input.SV_InstanceID].enableLighting != 0)
     {
         float3 dir = normalize(lightDirection).xyz;
         float3 col = normalize(lightColor).rgb;
@@ -61,21 +62,21 @@ PixelShaderOutput main(VertexShaderOutput input)
         //Condition Light from Eye
         float NDotH = dot(normalize(input.normal), halfVector);
         //ReflectdPower
-        float specularPow = pow(saturate(NDotH), gMaterial.shininess);
+        float specularPow = pow(saturate(NDotH), gMaterial[input.SV_InstanceID].shininess);
 
         
         float3 diffuse =
-        gMaterial.color.rgb * textureColor.rgb * col * cos * lightIntensity;
+        gMaterial[input.SV_InstanceID].color.rgb * textureColor.rgb * col * cos * lightIntensity;
         float3 specular =
         col * lightIntensity * specularPow * float3(1.0f, 1.0f, 1.0f);
         //Com
         output.color.rgb = diffuse + specular;
         //Alpha
-        output.color.a = gMaterial.color.a * textureColor.a;
+        output.color.a = gMaterial[input.SV_InstanceID].color.a * textureColor.a;
     }
     else
     {
-        output.color = gMaterial.color * textureColor;
+        output.color = gMaterial[input.SV_InstanceID].color * textureColor;
     }
     
     return output;

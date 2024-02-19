@@ -39,29 +39,21 @@ void TestCommon::Initialize()
 	datas.pipeline_ = std::make_unique<Pipeline>();
 
 	//SRV(Texture)
-	D3D12_DESCRIPTOR_RANGE TextureSRVDescriptorRange[1] = {};
+	D3D12_DESCRIPTOR_RANGE TextureSRVDescriptorRange[2] = {};
 	TextureSRVDescriptorRange[SRV_TEXTURE_RANGE].BaseShaderRegister = 0;	//0から開始
 	TextureSRVDescriptorRange[SRV_TEXTURE_RANGE].NumDescriptors = 1;	//数は1
 	TextureSRVDescriptorRange[SRV_TEXTURE_RANGE].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 	TextureSRVDescriptorRange[SRV_TEXTURE_RANGE].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+	TextureSRVDescriptorRange[SRV_MATERIAL_RANGE+1].BaseShaderRegister = 1;	//0から開始
+	TextureSRVDescriptorRange[SRV_MATERIAL_RANGE+1].NumDescriptors = 1;	//数は1
+	TextureSRVDescriptorRange[SRV_MATERIAL_RANGE+1].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	TextureSRVDescriptorRange[SRV_MATERIAL_RANGE+1].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 	//SRV(WVP)
 	D3D12_DESCRIPTOR_RANGE wvpSRVDescriptorRange[1] = {};
 	wvpSRVDescriptorRange[SRV_WVP_RANGE].BaseShaderRegister = 0;	//0から開始
 	wvpSRVDescriptorRange[SRV_WVP_RANGE].NumDescriptors = 1;	//数は1
 	wvpSRVDescriptorRange[SRV_WVP_RANGE].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 	wvpSRVDescriptorRange[SRV_WVP_RANGE].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-	//SRV(Material)
-	D3D12_DESCRIPTOR_RANGE materialSRVDescriptorRange[1] = {};
-	materialSRVDescriptorRange[SRV_MATERIAL_RANGE].BaseShaderRegister = 0;	//0から開始
-	materialSRVDescriptorRange[SRV_MATERIAL_RANGE].NumDescriptors = 1;	//数は1
-	materialSRVDescriptorRange[SRV_MATERIAL_RANGE].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-	materialSRVDescriptorRange[SRV_MATERIAL_RANGE].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-	//SRV(Camera)
-	D3D12_DESCRIPTOR_RANGE cameraSRVDescriptorRange[1] = {};
-	cameraSRVDescriptorRange[SRV_CAMERA_RANGE].BaseShaderRegister = 0;	//0から開始
-	cameraSRVDescriptorRange[SRV_CAMERA_RANGE].NumDescriptors = 1;	//数は1
-	cameraSRVDescriptorRange[SRV_CAMERA_RANGE].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-	cameraSRVDescriptorRange[SRV_CAMERA_RANGE].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 
 	//ルートパラメータ設定
@@ -70,27 +62,26 @@ void TestCommon::Initialize()
 
 	rootParameters[DESCRIPTOR_PIXEL_TEXTURE].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
 	rootParameters[DESCRIPTOR_PIXEL_TEXTURE].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-	rootParameters[DESCRIPTOR_PIXEL_TEXTURE].DescriptorTable.pDescriptorRanges = TextureSRVDescriptorRange;
-	rootParameters[DESCRIPTOR_PIXEL_TEXTURE].DescriptorTable.NumDescriptorRanges = _countof(TextureSRVDescriptorRange);
+	rootParameters[DESCRIPTOR_PIXEL_TEXTURE].DescriptorTable.pDescriptorRanges = &TextureSRVDescriptorRange[0];
+	rootParameters[DESCRIPTOR_PIXEL_TEXTURE].DescriptorTable.NumDescriptorRanges = 1;
 
 	rootParameters[CBV_ALL_LIGHT].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameters[CBV_ALL_LIGHT].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 	rootParameters[CBV_ALL_LIGHT].Descriptor.ShaderRegister = 0;
 
-	rootParameters[SRV_WVP_RANGE].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-	rootParameters[SRV_WVP_RANGE].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-	rootParameters[SRV_WVP_RANGE].DescriptorTable.pDescriptorRanges = wvpSRVDescriptorRange;
-	rootParameters[SRV_WVP_RANGE].DescriptorTable.NumDescriptorRanges = _countof(wvpSRVDescriptorRange);
+	rootParameters[DESCRIPTOR_VERTEX_WVP].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[DESCRIPTOR_VERTEX_WVP].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	rootParameters[DESCRIPTOR_VERTEX_WVP].DescriptorTable.pDescriptorRanges = wvpSRVDescriptorRange;
+	rootParameters[DESCRIPTOR_VERTEX_WVP].DescriptorTable.NumDescriptorRanges = _countof(wvpSRVDescriptorRange);
 
-	rootParameters[SRV_MATERIAL_RANGE].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-	rootParameters[SRV_MATERIAL_RANGE].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-	rootParameters[SRV_MATERIAL_RANGE].DescriptorTable.pDescriptorRanges = materialSRVDescriptorRange;
-	rootParameters[SRV_MATERIAL_RANGE].DescriptorTable.NumDescriptorRanges = _countof(materialSRVDescriptorRange);
+	rootParameters[DESCRIPTOR_PIXEL_MATERIAL].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[DESCRIPTOR_PIXEL_MATERIAL].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[DESCRIPTOR_PIXEL_MATERIAL].DescriptorTable.pDescriptorRanges = &TextureSRVDescriptorRange[1];
+	rootParameters[DESCRIPTOR_PIXEL_MATERIAL].DescriptorTable.NumDescriptorRanges = 1;
 
-	rootParameters[SRV_CAMERA_RANGE].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-	rootParameters[SRV_CAMERA_RANGE].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-	rootParameters[SRV_CAMERA_RANGE].DescriptorTable.pDescriptorRanges = cameraSRVDescriptorRange;
-	rootParameters[SRV_CAMERA_RANGE].DescriptorTable.NumDescriptorRanges = _countof(cameraSRVDescriptorRange);
+	rootParameters[CBV_PIXEL_CAMERA].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[CBV_PIXEL_CAMERA].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[CBV_PIXEL_CAMERA].Descriptor.ShaderRegister = 1;
 
 
 	//Sampler設定(シェーダーのPS SamplerState　シェーダでは画像のことをいう)

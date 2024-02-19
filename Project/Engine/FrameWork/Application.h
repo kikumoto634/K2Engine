@@ -55,9 +55,9 @@ private:
 	LightingGroup* light_ = nullptr;
 
 	//シーンオブジェクト
-	const int NumX = 10;
-	const int NumY = 10;
-	const int NumZ = 10;
+	const int NumX = 1;
+	const int NumY = 1;
+	const int NumZ = 1;
 	std::vector<ObjModel*> model_;
 	std::vector<TestObj*> testModel_;
 };

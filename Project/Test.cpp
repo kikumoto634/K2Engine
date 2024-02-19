@@ -69,9 +69,9 @@ void Test::Draw(Camera* camera)
 		TestCommon::DESCRIPTOR_PIXEL_MATERIAL,
 		materialInstancingGPU_
 	);
-	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(
-		TestCommon::DESCRIPTOR_PIXEL_CAMERA,
-		cameraInstancingGPU_
+	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(
+		TestCommon::CBV_PIXEL_CAMERA,
+		cameraResource_->GetGPUVirtualAddress()
 	);
 
 	//描画
@@ -166,18 +166,4 @@ void Test::CreateCamera()
 	for(int i = 0; i < kNumMaxInstance_; i++){
 		cameraData_[i].worldPosition = {0,0,0};
 	}
-
-	//SRV作成
-	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSrvDesc{};
-	instancingSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
-	instancingSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	instancingSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
-	instancingSrvDesc.Buffer.FirstElement = 0;
-	instancingSrvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	instancingSrvDesc.Buffer.NumElements = kNumMaxInstance_;
-	instancingSrvDesc.Buffer.StructureByteStride = sizeof(CameraForGPUData);
-
-	cameraInstancingCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV());
-	cameraInstancingGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV());
-	dxCommon->GetDevice()->CreateShaderResourceView(cameraResource_.Get(), &instancingSrvDesc, cameraInstancingCPU_);
 }

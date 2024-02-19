@@ -50,11 +50,6 @@ private:
 	enum MaterialDescriptorRange{
 		SRV_MATERIAL_RANGE
 	};
-	//カメラ
-	enum CameraDescriptorRange{
-		SRV_CAMERA_RANGE
-	};
-
 
 	enum StaticSamples{
 		PIXEL_TEXTURE_SAMPLER
@@ -70,7 +65,7 @@ public:
 		CBV_ALL_LIGHT,
 		DESCRIPTOR_VERTEX_WVP,
 		DESCRIPTOR_PIXEL_MATERIAL,
-		DESCRIPTOR_PIXEL_CAMERA
+		CBV_PIXEL_CAMERA
 	};
 
 private:

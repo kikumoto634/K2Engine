@@ -18,9 +18,9 @@ void Application::Initialize()
 
 	SpriteLoader::LoadTexture(DirectXCommon::GetInstance());;
 	
-	int Num = NumX*NumY*NumZ;
+	//int Num = NumX*NumY*NumZ;
 	//model_.resize(Num);
-	testModel_.resize(Num);
+	testModel_.resize(1);
 	int index = 0;
 
 	/*for(int j = 0; j < NumZ; j++){
@@ -35,16 +35,16 @@ void Application::Initialize()
 		}
 	}*/
 
-	for(int j = 0; j < NumZ; j++){
-		for(int i = 0; i < NumY; i++){
-			for(int k = 0; k < NumX; k++){
+	for(int j = 0; j < 1; j++){
+		//for(int i = 0; i < 0; i++){
+			//for(int k = 0; k < 0; k++){
 
-				Vector3 pos = {(float)-5+(k*1), (float)-5+(i*1), (float)(j*1)};
+				Vector3 pos = {(float)-5+(0*1), (float)-5+(0*1), (float)(j*1)};
 
 				TestObj* temp = TestObj::Create("cube", {pos,{0,0,0},{0.2f,0.2f,0.2f}}, BlendSetting::kBlendModeNone);
 				testModel_[index++] = temp;
-			}
-		}
+			//}
+		//}
 	}
 }
 

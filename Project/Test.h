@@ -84,8 +84,5 @@ private:
 
 	D3D12_CPU_DESCRIPTOR_HANDLE wvpInstancingCPU_;
 	D3D12_GPU_DESCRIPTOR_HANDLE wvpInstancingGPU_;
-
-	D3D12_CPU_DESCRIPTOR_HANDLE cameraInstancingCPU_;
-	D3D12_GPU_DESCRIPTOR_HANDLE cameraInstancingGPU_;
 };
 
