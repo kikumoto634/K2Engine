@@ -18,6 +18,18 @@ Vector3 Multiplication(const Vector3 &v, const Matrix4x4 &m)
     return Vector3{result.x / result.w, result.y / result.w, result.z / result.w}; 
 }
 
+Vector4 Multiplication(const Vector4 &v, const Matrix4x4 &m)
+{
+	Vector4 result{
+		v.x*m.m[0][0] + v.y*m.m[1][0] + v.z*m.m[2][0] + v.w*m.m[3][0],
+		v.x*m.m[0][1] + v.y*m.m[1][1] + v.z*m.m[2][1] + v.w*m.m[3][1],
+		v.x*m.m[0][2] + v.y*m.m[1][2] + v.z*m.m[2][2] + v.w*m.m[3][2],
+		v.x*m.m[0][3] + v.y*m.m[1][3] + v.z*m.m[2][3] + v.w*m.m[3][3]
+	};
+
+	return result;
+}
+
 float LerpShortAngle(float a, float b, float t)
 {
 	//角度差分

@@ -33,6 +33,8 @@ public:
 	float Det(Matrix4x4 m);
 	Matrix4x4 Inverse(Matrix4x4 m);
 
+	void Transpose();
+
 	//代入演算子オーバーロード
 	Matrix4x4& operator*=(Matrix4x4& m1);
 

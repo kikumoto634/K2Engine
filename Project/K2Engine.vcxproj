@@ -225,6 +225,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="External\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="External\imgui\imgui_tables.cpp" />
     <ClCompile Include="External\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="FrustumCulling.cpp" />
     <ClCompile Include="Game\Object\Character\Player.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Test.cpp" />
@@ -312,6 +313,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="External\imgui\imstb_rectpack.h" />
     <ClInclude Include="External\imgui\imstb_textedit.h" />
     <ClInclude Include="External\imgui\imstb_truetype.h" />
+    <ClInclude Include="FrustumCulling.h" />
     <ClInclude Include="Game\Object\Character\Player.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="TestCommon.h" />
