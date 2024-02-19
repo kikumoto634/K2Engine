@@ -26,6 +26,8 @@ void TestObj::ObjModelVertexData()
 {
 	//データ送信
 	std::memcpy(vertData_, modelData_.vertices.data(), sizeof(VertexData) * vertNum_);
+
+	vertexResource_->Unmap(0,nullptr);
 }
 
 bool TestObj::PipelineCreate()

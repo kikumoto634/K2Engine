@@ -34,7 +34,7 @@ void Application::Initialize()
 		}
 	}*/
 
-	//testModel_= TestObj::Create("cube");
+	testModel_= TestObj::Create("cube");
 
 	move = ObjModel::Create("cube", {{0,0,-5.f},{},{0.5f,0.5f,0.5f}});
 }
@@ -47,7 +47,7 @@ void Application::Update()
 	/*for(auto it = model_.begin(); it != model_.end(); ++it) {
 		(*it)->Update();
 	}*/
-	//testModel_->Update();
+	testModel_->Update();
 
 
 	move->translate = {cosf(time_), sinf(time_), -5};
@@ -65,8 +65,8 @@ void Application::GeometryDraw()
 		(*it)->Draw(camera_);
 	}*/
 
-	//TestCommon::GetInstance()->Draw();
-	//testModel_->Draw(camera_);
+	TestCommon::GetInstance()->Draw();
+	testModel_->Draw(camera_);
 
 	GeometryCommon::GetInstance()->Draw();
 	move->Draw(camera_);

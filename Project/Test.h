@@ -62,9 +62,10 @@ protected:
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	std::string texturePath_ = "uvChecker.png";
 
-private:
+protected:
 	//Instance
 	DirectXCommon* dxCommon = nullptr;
+	ID3D12GraphicsCommandList* cmdList = nullptr;
 
 	//リソース関係
 	ComPtr<ID3D12Resource> vertexResource_;

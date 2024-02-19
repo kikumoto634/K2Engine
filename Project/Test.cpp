@@ -14,6 +14,7 @@
 void Test::Initialize(bool isIndexEnable)
 {
 	dxCommon = DirectXCommon::GetInstance();
+	cmdList = dxCommon->GetCommandList();
 
 	name = typeid(*this).name();
 
@@ -45,6 +46,7 @@ void Test::Update()
 
 void Test::Draw(Camera* camera)
 {
+	#pragma omp parallel for
 	for(int i = 0; i < trans.size(); i++){
 		if(materialData_[i].color != color_ || materialData_[i].shininess != LightingGroup::GetInstance()->GetSpecularPower()){
 			materialData_[i].color = color_;
@@ -61,35 +63,35 @@ void Test::Draw(Camera* camera)
 	}
 
 	//頂点関連
-	dxCommon->GetCommandList()->IASetVertexBuffers(0,1,&vertexBufferView_);		//VBV設定
-	if(isIndexDataEnable_)dxCommon->GetCommandList()->IASetIndexBuffer(&indexBufferView_);		//IBV設定
+	cmdList->IASetVertexBuffers(0,1,&vertexBufferView_);		//VBV設定
+	if(isIndexDataEnable_)cmdList->IASetIndexBuffer(&indexBufferView_);		//IBV設定
 
 	//RootParams
-	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(
+	cmdList->SetGraphicsRootDescriptorTable(
 		TestCommon::DESCRIPTOR_PIXEL_TEXTURE, 
 		texture_.srvHandleGPU_
 	);
-	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(
+	cmdList->SetGraphicsRootConstantBufferView(
 		TestCommon::CBV_ALL_LIGHT, 
 		LightingGroup::GetInstance()->GetResource()->GetGPUVirtualAddress()
 	);
-	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(
+	cmdList->SetGraphicsRootDescriptorTable(
 		TestCommon::DESCRIPTOR_PIXEL_MATERIAL,
 		materialInstancingGPU_
 	);
-	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(
+	cmdList->SetGraphicsRootDescriptorTable(
 		TestCommon::DESCRIPTOR_VERTEX_WVP,
 		wvpInstancingGPU_
 	);
-	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(
+	cmdList->SetGraphicsRootConstantBufferView(
 		TestCommon::CBV_PIXEL_CAMERA,
 		cameraResource_->GetGPUVirtualAddress()
 	);
 
 	//描画
 	isIndexDataEnable_ ? 
-		dxCommon->GetCommandList()->DrawIndexedInstanced(indexNum_,(UINT)trans.size(),0,0,0) : 
-		dxCommon->GetCommandList()->DrawInstanced(vertNum_,(UINT)trans.size(),0,0);
+		cmdList->DrawIndexedInstanced(indexNum_,(UINT)trans.size(),0,0,0) : 
+		cmdList->DrawInstanced(vertNum_,(UINT)trans.size(),0,0);
 }
 
 void Test::CreateVertex()

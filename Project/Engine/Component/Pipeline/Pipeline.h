@@ -37,13 +37,13 @@ public:
 	const D3D12_INPUT_LAYOUT_DESC  GetInputLayout()	{return inputLayoutDesc_;}
 
 
-	ID3D12RootSignature* GetRootSignature()	const {return rootSignature_.Get();}
-	ID3D12PipelineState* GetGraphicsPipelineState() const	{return graphicsPipelineState_.Get();}
+	inline ID3D12RootSignature* GetRootSignature()	const {return rootSignature_.Get();}
+	inline ID3D12PipelineState* GetGraphicsPipelineState() const	{return graphicsPipelineState_.Get();}
 
 
 private:
 	//コンパイルシェーダー
-	static IDxcBlob* CompileShader(
+	IDxcBlob* CompileShader(
 		//ComplierするShaderファイルパス
 		const std::wstring& filePath,
 		//Compilerに使用するProfile
