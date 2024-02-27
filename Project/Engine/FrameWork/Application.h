@@ -51,7 +51,7 @@ private:
 	//シーンオブジェクト
 	
 	//std::unique_ptr<LevelLoader> levelLoader_;
-	ObjModel* box_ = nullptr;
+	//ObjModel* box_ = nullptr;
 	Sprite2D* sp_ = nullptr;
 	ParticleObject* particle_ = nullptr;
 	Vector3 particlePos_ = {-5,0,0};

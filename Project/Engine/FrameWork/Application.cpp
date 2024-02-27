@@ -4,6 +4,8 @@
 #include <imgui.h>
 #include "Geometry/SphereCollider.h"
 
+#include "../../Game/Scene/Sample1Scene.h"
+
 Application *Application::Create()
 {
 	Application* instance = new Application();
@@ -30,7 +32,7 @@ void Application::Initialize()
 	//player_.get()->scale = {0.8f,0.8f,0.8f};
 	//collisionsManager->AddCollider(player_->GetCollider());
 
-	box_ = ObjModel::Create("monkey", {{0,0,0},{0,0,0},{1,1,1}}, BlendSetting::kBlendModeNone);
+	//box_ = ObjModel::Create("monkey", {{0,0,0},{0,0,0},{1,1,1}}, BlendSetting::kBlendModeNone);
 	//box_->translate = {-5.f,0,0};
 	//box_->rotation = DegreesToRadians({0,180.f,0});
 	//box_->scale = {0.8f,0.8f,0.8f};
@@ -46,7 +48,7 @@ void Application::Initialize()
 	gpu_ = GPUParticleBase::Create();
 
 	sceneManager_ = SceneManager::GetInstance();
-	scene_ = new BaseScene;
+	scene_ = new Sample1Scene;
 	sceneManager_->Initialize(scene_);
 }
 
@@ -54,9 +56,9 @@ void Application::Update()
 {
 	//シーンオブジェクト
 	//levelLoader_->Update();
-	ImGui::DragFloat3("rot", &box_->rotation.x, 0.01f);
-	ImGui::DragFloat3("scale", &box_->scale.x, 0.01f);
-	box_->Update();
+	//ImGui::DragFloat3("rot", &box_->rotation.x, 0.01f);
+	//ImGui::DragFloat3("scale", &box_->scale.x, 0.01f);
+	//box_->Update();
 	sp_->Update();
 	//player_->Update();
 
@@ -67,7 +69,7 @@ void Application::Update()
 	emitter_->Add(emitterPos_);
 	emitter_->Update();
 
-	camera_->Update(box_->translate);
+	camera_->Update({0,0,0});
 	light_->Update();
 
 	CollisionCheck();
@@ -79,7 +81,7 @@ void Application::GeometryDraw()
 {
 	//シーンオブジェクト
 	//levelLoader_->Draw(camera_);
-	box_->Draw(camera_);
+	//box_->Draw(camera_);
 	//player_->Draw(camera_);
 
 	gpu_->Draw(camera_);

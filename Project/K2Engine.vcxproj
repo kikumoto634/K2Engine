@@ -223,6 +223,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="External\imgui\imgui_tables.cpp" />
     <ClCompile Include="External\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Game\Object\Character\Player.cpp" />
+    <ClCompile Include="Game\Scene\Sample1Scene.cpp" />
+    <ClCompile Include="Game\Scene\Sample2Scene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -307,6 +309,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="External\imgui\imstb_textedit.h" />
     <ClInclude Include="External\imgui\imstb_truetype.h" />
     <ClInclude Include="Game\Object\Character\Player.h" />
+    <ClInclude Include="Game\Scene\Sample1Scene.h" />
+    <ClInclude Include="Game\Scene\Sample2Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Collider\Collider.PS.hlsl">

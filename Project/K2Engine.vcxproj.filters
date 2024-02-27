@@ -292,6 +292,12 @@
     <Filter Include="ソース ファイル\Engine\Scene">
       <UniqueIdentifier>{046245cf-2b48-49f5-a140-3cc8274cd75f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\Scene">
+      <UniqueIdentifier>{0c49460d-698f-4f38-8b16-143e3d3499d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Scene">
+      <UniqueIdentifier>{5f1a07ed-2f01-4614-8fa0-699d0a75818c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -477,9 +483,6 @@
     <ClCompile Include="Engine\Scene\SceneManager.cpp">
       <Filter>ソース ファイル\Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\BaseScene.cpp">
-      <Filter>ソース ファイル\Engine\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Component\Application\Input\KeyboardInput.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
     </ClCompile>
@@ -488,6 +491,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Component\Application\Input\MouseInput.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\Sample1Scene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\Sample2Scene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -733,6 +742,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Component\Application\Input\MouseInput.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\Sample1Scene.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\Sample2Scene.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
