@@ -487,7 +487,7 @@
       <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Component\Application\Input\MouseInput.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -732,7 +732,7 @@
       <Filter>ヘッダー ファイル\Engine\Component\Application\Input</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Component\Application\Input\MouseInput.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
