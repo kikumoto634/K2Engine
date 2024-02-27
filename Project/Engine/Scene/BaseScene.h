@@ -2,11 +2,13 @@
 class BaseScene
 {
 public:
-	virtual void Initialize() = 0;
+	virtual void Initialize() {};
 
-	virtual void Update() = 0;
+	virtual void Update() {};
 
-	virtual void GeometryDraw() = 0;
+	virtual void Finalize() {};
+
+	virtual void GeometryDraw() {};
 	virtual void SpriteDraw() {};
 	virtual void ParticleDraw() {};
 };
