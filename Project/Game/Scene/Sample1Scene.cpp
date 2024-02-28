@@ -5,7 +5,11 @@ void Sample1Scene::Initialize()
 {
 	camera_ = FollowCamera::GetInstance();
 
-	mapSp_ = Sprite3D::Create("uvChecker.png");
+	for(int y = 0; y < Height; y++){
+		for(int x = 0; x < Width; x++){
+			Sprite3D* temp = Sprite3D::Create("uvChecker.png");
+		}
+	}
 }
 
 void Sample1Scene::Update()

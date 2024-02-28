@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseScene.h"
 
+#include <vector>
+
 class Sample1Scene : public BaseScene
 {
 public:
@@ -15,6 +17,8 @@ public:
 private:
 	FollowCamera* camera_ = nullptr;
 
-	Sprite3D* mapSp_ = nullptr;
+	const int Width = 10;
+	const int Height = 10;
+	std::vector<Sprite3D*> mapSp_;
 };
 
