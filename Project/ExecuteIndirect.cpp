@@ -25,9 +25,9 @@ void ExecuteIndirect::Initialize()
 	std::mt19937 randomEngine(seedGenerator_());
 	std::uniform_real_distribution<float> distValue(-0.5f,0.5f);
 	for(int i = 0; i < (int)kInstanceNum; i++){
-		//Vector3 temp = {distValue(randomEngine), distValue(randomEngine), distValue(randomEngine)};
+		Vector3 temp = {distValue(randomEngine), distValue(randomEngine), distValue(randomEngine)};
 
-		transform.push_back({{0,0,0}, {0,0,0}, {1,1,1}});
+		transform.push_back({temp,{},{1,1,1}});
 	}
 
 
