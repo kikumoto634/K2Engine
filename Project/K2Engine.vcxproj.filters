@@ -498,6 +498,12 @@
     <ClCompile Include="Game\Scene\Sample2Scene.cpp">
       <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\Base\Sprite3DBase.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\Sprite3D.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Window\WindowsApp.h">
@@ -555,9 +561,6 @@
       <Filter>ヘッダー ファイル\Engine\Component\DepthStencil</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object\Geometry\ObjModel.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Object\Geometry\Sprite2D.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Engine\FrameWork\FrameWork.h">
@@ -748,6 +751,15 @@
     </ClInclude>
     <ClInclude Include="Game\Scene\Sample2Scene.h">
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Base\Sprite3DBase.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Sprite2D.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Sprite3D.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

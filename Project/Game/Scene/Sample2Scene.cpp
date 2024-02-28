@@ -5,7 +5,7 @@ void Sample2Scene::Initialize()
 {
 	camera_ = FollowCamera::GetInstance();
 
-	monkey_ = ObjModel::Create("cube");
+	monkey_ = ObjModel::Create("monkey");
 }
 
 void Sample2Scene::Update()

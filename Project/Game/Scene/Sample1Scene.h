@@ -15,6 +15,6 @@ public:
 private:
 	FollowCamera* camera_ = nullptr;
 
-	ObjModel* monkey_ = nullptr;
+	Sprite3D* mapSp_ = nullptr;
 };
 

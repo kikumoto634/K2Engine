@@ -13,6 +13,7 @@
 
 #include "Geometry/ObjModel.h"
 #include "Geometry/Sprite2D.h"
+#include "Geometry/Sprite3D.h"
 
 
 class BaseScene

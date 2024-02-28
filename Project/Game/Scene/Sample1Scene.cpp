@@ -5,7 +5,7 @@ void Sample1Scene::Initialize()
 {
 	camera_ = FollowCamera::GetInstance();
 
-	monkey_ = ObjModel::Create("monkey");
+	mapSp_ = Sprite3D::Create("uvChecker.png");
 }
 
 void Sample1Scene::Update()
@@ -14,19 +14,19 @@ void Sample1Scene::Update()
 		SceneManager::GetInstance()->SetNext(new Sample2Scene);
 	}
 
-	monkey_->Update();
+	mapSp_->Update();
 
 	camera_->Update({0,0,0});
 }
 
 void Sample1Scene::Finalize()
 {
-	delete monkey_;
+	delete mapSp_;
 }
 
 void Sample1Scene::GeometryDraw()
 {
-	monkey_->Draw(camera_);
+	mapSp_->Draw(camera_);
 }
 
 void Sample1Scene::SpriteDraw()
