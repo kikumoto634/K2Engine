@@ -1,8 +1,8 @@
 #include "Application.h"
 
-#include "WindowsApp.h"
-#include <imgui.h>
-#include "Geometry/SphereCollider.h"
+//#include "WindowsApp.h"
+//#include <imgui.h>
+//#include "Geometry/SphereCollider.h"
 
 #include "../../Game/Scene/Sample1Scene.h"
 
@@ -40,12 +40,12 @@ void Application::Initialize()
 	//box_->collider_->SetShapeType(COLLISIONSHAPE_SPHERE);
 	//collisionsManager->AddCollider(box_->GetCollider());
 
-	particle_ = ParticleObject::Create();
+	/*particle_ = ParticleObject::Create();
 	emitter_ = ParticleEmitterObject::Create();
 
 	sp_ = Sprite2D::Create("uvChecker.png");
 
-	gpu_ = GPUParticleBase::Create();
+	gpu_ = GPUParticleBase::Create();*/
 
 	sceneManager_ = SceneManager::GetInstance();
 	scene_ = new Sample1Scene;
@@ -59,20 +59,20 @@ void Application::Update()
 	//ImGui::DragFloat3("rot", &box_->rotation.x, 0.01f);
 	//ImGui::DragFloat3("scale", &box_->scale.x, 0.01f);
 	//box_->Update();
-	sp_->Update();
+	//sp_->Update();
 	//player_->Update();
 
 
-	particle_->Add(particlePos_);
+	/*particle_->Add(particlePos_);
 	particle_->Update();
 
 	emitter_->Add(emitterPos_);
-	emitter_->Update();
+	emitter_->Update();*/
 
 	camera_->Update({0,0,0});
 	light_->Update();
 
-	CollisionCheck();
+	//CollisionCheck();
 
 	sceneManager_->Update();
 }
@@ -84,20 +84,20 @@ void Application::GeometryDraw()
 	//box_->Draw(camera_);
 	//player_->Draw(camera_);
 
-	gpu_->Draw(camera_);
+	//gpu_->Draw(camera_);
 
 	sceneManager_->Draw();
 }
 
 void Application::SpriteDraw()
 {
-	sp_->Draw(camera_);
+	//sp_->Draw(camera_);
 }
 
 void Application::ParticleDraw()
 {
-	particle_->Draw(camera_);
-	emitter_->Draw(camera_);
+	//particle_->Draw(camera_);
+	//emitter_->Draw(camera_);
 }
 
 void Application::CollisionCheck()

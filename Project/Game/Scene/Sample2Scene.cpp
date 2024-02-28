@@ -1,7 +1,4 @@
 #include "Sample2Scene.h"
-
-#include "SceneManager.h"
-#include "KeyboardInput.h"
 #include "Sample1Scene.h"
 
 void Sample2Scene::Initialize()

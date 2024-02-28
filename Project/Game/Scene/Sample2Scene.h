@@ -1,11 +1,6 @@
 #pragma once
 #include "BaseScene.h"
 
-#include "FollowCamera.h"
-#include "LightingGroup.h"
-
-#include "Geometry/ObjModel.h"
-
 class Sample2Scene : public BaseScene
 {
 public:

@@ -9,16 +9,16 @@
 #include "SpriteLoader.h"
 
 //シーンオブジェクト
-#include "LevelLoader.h"
-#include "../../Game/Object/Character/Player.h"
+//#include "LevelLoader.h"
+//#include "../../Game/Object/Character/Player.h"
 #include "FollowCamera.h"
-
-#include "Particle/ParticleObject.h"
-#include "Particle/ParticleEmitterObject.h"
-
-#include "CollisionsManager.h"
-
-#include "Particle/Base/GPUParticleBase.h"
+//
+//#include "Particle/ParticleObject.h"
+//#include "Particle/ParticleEmitterObject.h"
+//
+//#include "CollisionsManager.h"
+//
+//#include "Particle/Base/GPUParticleBase.h"
 
 #include "SceneManager.h"
 #include "BaseScene.h"
@@ -52,17 +52,17 @@ private:
 	
 	//std::unique_ptr<LevelLoader> levelLoader_;
 	//ObjModel* box_ = nullptr;
-	Sprite2D* sp_ = nullptr;
+	/*Sprite2D* sp_ = nullptr;
 	ParticleObject* particle_ = nullptr;
 	Vector3 particlePos_ = {-5,0,0};
 	
 	Vector3 emitterPos_ = {5,0,0};
-	ParticleEmitterObject* emitter_ = nullptr;
+	ParticleEmitterObject* emitter_ = nullptr;*/
 	
 	//std::unique_ptr<Player> player_;
 	//CollisionsManager* collisionsManager = nullptr;*/
 
-	GPUParticleBase* gpu_ = nullptr;
+	//GPUParticleBase* gpu_ = nullptr;
 
 	SceneManager* sceneManager_ = nullptr;
 	BaseScene* scene_ = nullptr;

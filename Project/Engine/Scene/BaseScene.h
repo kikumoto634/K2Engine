@@ -1,4 +1,20 @@
 #pragma once
+
+#include "KeyboardInput.h"
+#include "MouseInput.h"
+#include "GamePadInput.h"
+
+#include "SceneManager.h"
+
+#include "Camera.h"
+#include "FollowCamera.h"
+
+#include "LightingGroup.h"
+
+#include "Geometry/ObjModel.h"
+#include "Geometry/Sprite2D.h"
+
+
 class BaseScene
 {
 public:
