@@ -17,17 +17,8 @@ public:
 	static void Finalize()	{delete instance_;}
 
 	//出力ウィンドウログ
-	static void Log(const std::string& message){
-		OutputDebugStringA(message.c_str());
-	}
-	static void Log_f(const char* message, ...){
-		
-		va_list args;
-		va_start(args, message);
-		int w = vsnprintf(buffer_, 256-1, message, args);
-		Log(buffer_);
-		va_end(args);
-	}
+	static void Log(const std::string& message);
+	static void Log_f(double value);
 
 	static std::wstring ConvertString(const std::string& str);
 	static std::string ConvertString(const std::wstring& str);
@@ -56,7 +47,7 @@ public:
 	static int32_t kWindowHeight_;
 
 	// 書式付き文字列展開用バッファ
-	static char buffer_[kBufferSize_];
+	static char* buffer_;
 
 private:
 	WNDCLASS wc_{};

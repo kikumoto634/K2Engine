@@ -14,6 +14,8 @@ float DirectXCommon::clearColor_[4] = {0.1f, 0.25f, 0.5f, 1.0f};
 double DirectXCommon::fps_ = 0.0f;
 float DirectXCommon::fixedFpsValue_ = 120.0f;
 
+bool DirectXCommon::isDebugLayer = false;
+
 DirectXCommon *DirectXCommon::GetInstance()
 {
 	return instance_;
@@ -153,6 +155,8 @@ void DirectXCommon::PostDraw()
 bool DirectXCommon::CreateDebugLayer()
 {
 #ifdef _DEBUG
+	if(!isDebugLayer) return true;
+
 	if(SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController_)))){
 		//デバックレイヤー有効化
 		debugController_->EnableDebugLayer();
@@ -166,6 +170,8 @@ bool DirectXCommon::CreateDebugLayer()
 bool DirectXCommon::CreateErrorInfoQueue()
 {
 #ifdef _DEBUG
+	if(!isDebugLayer) return true;
+
 	//エラー際　停止
 	ID3D12InfoQueue* infoQueue_ = nullptr;
 
@@ -470,6 +476,7 @@ void DirectXCommon::UpdateFixFPS()
 	//fps
 	double frameDurationSeconds = static_cast<double>(elapsed.count())/1e6;
 	fps_ = 1.0 / frameDurationSeconds;
+	WindowsApp::Log_f(fps_);
 
 	//現在時刻
 	reference_ = std::chrono::steady_clock::now();

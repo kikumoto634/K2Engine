@@ -130,6 +130,8 @@ public:
 	//FPS
 	static double fps_;
 	static float fixedFpsValue_;
+	//デバックレイヤーチェック
+	static bool isDebugLayer;
 
 private:
 	//SRV最大数

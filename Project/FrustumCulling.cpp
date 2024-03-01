@@ -38,8 +38,8 @@ void FrustumCulling::Update(Camera *camera)
 	corners[7] = {-1,+1,+1,+1};
 	Matrix4x4 invVp = invVp.Inverse(camera->GetViewProjectionMatrix());
 
-	for(int i = 0; i != 8; i++){
+	/*for(int i = 0; i != 8; i++){
 		Vector4 q = Multiplication(corners[i], invVp);
 		points[i] = q / q.w;
-	}
+	}*/
 }

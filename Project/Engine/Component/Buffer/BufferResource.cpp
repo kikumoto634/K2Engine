@@ -34,9 +34,9 @@ ID3D12Resource *CreateComputeBufferResource(ID3D12Device *device, size_t sizeInB
 	ID3D12Resource* resource = nullptr;
 
 	D3D12_HEAP_PROPERTIES prop{};
-	prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	//prop.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
 	prop.CreationNodeMask = 1;
-	prop.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+	//prop.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
 	prop.Type = heapType;
 	prop.VisibleNodeMask = 1;
 	

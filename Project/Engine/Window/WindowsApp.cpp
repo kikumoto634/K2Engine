@@ -7,6 +7,8 @@ int32_t WindowsApp::kWindowHeight_ = 720;
 wchar_t* WindowsApp::titleName_ = L"Title";
 WindowsApp* WindowsApp::instance_ = nullptr;
 
+char* WindowsApp::buffer_ = "";
+
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #pragma comment(lib, "winmm.lib")
@@ -110,6 +112,21 @@ bool WindowsApp::ProcessMessage()
 	return false;
 }
 
+
+void WindowsApp::Log(const std::string &message)
+{
+	OutputDebugStringA(message.c_str());
+}
+
+void WindowsApp::Log_f(double value)
+{
+	/*va_list args;
+	va_start(args, message);
+	int w = vsnprintf(buffer_, kBufferSize_-1, message, args);
+	Log(buffer_);
+	va_end(args);*/
+	Log(std::format("Fps:{}\n", value));
+}
 
 std::wstring WindowsApp::ConvertString(const std::string &str)
 {

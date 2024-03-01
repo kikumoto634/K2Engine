@@ -77,7 +77,7 @@ protected:
 	//インスタンシング描画用データ構造
 	int X = 10;
 	int Y = 10;
-	int Z = 29;
+	int Z = 350;
 	const int kNumMaxInstance_ = X*Y*Z;
 	std::vector<Transform> trans;
 

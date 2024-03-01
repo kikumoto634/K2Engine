@@ -41,7 +41,7 @@ void Test::Initialize(bool isIndexEnable)
 
 void Test::Update()
 {
-	ImGui::Text("ObjNum : %d", kNumMaxInstance_);
+	ImGui::Text("ObjNum(%d) * VertexNum(%d) = Total(%d)", kNumMaxInstance_, vertNum_, kNumMaxInstance_*vertNum_);
 }
 
 void Test::Draw(Camera* camera)

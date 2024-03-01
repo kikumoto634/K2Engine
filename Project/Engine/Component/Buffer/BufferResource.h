@@ -19,4 +19,4 @@
 ID3D12Resource* CreateBufferResource(ID3D12Device* device, size_t sizeInByte);
 
 
-ID3D12Resource* CreateComputeBufferResource(ID3D12Device* device, size_t sizeInByte, D3D12_HEAP_TYPE heapType = D3D12_HEAP_TYPE_CUSTOM);
+ID3D12Resource* CreateComputeBufferResource(ID3D12Device* device, size_t sizeInByte, D3D12_HEAP_TYPE heapType = D3D12_HEAP_TYPE_DEFAULT);
