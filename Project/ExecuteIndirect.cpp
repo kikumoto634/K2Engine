@@ -51,7 +51,7 @@ void ExecuteIndirect::Initialize()
 
 	
 	//コマンドバッファ(サイズは使用するリソース sizeが謎?
-	commandResource_ = CreateBufferResource(dxCommon->GetDevice(), (sizeof(Vector4)*3) * kCommandNum);
+	commandResource_ = CreateBufferResource(dxCommon->GetDevice(), (sizeof(Vector4) + sizeof(Matrix4x4)) * kCommandNum);
 
 	//コマンドバッファのマップ
 	IndirectCommand* mapIndirectCommamdData = nullptr;
