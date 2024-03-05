@@ -57,9 +57,9 @@ private:
 	Matrix4x4* wvpData_ = nullptr;
 
 	//コマンド個数(10万)
-	const UINT kCommandNum = 100000;
+	const UINT kCommandNum = 10;
 	//インスタンス数(10万)
-	const UINT kInstanceNum = 1;
+	const UINT kInstanceNum = 10;
 
 	//座標
 	vector<Transform> transform;

@@ -24,7 +24,6 @@ public:
 		delete pipeline_;
 	}
 	void Initialize(bool isIndexEnable = true);
-	void Update();
 	void Draw(Camera* camera);
 
 private:
@@ -82,7 +81,7 @@ protected:
 	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_WIREFRAME;	//塗りつぶし
 
 	//パラメータ
-	const int kNumMaxInstance = 10000;
+	const int kNumMaxInstance = 10;
 	list<Transform> transfrom_;
 	Vector4 color_ = {0.1f, 0.5f, 0.1f, 1.0f};
 

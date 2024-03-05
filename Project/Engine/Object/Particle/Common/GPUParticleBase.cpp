@@ -4,8 +4,6 @@
 #include <DescriptorHeap.h>
 #include <random>
 
-#include <imgui.h>
-
 GPUParticleBase *GPUParticleBase::Create()
 {
 	GPUParticleBase* instance = new GPUParticleBase();
@@ -33,16 +31,8 @@ void GPUParticleBase::Initialize(bool isIndexEnable)
 
 }
 
-void GPUParticleBase::Update()
-{
-#ifdef _DEBUG
-	ImGui::Text("Compute - DrawInstanced : %d", kNumMaxInstance);
-#endif // _DEBUG
-}
-
 void GPUParticleBase::Draw(Camera* camera)
 {
-
 	compute->Excution(kNumMaxInstance);
 
 	int numInstance = 0;	//描画すべきインスタンス
