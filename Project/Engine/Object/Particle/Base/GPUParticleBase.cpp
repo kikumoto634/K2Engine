@@ -1,8 +1,14 @@
 #include "GPUParticleBase.h"
-#include <BufferResource.h>
-#include <BufferView.h>
-#include <DescriptorHeap.h>
+
 #include <random>
+
+#include "Camera.h"
+
+#include "Particle/Common/GPUParticleCommon.h"
+#include "BufferResource.h"
+#include "BufferView.h"
+#include "DescriptorHeap.h"
+
 
 GPUParticleBase *GPUParticleBase::Create()
 {
@@ -15,9 +21,6 @@ void GPUParticleBase::Initialize(bool isIndexEnable)
 {
 	dxCommon = DirectXCommon::GetInstance();
 	compute = ComputeCommon::GetInstance();
-
-	pipeline_ = new Pipeline();
-	PipelineStateInitialize();
 
 	CreateVertex();
 	CreateMaterial();
@@ -49,91 +52,34 @@ void GPUParticleBase::Draw(Camera* camera)
 		++particleIterator;
 	}
 
-
-	//ルートシグネチャ設定 PSOに設定しいているが別途設定が必要
-	dxCommon->GetCommandList()->SetGraphicsRootSignature(pipeline_->GetRootSignature());
-	dxCommon->GetCommandList()->SetPipelineState(pipeline_->GetGraphicsPipelineState());	//PSO設定
+	//頂点関連
 	dxCommon->GetCommandList()->IASetVertexBuffers(0,1,&vertexBufferView_);		//VBV設定
 
-	//形状設定、PSOに設定しているのとは別
-	dxCommon->GetCommandList()->IASetPrimitiveTopology(commandPrimitiveTopology_);
+	//Pipeline関連
+	dxCommon->GetCommandList()->SetGraphicsRootSignature(
+		GPUParticleCommon::GetInstance()->GetPipeline()->GetRootSignature()
+	);
+	dxCommon->GetCommandList()->SetPipelineState(
+		GPUParticleCommon::GetInstance()->GetPipeline()->GetGraphicsPipelineState()
+	);
+	dxCommon->GetCommandList()->IASetPrimitiveTopology(
+		GPUParticleCommon::GetInstance()->GetTopology()
+	);
 
-	//行列のwvpBufferの場所を設定 ※RootParameter[1]に対してCBVの設定
-	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(0, instancingSrvHandleGPU_);
-	//マテリアルのconstBufferの場所を設定
-	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1, constResource_->GetGPUVirtualAddress());
+	//RootParams
+	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(
+		GPUParticleCommon::DESCRIPTOR_VERTEX_WVP, 
+		instancingSrvHandleGPU_
+	);
+	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(
+		GPUParticleCommon::CBV_PIXEL_MATERIAL, 
+		constResource_->GetGPUVirtualAddress()
+	);
 
 	//描画
 	dxCommon->GetCommandList()->DrawInstanced(vertNum_,numInstance,0,0);
 }
 
-
-
-void GPUParticleBase::PipelineStateInitialize()
-{
-	//デスクリプタレンジ(SRV, CBVなどの情報をこれにまとめる)
-	//例 :														Shaderでは
-	//range[0]					range[1]						ConstBuffer<..>gMaterial0 : register(b0)
-	//BaseRegister = 3;			BaseRegister = 0;				ConstBuffer<..>gMaterial1 : register(b1)
-	//numDescriptor = 2;		NumDescritor = 3;				ConstBuffer<..>gMaterial2 : register(b2)
-	//Type = SRV;				Type = CBV;						Texture2D<..> gTexture0 : register(t3)
-	//															Texture2D<..> gTexture1 : register(t4)
-
-	//現在
-	//DescriptorHeap (Index / 対象名)
-	// 0 / ImGui
-	// 1~x / SRV(ParticleMatrix)
-	// 2~x / SRV(Texture)
-	// 3+x / CSV(VERTEX)
-	// 3+x / CSV(VERTEX)
-	
-	//SRV(InstancedID)
-	D3D12_DESCRIPTOR_RANGE descriptorRangeForInstancing[1] = {};
-	descriptorRangeForInstancing[0].BaseShaderRegister = 0;
-	descriptorRangeForInstancing[0].NumDescriptors = 1;
-	descriptorRangeForInstancing[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-	descriptorRangeForInstancing[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-
-	//ルートパラメータ設定
-	rootParameters_.resize(2);
-	//VS(行列)
-	rootParameters_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;		//CBV
-	rootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;	//VertexShaderで使用
-	rootParameters_[0].DescriptorTable.pDescriptorRanges = descriptorRangeForInstancing;	//レジスタ番号 b0
-	rootParameters_[0].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangeForInstancing);
-	//PS(色)
-	rootParameters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//CBV
-	rootParameters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;	//PixelShader使用
-	rootParameters_[1].Descriptor.ShaderRegister = 0;	//レジスタ番号 b0	
-	
-	//インプットレイアウト設定(頂点データでシェーダ内に送るデータたちのセマンティック名)
-	inputElementDesc_.resize(1);
-	inputElementDesc_[0].SemanticName = "POSITION";							//頂点シェーダーのセマンティック名
-	inputElementDesc_[0].SemanticIndex = 0;									//セマンティック番号
-	inputElementDesc_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;			//float4 型
-	inputElementDesc_[0].InputSlot = 0;
-	inputElementDesc_[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
-	inputElementDesc_[0].InputSlotClass = D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA;
-	inputElementDesc_[0].InstanceDataStepRate = 0;
-
-
-	//生成
-	std::wstring vs = WindowsApp::ConvertString(VSPath_);
-	std::wstring ps = WindowsApp::ConvertString(PSPath_);
-
-	pipeline_->DepthStencilSet();
-	pipeline_->Create(
-		vs,
-		ps,
-		rootParameters_,
-		{},
-		inputElementDesc_,
-		fillMode_,
-		pipelinePrimitiveTopology_,
-		BlendSetting::kBlendModeAdd,
-		D3D12_CULL_MODE_NONE
-	);
-}
 
 void GPUParticleBase::CreateVertex()
 {

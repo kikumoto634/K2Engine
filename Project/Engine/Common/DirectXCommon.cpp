@@ -153,12 +153,14 @@ void DirectXCommon::PostDraw()
 bool DirectXCommon::CreateDebugLayer()
 {
 #ifdef _DEBUG
-	if(SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController_)))){
-		//デバックレイヤー有効化
-		debugController_->EnableDebugLayer();
-		//さらにGPU側でもチェックを行う
-		debugController_->SetEnableGPUBasedValidation(true);
-	}
+	//if(SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController_)))){
+	//	//デバックレイヤー有効化
+	//	debugController_->EnableDebugLayer();
+	//	//さらにGPU側でもチェックを行う
+	//	debugController_->SetEnableGPUBasedValidation(true);
+	//	
+	//}
+	DXGIGetDebugInterface1(0, IID_PPV_ARGS(&dxgiDebug_));
 #endif
 	return true;
 }
@@ -175,7 +177,7 @@ bool DirectXCommon::CreateErrorInfoQueue()
 		//エラー時に止まる
 		infoQueue_->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
 		//警告時に止まる
-		//infoQueue_->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
+		infoQueue_->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
 		//解放
 		infoQueue_->Release();
 

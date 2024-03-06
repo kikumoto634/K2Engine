@@ -1,5 +1,5 @@
 #include "Player.h"
-#include "Input.h"
+#include "InputManager.h"
 
 #include "FollowCamera.h"
 #include <MathUtility.h>
@@ -127,50 +127,50 @@ void Player::BehaviorJumpUpdate()
 
 void Player::Input()
 {
-	if(Input::GetInstance()->PadButtonTrigger(XINPUT_GAMEPAD_A)){
+	/*if(InputManager::GetInstance()->PadButtonTrigger(XINPUT_GAMEPAD_A)){
 		behaviorRequest_ = Behavior::Jump;
 	}
-	else if(Input::GetInstance()->PadButtonTrigger(XINPUT_GAMEPAD_B)){
+	else if(InputManager::GetInstance()->PadButtonTrigger(XINPUT_GAMEPAD_B)){
 		behaviorRequest_ = Behavior::kAttack;
-	}
+	}*/
 }
 
 void Player::Move()
 {
-	if(!Input::GetInstance()->GetIsPadConnect()) return;
+	/*if(!InputManager::GetInstance()->GetIsPadConnect()) return;
 	const float threshold = 0.7f;
 	bool isMoving = false;
 
 	velocity_ = {
-		Input::GetInstance()->PadLStick().x,
+		InputManager::GetInstance()->PadLStick().x,
 		0.0f,
-		Input::GetInstance()->PadLStick().y
+		InputManager::GetInstance()->PadLStick().y
 	};
 	velocity_ = velocity_.normalize();
 
 	if(velocity_.length() > threshold){
 		isMoving = true;
-	}
+	}*/
 
-	if(!isMoving) return;
+	//if(!isMoving) return;
 
-	velocity_ *= kMoveVelocity;
+	//velocity_ *= kMoveVelocity;
 
-	//カメラの方向へと動く
-	Matrix4x4 matRot;
-	matRot = MakeIdentityMatrix();
-	//matRot *= MakeRotationZMatrix(FollowCamera::GetInstance()->rotation.z);
-	//matRot *= MakeRotationXMatrix(FollowCamera::GetInstance()->rotation.x);
-	matRot *= MakeRotationYMatrix(FollowCamera::GetInstance()->rotation.y);
-	velocity_ = Multiplication(velocity_, matRot);
+	////カメラの方向へと動く
+	//Matrix4x4 matRot;
+	//matRot = MakeIdentityMatrix();
+	////matRot *= MakeRotationZMatrix(FollowCamera::GetInstance()->rotation.z);
+	////matRot *= MakeRotationXMatrix(FollowCamera::GetInstance()->rotation.x);
+	//matRot *= MakeRotationYMatrix(FollowCamera::GetInstance()->rotation.y);
+	//velocity_ = Multiplication(velocity_, matRot);
 
-	//回転
-	rotation.y = std::atan2(velocity_.x, velocity_.z);
-	//Vector3 velocityXZ = Vector3{move.x, 0, move.z};
-	//rotation.x = std::atan2(-move.y, velocityXZ.length());
+	////回転
+	//rotation.y = std::atan2(velocity_.x, velocity_.z);
+	////Vector3 velocityXZ = Vector3{move.x, 0, move.z};
+	////rotation.x = std::atan2(-move.y, velocityXZ.length());
 
-	//移動
-	translate += velocity_;
+	////移動
+	//translate += velocity_;
 }
 
 void Player::Attack()

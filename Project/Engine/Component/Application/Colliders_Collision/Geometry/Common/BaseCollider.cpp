@@ -1,5 +1,5 @@
 #include "BaseCollider.h"
-#include "Geometry/Common/GeometryBase.h"
+#include "Geometry/Base/GeometryBase.h"
 
 void BaseCollider::Initialize(GeometryBase *object)
 {

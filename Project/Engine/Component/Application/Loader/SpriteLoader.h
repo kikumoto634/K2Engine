@@ -4,7 +4,8 @@
 #include <wrl.h>
 
 #include "DirectXCommon.h"
-#include "Texture.h"
+
+#include "GeometryDatas/Texture.h"
 
 class SpriteLoader
 {

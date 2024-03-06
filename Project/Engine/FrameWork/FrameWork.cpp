@@ -14,15 +14,20 @@ FrameWork *FrameWork::Create()
 void FrameWork::Initialize()
 {
 	win_ = WindowsApp::Create(L"K2Engine", 1280, 720);
-	dxCommon_ = DirectXCommon::Create({0,0,0,1});
+	dxCommon_ = DirectXCommon::Create({0.25,0.5,0.25,1});
 
-	input_ = Input::GetInstance();
+	input_ = InputManager::GetInstance();
 
 
 	//グルーバル変数の読み込み
 	GlobalVariables::GetInstance()->LoadFiles();
 	imgui_ = ImGuiManager::Create();
 	ImGuiManager::Initialize(win_->GetHWND(), dxCommon_);
+
+	SpriteCommon::GetInstance();
+	GeometryCommon::GetInstance();
+	ParticleCommon::GetInstance();
+	GPUParticleCommon::GetInstance();
 
 	app_ = Application::Create();
 
@@ -55,8 +60,8 @@ void FrameWork::Run()
 
 		//描画
 		app_->GeometryDraw();
-		app_->SpriteDraw();
-		app_->ParticleDraw();
+		//app_->SpriteDraw();
+		//app_->ParticleDraw();
 
 #ifdef _DEBUG
 		ImGuiManager::CommandsExcute(dxCommon_->GetCommandList());

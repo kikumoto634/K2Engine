@@ -116,7 +116,7 @@
       <ConformanceMode>false</ConformanceMode>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\Common;$(ProjectDir)Engine\Component\Application\Colliders_Collision;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\Application\Math;$(ProjectDir)Engine\Component\Application\Math\Matrix;$(ProjectDir)Engine\Component\Application\Math\Easing;$(ProjectDir)Engine\Component\Application\Math\Vector;$(ProjectDir)Engine\Component\Application\Lighting;$(ProjectDir)Engine\Component\Application\Input;$(ProjectDir)Engine\Component\Application\Particle;$(ProjectDir)Engine\Component\Application\Loader;$(ProjectDir)Engine\Component\Buffer;$(ProjectDir)Engine\Component\DescriptorHeap;$(ProjectDir)Engine\Component\DepthStencil;$(ProjectDir)Engine\Component\Struct;$(ProjectDir)Engine\Component\Global;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\FrameWork;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;$(ProjectDir)Engine\Object\Lighting;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\Common;$(ProjectDir)Engine\Component\Application\Colliders_Collision;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\Application\Math;$(ProjectDir)Engine\Component\Application\Math\Matrix;$(ProjectDir)Engine\Component\Application\Math\Easing;$(ProjectDir)Engine\Component\Application\Math\Vector;$(ProjectDir)Engine\Component\Application\Lighting;$(ProjectDir)Engine\Component\Application\Input;$(ProjectDir)Engine\Component\Application\Particle;$(ProjectDir)Engine\Component\Application\Loader;$(ProjectDir)Engine\Component\Buffer;$(ProjectDir)Engine\Component\DescriptorHeap;$(ProjectDir)Engine\Component\DepthStencil;$(ProjectDir)Engine\Component\Struct;$(ProjectDir)Engine\Component\Global;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\FrameWork;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;$(ProjectDir)Engine\Object\Lighting;$(ProjectDir)Engine\Scene;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
@@ -143,7 +143,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\Common;$(ProjectDir)Engine\Component\Application\Colliders_Collision;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\Application\Math;$(ProjectDir)Engine\Component\Application\Math\Matrix;$(ProjectDir)Engine\Component\Application\Math\Easing;$(ProjectDir)Engine\Component\Application\Math\Vector;$(ProjectDir)Engine\Component\Application\Lighting;$(ProjectDir)Engine\Component\Application\Input;$(ProjectDir)Engine\Component\Application\Particle;$(ProjectDir)Engine\Component\Application\Loader;$(ProjectDir)Engine\Component\Buffer;$(ProjectDir)Engine\Component\DescriptorHeap;$(ProjectDir)Engine\Component\DepthStencil;$(ProjectDir)Engine\Component\Struct;$(ProjectDir)Engine\Component\Global;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\FrameWork;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;$(ProjectDir)Engine\Object\Lighting;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\Window;$(ProjectDir)Engine\Common;$(ProjectDir)Engine\Component\Application\Colliders_Collision;$(ProjectDir)Engine\Component\Application\Transform;$(ProjectDir)Engine\Component\Application\Math;$(ProjectDir)Engine\Component\Application\Math\Matrix;$(ProjectDir)Engine\Component\Application\Math\Easing;$(ProjectDir)Engine\Component\Application\Math\Vector;$(ProjectDir)Engine\Component\Application\Lighting;$(ProjectDir)Engine\Component\Application\Input;$(ProjectDir)Engine\Component\Application\Particle;$(ProjectDir)Engine\Component\Application\Loader;$(ProjectDir)Engine\Component\Buffer;$(ProjectDir)Engine\Component\DescriptorHeap;$(ProjectDir)Engine\Component\DepthStencil;$(ProjectDir)Engine\Component\Struct;$(ProjectDir)Engine\Component\Global;$(ProjectDir)Engine\Component\Pipeline;$(ProjectDir)Engine\FrameWork;$(ProjectDir)Engine\Object;$(ProjectDir)Engine\Object\Camera;$(ProjectDir)Engine\Object\Lighting;$(ProjectDir)Engine\Scene;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -168,7 +168,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseCollider.cpp" />
     <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseShapeCollider.cpp" />
     <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\SphereCollider.cpp" />
-    <ClCompile Include="Engine\Component\Application\Input\Input.cpp" />
+    <ClCompile Include="Engine\Component\Application\Input\GamePadInput.cpp" />
+    <ClCompile Include="Engine\Component\Application\Input\InputManager.cpp" />
+    <ClCompile Include="Engine\Component\Application\Input\KeyboardInput.cpp" />
+    <ClCompile Include="Engine\Component\Application\Input\MouseInput.cpp" />
     <ClCompile Include="Engine\Component\Application\Loader\LevelLoader.cpp" />
     <ClCompile Include="Engine\Component\Application\Loader\ObjLoader.cpp" />
     <ClCompile Include="Engine\Component\Application\Loader\SpriteLoader.cpp" />
@@ -192,18 +195,26 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\FrameWork\FrameWork.cpp" />
     <ClCompile Include="Engine\Object\Camera\Camera.cpp" />
     <ClCompile Include="Engine\Object\Camera\FollowCamera.cpp" />
-    <ClCompile Include="Engine\Object\Geometry\Common\GeometryBase.cpp" />
-    <ClCompile Include="Engine\Object\Geometry\Common\SpriteBase.cpp" />
+    <ClCompile Include="Engine\Object\Geometry\Base\GeometryBase.cpp" />
+    <ClCompile Include="Engine\Object\Geometry\Base\Sprite3DBase.cpp" />
+    <ClCompile Include="Engine\Object\Geometry\Base\SpriteBase.cpp" />
+    <ClCompile Include="Engine\Object\Geometry\Common\GeometryCommon.cpp" />
+    <ClCompile Include="Engine\Object\Geometry\Common\SpriteCommon.cpp" />
     <ClCompile Include="Engine\Object\Geometry\ObjModel.cpp" />
     <ClCompile Include="Engine\Object\Geometry\Sphere.cpp" />
     <ClCompile Include="Engine\Object\Geometry\Sprite2D.cpp" />
+    <ClCompile Include="Engine\Object\Geometry\Sprite3D.cpp" />
     <ClCompile Include="Engine\Object\Lighting\LightingGroup.cpp" />
-    <ClCompile Include="Engine\Object\Particle\Common\GPUParticleBase.cpp" />
-    <ClCompile Include="Engine\Object\Particle\Common\ParticleBase.cpp" />
-    <ClCompile Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameBase.cpp" />
+    <ClCompile Include="Engine\Object\Particle\Base\GPUParticleBase.cpp" />
+    <ClCompile Include="Engine\Object\Particle\Base\ParticleBase.cpp" />
+    <ClCompile Include="Engine\Object\Particle\Common\GPUParticleCommon.cpp" />
+    <ClCompile Include="Engine\Object\Particle\Common\ParticleCommon.cpp" />
+    <ClCompile Include="Engine\Object\Particle\EmitterFrame\Base\EmitterFrameBase.cpp" />
+    <ClCompile Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameCommon.cpp" />
     <ClCompile Include="Engine\Object\Particle\EmitterFrame\EmitterFrameSquare.cpp" />
     <ClCompile Include="Engine\Object\Particle\ParticleEmitterObject.cpp" />
     <ClCompile Include="Engine\Object\Particle\ParticleObject.cpp" />
+    <ClCompile Include="Engine\Scene\SceneManager.cpp" />
     <ClCompile Include="Engine\Tool\ImGui\ImGuiManager.cpp" />
     <ClCompile Include="Engine\Window\WindowsApp.cpp" />
     <ClCompile Include="ExecuteIndirect.cpp">
@@ -220,6 +231,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="External\imgui\imgui_tables.cpp" />
     <ClCompile Include="External\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Game\Object\Character\Player.cpp" />
+    <ClCompile Include="Game\Scene\Sample1Scene.cpp" />
+    <ClCompile Include="Game\Scene\Sample2Scene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -235,7 +248,10 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseCollider.h" />
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseShapeCollider.h" />
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\SphereCollider.h" />
-    <ClInclude Include="Engine\Component\Application\Input\Input.h" />
+    <ClInclude Include="Engine\Component\Application\Input\GamePadInput.h" />
+    <ClInclude Include="Engine\Component\Application\Input\InputManager.h" />
+    <ClInclude Include="Engine\Component\Application\Input\KeyboardInput.h" />
+    <ClInclude Include="Engine\Component\Application\Input\MouseInput.h" />
     <ClInclude Include="Engine\Component\Application\Loader\LevelLoader.h" />
     <ClInclude Include="Engine\Component\Application\Loader\ObjLoader.h" />
     <ClInclude Include="Engine\Component\Application\Loader\SpriteLoader.h" />
@@ -256,31 +272,42 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Component\Pipeline\BlendSetting.h" />
     <ClInclude Include="Engine\Component\Pipeline\Pipeline.h" />
     <ClInclude Include="Engine\Component\Struct\DescriptorData.h" />
-    <ClInclude Include="Engine\Component\Struct\DirectionalLightData.h" />
-    <ClInclude Include="Engine\Component\Struct\EmitterData.h" />
-    <ClInclude Include="Engine\Component\Struct\MaterialData.h" />
-    <ClInclude Include="Engine\Component\Struct\ObjModelData.h" />
-    <ClInclude Include="Engine\Component\Struct\ParticleData.h" />
-    <ClInclude Include="Engine\Component\Struct\ParticleForGPUData.h" />
-    <ClInclude Include="Engine\Component\Struct\Texture.h" />
-    <ClInclude Include="Engine\Component\Struct\TransformationMatrixData.h" />
-    <ClInclude Include="Engine\Component\Struct\VertexData.h" />
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\CameraForGPUData.h" />
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\MaterialData.h" />
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\ObjModelData.h" />
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\PipelineDatas.h" />
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\Texture.h" />
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\TransformationMatrixData.h" />
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\VertexData.h" />
+    <ClInclude Include="Engine\Component\Struct\LightsData\DirectionalLightData.h" />
+    <ClInclude Include="Engine\Component\Struct\ParticleDatas\EmitterData.h" />
+    <ClInclude Include="Engine\Component\Struct\ParticleDatas\ParticleData.h" />
+    <ClInclude Include="Engine\Component\Struct\ParticleDatas\ParticleForGPUData.h" />
     <ClInclude Include="Engine\FrameWork\Application.h" />
     <ClInclude Include="Engine\FrameWork\FrameWork.h" />
     <ClInclude Include="Engine\Object\Camera\Camera.h" />
     <ClInclude Include="Engine\Object\Camera\FollowCamera.h" />
-    <ClInclude Include="Engine\Object\Geometry\Common\GeometryBase.h" />
-    <ClInclude Include="Engine\Object\Geometry\Common\SpriteBase.h" />
+    <ClInclude Include="Engine\Object\Geometry\Base\GeometryBase.h" />
+    <ClInclude Include="Engine\Object\Geometry\Base\Sprite3DBase.h" />
+    <ClInclude Include="Engine\Object\Geometry\Base\SpriteBase.h" />
+    <ClInclude Include="Engine\Object\Geometry\Common\GeometryCommon.h" />
+    <ClInclude Include="Engine\Object\Geometry\Common\SpriteCommon.h" />
     <ClInclude Include="Engine\Object\Geometry\ObjModel.h" />
     <ClInclude Include="Engine\Object\Geometry\Sphere.h" />
     <ClInclude Include="Engine\Object\Geometry\Sprite2D.h" />
+    <ClInclude Include="Engine\Object\Geometry\Sprite3D.h" />
     <ClInclude Include="Engine\Object\Lighting\LightingGroup.h" />
-    <ClInclude Include="Engine\Object\Particle\Common\GPUParticleBase.h" />
-    <ClInclude Include="Engine\Object\Particle\Common\ParticleBase.h" />
-    <ClInclude Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameBase.h" />
+    <ClInclude Include="Engine\Object\Particle\Base\GPUParticleBase.h" />
+    <ClInclude Include="Engine\Object\Particle\Base\ParticleBase.h" />
+    <ClInclude Include="Engine\Object\Particle\Common\GPUParticleCommon.h" />
+    <ClInclude Include="Engine\Object\Particle\Common\ParticleCommon.h" />
+    <ClInclude Include="Engine\Object\Particle\EmitterFrame\Base\EmitterFrameBase.h" />
+    <ClInclude Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameCommon.h" />
     <ClInclude Include="Engine\Object\Particle\EmitterFrame\EmitterFrameSquare.h" />
     <ClInclude Include="Engine\Object\Particle\ParticleEmitterObject.h" />
     <ClInclude Include="Engine\Object\Particle\ParticleObject.h" />
+    <ClInclude Include="Engine\Scene\BaseScene.h" />
+    <ClInclude Include="Engine\Scene\SceneManager.h" />
     <ClInclude Include="Engine\Tool\ImGui\ImGuiManager.h" />
     <ClInclude Include="Engine\Window\WindowsApp.h" />
     <ClInclude Include="ExecuteIndirect.h">
@@ -298,6 +325,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="External\imgui\imstb_textedit.h" />
     <ClInclude Include="External\imgui\imstb_truetype.h" />
     <ClInclude Include="Game\Object\Character\Player.h" />
+    <ClInclude Include="Game\Scene\Sample1Scene.h" />
+    <ClInclude Include="Game\Scene\Sample2Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Collider\Collider.PS.hlsl">
@@ -425,6 +454,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <Text Include="External\imgui\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\GlovalVariables\Light.json" />
     <None Include="Resources\Shaders\Object3D\Object3D.hlsli" />
     <None Include="Resources\Shaders\Particle\Particle.hlsli" />
     <None Include="Resources\Shaders\Sprite\Sprite.hlsli" />

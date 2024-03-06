@@ -8,6 +8,7 @@ struct GeometryMaterial{
 	int enableLighting;		//ライト処理可否
 	float padding[3];		//パディング
 	Matrix4x4 uvTransform;	//UV行列
+	float shininess;		//輝度
 };
 
 struct TextureMaterial{

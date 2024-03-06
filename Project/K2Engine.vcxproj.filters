@@ -97,12 +97,6 @@
     <Filter Include="ヘッダー ファイル\Engine\Object\Geometry">
       <UniqueIdentifier>{06fa412f-dd6c-4d99-acd8-62b00ffe2ca4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Object\Geometry\Common">
-      <UniqueIdentifier>{192d63f6-bdd2-43ac-9ebd-666b0a49637b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Engine\Object\Geometry\Common">
-      <UniqueIdentifier>{6ead54d5-d0f5-4794-a399-f64b19a2b995}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Engine\Window">
       <UniqueIdentifier>{150de01b-89c4-47a0-854b-615b5619e4b4}</UniqueIdentifier>
     </Filter>
@@ -238,14 +232,41 @@
     <Filter Include="ヘッダー ファイル\Engine\Object\Particle">
       <UniqueIdentifier>{5ce92f1d-748d-4cb8-80fd-ecb1401f3d26}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Engine\Object\Particle\Common">
-      <UniqueIdentifier>{b2a42f50-899b-4c62-a364-c15524071d5c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Object\Particle\Common">
-      <UniqueIdentifier>{56c576fb-4004-40cb-8c8c-d26b67fbda4b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="リソース ファイル\Shader\Particle\EmitterFrame">
       <UniqueIdentifier>{aa9f908f-7358-4c8c-972a-a3fde38467a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Object\Geometry\Base">
+      <UniqueIdentifier>{6ead54d5-d0f5-4794-a399-f64b19a2b995}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Geometry\Base">
+      <UniqueIdentifier>{192d63f6-bdd2-43ac-9ebd-666b0a49637b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Geometry\Common">
+      <UniqueIdentifier>{1ebec280-f54f-41d8-821a-adee2a3d82dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Object\Geometry\Common">
+      <UniqueIdentifier>{d84d16e7-f254-4bb9-bcfd-2213d64f848e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Struct\Geometry">
+      <UniqueIdentifier>{133cd538-c79a-4be0-9dc0-f0db55515e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Struct\Particle">
+      <UniqueIdentifier>{0223ea69-54f8-4737-85e4-82221b4fda6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Component\Struct\Light">
+      <UniqueIdentifier>{8fd5e520-aaf1-408e-9dab-de93303ab02e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Particle\Base">
+      <UniqueIdentifier>{56c576fb-4004-40cb-8c8c-d26b67fbda4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Object\Particle\Base">
+      <UniqueIdentifier>{b2a42f50-899b-4c62-a364-c15524071d5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Object\Particle\Common">
+      <UniqueIdentifier>{a67e5322-544c-43bc-8865-1d6f01058d0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Particle\Common">
+      <UniqueIdentifier>{c7922c8b-2a60-4cf7-a099-efe9b572ec29}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Engine\Object\Particle\EmitterFrame">
       <UniqueIdentifier>{e62d9574-9854-423b-84fa-a7604be811d3}</UniqueIdentifier>
@@ -253,11 +274,29 @@
     <Filter Include="ソース ファイル\Engine\Object\Particle\EmitterFrame">
       <UniqueIdentifier>{4c526eca-39b1-4bee-9f88-b504e3e1751c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Common">
+    <Filter Include="ソース ファイル\Engine\Object\Particle\EmitterFrame\Base">
+      <UniqueIdentifier>{4fdbcf88-c676-41a8-a23a-a7711d559922}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Base">
       <UniqueIdentifier>{8e6b2992-bd31-4372-9b38-8448247c8780}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Engine\Object\Particle\EmitterFrame\Common">
-      <UniqueIdentifier>{4fdbcf88-c676-41a8-a23a-a7711d559922}</UniqueIdentifier>
+      <UniqueIdentifier>{7429aed4-fc28-45c5-b351-0ed6ff9e5dc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Common">
+      <UniqueIdentifier>{cd8ed018-8bed-4615-ab70-f793e35d564b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Scene">
+      <UniqueIdentifier>{1ec9c4cd-4007-4138-9de4-10f9aeedf011}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Scene">
+      <UniqueIdentifier>{046245cf-2b48-49f5-a140-3cc8274cd75f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Scene">
+      <UniqueIdentifier>{0c49460d-698f-4f38-8b16-143e3d3499d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Scene">
+      <UniqueIdentifier>{5f1a07ed-2f01-4614-8fa0-699d0a75818c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -306,9 +345,6 @@
     <ClCompile Include="Engine\Object\Geometry\Sphere.cpp">
       <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object\Geometry\Common\GeometryBase.cpp">
-      <Filter>ソース ファイル\Engine\Object\Geometry\Common</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Component\Buffer\BufferView.cpp">
       <Filter>ソース ファイル\Engine\Component\Buffer</Filter>
     </ClCompile>
@@ -320,9 +356,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Object\Geometry\ObjModel.cpp">
       <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Object\Geometry\Common\SpriteBase.cpp">
-      <Filter>ソース ファイル\Engine\Object\Geometry\Common</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object\Geometry\Sprite2D.cpp">
       <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
@@ -363,7 +396,7 @@
     <ClCompile Include="Engine\Common\DirectXCommon.cpp">
       <Filter>ソース ファイル\Engine\Common</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Component\Application\Input\Input.cpp">
+    <ClCompile Include="Engine\Component\Application\Input\InputManager.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Component\Application\Loader\LevelLoader.cpp">
@@ -390,14 +423,8 @@
     <ClCompile Include="Engine\Object\Particle\ParticleObject.cpp">
       <Filter>ソース ファイル\Engine\Object\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object\Particle\Common\ParticleBase.cpp">
-      <Filter>ソース ファイル\Engine\Object\Particle\Common</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Object\Particle\ParticleEmitterObject.cpp">
       <Filter>ソース ファイル\Engine\Object\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameBase.cpp">
-      <Filter>ソース ファイル\Engine\Object\Particle\EmitterFrame\Common</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object\Particle\EmitterFrame\EmitterFrameSquare.cpp">
       <Filter>ソース ファイル\Engine\Object\Particle\EmitterFrame</Filter>
@@ -417,17 +444,65 @@
     <ClCompile Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseShapeCollider.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Object\Particle\Common\GPUParticleBase.cpp">
-      <Filter>ソース ファイル\Engine\Object\Particle\Common</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Common\ComputeCommon.cpp">
       <Filter>ソース ファイル\Engine\Common</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Common\ShadowMapCommon.cpp">
       <Filter>ソース ファイル\Engine\Common</Filter>
     </ClCompile>
-    <ClCompile Include="ExecuteIndirect.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\Object\Geometry\Base\GeometryBase.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\Base\SpriteBase.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\Common\SpriteCommon.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\Common\GeometryCommon.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Particle\Base\GPUParticleBase.cpp">
+      <Filter>ソース ファイル\Engine\Object\Particle\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Particle\Base\ParticleBase.cpp">
+      <Filter>ソース ファイル\Engine\Object\Particle\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Particle\Common\GPUParticleCommon.cpp">
+      <Filter>ソース ファイル\Engine\Object\Particle\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Particle\Common\ParticleCommon.cpp">
+      <Filter>ソース ファイル\Engine\Object\Particle\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Particle\EmitterFrame\Base\EmitterFrameBase.cpp">
+      <Filter>ソース ファイル\Engine\Object\Particle\EmitterFrame\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameCommon.cpp">
+      <Filter>ソース ファイル\Engine\Object\Particle\EmitterFrame\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Scene\SceneManager.cpp">
+      <Filter>ソース ファイル\Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Input\KeyboardInput.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Input\GamePadInput.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\Application\Input\MouseInput.cpp">
+      <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\Sample1Scene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\Sample2Scene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\Base\Sprite3DBase.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object\Geometry\Sprite3D.cpp">
+      <Filter>ソース ファイル\Engine\Object\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -476,9 +551,6 @@
     <ClInclude Include="Engine\Object\Geometry\Sphere.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object\Geometry\Common\GeometryBase.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Component\Buffer\BufferView.h">
       <Filter>ヘッダー ファイル\Engine\Component\Buffer</Filter>
     </ClInclude>
@@ -488,28 +560,7 @@
     <ClInclude Include="Engine\Component\DepthStencil\DepthStencil.h">
       <Filter>ヘッダー ファイル\Engine\Component\DepthStencil</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\VertexData.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\MaterialData.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\TransformationMatrixData.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\DirectionalLightData.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\ObjModelData.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Object\Geometry\ObjModel.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Object\Geometry\Common\SpriteBase.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Object\Geometry\Sprite2D.h">
       <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
     </ClInclude>
     <ClInclude Include="Engine\FrameWork\FrameWork.h">
@@ -536,9 +587,6 @@
     <ClInclude Include="Engine\FrameWork\Application.h">
       <Filter>ヘッダー ファイル\Engine\FrameWork</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\Texture.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Component\Application\Math\MathUtility.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Math\Utility</Filter>
     </ClInclude>
@@ -551,7 +599,7 @@
     <ClInclude Include="Engine\Common\DirectXCommon.h">
       <Filter>ヘッダー ファイル\Engine\Common</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Application\Input\Input.h">
+    <ClInclude Include="Engine\Component\Application\Input\InputManager.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Input</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Component\Application\Math\Easing\Easing.h">
@@ -575,32 +623,14 @@
     <ClInclude Include="Engine\Component\Pipeline\BlendSetting.h">
       <Filter>ヘッダー ファイル\Engine\Component\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\ParticleData.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\ParticleForGPUData.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Object\Particle\ParticleObject.h">
       <Filter>ヘッダー ファイル\Engine\Object\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Object\Particle\Common\ParticleBase.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Particle\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component\Struct\EmitterData.h">
-      <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Object\Particle\ParticleEmitterObject.h">
       <Filter>ヘッダー ファイル\Engine\Object\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Component\Struct\DescriptorData.h">
       <Filter>ヘッダー ファイル\Engine\Component\Struct</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameBase.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Object\Particle\EmitterFrame\EmitterFrameSquare.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Particle\EmitterFrame</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\CollisionsManager.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision</Filter>
@@ -629,17 +659,107 @@
     <ClInclude Include="Engine\Component\Application\Colliders_Collision\Geometry\Common\BaseShapeCollider.h">
       <Filter>ヘッダー ファイル\Engine\Component\Application\Collider/Collision\Geometry\Common</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Object\Particle\Common\GPUParticleBase.h">
-      <Filter>ヘッダー ファイル\Engine\Object\Particle\Common</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Common\ComputeCommon.h">
       <Filter>ヘッダー ファイル\Engine\Common</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Common\ShadowMapCommon.h">
       <Filter>ヘッダー ファイル\Engine\Common</Filter>
     </ClInclude>
-    <ClInclude Include="ExecuteIndirect.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\Object\Geometry\Base\SpriteBase.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Base\GeometryBase.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Common\SpriteCommon.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\MaterialData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\ObjModelData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\Texture.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\TransformationMatrixData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\VertexData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\LightsData\DirectionalLightData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\ParticleDatas\EmitterData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\ParticleDatas\ParticleData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\ParticleDatas\ParticleForGPUData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\PipelineDatas.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Common\GeometryCommon.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\Base\GPUParticleBase.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\Base\ParticleBase.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\Common\GPUParticleCommon.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\Common\ParticleCommon.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\EmitterFrame\Base\EmitterFrameBase.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\EmitterFrame\EmitterFrameSquare.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle\EmitterFrame</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Particle\EmitterFrame\Common\EmitterFrameCommon.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Particle\EmitterFrame\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\SceneManager.h">
+      <Filter>ヘッダー ファイル\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Scene\BaseScene.h">
+      <Filter>ヘッダー ファイル\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Struct\GeometryDatas\CameraForGPUData.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Struct\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Input\KeyboardInput.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Input\GamePadInput.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Application\Input\MouseInput.h">
+      <Filter>ヘッダー ファイル\Engine\Component\Application\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\Sample1Scene.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\Sample2Scene.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Base\Sprite3DBase.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Sprite2D.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object\Geometry\Sprite3D.h">
+      <Filter>ヘッダー ファイル\Engine\Object\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -682,12 +802,6 @@
     <FxCompile Include="Resources\Shaders\Particle\GPUParticle.VS.hlsl">
       <Filter>リソース ファイル\Shader\Particle</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\Execute.VS.hlsl">
-      <Filter>リソース ファイル\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Execute.PS.hlsl">
-      <Filter>リソース ファイル\Shader</Filter>
-    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="External\imgui\LICENSE.txt">
@@ -704,5 +818,6 @@
     <None Include="Resources\Shaders\Particle\Particle.hlsli">
       <Filter>リソース ファイル\Shader\Particle</Filter>
     </None>
+    <None Include="Resources\GlovalVariables\Light.json" />
   </ItemGroup>
 </Project>

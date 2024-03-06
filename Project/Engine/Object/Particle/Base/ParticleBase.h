@@ -4,19 +4,18 @@
 #include <vector>
 #include <list>
 
+#include "DirectXCommon.h"
+
 #include "Transform.h"
-#include "Pipeline.h"
-
-#include "Camera.h"
-
-#include "Texture.h"
-#include "VertexData.h"
-#include "MaterialData.h"
-#include "ParticleData.h"
-#include "ParticleForGPUData.h"
+#include "GeometryDatas/Texture.h"
+#include "GeometryDatas/VertexData.h"
+#include "GeometryDatas/MaterialData.h"
+#include "ParticleDatas/ParticleData.h"
+#include "ParticleDatas/ParticleForGPUData.h"
 
 #include <random>
 
+class Camera;
 class ParticleBase
 {
 private:
@@ -24,9 +23,8 @@ private:
 	template <class T> using vector = std::vector<T>;
 	template <class T> using list = std::list<T>;
 public:
-	~ParticleBase(){
-		delete pipeline_;
-	}
+	~ParticleBase(){}
+
 	virtual void Update();
 	virtual void Draw(Camera* camera);
 
@@ -40,10 +38,6 @@ protected:
 	virtual void ApplyGlobalVariablesInitialize();
 	virtual void ApplyGlobalVariablesUpdate();
 
-private:
-	//パイプライン
-	void PipelineStateInitialize();
-
 protected:
 	//頂点リソース/ビュー
 	void CreateVertex();
@@ -55,13 +49,6 @@ protected:
 protected:
 	//Instance
 	DirectXCommon* dxCommon = nullptr;
-
-	//パイプライン関係
-	Pipeline* pipeline_ = nullptr;
-
-	vector<D3D12_ROOT_PARAMETER> rootParameters_;			//ルートパラメータ
-	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDesc_;		//インプットレイアウト
-	vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers_;		//サンプラー
 
 	//テクスチャ情報
 	Texture texture_;
@@ -78,10 +65,6 @@ protected:
 	D3D12_CPU_DESCRIPTOR_HANDLE instancingSrvHandleCPU_;
 	D3D12_GPU_DESCRIPTOR_HANDLE instancingSrvHandleGPU_;
 
-	//描画方法
-	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
-	D3D_PRIMITIVE_TOPOLOGY commandPrimitiveTopology_ = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;				//コマンドリスト
-
 protected:
 	//頂点データ
 	VertexData* vertData_ = nullptr;
@@ -97,10 +80,6 @@ protected:
     bool billboardTypeEnable[3] = { true, false, false}; //
 	Matrix4x4 billboardMatrix_;
 
-	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_SOLID;	//塗りつぶし
-
-	BlendSetting::BlendMode blendMode_ = BlendSetting::BlendMode::kBlendModeAdd;
-
 	//パラメータ
 	//最大数
 	int kNumMaxInstance_ = 100;
@@ -110,8 +89,5 @@ protected:
 	const float kDeltaTime_ = 1.0f/60.f;
 
 	std::string texturePath_ = "uvChecker.png";
-
-	std::string VSPath_ = "Particle/Particle.VS.hlsl";
-	std::string PSPath_ = "Particle/Particle.PS.hlsl";
 };
 

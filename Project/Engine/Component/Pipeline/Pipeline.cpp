@@ -190,7 +190,7 @@ bool Pipeline::CreateBlendState()
 {
 	//PixelShaderからの出力を画面にどのように書き込むか設定する項目
 
-	blendSetting_ = BlendSetting::GetInstance();
+	blendSetting_ = BlendSetting::Create();
 	blendSetting_->BlendSet(blendMode_);
 	blendDesc_ = blendSetting_->GetBlendDesc();
 

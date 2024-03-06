@@ -1,12 +1,20 @@
-#include "Object3D.hlsli"
+﻿#include "Object3D.hlsli"
 
 struct Material
 {
     float4 color;
     int enableLighting;
     float4x4 uvTransform;
+    float shininess;
 };
-ConstantBuffer<Material> gMaterial : register(b1);
+ConstantBuffer<Material> gMaterial : register(b2);
+
+//カメラ
+struct Camera
+{
+    float3 worldPosition;
+};
+ConstantBuffer<Camera> gCamera : register(b3);
 
 
 Texture2D<float4> gTexture : register(t0); //SRVのレジスタ
@@ -23,7 +31,6 @@ PixelShaderOutput main(VertexShaderOutput input)
     float4 textureColor = gTexture.Sample(gSampler, transformUV.xy); //サンプラー(絵)を基に、UVに応じたピクセルをTexture(ピクセル)に抽出
     
     PixelShaderOutput output;
-    
 
     if (textureColor.a == 0.0f)
     {
@@ -37,9 +44,33 @@ PixelShaderOutput main(VertexShaderOutput input)
 
     if (gMaterial.enableLighting != 0)
     {
-        float NdotL = dot(normalize(input.normal), -lightDirection);
+        float3 dir = normalize(lightDirection).xyz;
+        float3 col = normalize(lightColor).rgb;
+        
+        //Condition Light
+        float NdotL = dot(normalize(input.normal), -dir);
         float cos = pow(NdotL * 0.5f + 0.5f, 2.0f);
-        output.color.rgb = (gMaterial.color.rgb * textureColor.rgb) * (lightColor.xyz * cos * lightIntensity);
+        
+        //EyeVector
+        float3 toEye = normalize(gCamera.worldPosition - input.worldPosition);
+        //ReflectLight
+        float3 reflectLight = reflect(dir, normalize(input.normal));
+        
+        //EyeVector + direction 
+        float3 halfVector = normalize(-dir + toEye);
+        //Condition Light from Eye
+        float NDotH = dot(normalize(input.normal), halfVector);
+        //ReflectdPower
+        float specularPow = pow(saturate(NDotH), gMaterial.shininess);
+
+        
+        float3 diffuse =
+        gMaterial.color.rgb * textureColor.rgb * col * cos * lightIntensity;
+        float3 specular =
+        col * lightIntensity * specularPow * float3(1.0f, 1.0f, 1.0f);
+        //Com
+        output.color.rgb = diffuse + specular;
+        //Alpha
         output.color.a = gMaterial.color.a * textureColor.a;
     }
     else

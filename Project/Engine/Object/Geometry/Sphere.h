@@ -1,5 +1,5 @@
 #pragma once
-#include "Common/GeometryBase.h"
+#include "Base/GeometryBase.h"
 class Sphere : public GeometryBase
 {
 public:
@@ -16,7 +16,7 @@ public:
 
 		texturePath_ = "monsterBall.png";
 
-		PSPath_ = "Object3D/Object3D.PS.Texture.hlsl";
+		//PSPath_ = "Object3D/Object3D.PS.Texture.hlsl";
 	}
 	void Update();
 

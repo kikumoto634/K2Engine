@@ -18,6 +18,8 @@ public:
 	Vector4& operator-=(const Vector4& v);
 	Vector4& operator*=(float s);
 	Vector4& operator/=(float s);
+
+	bool operator==(const Vector4& v) const;
 };
 
 const Vector4 operator+(const Vector4& v1, const Vector4& v2);

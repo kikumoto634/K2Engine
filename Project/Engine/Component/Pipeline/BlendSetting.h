@@ -19,7 +19,7 @@ public:
 	};
 
 public:
-	static BlendSetting* GetInstance();
+	static BlendSetting* Create();
 
 public:
 	//設定
@@ -39,8 +39,6 @@ private:
 	void Mul();
 	void Screen();
 
-private:
-	static BlendSetting* instance_;
 
 private:
 	//ブレンドディスク		: PixelShaderからの出力を画面にどのように書き込むか設定する項目

@@ -1,0 +1,17 @@
+{
+    "Light": {
+        "1.direction": [
+            0.0,
+            -1.0,
+            0.0
+        ],
+        "2.color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "3.LightIntensity": 4.0,
+        "4.SpecularIntensity": 20.0
+    }
+}

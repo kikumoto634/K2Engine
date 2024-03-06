@@ -56,6 +56,14 @@ Vector4 &Vector4::operator/=(float s)
 	return *this;
 }
 
+bool Vector4::operator==(const Vector4 &v) const
+{
+	if(x==v.x && y==v.y && z==v.z && w==v.w){
+		return true;
+	}
+	return false;
+}
+
 const Vector4 operator+(const Vector4 &v1, const Vector4 &v2)
 {
 	Vector4 temp(v1);

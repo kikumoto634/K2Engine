@@ -1,5 +1,6 @@
 #pragma once
-#include "Common/GeometryBase.h"
+#include "Base/GeometryBase.h"
+
 #include "ObjLoader.h"
 
 class ObjModel : public GeometryBase
@@ -14,12 +15,14 @@ public:
 		rotation = lTransform.rotation;
 		scale = lTransform.scale;
 
-		blendMode_ = mode;
+		pipelineDatas.blendMode = mode;
 	}
 
 protected:
 	void ObjModelLoad();
 	void ObjModelVertexData();
+
+	bool PipelineCreate() override;
 
 private:
 	std::string filePath_;

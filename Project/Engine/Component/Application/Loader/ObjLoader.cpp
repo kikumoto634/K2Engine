@@ -30,6 +30,7 @@ ObjModelData LoadObjFile(const std::string &fileName)
         //・ vt    : 頂点UV
         //・ vn    : 頂点法線
         //・ g     : 面
+        //・ f     : 面情報(インデックス)
         //・ mtlib : テクスチャ
         ///
 
@@ -80,7 +81,6 @@ ObjModelData LoadObjFile(const std::string &fileName)
 
                 triangle[faceVertex] = {lpos, luv, lnor};
             }
-
             //頂点を逆順で登録することで、周り順を逆にする
             modelData.vertices.push_back(triangle[2]);
             modelData.vertices.push_back(triangle[1]);
@@ -94,6 +94,8 @@ ObjModelData LoadObjFile(const std::string &fileName)
             modelData.material = LoadObjMaterialTemplateFile(fileName, materialFileName);
         }
     }
+
+    file.close();
     return modelData;
 }
 

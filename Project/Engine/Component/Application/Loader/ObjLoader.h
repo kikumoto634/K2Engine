@@ -1,6 +1,7 @@
 #pragma once
-#include "ObjModelData.h"
 #include <string>
+
+#include "GeometryDatas/ObjModelData.h"
 
 //Objファイル読み込み
 ObjModelData LoadObjFile(const std::string& fileName);

@@ -1,41 +1,33 @@
 #pragma once
-#include <wrl.h>
-#include <dxcapi.h>
-#include <vector>
+#include "Geometry/Common/SpriteCommon.h"
 
-#include "Pipeline.h"
-#include "DirectXCommon.h"
 #include "Transform.h"
-#include "Texture.h"
-#include "Camera.h"
+#include "GeometryDatas/Texture.h"
+#include "GeometryDatas/VertexData.h"
+#include "GeometryDatas/MaterialData.h"
+#include "GeometryDatas/TransformationMatrixData.h"
 
-#include "VertexData.h"
-#include "MaterialData.h"
-#include "TransformationMatrixData.h"
-
+class Camera;
 class SpriteBase : public Transform
 {
 private:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	template <class T> using vector = std::vector<T>;
 
 public:
-	~SpriteBase(){
-		delete pipeline_;
-	}
 	void Draw(Camera* camera);
 
 protected:
 	//初期化
-	void Initialize(bool isIndexEnable = true);
+	void Initialize();
 
+	//グローバル設定
 	void ApplyGlobalVariablesInitialize();
 	void ApplyGlobalVariablesUpdate();
 
-private:
-	//パイプライン
-	void PipelineStateInitialize();
+	//パイプラインを新規作成したい場合、生成後、trueを返却する(呼び出しは不要)
+	virtual bool PipelineCreate(){return false;}
 
+private:
 	//頂点リソース/ビュー
 	void CreateVertex();
 	//インデックスリソース/ビュー
@@ -48,12 +40,6 @@ private:
 private:
 	//Instance
 	DirectXCommon* dxCommon = nullptr;
-
-	//パイプライン関係
-	Pipeline* pipeline_ = nullptr;
-	vector<D3D12_ROOT_PARAMETER> rootParameters_;			//ルートパラメータ
-	vector<D3D12_INPUT_ELEMENT_DESC> inputElementDesc_;		//インプットレイアウト
-	vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers_;		//サンプラー
 
 	//テクスチャ情報
 	Texture texture_;
@@ -71,11 +57,6 @@ private:
 	ComPtr<ID3D12Resource> wvpResource_;		//行列
 	TransformationMatrix* wvpData_ = nullptr;
 
-	//描画方法
-	D3D12_PRIMITIVE_TOPOLOGY_TYPE pipelinePrimitiveTopology_ = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;	//パイプライン
-	D3D_PRIMITIVE_TOPOLOGY commandPrimitiveTopology_ = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;				//コマンドリスト
-
-
 protected:
 	Transform uvTransformSprite_{
 		{0.0f, 1.0f, 0.0f},
@@ -92,14 +73,13 @@ protected:
 	uint32_t* indexData_ = nullptr;
 	UINT indexNum_ = 6;
 
-	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_SOLID;	//塗りつぶし
-
 	//パラメータ
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
+	std::string texturePath_;
 
-	std::string texturePath_ = "white1x1.png";
-
-	std::string VSPath_ = "Sprite/Sprite.VS.hlsl";
-	std::string PSPath_ = "Sprite/Sprite.PS.Texture.hlsl";
+	
+	//共有処理を変更する場合の設定
+	bool isPipelineCreateCheck = false;
+	PipelineDatas pipelineDatas;
 };
 

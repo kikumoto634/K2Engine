@@ -32,7 +32,7 @@ void LightingGroup::Initialize()
 	resource_->Map(0,nullptr, reinterpret_cast<void**>(&data_));
 
 	//平行光源
-	data_->direction = {0,-1,0};
+	data_->direction = rotation;
 	data_->color = lightColor_;
 	data_->intensity = lightIntensity_;
 
@@ -44,7 +44,7 @@ void LightingGroup::Update()
 	ApplyGlobalVariablesUpdate();
 
 	//平行光源
-	data_->direction = {0,-1,0};
+	data_->direction = rotation;
 	data_->color = lightColor_;
 	data_->intensity = lightIntensity_;
 }
@@ -58,17 +58,17 @@ void LightingGroup::ApplyGlobalVariablesInitialize()
 	GlobalVariables::GetInstance()->CreateGroup(name);
 	globalVariables->AddItem(name, "1.direction", rotation);
 	globalVariables->AddItem(name, "2.color", lightColor_);
-	globalVariables->AddItem(name, "3.intensity", lightIntensity_);
+	globalVariables->AddItem(name, "3.LightIntensity", lightIntensity_);
+	globalVariables->AddItem(name, "4.SpecularIntensity", specularPower);
 #endif // _DEBUG
 }
 
 void LightingGroup::ApplyGlobalVariablesUpdate()
 {
-#ifdef _DEBUG
 	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
 	const char* name = "Light";
 	rotation = globalVariables->GetVector3Value(name, "1.direction");
 	lightColor_ = globalVariables->GetVector4Value(name, "2.color");
-	lightIntensity_ = globalVariables->GetFloatValue(name, "3.intensity");
-#endif // _DEBUG
+	lightIntensity_ = globalVariables->GetFloatValue(name, "3.LightIntensity");
+	specularPower = globalVariables->GetFloatValue(name, "4.SpecularIntensity");
 }
