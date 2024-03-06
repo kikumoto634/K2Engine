@@ -18,7 +18,6 @@ private:
 	struct IndirectCommand{
 		//転送するリソース
 		D3D12_GPU_VIRTUAL_ADDRESS material;
-		D3D12_GPU_VIRTUAL_ADDRESS wvp;
 		D3D12_DRAW_ARGUMENTS drawArguments;
 	};
 
@@ -55,9 +54,11 @@ private:
 
 	ComPtr<ID3D12Resource> wvpResource_;
 	Matrix4x4* wvpData_ = nullptr;
+	D3D12_CPU_DESCRIPTOR_HANDLE wvpInstancingCPU_;
+	D3D12_GPU_DESCRIPTOR_HANDLE wvpInstancingGPU_;
 
 	//コマンド個数(10万)
-	const UINT kCommandNum = 1000;
+	const UINT kCommandNum = 100;
 	//インスタンス数(10万)
 	const UINT kInstanceNum = 100;
 

@@ -2,7 +2,7 @@ struct ParticleForGPU
 {
     float4x4 WVP;
 };
-ConstantBuffer<ParticleForGPU> gParticleForGPU : register(b0);
+StructuredBuffer<ParticleForGPU> gParticleForGPU : register(t0);
 
 struct VertexShaderOutput
 {
@@ -14,10 +14,10 @@ struct VertexShaderInput
     float4 position : POSITION0;
 };
 
-VertexShaderOutput main(VertexShaderInput input)
+VertexShaderOutput main(VertexShaderInput input, uint instanceId : SV_InstanceID)
 {
     VertexShaderOutput output;
     float4 pos = input.position;
-    output.position = mul(pos, gParticleForGPU.WVP);
+    output.position = mul(pos, gParticleForGPU[instanceId].WVP);
     return output;
 }

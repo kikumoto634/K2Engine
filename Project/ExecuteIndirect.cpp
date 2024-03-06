@@ -23,24 +23,21 @@ void ExecuteIndirect::Initialize()
 
 	std::random_device seedGenerator_;
 	std::mt19937 randomEngine(seedGenerator_());
-	std::uniform_real_distribution<float> distValue(-0.5f,0.5f);
+	std::uniform_real_distribution<float> distValue(-10.f,10.f);
 	for(int i = 0; i < (int)kInstanceNum; i++){
-		//Vector3 temp = {distValue(randomEngine), distValue(randomEngine), distValue(randomEngine)};
+		Vector3 temp = {distValue(randomEngine), distValue(randomEngine), distValue(randomEngine)};
 
-		transform.push_back({{0,0,0}, {0,0,0}, {1,1,1}});
+		transform.push_back({temp, {0,0,0}, {1,1,1}});
 	}
 
 
 	//コマンドシグネチャ
-	D3D12_INDIRECT_ARGUMENT_DESC argumentDescs[3] = {};
+	D3D12_INDIRECT_ARGUMENT_DESC argumentDescs[2] = {};
 	//色
 	argumentDescs[0].Type = D3D12_INDIRECT_ARGUMENT_TYPE_CONSTANT_BUFFER_VIEW;
 	argumentDescs[0].ConstantBufferView.RootParameterIndex = 0;
-	//行列コマンド
-	argumentDescs[1].Type = D3D12_INDIRECT_ARGUMENT_TYPE_CONSTANT_BUFFER_VIEW;
-	argumentDescs[1].ShaderResourceView.RootParameterIndex = 1;
 	//描画コマンド
-	argumentDescs[2].Type = D3D12_INDIRECT_ARGUMENT_TYPE_DRAW;
+	argumentDescs[1].Type = D3D12_INDIRECT_ARGUMENT_TYPE_DRAW;
 
 	D3D12_COMMAND_SIGNATURE_DESC commandSignatureDesc = {};
 	commandSignatureDesc.pArgumentDescs = argumentDescs;
@@ -51,7 +48,7 @@ void ExecuteIndirect::Initialize()
 
 	
 	//コマンドバッファ(サイズは使用するリソース sizeが謎?
-	commandResource_ = CreateBufferResource(dxCommon->GetDevice(), (sizeof(Vector4)*3) * kCommandNum);
+	commandResource_ = CreateBufferResource(dxCommon->GetDevice(), (sizeof(IndirectCommand)) * kCommandNum);
 
 	//コマンドバッファのマップ
 	IndirectCommand* mapIndirectCommamdData = nullptr;
@@ -60,13 +57,11 @@ void ExecuteIndirect::Initialize()
 	//転送する各リソースのメモリサイズ
 	//マテリアルのサイズ
 	D3D12_GPU_VIRTUAL_ADDRESS materialGpuAddress = materialResource_->GetGPUVirtualAddress();
-	D3D12_GPU_VIRTUAL_ADDRESS wvpGpuAddress = wvpResource_->GetGPUVirtualAddress();
 
 	for(UINT i = 0; i < kCommandNum; ++i){
 		
 		//色
 		mapIndirectCommamdData[i].material = materialGpuAddress;
-		mapIndirectCommamdData[i].wvp = wvpGpuAddress;
 
 		mapIndirectCommamdData[i].drawArguments.VertexCountPerInstance = vertNum;
 		mapIndirectCommamdData[i].drawArguments.InstanceCount = kInstanceNum;
@@ -75,7 +70,6 @@ void ExecuteIndirect::Initialize()
 
 		//色のGPUアドレスをサイズ分更新
 		materialGpuAddress += sizeof(Vector4);
-		wvpGpuAddress += sizeof(Matrix4x4);
 	}
 
 	commandResource_->Unmap(0,nullptr);
@@ -87,6 +81,7 @@ void ExecuteIndirect::Update()
 
 void ExecuteIndirect::Draw(Camera* camera)
 {
+	#pragma omp parallel for
 	for(int i = 0; i < (int)kInstanceNum; i++){
 		wvpData_[i] = transform[i].GetWorldMatrix() * camera->GetViewProjectionMatrix();
 	}
@@ -97,13 +92,12 @@ void ExecuteIndirect::Draw(Camera* camera)
 	dxCommon->GetCommandList()->IASetVertexBuffers(0,1,&vertexBufferView_);		//VBV設定
 
 	//形状設定、PSOに設定しているのとは別
-	//dxCommon->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	dxCommon->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
 
 	//色
 	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
 	//行列
-	dxCommon->GetCommandList()->SetGraphicsRootConstantBufferView(1,wvpResource_->GetGPUVirtualAddress());
+	dxCommon->GetCommandList()->SetGraphicsRootDescriptorTable(1,wvpInstancingGPU_);
 
 	//描画
 	//dxCommon->GetCommandList()->DrawInstanced(3,1,0,0);
@@ -122,6 +116,13 @@ void ExecuteIndirect::CreatePipeline()
 {
 	pipeline_ = new Pipeline();
 
+	D3D12_DESCRIPTOR_RANGE SRVDescriptorRange[1] = {};
+	//行列
+	SRVDescriptorRange[0].BaseShaderRegister = 0;
+	SRVDescriptorRange[0].NumDescriptors = 1;
+	SRVDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	SRVDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
 	//ルートパラメータ
 	rootParameters_.resize(2);
 	//色
@@ -129,9 +130,10 @@ void ExecuteIndirect::CreatePipeline()
 	rootParameters_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 	rootParameters_[0].Descriptor.ShaderRegister = 0;
 	//行列
-	rootParameters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters_[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
 	rootParameters_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-	rootParameters_[1].Descriptor.ShaderRegister = 0;
+	rootParameters_[1].DescriptorTable.pDescriptorRanges = &SRVDescriptorRange[0];
+	rootParameters_[1].DescriptorTable.NumDescriptorRanges = 1;
 
 	//インプットレイアウト
 	inputElementDesc_.resize(1);
@@ -199,4 +201,16 @@ void ExecuteIndirect::CreateWVP()
 	for(int i = 0; i < (int)kInstanceNum; i++){
 		wvpData_[i] = MakeIdentityMatrix();
 	}
+	D3D12_SHADER_RESOURCE_VIEW_DESC instancingSrvDeasc{};
+	instancingSrvDeasc.Format = DXGI_FORMAT_UNKNOWN;
+	instancingSrvDeasc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	instancingSrvDeasc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	instancingSrvDeasc.Buffer.FirstElement = 0;
+	instancingSrvDeasc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	instancingSrvDeasc.Buffer.NumElements = kInstanceNum;
+	instancingSrvDeasc.Buffer.StructureByteStride = sizeof(Matrix4x4);
+
+	wvpInstancingCPU_ = GetCPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV());
+	wvpInstancingGPU_ = GetGPUDescriptorHandle(dxCommon->GetSRVDescriptorHeap(), dxCommon->GetDescriptorSizeSRV());
+	dxCommon->GetDevice()->CreateShaderResourceView(wvpResource_.Get(), &instancingSrvDeasc, wvpInstancingCPU_);
 }
