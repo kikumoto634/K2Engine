@@ -472,6 +472,7 @@ void DirectXCommon::UpdateFixFPS()
 	//fps
 	double frameDurationSeconds = static_cast<double>(elapsed.count())/1e6;
 	fps_ = 1.0 / frameDurationSeconds;
+	WindowsApp::Log_f(fps_);
 
 	//現在時刻
 	reference_ = std::chrono::steady_clock::now();
