@@ -52,14 +52,14 @@ void KeyboardInput::Update()
 {
 	HRESULT result{};
 	result = keyboard_->Acquire();
-	if(FAILED(result)) return;
+	//assert(SUCCEEDED(result));
 
 	for(int i = 0; i < KeyNum_; i++){
 		preKey_[i] = key_[i];
 	}
 
 	result = keyboard_->GetDeviceState(sizeof(key_), key_);
-	assert(SUCCEEDED(result));
+	//assert(SUCCEEDED(result));
 }
 
 

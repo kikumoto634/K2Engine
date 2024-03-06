@@ -60,8 +60,8 @@ void FrameWork::Run()
 
 		//描画
 		app_->GeometryDraw();
-		app_->SpriteDraw();
-		app_->ParticleDraw();
+		//app_->SpriteDraw();
+		//app_->ParticleDraw();
 
 #ifdef _DEBUG
 		ImGuiManager::CommandsExcute(dxCommon_->GetCommandList());

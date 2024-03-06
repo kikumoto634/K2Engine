@@ -38,6 +38,8 @@ public:
 	DirectXCommon() = default;
 	~DirectXCommon(){
 		CloseHandle(fenceEvent_);
+		dxgiDebug_->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
+		dxgiDebug_->Release();
 	}
 
 	void PreDraw();
@@ -144,7 +146,8 @@ private:
 
 #ifdef _DEBUG
 	//デバックレイヤー
-	ComPtr<ID3D12Debug1> debugController_;
+	//ComPtr<ID3D12Debug1> debugController_;
+	IDXGIDebug* dxgiDebug_ = nullptr;
 #endif
 
 	//DXGIファクトリー

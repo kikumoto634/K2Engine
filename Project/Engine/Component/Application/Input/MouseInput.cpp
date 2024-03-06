@@ -48,14 +48,14 @@ void MouseInput::Update()
 {
 	HRESULT result{};
 	result = mouse_->Acquire();
-	if(FAILED(result)) return;
+	//assert(SUCCEEDED(result));
 	result = mouse_->Poll();
-	assert(SUCCEEDED(result));
+	//assert(SUCCEEDED(result));
 
 	preKey_ = key_;
 
 	result = mouse_->GetDeviceState(sizeof(key_), &key_);
-	assert(SUCCEEDED(result));
+	//assert(SUCCEEDED(result));
 }
 
 
