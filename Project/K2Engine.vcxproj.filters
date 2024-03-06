@@ -477,9 +477,6 @@
     <ClCompile Include="Engine\Scene\SceneManager.cpp">
       <Filter>ソース ファイル\Engine\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Scene\BaseScene.cpp">
-      <Filter>ソース ファイル\Engine\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Component\Application\Input\KeyboardInput.cpp">
       <Filter>ソース ファイル\Engine\Component\Application\Input</Filter>
     </ClCompile>
