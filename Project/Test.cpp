@@ -41,6 +41,14 @@ void Test::Initialize(bool isIndexEnable)
 
 void Test::Update()
 {
+	#pragma omp parallel for
+	for(int i = 0; i < trans.size(); i++){
+		trans[i].translate.y = trans[i].translate.y + sinf(time)*0.01f;
+	}
+	if(time > 100) time = 0;
+	time += 0.1f;
+	
+
 	ImGui::Text("ObjNum(%d) * VertexNum(%d) = Total(%d)", kNumMaxInstance_, vertNum_, kNumMaxInstance_*vertNum_);
 }
 
