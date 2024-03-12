@@ -147,7 +147,7 @@ ParticleData ParticleBase::MakeNewParticle(std::mt19937 &randomEngine, const Vec
 void ParticleBase::CreateVertex()
 {
 	//リソース
-	vertexResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(VertexData)*vertNum_);
+	vertexResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(VertexData)*vertNum_);
 	//ビュー
 	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*vertNum_, sizeof(VertexData));
 
@@ -159,7 +159,7 @@ void ParticleBase::CreateIndex()
 {
 	if(!isIndexDataEnable_) return ;
 
-	indexResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(uint32_t)*indexNum_);
+	indexResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(uint32_t)*indexNum_);
 
 	CreateBufferView(indexBufferView_, indexResource_.Get(), sizeof(uint32_t)*indexNum_);
 
@@ -169,7 +169,7 @@ void ParticleBase::CreateIndex()
 	
 void ParticleBase::CreateWVP()
 {
-	particleResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(ParticleForGPUData)*kNumMaxInstance_);
+	particleResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(ParticleForGPUData)*kNumMaxInstance_);
 	particleResource_->Map(0, nullptr, reinterpret_cast<void**>(&particleData_));
 	
 	for(int i = 0; i < kNumMaxInstance_; i++){

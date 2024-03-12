@@ -27,9 +27,6 @@ public:
 	void Draw(Camera* camera);
 
 private:
-	//パイプライン
-	void PipelineStateInitialize();
-
 	//頂点リソース/ビュー
 	void CreateVertex();
 	//定数リソース/ビュー
@@ -55,7 +52,7 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
 
 	ComPtr<ID3D12Resource> constResource_;		//定数
-	Vector4* materialData_ = nullptr;
+	Vector4 materialData_[1];
 
 	ComPtr<ID3D12Resource> wvpResource_;		//行列
 	Matrix4x4* wvpData_ = nullptr;
@@ -75,15 +72,15 @@ private:
 
 protected:
 	//頂点データ
-	Vector4* vertData_ = nullptr;
+	Vector4 vertData_[1];
 	UINT vertNum_ = 1;
 
 	D3D12_FILL_MODE fillMode_ = D3D12_FILL_MODE_WIREFRAME;	//塗りつぶし
 
 	//パラメータ
-	const int kNumMaxInstance = 10;
+	const int kNumMaxInstance = 10000;
 	list<Transform> transfrom_;
-	Vector4 color_ = {0.1f, 0.5f, 0.1f, 1.0f};
+	Vector4 color_ = {1.0f, 0.0f, 0.0f, 1.0f};
 
 
 	std::string VSPath_ = "Particle/GPUParticle.VS.hlsl";

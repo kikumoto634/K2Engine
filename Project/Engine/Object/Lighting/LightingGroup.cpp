@@ -27,7 +27,7 @@ void LightingGroup::Initialize()
 {
 	dxCommon = DirectXCommon::GetInstance();
 
-	resource_ = CreateBufferResource(dxCommon->GetDevice(),sizeof(DirectionalLightData));
+	resource_ = CreateBufferUploadResource(dxCommon->GetDevice(),sizeof(DirectionalLightData));
 
 	resource_->Map(0,nullptr, reinterpret_cast<void**>(&data_));
 

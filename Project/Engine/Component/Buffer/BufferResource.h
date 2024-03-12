@@ -8,15 +8,16 @@
 	
 // これらを全体的に管理するのが、「Heap」 
 // Resourceはどの種類のHeap上に配置するのか決めてから作成する
-// ・Default	(デフォルト)
-// ・Upload		(アップロード)
+// ・Default	(デフォルト)	GPU
+// ・Upload		(アップロード)	CPU
 // ・Readback	(リードバック)
 
 /// <summary>
 /// リソース作成関数
 /// </summary>
 /// <param name="sizeInByte"> 使用するバイトサイズ </param>
-ID3D12Resource* CreateBufferResource(ID3D12Device* device, size_t sizeInByte);
+ID3D12Resource* CreateBufferUploadResource(ID3D12Device* device, size_t sizeInByte);
+ID3D12Resource* CreateBufferDefaultResource(ID3D12Device* device, size_t sizeInByte);
 
 
 ID3D12Resource* CreateComputeBufferResource(ID3D12Device* device, size_t sizeInByte, D3D12_HEAP_TYPE heapType = D3D12_HEAP_TYPE_CUSTOM);

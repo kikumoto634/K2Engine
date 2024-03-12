@@ -58,9 +58,9 @@ private:
 	D3D12_GPU_DESCRIPTOR_HANDLE wvpInstancingGPU_;
 
 	//コマンド個数(10万)
-	const UINT kCommandNum = 100;
+	const UINT kCommandNum = 1;
 	//インスタンス数(10万)
-	const UINT kInstanceNum = 100;
+	const UINT kInstanceNum = 100000;
 
 	//座標
 	vector<Transform> transform;

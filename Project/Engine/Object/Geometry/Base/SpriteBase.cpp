@@ -79,14 +79,14 @@ void SpriteBase::Draw(Camera* camera)
 
 void SpriteBase::CreateVertex()
 {
-	vertexResource_ = CreateBufferResource(dxCommon->GetDevice() ,sizeof(VertexData)*vertNum_);
+	vertexResource_ = CreateBufferUploadResource(dxCommon->GetDevice() ,sizeof(VertexData)*vertNum_);
 	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*vertNum_, sizeof(VertexData));
 	vertexResource_->Map(0,nullptr,reinterpret_cast<void**>(&vertData_));
 }
 
 void SpriteBase::CreateIndex()
 {
-	indexResource_ = CreateBufferResource(dxCommon->GetDevice() ,sizeof(uint32_t)*indexNum_);
+	indexResource_ = CreateBufferUploadResource(dxCommon->GetDevice() ,sizeof(uint32_t)*indexNum_);
 	CreateBufferView(indexBufferView_, indexResource_.Get(), sizeof(uint32_t)*indexNum_);
 	//インデックスリソースにデータを書き込む
 	indexResource_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
@@ -94,7 +94,7 @@ void SpriteBase::CreateIndex()
 
 void SpriteBase::CreateMaterial()
 {
-	constResource_ = CreateBufferResource(dxCommon->GetDevice() ,sizeof(TextureMaterial));
+	constResource_ = CreateBufferUploadResource(dxCommon->GetDevice() ,sizeof(TextureMaterial));
 
 	constResource_->Map(0,nullptr,reinterpret_cast<void**>(&materialData_));
 	materialData_->color = color_;
@@ -103,7 +103,7 @@ void SpriteBase::CreateMaterial()
 
 void SpriteBase::CreateWVP()
 {
-	wvpResource_ = CreateBufferResource(dxCommon->GetDevice() ,sizeof(TransformationMatrix));
+	wvpResource_ = CreateBufferUploadResource(dxCommon->GetDevice() ,sizeof(TransformationMatrix));
 	wvpResource_->Map(0,nullptr,reinterpret_cast<void**>(&wvpData_));
 	Matrix4x4 worldMatrixSprite = worldMatrixSprite.MakeIdentityMatrix();
 	wvpData_->WVP = worldMatrixSprite;

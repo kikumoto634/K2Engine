@@ -1,6 +1,7 @@
 #include "GPUParticleBase.h"
 
 #include <random>
+#include <d3dx12.h>
 
 #include "Camera.h"
 
@@ -8,6 +9,8 @@
 #include "BufferResource.h"
 #include "BufferView.h"
 #include "DescriptorHeap.h"
+
+using namespace Microsoft::WRL;
 
 
 GPUParticleBase *GPUParticleBase::Create()
@@ -83,28 +86,72 @@ void GPUParticleBase::Draw(Camera* camera)
 
 void GPUParticleBase::CreateVertex()
 {
+	//中身設置
+	vertData_[0] = {0,0,0,1};
+
 	//リソース
-	vertexResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(Vector4)*vertNum_);
+	vertexResource_ = CreateBufferDefaultResource(dxCommon->GetDevice(), sizeof(Vector4)*vertNum_);
+	//中間リソース
+	ComPtr<ID3D12Resource> vertexResourceUpload = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(Vector4)*vertNum_);
+
+	//この時点で頂点情報を決めないとあかん
+	D3D12_SUBRESOURCE_DATA vertexSubResourceData_;
+	vertexSubResourceData_.pData = reinterpret_cast<UINT8*>(vertData_);
+	vertexSubResourceData_.RowPitch = sizeof(Vector4)*vertNum_;
+	vertexSubResourceData_.SlicePitch = vertexSubResourceData_.RowPitch;
+
+	//中間リソース内容をリソースに転送
+	UpdateSubresources<1>(
+		dxCommon->GetCommandList(), 
+		vertexResource_.Get(), vertexResourceUpload.Get(), 
+		0, 0, 1, &vertexSubResourceData_
+	);
+
+	//コマンド積み
+	dxCommon->GetCommandList()->ResourceBarrier(
+		1,
+		&CD3DX12_RESOURCE_BARRIER::Transition(vertexResource_.Get(),
+			D3D12_RESOURCE_STATE_COPY_DEST,D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER)
+	);
+
 	//ビュー
 	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(Vector4)*vertNum_, sizeof(Vector4));
-	//頂点リソースにデータを書き込む
-	//書き込むためのアドレス取得
-	vertexResource_->Map(0,nullptr,reinterpret_cast<void**>(&vertData_));
-
-	vertData_[0] = {0.0f,0.0f,0.0f, 1.0f};
 }
 
 void GPUParticleBase::CreateMaterial()
 {
-	constResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(Vector4));
+	//中身設置
+	materialData_[0] = color_;
+	
+	//リソース
+	constResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(Vector4));
+	//中間リソース
+	ComPtr<ID3D12Resource> constResourceUpload = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(Vector4));
 
-	constResource_->Map(0,nullptr,reinterpret_cast<void**>(&materialData_));
-	*materialData_ = color_;
+	//この時点で頂点情報を決めないとあかん
+	D3D12_SUBRESOURCE_DATA constSubResourceData_;
+	constSubResourceData_.pData = reinterpret_cast<UINT8*>(materialData_);
+	constSubResourceData_.RowPitch = sizeof(Vector4);
+	constSubResourceData_.SlicePitch = constSubResourceData_.RowPitch;
+
+	//中間リソース内容をリソースに転送
+	UpdateSubresources<1>(
+		dxCommon->GetCommandList(), 
+		constResource_.Get(), constResourceUpload.Get(), 
+		0, 0, 1, &constSubResourceData_
+	);
+
+	//コマンド積み
+	dxCommon->GetCommandList()->ResourceBarrier(
+		1,
+		&CD3DX12_RESOURCE_BARRIER::Transition(vertexResource_.Get(),
+			D3D12_RESOURCE_STATE_COPY_DEST,D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER)
+	);
 }
 
 void GPUParticleBase::CreateWVP()
 {
-	wvpResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(Matrix4x4)*kNumMaxInstance);
+	wvpResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(Matrix4x4)*kNumMaxInstance);
 
 	wvpResource_->Map(0, nullptr, reinterpret_cast<void**>(&wvpData_));
 	

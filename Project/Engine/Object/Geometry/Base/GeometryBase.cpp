@@ -99,7 +99,7 @@ void GeometryBase::Draw(Camera* camera)
 void GeometryBase::CreateVertex()
 {
 	//リソース
-	vertexResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(VertexData)*vertNum_);
+	vertexResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(VertexData)*vertNum_);
 	//ビュー
 	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(VertexData)*vertNum_, sizeof(VertexData));
 
@@ -112,7 +112,7 @@ void GeometryBase::CreateIndex()
 {
 	if(!isIndexDataEnable_) return ;
 
-	indexResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(uint32_t)*indexNum_);
+	indexResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(uint32_t)*indexNum_);
 
 	CreateBufferView(indexBufferView_, indexResource_.Get(), sizeof(uint32_t)*indexNum_);
 
@@ -122,7 +122,7 @@ void GeometryBase::CreateIndex()
 
 void GeometryBase::CreateMaterial()
 {
-	materialResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(GeometryMaterial));
+	materialResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(GeometryMaterial));
 
 	materialResource_->Map(0,nullptr,reinterpret_cast<void**>(&materialData_));
 	materialData_->enableLighting = isLightEnable_;
@@ -132,7 +132,7 @@ void GeometryBase::CreateMaterial()
 
 void GeometryBase::CreateWVP()
 {
-	wvpResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(TransformationMatrix));
+	wvpResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(TransformationMatrix));
 
 	wvpResource_->Map(0, nullptr, reinterpret_cast<void**>(&wvpData_));
 	
@@ -143,7 +143,7 @@ void GeometryBase::CreateWVP()
 
 void GeometryBase::CreateCamera()
 {
-	cameraResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(CameraForGPUData));
+	cameraResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(CameraForGPUData));
 
 	cameraResource_->Map(0, nullptr, reinterpret_cast<void**>(&cameraData_));
 	

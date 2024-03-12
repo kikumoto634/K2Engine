@@ -38,8 +38,10 @@ public:
 	DirectXCommon() = default;
 	~DirectXCommon(){
 		CloseHandle(fenceEvent_);
+#ifdef _DEBUG
 		dxgiDebug_->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
 		dxgiDebug_->Release();
+#endif // _DEBUG
 	}
 
 	void PreDraw();

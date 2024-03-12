@@ -47,7 +47,7 @@ void EmitterFrameBase::Draw(Camera* camera)
 void EmitterFrameBase::CreateVertex()
 {
 	//リソース
-	vertexResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(Vector4)*vertNum_);
+	vertexResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(Vector4)*vertNum_);
 	//ビュー
 	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(Vector4)*vertNum_, sizeof(Vector4));
 	//頂点リソースにデータを書き込む
@@ -57,7 +57,7 @@ void EmitterFrameBase::CreateVertex()
 
 void EmitterFrameBase::CreateIndex()
 {
-	indexResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(uint32_t)*indexNum_);
+	indexResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(uint32_t)*indexNum_);
 
 	CreateBufferView(indexBufferView_, indexResource_.Get(), sizeof(uint32_t)*indexNum_);
 
@@ -67,7 +67,7 @@ void EmitterFrameBase::CreateIndex()
 
 void EmitterFrameBase::CreateMaterial()
 {
-	constResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(Vector4));
+	constResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(Vector4));
 
 	constResource_->Map(0,nullptr,reinterpret_cast<void**>(&materialData_));
 	*materialData_ = color_;
@@ -75,7 +75,7 @@ void EmitterFrameBase::CreateMaterial()
 
 void EmitterFrameBase::CreateWVP()
 {
-	wvpResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(Matrix4x4));
+	wvpResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(Matrix4x4));
 
 	wvpResource_->Map(0, nullptr, reinterpret_cast<void**>(&wvpData_));
 	

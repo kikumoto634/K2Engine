@@ -26,6 +26,7 @@ void ExecuteIndirect::Initialize()
 	std::uniform_real_distribution<float> distValue(-10.f,10.f);
 	for(int i = 0; i < (int)kInstanceNum; i++){
 		Vector3 temp = {distValue(randomEngine), distValue(randomEngine), distValue(randomEngine)};
+		//Vector3 temp = {};
 
 		transform.push_back({temp, {0,0,0}, {1,1,1}});
 	}
@@ -48,7 +49,7 @@ void ExecuteIndirect::Initialize()
 
 	
 	//コマンドバッファ(サイズは使用するリソース sizeが謎?
-	commandResource_ = CreateBufferResource(dxCommon->GetDevice(), (sizeof(IndirectCommand)) * kCommandNum);
+	commandResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), (sizeof(IndirectCommand)) * kCommandNum);
 
 	//コマンドバッファのマップ
 	IndirectCommand* mapIndirectCommamdData = nullptr;
@@ -164,7 +165,7 @@ void ExecuteIndirect::CreatePipeline()
 void ExecuteIndirect::CreateVertex()
 {
 	//リソース
-	vertexResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(Vector4)*vertNum);
+	vertexResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(Vector4)*vertNum);
 	//ビュー
 	CreateBufferView(vertexBufferView_, vertexResource_.Get(), sizeof(Vector4)*vertNum, sizeof(Vector4));
 
@@ -182,18 +183,18 @@ void ExecuteIndirect::CreateVertex()
 void ExecuteIndirect::CreateMaterial()
 {
 	//リソース
-	materialResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(Vector4));
+	materialResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(Vector4));
 	//頂点リソースにデータを書き込む
 	//書き込むためのアドレス取得
 	materialResource_->Map(0,nullptr,reinterpret_cast<void**>(&materialData_));
 
-	*materialData_ = Vector4(1,1,1,1);
+	*materialData_ = Vector4(1,0,0,1);
 }
 
 void ExecuteIndirect::CreateWVP()
 {
 	//リソース
-	wvpResource_ = CreateBufferResource(dxCommon->GetDevice(), sizeof(Matrix4x4)*kInstanceNum);
+	wvpResource_ = CreateBufferUploadResource(dxCommon->GetDevice(), sizeof(Matrix4x4)*kInstanceNum);
 	//頂点リソースにデータを書き込む
 	//書き込むためのアドレス取得
 	wvpResource_->Map(0,nullptr,reinterpret_cast<void**>(&wvpData_));
